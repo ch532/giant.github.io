@@ -33,30 +33,7 @@
   });
 </script>
 
-	<script>
-(function(d, z){
-  var s = document.createElement('script');
-  s.src = 'https://' + d + '/401/' + z;
-  s.async = true;
-
-  s.onload = function() {
-    // Fire Google Analytics event when interstitial script loads
-    if (typeof gtag === 'function') {
-      gtag('event', 'interstitial_load', {
-        'event_category': 'Monetag Ad',
-        'event_label': z,
-        'non_interaction': true
-      });
-    }
-  };
-
-  try {
-    (document.body || document.documentElement).appendChild(s);
-  } catch(e) {
-    console.error('Error appending Monetag script:', e);
-  }
-})('connectgold.sbs', '9381060');
-</script>
+	
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -210,6 +187,35 @@ l.parentNode.insertBefore(s, l);
       });
     }
   });
+</script>
+
+	<script>
+(function(d, z){
+  var s = document.createElement('script');
+  s.src = 'https://' + d + '/401/' + z;
+  s.async = true;
+
+  // Only send GA event if gtag is available
+  s.onload = function() {
+    if (typeof gtag === 'function') {
+      try {
+        gtag('event', 'interstitial_load', {
+          'event_category': 'Monetag Ad',
+          'event_label': z,
+          'non_interaction': true
+        });
+      } catch(e) {
+        console.warn('GA event failed:', e);
+      }
+    }
+  };
+
+  try {
+    (document.body || document.documentElement).appendChild(s);
+  } catch(e) {
+    console.error('Error appending Monetag script:', e);
+  }
+})('connectgold.sbs', '9381060');
 </script>
 
  </body>
