@@ -12,6 +12,27 @@
   gtag('config', 'G-MYGP6F6KDQ');
 </script>
 
+	<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const referrer = document.referrer;
+    const socialPlatforms = ["facebook.com", "twitter.com", "instagram.com", "t.co", "linkedin.com"];
+
+    if (socialPlatforms.some(domain => referrer.includes(domain))) {
+      console.log("User came from social media: " + referrer);
+      // Optional: Save to localStorage or send to server
+      localStorage.setItem("came_from_social", "yes");
+
+      // Example: Google Analytics event
+      if (typeof gtag === "function") {
+        gtag('event', 'social_visitor', {
+          'event_category': 'traffic_source',
+          'event_label': referrer
+        });
+      }
+    }
+  });
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connect Gold</title>
@@ -128,6 +149,20 @@ l.parentNode.insertBefore(s, l);
     aclib.runAutoTag({
         zoneId: '9xpampn7ar',
     });
+</script>
+
+	<script>
+  document.getElementById("ad-click").addEventListener("click", function () {
+    // Example: Send event to Google Analytics or log to your server
+    console.log("Ad clicked!");
+    // If you're using Google Analytics 4
+    if (typeof gtag === "function") {
+      gtag('event', 'ad_click', {
+        'event_category': 'ads',
+        'event_label': 'homepage_offer'
+      });
+    }
+  });
 </script>
 
  </body>
