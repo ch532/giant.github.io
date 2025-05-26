@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Testimonials - ConnectGold</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9fafb; color: #111; }
@@ -15,44 +16,80 @@
     .cta-buttons a { margin: 10px; padding: 12px 24px; background: #10b981; color: white; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; }
     form { background: #f3f4f6; padding: 40px; max-width: 600px; margin: 60px auto; border-radius: 20px; text-align: left; }
     input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; }
-    button { padding: 12px 25px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold; }
+    button { padding: 12px 25px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    button:hover { background: #0e9f6e; }
   </style>
 </head>
 <body>
   <header>
     <h1>What Our Users Are Saying</h1>
-  </header>  <section class="slideshow-container">
+  </header>
+
+  <section class="slideshow-container">
     <div class="slide active">
       <div class="stars">★★★★★</div>
       <p class="testimonial-text">"ConnectGold has helped me monetize my site better than I imagined. Super easy and effective!"</p>
-      <p>- Joy, Lagos</p>
+      <p>- Joy Ayinmbe, Lagos</p>
     </div>
     <div class="slide">
       <div class="stars">★★★★☆</div>
       <p class="testimonial-text">"Nice platform for ads and affiliate links. Highly recommended!"</p>
-      <p>- Peter, Ukraine</p>
+      <p>- Peter Radamovich, Ukraine</p>
     </div>
     <div class="slide">
       <div class="stars">★★★★★</div>
       <p class="testimonial-text">"Fast support, simple to use, and I love the results so far."</p>
-      <p>- Aisha, Mexico</p>
+      <p>- Pedro Alvarez, Mexico</p>
     </div>
-  </section>  <div class="cta-buttons">
+    <div class="slide">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"The best ad network I’ve worked with. Transparent and reliable."</p>
+      <p>- David Stone, UK</p>
+    </div>
+    <div class="slide">
+      <div class="stars">★★★★☆</div>
+      <p class="testimonial-text">"Good earnings and easy integration. Would definitely continue using."</p>
+      <p>- Maria Santarina, Brazil</p>
+    </div>
+    <div class="slide">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"User-friendly dashboard and excellent customer service."</p>
+      <p>- Ahmed Belhadi, Egypt</p>
+    </div>
+    <div class="slide">
+      <div class="stars">★★★★☆</div>
+      <p class="testimonial-text">"Great for small and medium publishers looking to grow."</p>
+      <p>- Sophie Jessica, Canada</p>
+    </div>
+    <div class="slide">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Revenue increased significantly after joining ConnectGold."</p>
+      <p>- Leo Grahams, Australia</p>
+    </div>
+  </section>
+
+  <div class="cta-buttons">
     <a href="#form">Advertise With Us</a>
     <a href="#form">Patronise Us</a>
-  </div>  <form id="form" action="https://formsubmit.co/chykedegreat@gmail.com" method="POST">
-    <input type="hidden" name="_captcha" value="false">
+  </div>
+
+  <form id="form" action="https://formsubmit.co/chykedegreat@gmail.com" method="POST">
+    <input type="hidden" name="_captcha" value="false" />
     <h2>Get in Touch</h2>
+
     <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" required><label for="email">Email Address</label>
-<input type="email" id="email" name="email" required>
+    <input type="text" id="name" name="name" required />
 
-<label for="message">Message / Business Info</label>
-<textarea id="message" name="message" rows="5" required></textarea>
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" required />
 
-<button type="submit">Submit</button>
+    <label for="message">Message / Business Info</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
 
-  </form>  <script>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
     let slideIndex = 0;
     const slides = document.querySelectorAll('.slide');
     function showSlides() {
@@ -64,5 +101,6 @@
       setTimeout(showSlides, 4000);
     }
     showSlides();
-  </script></body>
+  </script>
+</body>
 </html>
