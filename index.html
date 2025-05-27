@@ -1,224 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script>
-(function (c, s, q, u, a, r, e) {
-    c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
-    c._hjSettings = { hjid: a };
-    r = s.getElementsByTagName('head')[0];
-    e = s.createElement('script');
-    e.async = true;
-    e.src = q + c._hjSettings.hjid + u;
-    r.appendChild(e);
-})(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6415743);
-</script>
-	
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MYGP6F6KDQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MYGP6F6KDQ');
-</script>
-
-	<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const referrer = document.referrer;
-    const socialPlatforms = ["facebook.com", "twitter.com", "instagram.com", "t.co", "linkedin.com"];
-
-    if (socialPlatforms.some(domain => referrer.includes(domain))) {
-      console.log("User came from social media: " + referrer);
-      // Optional: Save to localStorage or send to server
-      localStorage.setItem("came_from_social", "yes");
-
-      // Example: Google Analytics event
-      if (typeof gtag === "function") {
-        gtag('event', 'social_visitor', {
-          'event_category': 'traffic_source',
-          'event_label': referrer
-        });
-      }
-    }
-  });
-</script>
-
-	
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Connect Gold</title>
-    <!-- Meta Description: Brief summary for search engines -->
+  <title>Connect Gold - Home</title>
   <meta name="description" content="Connect Gold helps you advertise your business effectively with Konga deals, partner programs, and more." />
-
-  <!-- Meta Keywords: Relevant keywords (less important nowadays but still used sometimes) -->
   <meta name="keywords" content="advertisement, Konga, business promotion, deals, online ads, partner program" />
-
-  <!-- Author of the website -->
   <meta name="author" content="Connect Gold" />
-
-  <!-- Robots: How search engines should index the page -->
   <meta name="robots" content="index, follow" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
-     crossorigin="anonymous"></script>
+  
+  <!-- Hotjar -->
+  <script>
+    (function (c, s, q, u, a, r, e) {
+      c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
+      c._hjSettings = { hjid: a };
+      r = s.getElementsByTagName('head')[0];
+      e = s.createElement('script');
+      e.async = true;
+      e.src = q + c._hjSettings.hjid + u;
+      r.appendChild(e);
+    })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6415743);
+  </script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYGP6F6KDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MYGP6F6KDQ');
+  </script>
+  
+  <!-- Track social referrer -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const referrer = document.referrer;
+      const socialPlatforms = ["facebook.com", "twitter.com", "instagram.com", "t.co", "linkedin.com"];
+      if (socialPlatforms.some(domain => referrer.includes(domain))) {
+        console.log("User came from social media: " + referrer);
+        localStorage.setItem("came_from_social", "yes");
+        if (typeof gtag === "function") {
+          gtag('event', 'social_visitor', {
+            'event_category': 'traffic_source',
+            'event_label': referrer
+          });
+        }
+      }
+    });
+  </script>
 
-	<meta name='admaven-placement' content=BqdYHqHwH>
+  <!-- Adsense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
+
+  <style>
+    .cta-navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      background-color: #f4f4f4;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .cta-navbar a {
+      padding: 12px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta-navbar a:hover {
+      background-color: #0056b3;
+    }
+
+    @media screen and (max-width: 600px) {
+      .cta-navbar {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Konga section styling */
+    #konga-deals {
+      background: #f7f7f7;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+      margin: 30px auto;
+      max-width: 600px;
+    }
+
+    #konga-deals h2 {
+      font-size: 24px;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    #konga-deals p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    #konga-deals a.shop-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: #f68b1e;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    #konga-deals a.shop-btn:hover {
+      background-color: #c66a16;
+    }
+
+    /* Continue button styling */
+    .continue-btn {
+      background-color:#28a745;
+      color:white;
+      padding:10px 20px;
+      border:none;
+      border-radius:5px;
+      font-size:16px;
+      cursor:pointer;
+      margin: 20px 0;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <style>
-  .cta-navbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 15px;
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ccc;
-  }
+<header>
+  <div class="cta-navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="privacy policy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+    <a href="more ads.html">More Offers</a>
+    <a href="testimonials.html">Testimonials</a>
+  </div>
+</header>
 
-  .cta-navbar a {
-    padding: 12px 20px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
+<main>
+  <section id="home">
+    <h2>Home</h2>
+    <p>Connect Gold partners with businesses to expand their reach through strategic advertising. We help brands get discovered and make more sales.</p>
+  </section>
 
-  .cta-navbar a:hover {
-    background-color: #0056b3;
-  }
-
-  @media screen and (max-width: 600px) {
-    .cta-navbar {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-</style>
-
-<div class="cta-navbar">
-  <a href="home.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="privacy policy.html">Privacy Policy</a>
-  <a href="contact.html">Contact</a>
-  <a href="more ads.html">More Offers</a>
-  <a href="testimonials.html">Testimonials</a>
-</div>
-	<meta name="pushsdk" content="fb0aa2aae22461429d265ca14d8ff9a5">
-
-	<meta name="clckd" content="5b37e093b8de6171fa5454d22eab2934" />
-
-  <main>
-    <section id="home">
-      <h2>Home</h2>
-      <p>Connect Gold partners with businesses to expand their reach through strategic advertising. We help brands get discovered and make more sales.</p>
-    </section>
-
-    <!-- Space for future ad scripts -->
-      <a href="https://www.profitableratecpm.com/d7tfij0j2y?key=1ad77f970d5ee00f7fa68ab326baa61c"  target="_blank">
-  <button style="background-color:#28a745; color:white; padding:10px 20px; border:none; border-radius:5px; font-size:16px; cursor:pointer;">
-    Click Here to Continue
-  </button>
-</a>
-	  
-
-   <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9381060,document.createElement('script'))</script>
-
-
-	
-	  
-	  
-
-        </div>
-	  <script>
-(function(uqwhw){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = uqwhw || {};
-s.src = "\/\/faithfuldifficulty.com\/b.XQV-sxdgGDlA0rY\/W\/cn\/Be\/mS9uuIZ_UKlwkhPJTyYuzXO\/DKIP1GNnD\/EXtHNkjmM_4OMpjtU\/0tMSgJ";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>
-</a>
-    <div style="height: 150px;"></div>
-
-    <section id="about">
-      <h2>About Us</h2>
-      <p>We are a digital growth team committed to connecting businesses with customers. Advertise with us to gain visibility and results.</p>
-    </section>
-
-    <section style="background: #f7f7f7; padding: 20px; text-align: center; border-radius: 12px;">
-  <h2 style="font-size: 24px; color: #222;">Hot Deals from Konga</h2>
-  <p style="font-size: 16px; color: #555;">
-    Shop electronics, fashion, home items, and more at amazing prices. Secure payment, fast delivery!
-  </p>
-  <a href="https://www.konga.com/?k_id=Connect" target="_blank" style="
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: #f68b1e;
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  ">
-    Shop Now
+  <a href="https://www.profitableratecpm.com/d7tfij0j2y?key=1ad77f970d5ee00f7fa68ab326baa61c" target="_blank">
+    <button class="continue-btn">Click Here to Continue</button>
   </a>
-	    https://bit.ly/3SU4tVM
-</section>
 
-    <section id="privacy">
-      <h2>Privacy Policy</h2>
-      <p>
-        Your privacy is important. We don’t collect personal information unless you provide it voluntarily.
-        Any collected data is only used to enhance your experience. This site may use cookies for analytics.
-      </p>
-      <p>
-        We do not sell your data. Contact us for any privacy-related questions.
-      </p>
-    </section>
+  <script>
+    (function(d,z,s){
+      s.src='https://'+d+'/401/'+z;
+      try{(document.body||document.documentElement).appendChild(s)}catch(e){}
+    })('groleegni.net',9381060,document.createElement('script'));
+  </script>
 
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <p>Email: <a href="mailto:chykedegreat@gmail.com">chykedegreat@gmail.com</a></p>
-      <p>Phone: <a href="tel:+2347061740924">+2347061740924</a>, <a href="tel:+2349125007235">+2349125007235</a></p>
-      <p>Location: Near Beulah Int'l School, Kurudu, Abuja, Nigeria. Postal code: 900109</p>
-    </section>
-  </main>
+  <script>
+    (function(uqwhw){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.scripts[d.scripts.length - 1];
+      s.settings = uqwhw || {};
+      s.src = "//faithfuldifficulty.com/b.XQV-sxdgGDlA0rY/W/cn/Be/mS9uuIZ_UKlwkhPJTyYuzXO/DKIP1GNnD/EXtHNkjmM_4OMpjtU/0tMSgJ";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+    })({})
+  </script>
 
-  <footer>
-    <hr />
-    <p>&copy; 2025 Chyke22. All rights reserved.</p>
-  </footer>
-<script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: '9xpampn7ar',
-    });
-</script>
+  <div style="height: 150px;"></div>
 
-	<script>
-  document.getElementById("ad-click").addEventListener("click", function () {
-    // Example: Send event to Google Analytics or log to your server
-    console.log("Ad clicked!");
-    // If you're using Google Analytics 4
-    if (typeof gtag === "function") {
-      gtag('event', 'ad_click', {
-        'event_category': 'ads',
-        'event_label': 'homepage_offer'
-      });
-    }
-  });
-	</script>	
-	
-	
-</body>	
+  <!-- Konga Deals Section -->
+  <section id="konga-deals">
+    <h2>Hot Deals from Konga</h2>
+    <p>Shop electronics, fashion, home items, and more at amazing prices. Secure payment, fast delivery!</p>
+    <a href="https://www.konga.com/?k_id=Connect" target="_blank" class="shop-btn">Shop Now</a>
+  </section>
+</main>
+
+</body>
 </html>
