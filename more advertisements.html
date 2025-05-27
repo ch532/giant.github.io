@@ -11,19 +11,16 @@
       background: #f5f5f5;
       color: #333;
     }
-
     h1 {
       text-align: center;
       margin-bottom: 30px;
     }
-
     .ad-section {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
     }
-
     .ad-box {
       background: white;
       padding: 20px;
@@ -34,8 +31,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
     }
-
     footer {
       text-align: center;
       margin-top: 40px;
@@ -46,80 +43,71 @@
 </head>
 <body>
 
-    <nav style="margin-bottom:20px;">
+<nav style="margin-bottom:20px;">
   <button onclick="location.href='index.html'">Home</button>
-   <button onclick="location.href='more advertisements.html'">More Advertisements</button>   
+  <button onclick="location.href='more advertisements.html'">More Advertisements</button>   
   <button onclick="location.href='about.html'">About</button>
   <button onclick="location.href='privacy policy.html'">Privacy Policy</button>
   <button onclick="location.href='contact.html'">Contact</button>
-   <button onClick="location.href='testimonials.html'">Testimonials</button>
+  <button onclick="location.href='testimonials.html'">Testimonials</button>
 </nav>
 
 <h1>Explore More Offers</h1>
 
 <div class="ad-section">
+  <!-- Temu Ad -->
   <div class="ad-box">
-    <!-- Paste Ad Code 1 Here -->
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-    <div>
-    <script type="text/javascript">
-        aclib.runBanner({
-            zoneId: '9992574',
-        });
-    </script>
-</div>
-
-
-
+    <div style="max-width:400px; text-align:center;">
+      <h2>Shop Smart with Temu!</h2>
+      <p>Discover amazing deals on thousands of products. Use my special link to get exclusive offers!</p>
+      <a href="https://temu.to/k/e2e5tdp1cw3" target="_blank" style="padding:12px 24px; background-color:#FF4500; color:#fff; font-weight:bold; border-radius:5px; text-decoration:none;">
+        Shop Now & Save
+      </a>
+    </div>
     <p>Advertisement Space 1</p>
-    
-
   </div>
 
+  <div class="ad-box"><p>Advertisement Space 2</p></div>
+  <div class="ad-box"><p>Advertisement Space 3</p></div>
+
+  <!-- Adcash Ad in the Middle -->
   <div class="ad-box">
-    <!-- Paste Ad Code 2 Here -->
-    <div style="max-width:400px; margin:20px auto; padding:20px; border:1px solid #ddd; border-radius:8px; text-align:center; font-family: Arial, sans-serif;">
-  <h2>Shop Smart with Temu!</h2>
-  <p>Discover amazing deals on thousands of products. Use my special link to get exclusive offers and start saving today!</p>
-  <a href="https://temu.to/k/e2e5tdp1cw3" target="_blank" 
-     style="display:inline-block; padding:12px 24px; background-color:#FF4500; color:#fff; font-weight:bold; border-radius:5px; text-decoration:none;">
-    Shop Now & Save
-  </a>
+    <div id="awn-z9992450"></div>
+    <p>Advertisement Space 4 (Adcash)</p>
+  </div>
+
+  <div class="ad-box"><p>Advertisement Space 5</p></div>
+  <div class="ad-box"><p>Advertisement Space 6</p></div>
 </div>
-    <p>Advertisement Space 2</p>
-  </div>
-
-  <div class="ad-box">
-    <!-- Paste Ad Code 3 Here -->
-    
-    
-    
-    <p>Advertisement Space 3</p>
-  </div>
-
-  <div class="ad-box">
-    <!-- Paste Ad Code 4 Here -->
-    <p>Advertisement Space 4</p>
-  </div>
-
-  <div class="ad-box">
-    <!-- Paste Ad Code 5 Here -->
-    <p>Advertisement Space 5</p>
-  </div>
-
-  <div class="ad-box">
-    <!-- Paste Ad Code 6 Here -->
-    <p>Advertisement Space 6</p>
-  </div>
-</div>
-
-      
 
 <footer>
   &copy; 2025 ConnectGold | More Ads
 </footer>
 
-  <!-- Cookie Consent Banner -->
+<!-- Adcash Script -->
+<script data-cfasync="false" type="text/javascript">
+  var zoneNativeSett = { container: "awn", baseUrl: "discovernative.com/script/native.php", r: [9992450] };
+  var urls = { cdnUrls: ["//superonclick.com", "//geniusonclick.com"], cdnIndex: 0 };
+  (function() {
+    var s = document.createElement("script");
+    s.src = urls.cdnUrls[0] + "/script/native_render.js";
+    s.onload = function() {
+      var ss = document.createElement("script");
+      ss.src = urls.cdnUrls[0] + "/script/native_server.js";
+      ss.onload = function() {
+        var ad = new native_request("//" + zoneNativeSett.baseUrl + "?nwpsv=1&", zoneNativeSett.r[0]);
+        ad.build();
+        ad.jsonp("callback", function(resp) {
+          setupAd(zoneNativeSett.container + "-z" + zoneNativeSett.r[0], resp);
+        });
+      };
+      document.body.appendChild(ss);
+    };
+    document.body.appendChild(s);
+  })();
+</script>
+
+<!-- Cookie Consent -->
 <div id="cookie-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; text-align: center; z-index: 9999; display: none;">
   We use cookies to improve your experience. By continuing, you accept our 
   <a href="privacy policy.html" style="color: #00f;">Privacy Policy</a>.
@@ -133,12 +121,12 @@
     localStorage.setItem("cookiesAccepted", "true");
     document.getElementById("cookie-banner").style.display = "none";
   }
-
   window.onload = function() {
     if (!localStorage.getItem("cookiesAccepted")) {
       document.getElementById("cookie-banner").style.display = "block";
     }
   };
 </script>
+
 </body>
 </html>
