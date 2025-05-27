@@ -68,16 +68,47 @@
 <body>
 
   <header>
-    <h1>Welcome to Connect Gold</h1>
-    <nav>
-      <a href="#home">Home</a> |
-      <a href="#about">About</a> |
-      <a href="#privacy">Privacy Policy</a> |
-      <a href="#contact">Contact</a>
-      <a href="testimonials.html">Testimonials</a>  
-    </nav>
-    <hr />
-  </header>
+    <style>
+  .cta-navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #ccc;
+  }
+
+  .cta-navbar a {
+    padding: 12px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .cta-navbar a:hover {
+    background-color: #0056b3;
+  }
+
+  @media screen and (max-width: 600px) {
+    .cta-navbar {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<div class="cta-navbar">
+  <a href="home.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="privacy policy.html">Privacy Policy</a>
+  <a href="contact.html">Contact</a>
+  <a href="more ads.html">More Offers</a>
+  <a href="testimonials.html">Testimonials</a>
+</div>
 	<meta name="pushsdk" content="fb0aa2aae22461429d265ca14d8ff9a5">
 
 	<meta name="clckd" content="5b37e093b8de6171fa5454d22eab2934" />
