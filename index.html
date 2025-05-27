@@ -51,39 +51,69 @@
 
   <!-- Adsense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
+<style>
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #ccc;
+    flex-wrap: wrap;
+  }
 
-  <style>
+  .logo img {
+    height: 60px;
+  }
+
+  .cta-navbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cta-navbar a {
+    padding: 10px 16px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .cta-navbar a:hover {
+    background-color: #0056b3;
+  }
+
+  @media screen and (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
     .cta-navbar {
-      display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      padding: 15px;
-      background-color: #f4f4f4;
-      border-bottom: 2px solid #ccc;
     }
+  }
+</style>
 
-    .cta-navbar a {
-      padding: 12px 20px;
-      background-color: #007BFF;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
-    }
-
-    .cta-navbar a:hover {
-      background-color: #0056b3;
-    }
-
-    @media screen and (max-width: 600px) {
-      .cta-navbar {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
+<header class="header-container">
+  <div class="logo">
+    <a href="home.html">
+      <img src="connect gold.png" alt="Connect Gold Logo">
+    </a>
+  </div>
+  <nav class="cta-navbar">
+    <a href="index.html">Home</a>
+    <a href="more advertisements.html">More Offers</a>
+    <a href="about.html">About</a>
+    <a href="privacy policy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+    <a href="testimonials.html">Testimonials</a>
+  </nav>
+</header>
+  
     /* Konga section styling */
     #konga-deals {
       background: #f7f7f7;
