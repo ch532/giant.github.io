@@ -1,6 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="favicon2.ico" type="image/x-icon">
+  <!-- CSS file, fonts, etc. -->
+  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connect Gold - Download Hub for Apps, Tools & Games</title>
+  <meta name="description" content="Download apps, tools, and games safely at Connect Gold. Organized categories, easy search, and fast downloads." />
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #fff;
+      color: #333;
+    }
+    header, footer {
+      background-color: #222;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav.main-nav a, nav.policy-nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav.main-nav a:hover, nav.policy-nav a:hover {
+      text-decoration: underline;
+    }
+    .welcome-text, .interview, .search-container, .categories {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 1em;
+    }
+    .interview {
+      background: #f9f9f9;
+      border-radius: 5px;
+      padding: 1em;
+      margin-bottom: 20px;
+    }
+    .interview ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .interview ul li {
+      margin: 0.5em 0;
+    }
+    .interview a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+    .interview a.whatsapp-link {
+      color: #25D366;
+    }
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1em;
+    }
+    .category-card {
+      flex: 1 1 25%;
+      max-width: 250px;
+      background: #eee;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      padding: 1em;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      user-select: none;
+      transition: background 0.3s;
+    }
+    .category-card:hover, .category-card:focus {
+      background: #ddd;
+      outline: none;
+    }
+    .category-card img {
+      max-width: 80px;
+      margin-bottom: 0.5em;
+    }
+    footer p {
+      margin: 0.5em 0;
+      font-size: 0.9em;
+    }
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 0.3em;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Connect Gold</h1>
+  <nav class="main-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="apps.html">Apps</a>
+    <a href="tools.html">Tools</a>
+    <a href="games.html">Games</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <nav class="policy-nav" aria-label="Policy navigation">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="about.html">About Us</a>
+  </nav>
+</header>
+
+<section class="welcome-text" aria-label="Welcome message">
+  <p>Download the best apps, tools, and games, monetized with your convenience in mind. Discover open-source gems from F-Droid, GitHub, PortableApps, and more—all organized by category, recency, and name.</p>
+</section>
+
+<section class="interview" aria-label="Interview request call to action">
+  <p><strong>📣 Are you a journalist or blogger?</strong></p>
+  <p>Contact us to request an interview via:</p>
+  <ul>
+    <li>📧 Email: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a></li>
+    <li>💬 WhatsApp: <a href="https://wa.me/2347061740924" target="_blank" rel="noopener" class="whatsapp-link">+234 706 174 0924</a></li>
+  </ul>
+</section>
+
+<section class="search-container" aria-label="Search downloads">
+  <input type="search" placeholder="Search apps, tools, or games..." aria-label="Search downloads" />
+</section>
+
+<section class="categories" aria-label="Main download categories">
+  <div class="category-card" onclick="location.href='apps.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='apps.html'}">
+    <img src="icons/apps-icon.png" alt="Apps icon" />
+    <h2>Apps</h2>
+  </div>
+  <div class="category-card" onclick="location.href='tools.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='tools.html'}">
+    <img src="icons/tools-icon.png" alt="Tools icon" />
+    <h2>Tools</h2>
+  </div>
+  <div class="category-card" onclick="location.href='games.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='games.html'}">
+    <img src="icons/games-icon.png" alt="Games icon" />
+    <h2>Games</h2>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Connect Gold. All rights reserved.</p>
+  <p>
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="terms.html">Terms of Service</a> | 
+    <a href="faq.html">FAQ</a> | 
+    <a href="sitemap.xml">Sitemap</a>
+  </p>
+  <p>
+    Contact: 
+    <a href="tel:+2349125007235">+2349125007235</a> | 
+    <a href="tel:+2347061740924">+2347061740924</a> | 
+    <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a>
+  </p>
+  <p>
+    Follow us: 
+    <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener">Instagram</a> | 
+    <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener">X (Twitter)</a>
+  </p>
+</footer>
+
+</body>
+</html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connect Gold - Download Hub for Apps, Tools & Games</title>
+  <meta name="description" content="Download apps, tools, and games safely at Connect Gold. Organized categories, easy search, and fast downloads." />
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #fff;
+      color: #333;
+    }
+    header, footer {
+      background-color: #222;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav.main-nav a, nav.policy-nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav.main-nav a:hover, nav.policy-nav a:hover {
+      text-decoration: underline;
+    }
+    .welcome-text, .interview, .search-container, .categories {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 1em;
+    }
+    .interview {
+      background: #f9f9f9;
+      border-radius: 5px;
+      padding: 1em;
+      margin-bottom: 20px;
+    }
+    .interview ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .interview ul li {
+      margin: 0.5em 0;
+    }
+    .interview a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+    .interview a.whatsapp-link {
+      color: #25D366;
+    }
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1em;
+    }
+    .category-card {
+      flex: 1 1 25%;
+      max-width: 250px;
+      background: #eee;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      padding: 1em;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      user-select: none;
+      transition: background 0.3s;
+    }
+    .category-card:hover, .category-card:focus {
+      background: #ddd;
+      outline: none;
+    }
+    .category-card img {
+      max-width: 80px;
+      margin-bottom: 0.5em;
+    }
+    footer p {
+      margin: 0.5em 0;
+      font-size: 0.9em;
+    }
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 0.3em;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Connect Gold</h1>
+  <nav class="main-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="apps.html">Apps</a>
+    <a href="tools.html">Tools</a>
+    <a href="games.html">Games</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <nav class="policy-nav" aria-label="Policy navigation">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="about.html">About Us</a>
+  </nav>
+</header>
+
+<section class="welcome-text" aria-label="Welcome message">
+  <p>Download the best apps, tools, and games, monetized with your convenience in mind. Discover open-source gems from F-Droid, GitHub, PortableApps, and more—all organized by category, recency, and name.</p>
+</section>
+
+<section class="interview" aria-label="Interview request call to action">
+  <p><strong>📣 Are you a journalist or blogger?</strong></p>
+  <p>Contact us to request an interview via:</p>
+  <ul>
+    <li>📧 Email: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a></li>
+    <li>💬 WhatsApp: <a href="https://wa.me/2347061740924" target="_blank" rel="noopener" class="whatsapp-link">+234 706 174 0924</a></li>
+  </ul>
+</section>
+
+<section class="search-container" aria-label="Search downloads">
+  <input type="search" placeholder="Search apps, tools, or games..." aria-label="Search downloads" />
+</section>
+
+<section class="categories" aria-label="Main download categories">
+  <div class="category-card" onclick="location.href='apps.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='apps.html'}">
+    <img src="icons/apps-icon.png" alt="Apps icon" />
+    <h2>Apps</h2>
+  </div>
+  <div class="category-card" onclick="location.href='tools.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='tools.html'}">
+    <img src="icons/tools-icon.png" alt="Tools icon" />
+    <h2>Tools</h2>
+  </div>
+  <div class="category-card" onclick="location.href='games.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='games.html'}">
+    <img src="icons/games-icon.png" alt="Games icon" />
+    <h2>Games</h2>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Connect Gold. All rights reserved.</p>
+  <p>
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="terms.html">Terms of Service</a> | 
+    <a href="faq.html">FAQ</a> | 
+    <a href="sitemap.xml">Sitemap</a>
+  </p>
+  <p>
+    Contact: 
+    <a href="tel:+2349125007235">+2349125007235</a> | 
+    <a href="tel:+2347061740924">+2347061740924</a> | 
+    <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a>
+  </p>
+  <p>
+    Follow us: 
+    <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener">Instagram</a> | 
+    <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener">X (Twitter)</a>
+  </p>
+</footer>
+
+</body>
+</html>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connect Gold - Download Hub for Apps, Tools & Games</title>
