@@ -1,207 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="connect gold 2.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Connect Gold - Home</title>
-  <meta name="description" content="Connect Gold helps you advertise your business effectively with Konga deals, partner programs, and more." />
-  <meta name="keywords" content="advertisement, Konga, business promotion, deals, online ads, partner program" />
-  <meta name="author" content="Connect Gold" />
-  <meta name="robots" content="index, follow" />
-  
-  <!-- Hotjar -->
-  <script>
-    (function (c, s, q, u, a, r, e) {
-      c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
-      c._hjSettings = { hjid: a };
-      r = s.getElementsByTagName('head')[0];
-      e = s.createElement('script');
-      e.async = true;
-      e.src = q + c._hjSettings.hjid + u;
-      r.appendChild(e);
-    })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6415743);
-  </script>
-  
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYGP6F6KDQ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-MYGP6F6KDQ');
-  </script>
-  
-  <!-- Track social referrer -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const referrer = document.referrer;
-      const socialPlatforms = ["facebook.com", "twitter.com", "instagram.com", "t.co", "linkedin.com"];
-      if (socialPlatforms.some(domain => referrer.includes(domain))) {
-        console.log("User came from social media: " + referrer);
-        localStorage.setItem("came_from_social", "yes");
-        if (typeof gtag === "function") {
-          gtag('event', 'social_visitor', {
-            'event_category': 'traffic_source',
-            'event_label': referrer
-          });
-        }
-      }
-    });
-  </script>
-
-  <!-- Adsense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
-<style>
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ccc;
-    flex-wrap: wrap;
-  }
-
-  .logo img {
-    height: 60px;
-  }
-
-  .cta-navbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .cta-navbar a {
-    padding: 10px 16px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
-
-  .cta-navbar a:hover {
-    background-color: #0056b3;
-  }
-
-  @media screen and (max-width: 768px) {
-    .header-container {
-      flex-direction: column;
-      align-items: center;
+  <title>Connect Gold - Download Hub for Apps, Tools & Games</title>
+  <meta name="description" content="Download apps, tools, and games safely at Connect Gold. Organized categories, easy search, and fast downloads." />
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #fff;
+      color: #333;
     }
-
-    .cta-navbar {
-      justify-content: center;
+    header, footer {
+      background-color: #222;
+      color: white;
+      padding: 1em;
+      text-align: center;
     }
-  }
-</style>
+    nav.main-nav a, nav.policy-nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav.main-nav a:hover, nav.policy-nav a:hover {
+      text-decoration: underline;
+    }
+    .welcome-text, .interview, .search-container, .categories {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 1em;
+    }
+    .interview {
+      background: #f9f9f9;
+      border-radius: 5px;
+      padding: 1em;
+      margin-bottom: 20px;
+    }
+    .interview ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .interview ul li {
+      margin: 0.5em 0;
+    }
+    .interview a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+    .interview a.whatsapp-link {
+      color: #25D366;
+    }
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1em;
+    }
+    .category-card {
+      flex: 1 1 25%;
+      max-width: 250px;
+      background: #eee;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      padding: 1em;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      user-select: none;
+      transition: background 0.3s;
+    }
+    .category-card:hover, .category-card:focus {
+      background: #ddd;
+      outline: none;
+    }
+    .category-card img {
+      max-width: 80px;
+      margin-bottom: 0.5em;
+    }
+    footer p {
+      margin: 0.5em 0;
+      font-size: 0.9em;
+    }
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 0.3em;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
 
-<header class="header-container">
-  <div class="logo">
-    <a href="home.html">
-      <img src="connect gold 2.png" alt="Connect Gold Logo">
-    </a>
-  </div>
-  <nav class="cta-navbar">
+<header>
+  <h1>Connect Gold</h1>
+  <nav class="main-nav" aria-label="Primary navigation">
     <a href="index.html">Home</a>
-    <a href="more advertisements.html">More Offers</a>
-    <a href="tools-1.html">Tools</a>
-    <a href="about.html">About</a>
-    <a href="privacy policy.html">Privacy Policy</a>
+    <a href="apps.html">Apps</a>
+    <a href="tools.html">Tools</a>
+    <a href="games.html">Games</a>
     <a href="contact.html">Contact</a>
-    <a href="testimonials.html">Testimonials</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <nav class="policy-nav" aria-label="Policy navigation">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="about.html">About Us</a>
   </nav>
 </header>
-  
-  
 
-<main>
-  <section id="home">
-    <h2>Home</h2>
-    <p>Connect Gold partners with businesses to expand their reach through strategic advertising. We help brands get discovered and make more sales.</p>
-  </section>
-
-  <a href="https://www.profitableratecpm.com/d7tfij0j2y?key=1ad77f970d5ee00f7fa68ab326baa61c" target="_blank">
-    <button class="continue-btn">Click Here to Continue</button>
-  </a>
-
-  <div id="awn-z10012646"></div>
-  <script data-cfasync="false" type="text/javascript">
-    var adcashMacros = {};
-    var zoneNativeSett={container:"awn",baseUrl:"discovernative.com/script/native.php",r:[9992450,10012646]};
-    var urls={cdnUrls:["//superonclick.com","//geniusonclick.com"],cdnIndex:0,rand:Math.random(),events:["click","mousedown","touchstart"],useFixer:!0,onlyFixer:!1,fixerBeneath:!1};function acPrefetch(e){var t,n=document.createElement("link");t=void 0!==document.head?document.head:document.getElementsByTagName("head")[0],n.rel="dns-prefetch",n.href=e,t.appendChild(n);var r=document.createElement("link");r.rel="preconnect",r.href=e,t.appendChild(r)}var nativeInit=new function(){var a="",i=Math.floor(1e12*Math.random()),o=Math.floor(1e12*Math.random()),t=window.location.protocol,c={_0:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){for(var t,n,r,a,i,o,c="",s=0;s<e.length;)a=(t=e.charCodeAt(s++))>>2,t=(3&t)<<4|(n=e.charCodeAt(s++))>>4,i=(15&n)<<2|(r=e.charCodeAt(s++))>>6,o=63&r,isNaN(n)?i=o=64:isNaN(r)&&(o=64),c=c+this._0.charAt(a)+this._0.charAt(t)+this._0.charAt(i)+this._0.charAt(o);return c}};this.init=function(){e()};var e=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",e.onerror=function(){!0,r(),n()},e.onload=function(){nativeForPublishers.init()},nativeForPublishers.attachScript(e)},n=function(){""!==a?s(i,t):setTimeout(n,250)},r=function(){var t=new(window.RTCPeerConnection||window.mozRTCPeerConnection||window.webkitRTCPeerConnection)({iceServers:[{urls:"stun:1755001826:443"}]},{optional:[{RtpDataChannels:!0}]});t.onicecandidate=function(e){!e.candidate||e.candidate&&-1==e.candidate.candidate.indexOf("srflx")||!(e=/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(e.candidate.candidate)[1])||e.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/)||e.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/)||(a=e)},t.createDataChannel(""),t.createOffer(function(e){t.setLocalDescription(e,function(){},function(){})},function(){})},s=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src=t+"//"+a+"/"+c.encode(i+"/"+(i+5))+".js",e.onload=function(){for(var e in zoneNativeSett.r)d(zoneNativeSett.r[e])},nativeForPublishers.attachScript(e)},d=function(e){var t="jsonp"+Math.round(1000001*Math.random()),n=[i,parseInt(e)+i,o,"callback="+t],r="http://"+a+"/"+c.encode(n.join("/"));new native_request(r,e,t).jsonp()}},nativeForPublishers=new function(){var n=this,e=Math.random();n.getRand=function(){return e},this.getNativeRender=function(){if(!n.nativeRenderLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_render.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeRenderLoaded=!0},n.attachScript(e)}},this.getNativeResponse=function(){if(!n.nativeResponseLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_server.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeResponseLoaded=!0},n.attachScript(e)}},this.attachScript=function(e){var t;void 0!==document.scripts&&(t=document.scripts[0]),void 0===t&&(t=document.getElementsByTagName("script")[0]),t.parentNode.insertBefore(e,t)},this.fetchCdnScripts=function(){if(urls.cdnIndex<urls.cdnUrls.length)try{n.getNativeRender(),n.getNativeResponse()}catch(e){urls.cdnIndex++,n.fetchCdnScripts()}},this.scriptsLoaded=function(){if(n.nativeResponseLoaded&&n.nativeRenderLoaded){var e=[];for(zone in zoneNativeSett.r)document.getElementById(zoneNativeSett.container+"-z"+zoneNativeSett.r[zone])&&(e[zoneNativeSett.r[zone]]=new native_request("//"+zoneNativeSett.baseUrl+"?nwpsv=1&",zoneNativeSett.r[zone]),e[zoneNativeSett.r[zone]].build());for(var t in e)e[t].jsonp("callback",(e[t],function(e,t){setupAd(zoneNativeSett.container+"-z"+t,e)}))}else setTimeout(n.scriptsLoaded,250)},this.init=function(){var e;if(n.insertBotTrapLink(),0===window.location.href.indexOf("file://"))for(e=0;e<urls.cdnUrls.length;e++)0===urls.cdnUrls[e].indexOf("//")&&(urls.cdnUrls[e]="http:"+urls.cdnUrls[e]);for(e=0;e<urls.cdnUrls.length;e++)acPrefetch(urls.cdnUrls[e]);n.fetchCdnScripts(),n.scriptsLoaded()},this.insertBotTrapLink=function(){var e=document.createElement("a");e.href=window.location.protocol+"//discovernative.com/al/visit.php?al=1,4",e.style.display="none",e.style.visibility="hidden",e.style.position="relative",e.style.left="-1000px",e.style.top="-1000px",e.style.color="#fff",e.link='<a href="http://discovernative.com/al/visit.php?al=1,5"></a>',e.innerHTML="",document.body.appendChild(e)}};nativeInit.init();
-</script>
-<a href="https://discovernative.com/al/visit.php?al=1,7"
-   style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
-<noscript>
-    <a href="https://discovernative.com/al/visit.php?al=1,6"
-       style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
-</noscript>
-  
-
-  <script>
-    (function(d,z,s){
-      s.src='https://'+d+'/401/'+z;
-      try{(document.body||document.documentElement).appendChild(s)}catch(e){}
-    })('groleegni.net',9381060,document.createElement('script'));
-  </script>
-
-  <script>
-    (function(uqwhw){
-      var d = document,
-          s = d.createElement('script'),
-          l = d.scripts[d.scripts.length - 1];
-      s.settings = uqwhw || {};
-      s.src = "//faithfuldifficulty.com/b.XQV-sxdgGDlA0rY/W/cn/Be/mS9uuIZ_UKlwkhPJTyYuzXO/DKIP1GNnD/EXtHNkjmM_4OMpjtU/0tMSgJ";
-      s.async = true;
-      s.referrerPolicy = 'no-referrer-when-downgrade';
-      l.parentNode.insertBefore(s, l);
-    })({})
-  </script>
-
-  <div style="height: 150px;"></div>
-
-  <section style="background: #fefefe; padding: 20px; text-align: center; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin: 20px 0;">
-  <h2 style="font-size: 24px; color: #222;">Shop Top Deals on Konga</h2>
-  <p style="font-size: 16px; color: #444;">Discover the best offers in electronics, fashion, and more — all in one place!</p>
-  <a href="https://www.konga.com/?k_id=Connect" target="_blank" style="
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: #f68b1e;
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  " onmouseover="this.style.backgroundColor='#d45f00'" onmouseout="this.style.backgroundColor='#f68b1e'">
-    Shop Now on Konga
-  </a>
+<section class="welcome-text" aria-label="Welcome message">
+  <p>Download the best apps, tools, and games, monetized with your convenience in mind. Discover open-source gems from F-Droid, GitHub, PortableApps, and more—all organized by category, recency, and name.</p>
 </section>
-  <!-- Cookie Consent Banner -->
-<div id="cookie-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; text-align: center; z-index: 9999; display: none;">
-  We use cookies to improve your experience. By continuing, you accept our 
-  <a href="privacy policy.html" style="color: #00f;">Privacy Policy</a>.
-  <button onclick="acceptCookies()" style="margin-left: 10px; background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
-    Accept
-  </button>
-</div>
 
-<script>
-  function acceptCookies() {
-    localStorage.setItem("cookiesAccepted", "true");
-    document.getElementById("cookie-banner").style.display = "none";
-  }
+<section class="interview" aria-label="Interview request call to action">
+  <p><strong>📣 Are you a journalist or blogger?</strong></p>
+  <p>Contact us to request an interview via:</p>
+  <ul>
+    <li>📧 Email: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a></li>
+    <li>💬 WhatsApp: <a href="https://wa.me/2347061740924" target="_blank" rel="noopener" class="whatsapp-link">+234 706 174 0924</a></li>
+  </ul>
+</section>
 
-  window.onload = function() {
-    if (!localStorage.getItem("cookiesAccepted")) {
-      document.getElementById("cookie-banner").style.display = "block";
-    }
-  };
-</script>
+<section class="search-container" aria-label="Search downloads">
+  <input type="search" placeholder="Search apps, tools, or games..." aria-label="Search downloads" />
+</section>
+
+<section class="categories" aria-label="Main download categories">
+  <div class="category-card" onclick="location.href='apps.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='apps.html'}">
+    <img src="icons/apps-icon.png" alt="Apps icon" />
+    <h2>Apps</h2>
+  </div>
+  <div class="category-card" onclick="location.href='tools.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='tools.html'}">
+    <img src="icons/tools-icon.png" alt="Tools icon" />
+    <h2>Tools</h2>
+  </div>
+  <div class="category-card" onclick="location.href='games.html'" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){location.href='games.html'}">
+    <img src="icons/games-icon.png" alt="Games icon" />
+    <h2>Games</h2>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Connect Gold. All rights reserved.</p>
+  <p>
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="terms.html">Terms of Service</a> | 
+    <a href="faq.html">FAQ</a> | 
+    <a href="sitemap.xml">Sitemap</a>
+  </p>
+  <p>
+    Contact: 
+    <a href="tel:+2349125007235">+2349125007235</a> | 
+    <a href="tel:+2347061740924">+2347061740924</a> | 
+    <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a>
+  </p>
+  <p>
+    Follow us: 
+    <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener">Instagram</a> | 
+    <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener">X (Twitter)</a>
+  </p>
+</footer>
+
 </body>
 </html>
