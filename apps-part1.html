@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Connect Gold - Download Premium Apps (Part 1)</title>
+<meta name="description" content="Download premium apps securely with Connect Gold. Pay ₦5000 or $4 and get instant access to your favorite apps." />
+<meta property="og:title" content="Connect Gold - Download Premium Apps" />
+<meta property="og:description" content="Secure and easy app downloads with Paystack and PayPal payments." />
+<meta property="og:url" content="https://connectgold.sbs/apps-part1.html" />
+<meta property="og:type" content="website" />
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; background: #f4f4f9; color: #333;
+  }
+  header {
+    background: #ff9900;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  nav.nav-menu {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  nav.nav-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+  nav.nav-menu a:hover, nav.nav-menu a.active {
+    background: #cc7a00;
+  }
+  main {
+    max-width: 1100px;
+    margin: 25px auto 60px auto;
+    padding: 0 15px;
+  }
+  #currencyToggle {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  #currencyToggle label {
+    margin: 0 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin: 0 auto 30px auto;
+    display: block;
+  }
+  .app-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 25px;
+  }
+  .app-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 7px rgba(0,0,0,0.12);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .app-card img {
+    max-width: 100%;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .app-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 8px 0 6px 0;
+  }
+  .app-desc {
+    font-size: 0.95rem;
+    flex-grow: 1;
+    color: #555;
+  }
+  .price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #ff6600;
+  }
+  button.pay-btn {
+    background: #ff9900;
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button.pay-btn:hover:not(:disabled) {
+    background: #cc7a00;
+  }
+  button.pay-btn:disabled {
+    background: #bbb;
+    cursor: not-allowed;
+  }
+  .terms-ack {
+    font-size: 0.9rem;
+    margin: 15px 0;
+    color: #333;
+  }
+  .terms-ack input {
+    margin-right: 6px;
+  }
+  /* Pagination */
+  .pagination {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .pagination a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #ff9900;
+    font-size: 1.1rem;
+  }
+  .pagination a.active {
+    font-weight: 800;
+    color: #cc7a00;
+    pointer-events: none;
+  }
+  /* Footer */
+  footer {
+    background: #222;
+    color: #ddd;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 0.9rem;
+  }
+  footer a {
+    color: #ff9900;
+    text-decoration: none;
+    margin: 0 8px;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+  /* WhatsApp floating button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    color: white;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    z-index: 9999;
+  }
+  /* Responsive tweaks */
+  @media (max-width: 600px) {
+    header {
+      flex-direction: column;
+      gap: 10px;
+    }
+    nav.nav-menu {
+      justify-content: center;
+    }
+  }
+</style>
+
+<!-- Paystack Inline Script -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>Connect Gold - Download Premium Apps</h1>
+  <nav class="nav-menu" aria-label="Primary Navigation">
+    <a href="index.html">Home</a>
+    <a href="apps-part1.html" class="active">Apps Part 1</a>
+    <a href="apps-part2.html">Apps Part 2</a>
+    <a href="apps-part3.html">Apps Part 3</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+</header>
+
+<main>
+  <div id="currencyToggle" aria-label="Currency selection">
+    <label><input type="radio" name="currency" value="NGN" checked onchange="updatePrices()"> ₦ Naira</label>
+    <label><input type="radio" name="currency" value="USD" onchange="updatePrices()"> $ Dollars</label>
+  </div>
+
+  <input type="text" id="searchInput" placeholder="Search apps..." aria-label="Search apps" onkeyup="filterApps()">
+
+  <div class="app-list" id="appList">
+    <!-- App 1 -->
+    <div class="app-card">
+      <img src="https://connectgold.sbs/icons/app1.png" alt="SecureVPN Icon" />
+      <h2 class="app-title">SecureVPN</h2>
+      <p class="app-desc">Protect your internet traffic and privacy anywhere with SecureVPN.</p>
+      <div class="price" data-ngn="₦5000" data-usd="$4">₦5000 / $4</div>
+      <label class="terms-ack">
+        <input type="checkbox" onchange="toggleButton(this, 'payBtn1')" /> I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+      </label>
+      <button class="pay-btn" id="payBtn1" disabled onclick="payWithPaystack('SecureVPN', 500000)">Pay & Download</button>
+      <button class="pay-btn" onclick="paypalPayment('SecureVPN', 4)" style="background:#003087; margin-top:6px;">PayPal & Download</button>
+      <div style="margin-top:10px; font-size:0.9rem;">
+        <strong>Bank Transfer:</strong><br />
+        First Bank - Chibuike Okoye - 3089116655 (Nigeria)
+      </div>
+    </div>
+
+    <!-- App 2 -->
+    <div class="app-card">
+      <img src="https://connectgold.sbs/icons/app2.png" alt="ProdBoost Icon" />
+      <h2 class="app-title">ProdBoost</h2>
+      <p class="app-desc">Boost your productivity with this advanced task and project management app.</p>
+      <div class="price" data-ngn="₦5000" data-usd="$4">₦5000 / $4</div>
+      <label class="terms-ack">
+        <input type="checkbox" onchange="toggleButton(this, 'payBtn2')" /> I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+      </label>
+      <button class="pay-btn" id="payBtn2" disabled onclick="payWithPaystack('ProdBoost', 500000)">Pay & Download</button>
+      <button class="pay-btn" onclick="paypalPayment('ProdBoost', 4)" style="background:#003087; margin-top:6px;">PayPal & Download</button>
+      <div style="margin-top:10px; font-size:0.9rem;">
+        <strong>Bank Transfer:</strong><br />
+        First Bank - Chibuike Okoye - 3089116655 (Nigeria)
+      </div>
+    </div>
+
+    <!-- App 3 -->
+    <div class="app-card">
+      <img src="https://connectgold.sbs/icons/app3.png" alt="MediaMax Icon" />
+      <h2 class="app-title">MediaMax</h2>
+      <p class="app-desc">Media player supporting all major formats, with smart subtitle support.</p>
+      <div class="price" data-ngn="₦5000" data-usd="$4">₦5000 / $4</div>
+      <label class="terms-ack">
+        <input type="checkbox" onchange="toggleButton(this, 'payBtn3')" /> I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+      </label>
+      <button class="pay-btn" id="payBtn3" disabled onclick="payWithPaystack('MediaMax', 500000)">Pay & Download</button>
+      <button class="pay-btn" onclick="paypalPayment('MediaMax', 4)" style="background:#003087; margin-top:6px;">PayPal & Download</button>
+      <div style="margin-top:10px; font-size:0.9rem;">
+        <strong>Bank Transfer:</strong><br />
+        First Bank - Chibuike Okoye - 3089116655 (Nigeria)
+      </div>
+    </div>
+
+    <!-- App 4 -->
+    <div class="app-card">
+      <img src="https://connectgold.sbs/icons/app4.png" alt="BizAnalytics Icon" />
+      <h2 class="app-title">BizAnalytics</h2>
+      <p class="app-desc">Real-time business analytics tool to track your performance and growth.</p>
+      <div class="price" data-ngn="₦5000" data-usd="$4">₦5000 / $4</div>
+      <label class="terms-ack">
+        <input type="checkbox" onchange="toggleButton(this, 'payBtn4')" /> I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+      </label>
+      <button class="pay-btn" id="payBtn4" disabled onclick="payWithPaystack('BizAnalytics', 500000)">Pay & Download</button>
+      <button class="pay-btn" onclick="paypalPayment('BizAnalytics', 4)" style="background:#003087; margin-top:6px;">PayPal & Download</button>
+      <div style="margin-top:10px; font-size:0.9rem;">
+        <strong>Bank Transfer:</strong><br />
+        First Bank - Chibuike Okoye - 3089116655 (Nigeria)
+      </div>
+    </div>
+
+    <!-- App 5 -->
+    <div class="app-card">
+      <img src="https://connectgold.sbs/icons/app5.png" alt="ProNet Icon" />
+      <h2 class="app-title">ProNet</h2>
+      <p class="app-desc">Connect with professionals worldwide through this powerful social networking app.</p>
+      <div class="price" data-ngn="₦5000" data-usd="$4">₦5000 / $4</div>
+      <label class="terms-ack">
+        <input type="checkbox" onchange="toggleButton(this, 'payBtn5')" /> I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+      </label>
+      <button class="pay-btn" id="payBtn5" disabled onclick="payWithPaystack('ProNet', 500000)">Pay & Download</button>
+      <button class="pay-btn" onclick="paypalPayment('ProNet', 4)" style="background:#003087; margin-top:6px;">PayPal & Download</button>
+      <div style="margin-top:10px; font-size:0.9rem;">
+        <strong>Bank Transfer:</strong><br />
+        First Bank - Chibuike Okoye - 3089116655 (Nigeria)
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination" role="navigation" aria-label="Pagination Navigation">
+    <a href="apps-part1.html" class="active" aria-current="page">1</a>
+    <a href="apps-part2.html">2</a>
+    <a href="apps-part3.html">3</a>
+    <a href="apps-part4.html">4</a>
+    <a href="apps-part5.html">5</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Connect Gold. All rights reserved.</p>
+  <p>
+    Follow us: 
+    <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener">Instagram</a> | 
+    <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener">X (Twitter)</a> | 
+    <a href="mailto:chykedegreat33@gmail.com">Email</a>
+  </p>
+</footer>
+
+<a href="https://wa.me/2347061740924" target="_blank" class="whatsapp-float" aria-label="WhatsApp Support">&#x2709;</a>
+
+<script>
+  // Enable/disable Paystack button based on Terms checkbox
+  function toggleButton(checkbox, btnId) {
+    document.getElementById(btnId).disabled = !checkbox.checked;
+  }
+
+  // Update all prices on currency toggle
+  function updatePrices() {
+    const currency = document.querySelector('input[name="currency"]:checked').value;
+    document.querySelectorAll('.price').forEach(el => {
+      if(currency === 'NGN') {
+        el.textContent = '₦5000 / $4';
+      } else {
+        el.textContent = '$4 / ₦5000';
+      }
+    });
+  }
+
+  // Simple search filter for apps
+  function filterApps() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('.app-card').forEach(card => {
+      const title = card.querySelector('.app-title').textContent.toLowerCase();
+      const desc = card.querySelector('.app-desc').textContent.toLowerCase();
+      if (title.includes(input) || desc.includes(input)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Paystack payment integration
+  function payWithPaystack(appName, amountKobo) {
+    const email = prompt("Please enter your email address:");
+    if (!email) {
+      alert('Payment cancelled: Email is required.');
+      return;
+    }
+
+    let handler = PaystackPop.setup({
+      key: 'pk_live_d6916ad02026b04cac854617d2d798f915366364', // Your live public key
+      email: email,
+      amount: amountKobo,
+      currency: 'NGN',
+      ref: 'CG-'+Math.floor((Math.random() * 1000000000) + 1),
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "App Name",
+            variable_name: "app_name",
+            value: appName
+          }
+        ]
+      },
+      callback: function(response) {
+        alert('Payment successful! Reference: ' + response.reference + '. Your download will start shortly.');
+        // Redirect to FileLions download URL
