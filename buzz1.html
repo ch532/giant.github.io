@@ -96,6 +96,11 @@ src="https://www.facebook.com/tr?id=1138434231424157&ev=PageView&noscript=1"
         fbq('trackCustom', 'AffiliateImpression', {section: 'Travel'});
         fbq('trackCustom', 'AffiliateImpression', {section: 'Finance'});
       });
+      // Plausible events
+    plausible('AffiliateImpression', { props: { section: 'Shopping' } });
+    plausible('AffiliateImpression', { props: { section: 'Travel' } });
+    plausible('AffiliateImpression', { props: { section: 'Finance' } });
+  });
     </script>
 
     <h2>🛍️ Shopping Platforms</h2>
