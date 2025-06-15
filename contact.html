@@ -1,131 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Hotjar -->
-  <script>
-    (function (c, s, q, u, a, r, e) {
-      c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
-      c._hjSettings = { hjid: a };
-      r = s.getElementsByTagName('head')[0];
-      e = s.createElement('script');
-      e.async = true;
-      e.src = q + c._hjSettings.hjid + u;
-      r.appendChild(e);
-    })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6415743);
-  </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us - Connect Gold</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
+      background-color: #f5f5f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
     }
-    h2 {
-      color: #007BFF;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-      resize: vertical;
-    }
-    button {
-      margin-top: 20px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .contact-info {
-      max-width: 500px;
-      margin: 20px auto;
+    header, footer {
+      background-color: #111;
+      color: #fff;
       text-align: center;
-      color: #555;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background-color: #fff;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #222;
+    }
+    p, a {
+      font-size: 16px;
+    }
+    .contact-section {
+      margin-bottom: 25px;
+    }
+    .whatsapp-button {
+      display: inline-block;
+      background-color: #25D366;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    .whatsapp-button:hover {
+      background-color: #1ebd58;
     }
   </style>
 </head>
 <body>
-    <nav style="margin-bottom:20px;">
-  <button onclick="location.href='index.html'">Home</button>
-   <button onclick="location.href='more advertisements.html'">More Advertisements</button>  
-  <button onclick="location.href='about.html'">About</button>
-  <button onclick="location.href='privacy policy.html'">Privacy Policy</button>
-  <button onclick="location.href='contact.html'">Contact</button>
-   <button onClick="location.href='testimonials.html'">Testimonials</button>
-</nav>
+  <header>
+    <h1>Contact Us</h1>
+  </header>
 
-  <h2>Contact Us</h2>
-  <form action="mailto: chykedegreat@gmail.com" method="POST" enctype="text/plain">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required />
+  <div class="container">
+    <div class="contact-section">
+      <h2>Our Contact Information</h2>
+      <p><strong>Address:</strong> Near Beulah International School, Kurudu, Abuja, Nigeria. Postcode: 900109</p>
+      <p><strong>Phone:</strong> +2349125007235, +2347061740924</p>
+      <p><strong>Email:</strong> <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a></p>
+      <p><strong>Instagram:</strong> <a href="https://instagram.com/connectgold20" target="_blank">@connectgold20</a></p>
+      <p><strong>X (formerly Twitter):</strong> <a href="https://x.com/Connectgold20" target="_blank">@Connectgold20</a></p>
+    </div>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required />
-
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" required />
-
-    <label for="message">Message:</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
-
-    <button type="submit">Send Message</button>
-  </form>
-
-  <div class="contact-info">
-    <p>Or email us directly at <a href="mailto: chykedegreat@gmail.com">chykedegreat@gmail.com</a></p>
-    <p>We look forward to hearing from you!</p>
+    <div class="contact-section">
+      <h2>Support & Partnerships</h2>
+      <p>We welcome brand collaborations, sponsorships, and content partnerships. If you're interested in advertising or working with us, feel free to reach out!</p>
+      <p>Click below to chat directly on WhatsApp:</p>
+      <a class="whatsapp-button" href="https://wa.me/2347061740924" target="_blank">Chat with Support on WhatsApp</a>
+    </div>
   </div>
 
-  <section id="contact">
-  <p>Phone: +2347061740924, +2349125007235</p>
-  <p>WhatsApp: <a href="https://wa.me/2347061740924" target="_blank">Chat on WhatsApp</a></p>
-  </section>
-
-  <!-- Cookie Consent Banner -->
-<div id="cookie-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; text-align: center; z-index: 9999; display: none;">
-  We use cookies to improve your experience. By continuing, you accept our 
-  <a href="privacy policy.html" style="color: #00f;">Privacy Policy</a>.
-  <button onclick="acceptCookies()" style="margin-left: 10px; background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
-    Accept
-  </button>
-</div>
-
-<script>
-  function acceptCookies() {
-    localStorage.setItem("cookiesAccepted", "true");
-    document.getElementById("cookie-banner").style.display = "none";
-  }
-
-  window.onload = function() {
-    if (!localStorage.getItem("cookiesAccepted")) {
-      document.getElementById("cookie-banner").style.display = "block";
-    }
-  };
-</script>
+  <footer>
+    <p>&copy; 2025 Connect Gold. All rights reserved.</p>
+  </footer>
 </body>
 </html>
