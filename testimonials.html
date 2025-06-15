@@ -26,32 +26,59 @@
       text-align: center;
       padding: 20px 0;
     }
+    nav {
+      background-color: #eee;
+      text-align: center;
+      padding: 10px 0;
+    }
+    nav a {
+      margin: 0 10px;
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
     .container {
       max-width: 900px;
       margin: 20px auto;
       padding: 20px;
       background: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
     }
-    h1 {
+    h1, h2 {
       text-align: center;
+      color: #222;
     }
     .testimonial {
-      margin-bottom: 20px;
-      border-left: 4px solid #0077cc;
+      margin-bottom: 25px;
+      border-left: 5px solid #0077cc;
       padding-left: 15px;
+      border-radius: 5px;
+      background: #f9f9f9;
+      padding: 15px;
     }
     .testimonial p {
       margin: 5px 0;
     }
     .testimonial .name {
       font-weight: bold;
+      margin-top: 8px;
     }
     .stars {
       color: #f39c12;
+      font-size: 18px;
     }
     .video-section {
       margin: 30px 0;
+      text-align: center;
+    }
+    video {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
@@ -59,7 +86,8 @@
   <header>
     <h1>Connect Gold - Testimonials</h1>
   </header>
-<nav>
+
+  <nav>
     <a href="index.html">Home</a>
     <a href="buzz1.html">Buzz 1</a>
     <a href="buzz2.html">Buzz 2</a>
@@ -71,12 +99,12 @@
     <a href="contact.html">Contact</a>
     <a href="terms.html">Terms</a>
   </nav>
-  
+
   <div class="container">
     <h2>What People Are Saying</h2>
 
     <div class="video-section">
-      <video width="100%" controls style="border-radius: 12px; margin: 20px 0;">
+      <video controls>
         <source src="connect-gold-success-stories.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -133,6 +161,7 @@
       <p class="stars">★★★★☆</p>
     </div>
   </div>
+
   <footer>
     <p>&copy; 2025 Connect Gold. All rights reserved.</p>
   </footer>
