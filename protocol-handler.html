@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Protocol Handler - Connect Gold</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f0f0f0;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #0066cc;
+    }
+    pre {
+      background: #eee;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Protocol Handler Activated</h1>
+    <p>The app received this URI from the custom protocol:</p>
+    <pre id="uriDisplay">Loading...</pre>
+  </div>
+
+  <script>
+    // Parse the URL parameter named 'uri'
+    const params = new URLSearchParams(window.location.search);
+    const uri = params.get('uri');
+
+    const display = document.getElementById('uriDisplay');
+    if (uri) {
+      display.textContent = uri;
+
+      // TODO: Add your app logic here to handle the URI,
+      // like routing, fetching data, or showing specific content
+    } else {
+      display.textContent = 'No URI found.';
+    }
+  </script>
+</body>
+</html>
