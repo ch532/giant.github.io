@@ -419,9 +419,36 @@
           .catch(err => console.error('Service Worker registration failed:', err));
       }
     </script>
-    <script src="script.js" defer></script>
+    <!-- Service Worker Update Popup -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+      registration.onupdatefound = function() {
+        const installingWorker = registration.installing;
+        installingWorker.onstatechange = function() {
+          if (installingWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              // New version available
+              const updateNotice = document.createElement('div');
+              updateNotice.style.cssText = `
+                position: fixed; bottom: 20px; left: 20px; right: 20px; padding: 15px;
+                background: #0a74da; color: white; font-weight: bold; text-align: center;
+                border-radius: 8px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+              `;
+              updateNotice.innerText = "🔄 A new version is available. Tap to refresh.";
+              updateNotice.onclick = () => location.reload(true);
+              document.body.appendChild(updateNotice);
+            }
+          }
+        };
+      };
+    });
+  }
+</script>
 
-    <div class="section">
+    <script src="script.js" defer></script>
+    
+      <div class="section">
       <h2>📍 Our Location</h2>
       <p>
         Near Beulah International School, Kurudu, Abuja, Nigeria.<br />
