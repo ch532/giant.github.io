@@ -29,28 +29,70 @@
       border-radius: 4px;
       overflow-x: auto;
     }
+    .label {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Protocol Handler Activated</h1>
     <p>The app received this URI from the custom protocol:</p>
-    <pre id="uriDisplay">Loading...</pre>
+    <pre id="fullUri">Loading...</pre>
+
+    <div id="parsedDetails" style="display:none;">
+      <p class="label">Protocol:</p>
+      <pre id="protocol"></pre>
+
+      <p class="label">Host:</p>
+      <pre id="host"></pre>
+
+      <p class="label">Pathname:</p>
+      <pre id="pathname"></pre>
+
+      <p class="label">Search Params:</p>
+      <pre id="searchParams"></pre>
+    </div>
   </div>
 
   <script>
-    // Parse the URL parameter named 'uri'
     const params = new URLSearchParams(window.location.search);
     const uri = params.get('uri');
+    const fullUriEl = document.getElementById('fullUri');
+    const parsedDetails = document.getElementById('parsedDetails');
+    const protocolEl = document.getElementById('protocol');
+    const hostEl = document.getElementById('host');
+    const pathnameEl = document.getElementById('pathname');
+    const searchParamsEl = document.getElementById('searchParams');
 
-    const display = document.getElementById('uriDisplay');
     if (uri) {
-      display.textContent = uri;
+      fullUriEl.textContent = uri;
 
-      // TODO: Add your app logic here to handle the URI,
-      // like routing, fetching data, or showing specific content
+      try {
+        const parsed = new URL(uri);
+
+        protocolEl.textContent = parsed.protocol;
+        hostEl.textContent = parsed.hostname;
+        pathnameEl.textContent = parsed.pathname;
+
+        // Format search params nicely
+        let paramsText = '';
+        parsed.searchParams.forEach((value, key) => {
+          paramsText += `${key} = ${value}\n`;
+        });
+        searchParamsEl.textContent = paramsText || '(none)';
+
+        parsedDetails.style.display = 'block';
+
+        // TODO: Add your custom routing or feature logic here
+        // e.g., if (parsed.pathname === '/some-action') { ... }
+
+      } catch (e) {
+        fullUriEl.textContent += '\n\nError parsing URI: ' + e.message;
+      }
     } else {
-      display.textContent = 'No URI found.';
+      fullUriEl.textContent = 'No URI found.';
     }
   </script>
 </body>
