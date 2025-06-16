@@ -99,4 +99,19 @@
     "icons": [{ "src": "/icons/buzz3-icon.png", "sizes": "96x96" }]
   }
 ]
+"shortcuts": [
+  {
+    "name": "WhatsApp Support",
+    "short_name": "Support",
+    "description": "Chat with Connect Gold Support",
+    "url": "/whatsapp-support.html",
+    "icons": [
+      {
+        "src": "/icons/whatsapp-icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }
+]
 
