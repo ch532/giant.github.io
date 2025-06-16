@@ -7,14 +7,14 @@
   "theme_color": "#0a74da",
   "icons": [
     {
-      "src": "icon-192x192.png",
+      "src": "connect gold (1).png",
       "sizes": "192x192",
       "type": "png"
     },
     {
-      "src": "icon-512x512.png",
+      "src": "gold (2).png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "png"
     }
   ]
 }
