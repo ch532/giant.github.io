@@ -17,5 +17,13 @@
       "sizes": "512x512",
       "type": "png"
     }
+  ],
+  "dir": "auto",
+  "scope": "\"/\"",
+  "lang": "en",
+  "orientation": "natural",
+  "categories": [
+    "business",
+    "news"
   ]
 }
