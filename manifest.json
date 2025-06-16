@@ -4,7 +4,10 @@
   "description": "Explore trending content, exclusive deals, and real stories on Connect Gold. Our Buzz Pages combine helpful tips, advertisement and business offers, and smart advertisements to deliver value with every visit.",
   "start_url": "/",
   "display": "standalone",
-  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
   "background_color": "#ffffff",
   "theme_color": "#0a74da",
   "icons": [
@@ -35,9 +38,15 @@
     {
       "action": "/file-viewer.html",
       "accept": {
-        "application/pdf": [".pdf"],
-        "text/plain": [".txt"],
-        "image/png": [".png"]
+        "application/pdf": [
+          ".pdf"
+        ],
+        "text/plain": [
+          ".txt"
+        ],
+        "image/png": [
+          ".png"
+        ]
       },
       "icons": [
         {
@@ -52,7 +61,9 @@
   "url_handlers": [
     {
       "origin": "https://connectgold.sbs",
-      "paths": ["/*"]
+      "paths": [
+        "/*"
+      ]
     }
   ],
   "navigation_override": {
