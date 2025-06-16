@@ -73,4 +73,30 @@
     }
   }
 }
+"shortcuts": [
+  {
+    "name": "Home",
+    "short_name": "Home",
+    "url": "/index.html",
+    "icons": [{ "src": "/icons/home-icon.png", "sizes": "96x96" }]
+  },
+  {
+    "name": "Buzz 1",
+    "short_name": "Buzz1",
+    "url": "/buzz1.html",
+    "icons": [{ "src": "/icons/buzz1-icon.png", "sizes": "96x96" }]
+  },
+  {
+    "name": "Buzz 2",
+    "short_name": "Buzz2",
+    "url": "/buzz2.html",
+    "icons": [{ "src": "/icons/buzz2-icon.png", "sizes": "96x96" }]
+  },
+  {
+    "name": "Buzz 3",
+    "short_name": "Buzz3",
+    "url": "/buzz3.html",
+    "icons": [{ "src": "/icons/buzz3-icon.png", "sizes": "96x96" }]
+  }
+]
 
