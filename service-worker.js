@@ -23,3 +23,53 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+// Background Sync
+self.addEventListener('sync', event => {
+  if (event.tag === 'affiliate-sync') {
+    event.waitUntil(syncAffiliateClicks());
+  }
+});
+
+async function syncAffiliateClicks() {
+  try {
+    await fetch('/sync-affiliate-clicks');
+  } catch (err) {
+    console.error('Sync failed', err);
+  }
+}
+
+// Periodic Sync
+self.addEventListener('periodicsync', event => {
+  if (event.tag === 'buzz-refresh') {
+    event.waitUntil(refreshBuzzContent());
+  }
+});
+
+async function refreshBuzzContent() {
+  try {
+    const res = await fetch('/api/latest-buzz');
+    const data = await res.json();
+    console.log('Buzz refreshed', data);
+  } catch (err) {
+    console.error('Periodic sync failed', err);
+  }
+}
+
+// Push Notifications
+self.addEventListener('push', event => {
+  const data = event.data.json();
+  const options = {
+    body: data.body,
+    icon: 'icon.png',
+    badge: 'badge.png',
+    data: { url: data.url }
+  };
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow(event.notification.data.url));
+});
