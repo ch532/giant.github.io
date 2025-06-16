@@ -60,7 +60,7 @@ self.addEventListener('push', event => {
   const data = event.data.json();
   const options = {
     body: data.body,
-    icon: 'icon.png',
+    icon: 'connect gold (2).png',
     badge: 'badge.png',
     data: { url: data.url }
   };
