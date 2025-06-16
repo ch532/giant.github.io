@@ -28,3 +28,26 @@
     "news"
   ]
 }
+"edge_side_panel": {
+    "preferred_width": 400
+  }
+}
+"file_handlers": [
+  {
+    "action": "/open-file",
+    "accept": {
+      "application/pdf": [".pdf"],
+      "text/plain": [".txt"],
+      "image/png": [".png"]
+    },
+    "icons": [
+      {
+        "src": "connect gold (1).png",
+        "sizes": "192x192",
+        "type": "png"
+      }
+    ],
+    "name": "Open Files"
+  }
+]
+
