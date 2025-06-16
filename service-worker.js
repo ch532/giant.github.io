@@ -3,8 +3,8 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png'
+  '/connect gold (1).png',
+  '/gold (2).png'
   // Add other assets you want cached here
 ];
 
