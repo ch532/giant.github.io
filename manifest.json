@@ -34,7 +34,7 @@
 }
 "file_handlers": [
   {
-    "action": "/open-file",
+    "action": "/file-viewer.html",
     "accept": {
       "application/pdf": [".pdf"],
       "text/plain": [".txt"],
@@ -50,4 +50,17 @@
     "name": "Open Files"
   }
 ]
+"url_handlers": [
+  {
+    "origin": "https://connectgold.sbs",
+    "paths": ["/*"]
+  }
+]
+"protocol_handlers": [
+  {
+    "protocol": "web+connectgold",
+    "url": "/protocol-handler.html?uri=%s"
+  }
+]
+
 
