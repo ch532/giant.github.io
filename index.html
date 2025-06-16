@@ -271,36 +271,14 @@
         max-width: 100%;
       }
     }
-  /* Top Banner Button Styles */
-  #top-banner {
-    background-color: #111;
-    text-align: center;
-    padding: 12px;
-    position: relative;
-    z-index: 99;
-  }
-
-  .download-btn {
-    background-color: gold;
-    color: #111;
-    padding: 10px 20px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 30px;
-    display: inline-block;
-    transition: background-color 0.3s;
-  }
-
-  .download-btn:hover {
-    background-color: #e6b800;
-  }
- </style>
+  </style>
 </head>
 <body>
-<!-- Top Banner Button -->
-<div id="top-banner">
-  <a href="/download-app.html" class="download-btn">📲 Download the Connect Gold App</a>
-</div>
+<a href="/download-app.html" style="display:block; width:100%; max-width:100%; margin:10px auto;">
+  <img src="gold-banner.png" alt="Download Connect Gold App"
+       style="width:100%; max-height:80px; object-fit:cover; border-radius:6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+</a>
+
 
 <!-- Sidebar -->
 <nav id="sidebar" aria-label="Sidebar Navigation">
@@ -321,6 +299,7 @@
   <header>
     <h1>Connect Gold</h1>
     <nav>
+      <a href="/download-app.html" style="color: gold; font-weight: bold;">📲 Download App</a>
       <a href="index.html">Home</a>
       <a href="buzz1.html">Buzz 1</a>
       <a href="buzz2.html">Buzz 2</a>
