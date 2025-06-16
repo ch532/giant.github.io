@@ -1,6 +1,9 @@
 we<!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#0a74da" />
+
 	<script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
@@ -308,6 +311,15 @@ l.parentNode.insertBefore(s, l);
 	<div style="text-align: center; margin: 40px 0;">
   <a href="buzz1.html" style="display:inline-block; margin: 10px; background-color: gold; color: black; padding: 12px 24px; border-radius: 6px; font-weight: bold; text-decoration: none;">Read more</a>
 </div>
+
+	<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log('Service Worker Registered'))
+    .catch(err => console.error('Service Worker registration failed:', err));
+}
+</script>
+
 
 
 <div class="section">
