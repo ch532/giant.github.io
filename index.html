@@ -1,11 +1,11 @@
-we<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="manifest" href="/manifest.json" />
-<meta name="theme-color" content="#0a74da" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0a74da" />
 
-	<script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
-<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,6 +30,7 @@ we<!DOCTYPE html>
   <meta name="twitter:image" content="https://connectgold.sbs/social-preview.jpg" />
 
   <style>
+    /* Your original styles */
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #f0e9e0 25%, #f9f9f9 100%);
@@ -188,162 +189,261 @@ we<!DOCTYPE html>
         height: auto;
       }
     }
+
+    /* ===== Sidebar styles ===== */
+    /* Make body use row layout to accommodate sidebar */
+    body {
+      flex-direction: row;
+      align-items: stretch;
+      padding-top: 0; /* Remove since header will not overlap content */
+    }
+    /* Sidebar container */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background-color: #111;
+      padding-top: 60px; /* so content starts below header */
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      z-index: 15;
+      overflow-y: auto;
+    }
+    #sidebar a {
+      color: gold;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border-left: 4px solid transparent;
+      transition: background-color 0.3s, border-left-color 0.3s;
+    }
+    #sidebar a:hover,
+    #sidebar a.active {
+      background-color: gold;
+      color: #111;
+      border-left-color: gold;
+    }
+    /* Shift main content right to avoid sidebar */
+    main {
+      margin-left: 220px;
+      padding: 20px;
+      flex-grow: 1;
+      max-width: calc(100% - 220px);
+      overflow-x: hidden;
+    }
+    /* Adjust header to span entire width including sidebar */
+    header {
+      width: 100%;
+      position: fixed;
+      z-index: 20;
+    }
+    /* For smaller screens, hide sidebar and adjust layout */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        padding-top: 60px;
+      }
+      #sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding-top: 0;
+        flex-direction: row;
+        overflow-x: auto;
+        box-shadow: none;
+      }
+      #sidebar a {
+        padding: 12px 15px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+      }
+      #sidebar a:hover,
+      #sidebar a.active {
+        background-color: transparent;
+        color: gold;
+        border-bottom-color: gold;
+      }
+      main {
+        margin-left: 0;
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Connect Gold</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="buzz1.html">Buzz 1</a>
-    <a href="buzz2.html">Buzz 2</a>
-    <a href="buzz3.html">Buzz 3</a>
-    <a href="buzz4.html">Buzz 4</a>
-    <a href="testimonials.html">Testimonials</a>
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="contact.html">Contact</a>
-    <a href="terms.html">Terms</a>
-  </nav>
-</header>
+<!-- Sidebar -->
+<nav id="sidebar" aria-label="Sidebar Navigation">
+  <a href="index.html" class="active">Home</a>
+  <a href="buzz1.html">Buzz 1</a>
+  <a href="buzz2.html">Buzz 2</a>
+  <a href="buzz3.html">Buzz 3</a>
+  <a href="buzz4.html">Buzz 4</a>
+  <a href="testimonials.html">Testimonials</a>
+  <a href="about.html">About</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="contact.html">Contact</a>
+  <a href="terms.html">Terms</a>
+</nav>
 
-<!-- Website Image as URL -->
-<img
-  src="gold (2).png"
-  alt="Connect Gold Website Banner"
-  class="website-image"
-/>
+<div style="flex-grow:1; display:flex; flex-direction: column; min-height: 100vh;">
 
-<!-- Ad Space 1 (below website image) -->
-<div class="ad-placeholder" aria-label="Google AdSense Advertisement">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-1171216593802007"
-     data-ad-slot="6116898310"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <header>
+    <h1>Connect Gold</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="buzz1.html">Buzz 1</a>
+      <a href="buzz2.html">Buzz 2</a>
+      <a href="buzz3.html">Buzz 3</a>
+      <a href="buzz4.html">Buzz 4</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </header>
+
+  <main role="main" tabindex="-1">
+    <!-- Website Image as URL -->
+    <img
+      src="gold (2).png"
+      alt="Connect Gold Website Banner"
+      class="website-image"
+    />
+
+    <!-- Ad Space 1 (below website image) -->
+    <div class="ad-placeholder" aria-label="Google AdSense Advertisement">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
+         crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-1171216593802007"
+         data-ad-slot="6116898310"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    </div>
+
+    <div class="section">
+      <h2>📢 Advertising & Partnership</h2>
+      <p>Interested in placing your advertisements or collaborating with Connect Gold? We offer highly visible advertisements spots and tailored campaigns for brands, startups, and events. Let's grow your reach in Nigeria and beyond.</p>
+      <ul>
+        <li>Email: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a></li>
+        <li>WhatsApp: <a href="https://wa.me/2347061740924">+2347061740924</a></li>
+        <li>Instagram: <a href="https://instagram.com/connectgold20">@connectgold20</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>📰 Top Nigeria Headlines</h2>
+      <ul>
+        <li>Public holiday declared in Abuja and Lagos for June 17–18 Eid-el-Kabir celebration.</li>
+        <li>NYSC 2025 Batch B registration now open – visit nysc.org.ng to apply.</li>
+        <li>CBN announces N1,490/$ as new exchange rate band – market reacts.</li>
+        <li>TikTok opens monetization to more African creators – here’s how to qualify.</li>
+      </ul>
+    </div>
+
+    <!-- Ad Space 2 (between headlines and tools) -->
+    <div class="ad-placeholder" aria-label="Available Ad Space">
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '6ea59dd3e45fc5391113d99b6437bcfa',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/6ea59dd3e45fc5391113d99b6437bcfa/invoke.js"></script>
+    </div>
+
+    <div class="section">
+      <h2>💡 Digital Tools & Tips</h2>
+      <ul>
+        <li>Dial *785# to link NIN to all major networks or use WhatsApp NIMC chatbot.</li>
+        <li>Check WAEC & NECO 2024 results online with simple SMS code.</li>
+        <li>Compare data plans (MTN, Glo, Airtel) – get 20GB for ₦3,000 now!</li>
+        <li>Planning to Japa? Use our free Canada/UK visa interview prep tips.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🎉 Events Happening Now</h2>
+      <ul>
+        <li>Abuja Tech Fest – Jabi Lake Mall, June 22. Free entry with registration.</li>
+        <li>Lagos Startup Conference – July 3, Landmark Centre. ₦5,000 pass.</li>
+        <li>Soundcity Campus Tour hits UNILAG on June 30 – artist lineup includes Omah Lay & Ayra Starr.</li>
+        <li>Calabar Carnival early access tickets available from ₦2,000 online.</li>
+      </ul>
+    </div>
+
+    <!-- Ad Space 3 (between events and social gist) -->
+    <div class="ad-placeholder" aria-label="Available Ad Space">
+      <script>
+    (function(fkh){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = fkh || {};
+    s.src = "\/\/fresh-kind.com\/bJXdV\/s.dDGil-0-YYWAcy\/_eWmB9\/utZAUOlpkEP\/T\/YS0xMojmgwyWOgT\/MztaNFjMQHyROdDyIj5\/NGAU";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+    })({})
+    </script>
+    </div>
+
+    <div class="section">
+      <h2>🔥 Social Gist & Trends</h2>
+      <ul>
+        <li>BBNaija All Stars reunion: Who spilled the most secrets this week?</li>
+        <li>X users debate between ₦5,000 suya or ₦1,000 shawarma – what’s your pick?</li>
+        <li>ASUU gives fresh 3-week ultimatum to FG over withheld salaries.</li>
+        <li>Fuel price jumps to ₦920/litre in remote states – transport costs skyrocket.</li>
+      </ul>
+    </div>
+      <div style="text-align: center; margin: 40px 0;">
+      <a href="buzz1.html" style="display:inline-block; margin: 10px; background-color: gold; color: black; padding: 12px 24px; border-radius: 6px; font-weight: bold; text-decoration: none;">Read more</a>
+    </div>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(() => console.log('Service Worker Registered'))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      }
+    </script>
+    <script src="script.js" defer></script>
+
+    <div class="section">
+      <h2>📍 Our Location</h2>
+      <p>
+        Near Beulah International School, Kurudu, Abuja, Nigeria.<br />
+        Postcode: 900109
+      </p>
+    </div>
+
+    <footer>
+      &copy; 2025 Connect Gold. All rights reserved. | Powered by Chyke22
+    </footer>
+
+    <div class="cookie-banner" id="cookieBanner">
+      We use cookies to personalize content and ads, and analyze traffic to give you a better experience.
+      <button onclick="document.getElementById('cookieBanner').style.display='none'">Got it!</button>
+    </div>
+
+    <a href="https://wa.me/2347061740924" target="_blank" id="whatsappSupport" aria-label="Contact Support on WhatsApp" title="Chat with us on WhatsApp">
+      &#x2709;
+    </a>
+  </main>
+
 </div>
-
-<div class="section">
-  <h2>📢 Advertising & Partnership</h2>
-  <p>Interested in placing your advertisements or collaborating with Connect Gold? We offer highly visible advertisements spots and tailored campaigns for brands, startups, and events. Let's grow your reach in Nigeria and beyond.</p>
-  <ul>
-    <li>Email: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a></li>
-    <li>WhatsApp: <a href="https://wa.me/2347061740924">+2347061740924</a></li>
-    <li>Instagram: <a href="https://instagram.com/connectgold20">@connectgold20</a></li>
-  </ul>
-</div>
-
-<div class="section">
-  <h2>📰 Top Nigeria Headlines</h2>
-  <ul>
-    <li>Public holiday declared in Abuja and Lagos for June 17–18 Eid-el-Kabir celebration.</li>
-    <li>NYSC 2025 Batch B registration now open – visit nysc.org.ng to apply.</li>
-    <li>CBN announces N1,490/$ as new exchange rate band – market reacts.</li>
-    <li>TikTok opens monetization to more African creators – here’s how to qualify.</li>
-  </ul>
-</div>
-
-<!-- Ad Space 2 (between headlines and tools) -->
-<div class="ad-placeholder" aria-label="Available Ad Space">
-  <script type="text/javascript">
-	atOptions = {
-		'key' : '6ea59dd3e45fc5391113d99b6437bcfa',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/6ea59dd3e45fc5391113d99b6437bcfa/invoke.js"></script>
-</div>
-
-<div class="section">
-  <h2>💡 Digital Tools & Tips</h2>
-  <ul>
-    <li>Dial *785# to link NIN to all major networks or use WhatsApp NIMC chatbot.</li>
-    <li>Check WAEC & NECO 2024 results online with simple SMS code.</li>
-    <li>Compare data plans (MTN, Glo, Airtel) – get 20GB for ₦3,000 now!</li>
-    <li>Planning to Japa? Use our free Canada/UK visa interview prep tips.</li>
-  </ul>
-</div>
-
-<div class="section">
-  <h2>🎉 Events Happening Now</h2>
-  <ul>
-    <li>Abuja Tech Fest – Jabi Lake Mall, June 22. Free entry with registration.</li>
-    <li>Lagos Startup Conference – July 3, Landmark Centre. ₦5,000 pass.</li>
-    <li>Soundcity Campus Tour hits UNILAG on June 30 – artist lineup includes Omah Lay & Ayra Starr.</li>
-    <li>Calabar Carnival early access tickets available from ₦2,000 online.</li>
-  </ul>
-</div>
-
-<!-- Ad Space 3 (between events and social gist) -->
-<div class="ad-placeholder" aria-label="Available Ad Space">
-  <script>
-(function(fkh){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = fkh || {};
-s.src = "\/\/fresh-kind.com\/bJXdV\/s.dDGil-0-YYWAcy\/_eWmB9\/utZAUOlpkEP\/T\/YS0xMojmgwyWOgT\/MztaNFjMQHyROdDyIj5\/NGAU";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>
-</div>
-
-<div class="section">
-  <h2>🔥 Social Gist & Trends</h2>
-  <ul>
-    <li>BBNaija All Stars reunion: Who spilled the most secrets this week?</li>
-    <li>X users debate between ₦5,000 suya or ₦1,000 shawarma – what’s your pick?</li>
-    <li>ASUU gives fresh 3-week ultimatum to FG over withheld salaries.</li>
-    <li>Fuel price jumps to ₦920/litre in remote states – transport costs skyrocket.</li>
-  </ul>
-</div>
-	<div style="text-align: center; margin: 40px 0;">
-  <a href="buzz1.html" style="display:inline-block; margin: 10px; background-color: gold; color: black; padding: 12px 24px; border-radius: 6px; font-weight: bold; text-decoration: none;">Read more</a>
-</div>
-
-	<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(() => console.log('Service Worker Registered'))
-    .catch(err => console.error('Service Worker registration failed:', err));
-}
-</script>
-	<script src="script.js" defer></script>
-
-
-
-
-<div class="section">
-  <h2>📍 Our Location</h2>
-  <p>
-    Near Beulah International School, Kurudu, Abuja, Nigeria.<br />
-    Postcode: 900109
-  </p>
-</div>
-
-<footer>
-  &copy; 2025 Connect Gold. All rights reserved. | Powered by Chyke22
-</footer>
-
-<div class="cookie-banner" id="cookieBanner">
-  We use cookies to personalize content and ads, and analyze traffic to give you a better experience.
-  <button onclick="document.getElementById('cookieBanner').style.display='none'">Got it!</button>
-</div>
-
-<a href="https://wa.me/2347061740924" target="_blank" id="whatsappSupport" aria-label="Contact Support on WhatsApp" title="Chat with us on WhatsApp">
-  &#x2709;
-</a>
 
 </body>
 </html>
