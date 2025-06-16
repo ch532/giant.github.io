@@ -444,9 +444,50 @@
       };
     });
   }
+
 </script>
 
-    <script src="script.js" defer></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(registration => {
+    console.log('Service Worker registered with scope:', registration.scope);
+
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed') {
+          if (navigator.serviceWorker.controller) {
+            showUpdateNotification();
+          }
+        }
+      });
+    });
+  });
+}
+
+function showUpdateNotification() {
+  const banner = document.createElement('div');
+  banner.style.position = 'fixed';
+  banner.style.bottom = '0';
+  banner.style.left = '0';
+  banner.style.right = '0';
+  banner.style.background = '#333';
+  banner.style.color = '#fff';
+  banner.style.padding = '15px';
+  banner.style.textAlign = 'center';
+  banner.style.zIndex = '1000';
+  banner.textContent = 'New version available! Click here to update.';
+  banner.style.cursor = 'pointer';
+
+  banner.onclick = () => {
+    window.location.reload();
+  };
+
+  document.body.appendChild(banner);
+}
+</script>
+
+<script src="script.js" defer></script>
     
       <div class="section">
       <h2>📍 Our Location</h2>
