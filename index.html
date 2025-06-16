@@ -271,7 +271,30 @@
         max-width: 100%;
       }
     }
-  </style>
+    .download-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #f9c74f, #f4a261);
+  color: #111;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 15px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 6px 15px rgba(249, 199, 79, 0.6);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  user-select: none;
+}
+
+.download-button:hover,
+.download-button:focus {
+  background: linear-gradient(135deg, #f4a261, #f9c74f);
+  box-shadow: 0 8px 20px rgba(244, 162, 97, 0.8);
+  transform: scale(1.05);
+  outline: none;
+  color: #222;
+  cursor: pointer;
+}
+ </style>
 </head>
 <body>
 
@@ -314,9 +337,10 @@
       alt="Connect Gold Website Banner"
       class="website-image"
     />
-    <section id="appDownloadBanner">
-  <a href="/download-app.html" aria-label="Download Connect Gold App">
-    <img src="gold (2).png" alt="Download Connect Gold App - Fast Access to Latest Content" />
+    
+<section id="appDownloadBanner" style="text-align:center; margin: 40px 0;">
+  <a href="/download-app.html" class="download-button" aria-label="Download Connect Gold App">
+    📲 Get the Connect Gold App
   </a>
 </section>
 
