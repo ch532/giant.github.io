@@ -285,24 +285,38 @@
   user-select: none;
 }
 .download-btn {
-  display: inline-block;
+#top-banner {
+  width: 100%;
   background-color: gold;
-  color: #111;
-  font-weight: bold;
-  padding: 15px 25px;
+  padding: 12px 0;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.download-btn {
+  background-color: #111;
+  color: gold;
+  padding: 12px 20px;
   text-decoration: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  font-size: 18px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
+
 .download-btn:hover {
-  background-color: #ffcc00;
-  transform: scale(1.05);
+  background-color: #333;
 }
- </style>
+  </style>
 </head>
 <body>
+<!-- Top Banner Button -->
+<div id="top-banner">
+  <a href="/download-app.html" class="download-btn">📲 Download the Connect Gold App</a>
+</div>
 
 <!-- Sidebar -->
 <nav id="sidebar" aria-label="Sidebar Navigation">
