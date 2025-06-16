@@ -73,3 +73,42 @@ self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(clients.openWindow(event.notification.data.url));
 });
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // Check if this is a POST to /share-target.html
+  if (url.pathname === '/share-target.html' && event.request.method === 'POST') {
+    event.respondWith(
+      (async () => {
+        // Clone the request to read its body
+        const formData = await event.request.formData();
+
+        // Extract shared data from formData
+        const title = formData.get('title') || '';
+        const text = formData.get('text') || '';
+        const sharedUrl = formData.get('url') || '';
+
+        // You can now save, show, or handle this data as you want
+        // For demo, build a simple HTML response showing the data
+
+        const html = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head><title>Shared Content Received</title></head>
+          <body>
+            <h1>Content Shared to Connect Gold</h1>
+            <p><strong>Title:</strong> ${title}</p>
+            <p><strong>Text:</strong> ${text}</p>
+            <p><strong>URL:</strong> <a href="${sharedUrl}" target="_blank">${sharedUrl}</a></p>
+          </body>
+          </html>
+        `;
+
+        return new Response(html, {
+          headers: { 'Content-Type': 'text/html' }
+        });
+      })()
+    );
+  }
+});
+
