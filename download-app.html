@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Install Connect Gold App</title>
+  <link rel="icon" type="image/png" href="/gold (2).png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #fefefe; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: auto; padding: 20px; text-align: center; }
+    .app-icon { width: 120px; border-radius: 24px; }
+    .title { font-size: 28px; margin-top: 10px; }
+    .desc { font-size: 16px; margin: 15px 0; }
+    .btn-download { background: #ff9800; color: white; padding: 12px 20px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; margin-top: 10px; }
+    .badges { margin-top: 15px; font-size: 14px; color: #777; }
+    .qr { margin-top: 20px; }
+    footer { margin-top: 40px; font-size: 13px; color: #aaa; }
+    .whatsapp { position: fixed; bottom: 15px; right: 15px; background: #25d366; color: white; padding: 10px 14px; border-radius: 30px; font-weight: bold; text-decoration: none; }
+    @media(max-width: 600px) {
+      .app-icon { width: 96px; }
+    }
+  </style>
+  <script>
+    // PWA install prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById('install-btn');
+      if (installBtn) {
+        installBtn.style.display = 'inline-block';
+        installBtn.addEventListener('click', () => {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            installBtn.style.display = 'none';
+          });
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+
+<div class="container">
+  <img src="/gold (2).png" alt="Connect Gold Icon" class="app-icon">
+  <h1 class="title">Connect Gold</h1>
+  <p><strong>Version:</strong> 1.0.0 &nbsp; | &nbsp; <strong>Updated:</strong> June 2025</p>
+  <p class="desc">
+    Connect Gold App gives you fast access to premium content, trending buzz pages, affiliate offers — all in one place. No ads overload, just smooth browsing. Built for mobile-first experience and long-term success.
+  </p>
+
+  <a class="btn-download" href="/downloads/Connect%20Gold.apk" download>⬇️ Download APK</a><br>
+  <button id="install-btn" style="display:none;" class="btn-download">📱 Install to Home Screen</button>
+
+  <div class="qr">
+    <p>Scan to download:</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://connectgold.sbs/downloads/Connect%20Gold.apk" alt="QR Code to download app">
+  </div>
+
+  <div class="badges">
+    🔒 Secure APK | ✅ 100% Free | ⭐ Trusted by early users
+  </div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/2347061740924" target="_blank">💬 WhatsApp Support</a>
+
+<footer>
+  &copy; 2025 Connect Gold. All rights reserved.
+</footer>
+
+</body>
+</html>
