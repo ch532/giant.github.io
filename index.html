@@ -274,11 +274,15 @@
   </style>
 </head>
 <body>
-  <!-- Custom Install Banner -->
-<div id="customInstallBanner" style="display:none; position: fixed; top: 0; left: 0; right: 0; background: #fffbe6; padding: 12px; text-align: center; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-  <span style="font-weight: bold;">Install Connect Gold App</span>
-  <a id="triggerInstall" style="margin-left: 15px; color: #007bff; cursor: pointer; text-decoration: underline;">Install</a>
+<div id="installBanner" style="display:none;" role="dialog" aria-live="polite">
+  <div style="background: #333; color: #fff; padding: 16px; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+              box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 9999; border-radius: 8px; text-align: center;">
+    <p style="margin: 0 0 8px;">📲 Install Connect Gold App for quicker access!</p>
+    <button id="installBtn" style="padding: 8px 16px; background: gold; border: none; font-weight: bold; cursor: pointer;">Install</button>
+    <button onclick="dismissBanner()" style="margin-left: 10px; background: transparent; color: #ccc; border: none;">No thanks</button>
+  </div>
 </div>
+
 
   
  <!-- Sidebar -->
@@ -499,32 +503,7 @@
   setInterval(checkVersion, 1000 * 60 * 10);
 </script>
 
-    <script>
-  let deferredPrompt;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    // Show the install banner
-    document.getElementById('customInstallBanner').style.display = 'block';
-
-    // When the user clicks "Install"
-    document.getElementById('triggerInstall').addEventListener('click', () => {
-      document.getElementById('customInstallBanner').style.display = 'none';
-      deferredPrompt.prompt();
-
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
-        } else {
-          console.log('User dismissed the install prompt');
-        }
-        deferredPrompt = null;
-      });
-    });
-  });
-</script>
+    
 
 
     <script src="script.js" defer></script>
@@ -537,7 +516,41 @@
       </p>
     </div>
 
-    
+    <script>
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // Show banner after 5 seconds
+    setTimeout(() => {
+      if (!window.matchMedia('(display-mode: standalone)').matches) {
+        document.getElementById('installBanner').style.display = 'block';
+      }
+    }, 5000);
+  });
+
+  document.getElementById('installBtn').addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted install');
+        } else {
+          console.log('User dismissed install');
+        }
+        document.getElementById('installBanner').style.display = 'none';
+        deferredPrompt = null;
+      });
+    }
+  });
+
+  function dismissBanner() {
+    document.getElementById('installBanner').style.display = 'none';
+  }
+</script>
+
 
     <footer>
       &copy; 2025 Connect Gold. All rights reserved. | Powered by Chyke22
