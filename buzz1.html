@@ -146,6 +146,39 @@ src="https://www.facebook.com/tr?id=1138434231424157&ev=PageView&noscript=1"
     .catch(err => console.error('Failed to load product:', err));
 </script>
 
+    <body>
+  <h2>Trip.com Affiliate Signature Generator</h2>
+  <pre id="output"></pre>
+
+  <script>
+    async function generateSignature() {
+      const allianceId = '12345';
+      const sid = '987654';
+      const userKey = 'af85s54f66s4fd5s64f112sf25';
+      const icode = '5fd08a3e30c14fd49c5f4b11a6094b83';
+      const uuid = crypto.randomUUID().replace(/-/g, '');
+
+      const data = `aid=${allianceId}&sid=${sid}&userkey=${userKey}&icode=${icode}&uuid=${uuid}`;
+
+      const encoder = new TextEncoder();
+      const dataBuffer = encoder.encode(data);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const signature = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      const output = {
+        uuid,
+        data,
+        signature
+      };
+
+      document.getElementById('output').textContent = JSON.stringify(output, null, 2);
+    }
+
+    generateSignature();
+  </script>
+</body>
+
 
     <div class="partner">
       <strong>Konga</strong> - Nigeria's trusted e-commerce platform.<br/>
