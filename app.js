@@ -1,17 +1,15 @@
-// Your existing API keys (replace with your actual keys)
+// Your API keys
 const openWeatherApiKey = 'a65d564a892d82cd09d48a43888a1139';
 const newsApiKey = '38c80c8927e247a7878a2b3c28c0de00';
 const newsDataApiKey = 'pub_030e9a25dd4542d58c4d9704b524014b';
-const mediastackApiKey = '8e03f94d0c0de12d21b5edd19d5e5bd0';
 
 // Containers from your HTML
 const generalNewsContainer = document.getElementById('general-news-container');
 const sportsNewsContainer = document.getElementById('sports-news-container');
 const weatherContainer = document.getElementById('weather-container');
 const newsDataContainer = document.getElementById('newsdata-news-container');
-const mediastackContainer = document.getElementById('mediastack-news-container');
 
-// Existing: Fetch and display weather for multiple Nigerian cities
+// Fetch and display weather for multiple Nigerian cities
 async function fetchWeatherForCities(cities) {
   weatherContainer.innerHTML = ''; // Clear previous data
   for (const city of cities) {
@@ -30,7 +28,7 @@ async function fetchWeatherForCities(cities) {
   }
 }
 
-// Existing: Fetch general news (NewsAPI example)
+// Fetch general news (NewsAPI example)
 async function fetchGeneralNews() {
   try {
     let response = await fetch(`https://newsapi.org/v2/top-headlines?country=ng&category=general&apiKey=${newsApiKey}`);
@@ -42,7 +40,7 @@ async function fetchGeneralNews() {
   }
 }
 
-// Existing: Fetch sports & entertainment news (NewsAPI example)
+// Fetch sports & entertainment news (NewsAPI example)
 async function fetchSportsNews() {
   try {
     let response = await fetch(`https://newsapi.org/v2/top-headlines?country=ng&category=sports&apiKey=${newsApiKey}`);
@@ -54,7 +52,7 @@ async function fetchSportsNews() {
   }
 }
 
-// New: Fetch news from NewsData.io
+// Fetch news from NewsData.io
 async function fetchNewsDataNews() {
   try {
     // Nigeria general news
@@ -71,27 +69,6 @@ async function fetchNewsDataNews() {
     displayNews(dataWorld.results, newsDataContainer, 'NewsData.io World News');
   } catch (error) {
     newsDataContainer.innerHTML = 'Error loading NewsData.io news.';
-    console.error(error);
-  }
-}
-
-// New: Fetch news from Mediastack
-async function fetchMediastackNews() {
-  try {
-    // Nigeria general news
-    let urlNg = `http://api.mediastack.com/v1/news?access_key=${mediastackApiKey}&countries=ng&categories=general&limit=5`;
-    let responseNg = await fetch(urlNg);
-    let dataNg = await responseNg.json();
-
-    // World general news (no country filter)
-    let urlWorld = `http://api.mediastack.com/v1/news?access_key=${mediastackApiKey}&categories=general&limit=5`;
-    let responseWorld = await fetch(urlWorld);
-    let dataWorld = await responseWorld.json();
-
-    displayNews(dataNg.data, mediastackContainer, 'Mediastack Nigeria News');
-    displayNews(dataWorld.data, mediastackContainer, 'Mediastack World News');
-  } catch (error) {
-    mediastackContainer.innerHTML = 'Error loading Mediastack news.';
     console.error(error);
   }
 }
@@ -122,7 +99,6 @@ function initializeApp() {
   fetchGeneralNews();
   fetchSportsNews();
   fetchNewsDataNews();
-  fetchMediastackNews();
 }
 
 // Run on page load
