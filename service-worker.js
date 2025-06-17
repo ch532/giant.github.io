@@ -1,7 +1,6 @@
 const CACHE_NAME = 'connectgold-cache-v1.8.0';
 const urlsToCache = [
   '/',
-  '/index.html',
   '/manifest.json',
   '/connect gold (1).png',
   '/gold (2).png'
