@@ -1,85 +1,129 @@
-// Your API keys — replace these with your actual keys
-const NEWSAPI_KEY = '38c80c8927e247a7878a2b3c28c0de00';    // NewsAPI
-const GNEWS_KEY = '1bb59b7a93ea99d26e8c3ffd18d85acb';      // GNews
-const WEATHER_API_KEY = 'a65d564a892d82cd09d48a43888a1139'; // OpenWeatherMap
+// Your existing API keys (replace with your actual keys)
+const openWeatherApiKey = 'a65d564a892d82cd09d48a43888a1139';
+const newsApiKey = '38c80c8927e247a7878a2b3c28c0de00';
+const newsDataApiKey = 'pub_030e9a25dd4542d58c4d9704b524014b';
+const mediastackApiKey = '8e03f94d0c0de12d21b5edd19d5e5bd0';
 
-// Nigerian cities for weather
-const cities = ['Lagos', 'Abuja', 'Kano'];
+// Containers from your HTML
+const generalNewsContainer = document.getElementById('general-news-container');
+const sportsNewsContainer = document.getElementById('sports-news-container');
+const weatherContainer = document.getElementById('weather-container');
+const newsDataContainer = document.getElementById('newsdata-news-container');
+const mediastackContainer = document.getElementById('mediastack-news-container');
 
-// Fetch general news from NewsAPI
-async function fetchGeneralNews() {
-  const url = `https://newsapi.org/v2/top-headlines?language=en&pageSize=5&apiKey=${NEWSAPI_KEY}`;
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const container = document.getElementById('general-news-container');
-    container.innerHTML = ''; // clear previous content
-
-    if(data.articles && data.articles.length) {
-      data.articles.forEach(article => {
-        const div = document.createElement('div');
-        div.innerHTML = `<a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a>`;
-        container.appendChild(div);
-      });
-    } else {
-      container.textContent = 'No news found.';
-    }
-  } catch (err) {
-    console.error('Error fetching general news:', err);
-  }
-}
-
-// Fetch sports & entertainment news from GNews
-async function fetchSportsNews() {
-  const url = `https://gnews.io/api/v4/search?q=sports OR entertainment&lang=en&max=5&token=${GNEWS_KEY}`;
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const container = document.getElementById('sports-news-container');
-    container.innerHTML = ''; // clear previous content
-
-    if(data.articles && data.articles.length) {
-      data.articles.forEach(article => {
-        const div = document.createElement('div');
-        div.innerHTML = `<a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a>`;
-        container.appendChild(div);
-      });
-    } else {
-      container.textContent = 'No sports news found.';
-    }
-  } catch (err) {
-    console.error('Error fetching sports news:', err);
-  }
-}
-
-// Fetch weather for Nigerian cities
-async function fetchWeather() {
-  const container = document.getElementById('weather-container');
-  container.innerHTML = ''; // clear previous content
-
+// Existing: Fetch and display weather for multiple Nigerian cities
+async function fetchWeatherForCities(cities) {
+  weatherContainer.innerHTML = ''; // Clear previous data
   for (const city of cities) {
     try {
-      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},NG&appid=${WEATHER_API_KEY}&units=metric`);
-      const data = await res.json();
-
-      if (data.weather && data.weather.length > 0 && data.main) {
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${city}</strong>: ${data.weather[0].description}, Temp: ${data.main.temp}°C`;
-        container.appendChild(div);
+      let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${openWeatherApiKey}&units=metric`);
+      let data = await response.json();
+      if (data.weather) {
+        weatherContainer.innerHTML += `<p><strong>${city}:</strong> ${data.weather[0].description}, ${data.main.temp}°C</p>`;
       } else {
-        const div = document.createElement('div');
-        div.textContent = `Weather info unavailable for ${city}`;
-        container.appendChild(div);
+        weatherContainer.innerHTML += `<p><strong>${city}:</strong> Weather data not available.</p>`;
       }
-    } catch (err) {
-      console.error(`Error fetching weather for ${city}:`, err);
+    } catch (e) {
+      weatherContainer.innerHTML += `<p><strong>${city}:</strong> Error fetching data.</p>`;
+      console.error(e);
     }
   }
 }
 
-// Run all fetches when the page loads
-window.addEventListener('DOMContentLoaded', () => {
+// Existing: Fetch general news (NewsAPI example)
+async function fetchGeneralNews() {
+  try {
+    let response = await fetch(`https://newsapi.org/v2/top-headlines?country=ng&category=general&apiKey=${newsApiKey}`);
+    let data = await response.json();
+    displayNews(data.articles, generalNewsContainer, 'General News (NewsAPI Nigeria)');
+  } catch (error) {
+    generalNewsContainer.innerHTML = 'Error loading general news.';
+    console.error(error);
+  }
+}
+
+// Existing: Fetch sports & entertainment news (NewsAPI example)
+async function fetchSportsNews() {
+  try {
+    let response = await fetch(`https://newsapi.org/v2/top-headlines?country=ng&category=sports&apiKey=${newsApiKey}`);
+    let data = await response.json();
+    displayNews(data.articles, sportsNewsContainer, 'Sports & Entertainment News (NewsAPI Nigeria)');
+  } catch (error) {
+    sportsNewsContainer.innerHTML = 'Error loading sports news.';
+    console.error(error);
+  }
+}
+
+// New: Fetch news from NewsData.io
+async function fetchNewsDataNews() {
+  try {
+    // Nigeria general news
+    let urlNg = `https://newsdata.io/api/1/news?apikey=${newsDataApiKey}&country=ng&category=general&page=1`;
+    let responseNg = await fetch(urlNg);
+    let dataNg = await responseNg.json();
+
+    // World general news
+    let urlWorld = `https://newsdata.io/api/1/news?apikey=${newsDataApiKey}&category=general&page=1`;
+    let responseWorld = await fetch(urlWorld);
+    let dataWorld = await responseWorld.json();
+
+    displayNews(dataNg.results, newsDataContainer, 'NewsData.io Nigeria News');
+    displayNews(dataWorld.results, newsDataContainer, 'NewsData.io World News');
+  } catch (error) {
+    newsDataContainer.innerHTML = 'Error loading NewsData.io news.';
+    console.error(error);
+  }
+}
+
+// New: Fetch news from Mediastack
+async function fetchMediastackNews() {
+  try {
+    // Nigeria general news
+    let urlNg = `http://api.mediastack.com/v1/news?access_key=${mediastackApiKey}&countries=ng&categories=general&limit=5`;
+    let responseNg = await fetch(urlNg);
+    let dataNg = await responseNg.json();
+
+    // World general news (no country filter)
+    let urlWorld = `http://api.mediastack.com/v1/news?access_key=${mediastackApiKey}&categories=general&limit=5`;
+    let responseWorld = await fetch(urlWorld);
+    let dataWorld = await responseWorld.json();
+
+    displayNews(dataNg.data, mediastackContainer, 'Mediastack Nigeria News');
+    displayNews(dataWorld.data, mediastackContainer, 'Mediastack World News');
+  } catch (error) {
+    mediastackContainer.innerHTML = 'Error loading Mediastack news.';
+    console.error(error);
+  }
+}
+
+// Helper function to render news articles
+function displayNews(articles, container, heading) {
+  if (!articles || articles.length === 0) {
+    container.innerHTML += `<h3>${heading}</h3><p>No news found.</p>`;
+    return;
+  }
+
+  let html = `<h3>${heading}</h3><ul>`;
+  articles.forEach(article => {
+    const title = article.title || article.name || 'No title';
+    const url = article.link || article.url || '#';
+    html += `<li><a href="${url}" target="_blank" rel="noopener">${title}</a></li>`;
+  });
+  html += '</ul>';
+
+  container.innerHTML += html;
+}
+
+// Initialize everything
+function initializeApp() {
+  const cities = ['Lagos', 'Abuja', 'Port Harcourt', 'Kano']; // Your cities for weather
+
+  fetchWeatherForCities(cities);
   fetchGeneralNews();
   fetchSportsNews();
-  fetchWeather();
-});
+  fetchNewsDataNews();
+  fetchMediastackNews();
+}
+
+// Run on page load
+window.onload = initializeApp;
