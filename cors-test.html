@@ -1,31 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CORS Proxy Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    pre {
+      background: #222;
+      color: #0f0;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      max-height: 300px;
+    }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-  <h2>🌐 Test Your CORS Proxy</h2>
-  <p>Click the button below to fetch data via your CORS proxy.</p>
-  <button onclick="testCORS()" style="padding: 10px 20px; font-size: 16px;">Test Proxy</button>
-  <pre id="result" style="margin-top: 20px; background: #f4f4f4; padding: 10px; text-align: left;"></pre>
+<body>
+  <h1>🚀 CORS Proxy Test</h1>
+  <p>Click the button below to fetch data through your CORS Anywhere server at <strong>10.14.90.159:8080</strong></p>
+
+  <button onclick="testCORS()">Test Proxy</button>
+
+  <h2>Response:</h2>
+  <pre id="output">Waiting for response...</pre>
 
   <script>
     function testCORS() {
-      const proxy = 'http://10.14.90.159:8080/';
-      const target = 'https://jsonplaceholder.typicode.com/posts/1';
-      
-      fetch(proxy + target, {
+      const output = document.getElementById('output');
+      output.textContent = 'Fetching...';
+
+      fetch("http://10.14.90.159:8080/https://jsonplaceholder.typicode.com/posts", {
         headers: {
-          'Origin': 'http://localhost'
+          Origin: "http://localhost"
         }
       })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-      })
-      .catch(err => {
-        document.getElementById('result').textContent = 'Error:\n' + err;
-      });
+        .then(res => {
+          if (!res.ok) throw new Error(`Status ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          output.textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(err => {
+          output.textContent = "❌ Error:\n" + err;
+        });
     }
   </script>
 </body>
