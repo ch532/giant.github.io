@@ -274,6 +274,12 @@
   </style>
 </head>
 <body>
+  <!-- Custom Install Banner -->
+<div id="customInstallBanner" style="display:none; position: fixed; top: 0; left: 0; right: 0; background: #fffbe6; padding: 12px; text-align: center; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+  <span style="font-weight: bold;">Install Connect Gold App</span>
+  <a id="triggerInstall" style="margin-left: 15px; color: #007bff; cursor: pointer; text-decoration: underline;">Install</a>
+</div>
+
   
  <!-- Sidebar -->
 <nav id="sidebar" aria-label="Sidebar Navigation">
@@ -492,6 +498,34 @@
   checkVersion();
   setInterval(checkVersion, 1000 * 60 * 10);
 </script>
+
+    <script>
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // Show the install banner
+    document.getElementById('customInstallBanner').style.display = 'block';
+
+    // When the user clicks "Install"
+    document.getElementById('triggerInstall').addEventListener('click', () => {
+      document.getElementById('customInstallBanner').style.display = 'none';
+      deferredPrompt.prompt();
+
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        deferredPrompt = null;
+      });
+    });
+  });
+</script>
+
 
     <script src="script.js" defer></script>
     
