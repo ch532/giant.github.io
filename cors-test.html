@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CORS Proxy Test</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+  <h2>🌐 Test Your CORS Proxy</h2>
+  <p>Click the button below to fetch data via your CORS proxy.</p>
+  <button onclick="testCORS()" style="padding: 10px 20px; font-size: 16px;">Test Proxy</button>
+  <pre id="result" style="margin-top: 20px; background: #f4f4f4; padding: 10px; text-align: left;"></pre>
+
+  <script>
+    function testCORS() {
+      const proxy = 'http://10.14.90.159:8080/';
+      const target = 'https://jsonplaceholder.typicode.com/posts/1';
+      
+      fetch(proxy + target, {
+        headers: {
+          'Origin': 'http://localhost'
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        document.getElementById('result').textContent = 'Error:\n' + err;
+      });
+    }
+  </script>
+</body>
+</html>
