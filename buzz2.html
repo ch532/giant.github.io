@@ -96,8 +96,16 @@
     </nav>
   </header>
 
-  <div class='sk-ww-twitter-feed' data-embed-id='25568245'></div><script src='https://widgets.sociablekit.com/twitter-feed/widget.js' defer></script>
-
+  
+  <div style="text-align: center">
+    <iframe
+    height=410
+    width=340
+    title="Xe FX widget"
+    src="https://www.xe.com/currencyconverter/fx-widget?amount=1&from=USD&to=EUR&link=https%3A%2F%2Fwww.xe.com&ctaName=Convert"
+    frameborder="0"
+    ></iframe>
+  </div>
 
   
   
@@ -105,9 +113,25 @@
  <a href="https://otieu.com/4/9450314">Check latest offers</a>
   </div>
 
-  <div class='sk-tiktok-feed' data-embed-id='25568251'></div><script src='https://widgets.sociablekit.com/tiktok-feed/widget.js' defer></script>
+<iframe
+  title="fx"
+  src="https://wise.com/gb/currency-converter/fx-widget/converter?sourceCurrency=NGN&targetCurrency=USD&ctaVariant=CONVERT&ctaLink=https%3A%2F%2Fwise.com%2Finvite%2Fmic%2Fchibuikeo110%3Fsub_id%3Dmeta_facebook%26utm_source%3Dmeta%26utm_medium%3Dad%26utm_campaign%3Daffiliate_click%26clickid%3D%7BCLICK_"
+  height=490
+  width=100%
+  frameBorder="0"
+  allowtransparency="true"
+></iframe>
+  <script>
+    const frames = document.querySelectorAll('iframe');
+    const widgetFrame = frames[frames.length - 1];
+    window.addEventListener('message', message => {
+      if (message.source !== widgetFrame.contentWindow) {
+      return;
+      }
+      widgetFrame.setAttribute('height', message.data.height);
+    });
+  </script>
   
-
   <div class="ad">
   <script>
 (function(iylts){
@@ -124,10 +148,45 @@ l.parentNode.insertBefore(s, l);
   </div>
 
   
- <div data-key="Detailed Weather" class="ft" id="ftpwhfdrn">
- </div>
- <script src="https://wdg.fouita.com/widgets/0x266693.js"></script>
- 
+ <script>
+        (function(d, s, id) {
+            if (d.getElementById(id)) {
+                if (window.__TOMORROW__) {
+                    window.__TOMORROW__.renderWidget();
+                }
+                return;
+            }
+            const fjs = d.getElementsByTagName(s)[0];
+            const js = d.createElement(s);
+            js.id = id;
+            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+
+            fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'tomorrow-sdk');
+        </script>
+
+        <div class="tomorrow"
+           data-location-id="076749,076749,076749,076749,076749,076749"
+           data-language="EN"
+           data-unit-system="METRIC"
+           data-skin="light"
+           data-widget-type="current6"
+           style="padding-bottom:22px;position:relative;"
+        >
+          <a
+            href="https://weather.tomorrow.io/"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+          >
+            <img
+              alt="Powered by Tomorrow.io"
+              src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
+              width="250"
+              height="18"
+            />
+          </a>
+        </div>
 
   <div class="cta">
     <a href="buzz3.html">👉 Read More</a>
