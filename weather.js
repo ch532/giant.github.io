@@ -1,7 +1,7 @@
 // weather.js
 
-async function fetchWeather(city = 'Abuja') {
-  const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+async function fetchWeather(country = 'Nigeria') {
+  const apiKey = 'a65d564a892d82cd09d48a43888a1139';
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
   try {
