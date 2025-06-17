@@ -1,17 +1,15 @@
-// Your API keys
+// API keys
 const openWeatherApiKey = 'a65d564a892d82cd09d48a43888a1139';
 const newsApiKey = '38c80c8927e247a7878a2b3c28c0de00';
-const newsDataApiKey = 'pub_030e9a25dd4542d58c4d9704b524014b';
 
-// Containers from your HTML
+// Containers
 const generalNewsContainer = document.getElementById('general-news-container');
 const sportsNewsContainer = document.getElementById('sports-news-container');
 const weatherContainer = document.getElementById('weather-container');
-const newsDataContainer = document.getElementById('newsdata-news-container');
 
 // Fetch and display weather for multiple Nigerian cities
 async function fetchWeatherForCities(cities) {
-  weatherContainer.innerHTML = ''; // Clear previous data
+  weatherContainer.innerHTML = '';
   for (const city of cities) {
     try {
       let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${openWeatherApiKey}&units=metric`);
@@ -28,7 +26,7 @@ async function fetchWeatherForCities(cities) {
   }
 }
 
-// Fetch general news (NewsAPI example)
+// Fetch general news (NewsAPI)
 async function fetchGeneralNews() {
   try {
     let response = await fetch(`https://newsapi.org/v2/top-headlines?country=ng&category=general&apiKey=${newsApiKey}`);
@@ -40,7 +38,7 @@ async function fetchGeneralNews() {
   }
 }
 
-// Fetch sports & entertainment news (NewsAPI example)
+// Fetch sports & entertainment news (NewsAPI)
 async function fetchSportsNews() {
   try {
     let response = await fetch(`https://newsapi.org/v2/top-headlines?country=ng&category=sports&apiKey=${newsApiKey}`);
@@ -52,28 +50,7 @@ async function fetchSportsNews() {
   }
 }
 
-// Fetch news from NewsData.io
-async function fetchNewsDataNews() {
-  try {
-    // Nigeria general news
-    let urlNg = `https://newsdata.io/api/1/news?apikey=${newsDataApiKey}&country=ng&category=general&page=1`;
-    let responseNg = await fetch(urlNg);
-    let dataNg = await responseNg.json();
-
-    // World general news
-    let urlWorld = `https://newsdata.io/api/1/news?apikey=${newsDataApiKey}&category=general&page=1`;
-    let responseWorld = await fetch(urlWorld);
-    let dataWorld = await responseWorld.json();
-
-    displayNews(dataNg.results, newsDataContainer, 'NewsData.io Nigeria News');
-    displayNews(dataWorld.results, newsDataContainer, 'NewsData.io World News');
-  } catch (error) {
-    newsDataContainer.innerHTML = 'Error loading NewsData.io news.';
-    console.error(error);
-  }
-}
-
-// Helper function to render news articles
+// Helper to render news articles
 function displayNews(articles, container, heading) {
   if (!articles || articles.length === 0) {
     container.innerHTML += `<h3>${heading}</h3><p>No news found.</p>`;
@@ -83,7 +60,7 @@ function displayNews(articles, container, heading) {
   let html = `<h3>${heading}</h3><ul>`;
   articles.forEach(article => {
     const title = article.title || article.name || 'No title';
-    const url = article.link || article.url || '#';
+    const url = article.url || '#';
     html += `<li><a href="${url}" target="_blank" rel="noopener">${title}</a></li>`;
   });
   html += '</ul>';
@@ -91,15 +68,13 @@ function displayNews(articles, container, heading) {
   container.innerHTML += html;
 }
 
-// Initialize everything
+// Initialize app
 function initializeApp() {
-  const cities = ['Lagos', 'Abuja', 'Port Harcourt', 'Kano']; // Your cities for weather
-
+  const cities = ['Lagos', 'Abuja', 'Port Harcourt', 'Kano'];
   fetchWeatherForCities(cities);
   fetchGeneralNews();
   fetchSportsNews();
-  fetchNewsDataNews();
+  // NewsData.io and Mediastack removed
 }
 
-// Run on page load
 window.onload = initializeApp;
