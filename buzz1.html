@@ -125,62 +125,7 @@ src="https://www.facebook.com/tr?id=1138434231424157&ev=PageView&noscript=1"
       </a>
     </div>
 
-    <div id="product-container"></div>
-
-<script>
-  fetch('/products.json')  // <-- Replace this URL with your actual JSON file location
-    .then(response => response.json())
-    .then(data => {
-      const product = data.resp_result.result.products[0]; // Display first product only
-
-      const html = `
-        <div style="border: 1px solid #ccc; padding: 15px; max-width: 300px; font-family: sans-serif;">
-          <img src="${product.product_main_image_url}" alt="Product Image" style="width: 100%; border-radius: 8px;">
-          <h3 style="font-size: 16px; margin: 10px 0;">${product.product_title}</h3>
-          <p><strong>Price:</strong> $${product.sale_price} <del>$${product.original_price}</del></p>
-          <p style="color: green;"><strong>Discount:</strong> ${product.discount}</p>
-          <p><strong>Store:</strong> ${product.shop_name}</p>
-          <a href="${product.promotion_link}" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px; background: gold; color: black; text-decoration: none; border-radius: 5px;">Buy Now</a>
-        </div>
-      `;
-
-      document.getElementById('product-container').innerHTML = html;
-    })
-    .catch(err => console.error('Failed to load product:', err));
-</script>
-
-    <body>
-  <h2>Trip.com Affiliate Signature Generator</h2>
-  <pre id="output"></pre>
-
-  <script>
-    async function generateSignature() {
-      const allianceId = '12345';
-      const sid = '987654';
-      const userKey = 'af85s54f66s4fd5s64f112sf25';
-      const icode = '5fd08a3e30c14fd49c5f4b11a6094b83';
-      const uuid = crypto.randomUUID().replace(/-/g, '');
-
-      const data = `aid=${allianceId}&sid=${sid}&userkey=${userKey}&icode=${icode}&uuid=${uuid}`;
-
-      const encoder = new TextEncoder();
-      const dataBuffer = encoder.encode(data);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const signature = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-      const output = {
-        uuid,
-        data,
-        signature
-      };
-
-      document.getElementById('output').textContent = JSON.stringify(output, null, 2);
-    }
-
-    generateSignature();
-  </script>
-</body>
+    
 
 
     <div class="partner">
@@ -230,7 +175,7 @@ src="https://www.facebook.com/tr?id=1138434231424157&ev=PageView&noscript=1"
       </a>
     </div>
 
-  </div>
+  
 
   <footer>
     <p>&copy; 2025 Connect Gold. All rights reserved.</p>
