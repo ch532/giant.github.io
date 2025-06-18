@@ -104,103 +104,174 @@
 
 <script async src="https://tpemb.com/content?currency=usd&trs=421109&shmarker=589064&locale=en&powered_by=true&limit=3&primary_color=00AE98&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111" charset="utf-8"></script>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Enhanced Google Map</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      #map {
-        height: 100vh;
-        width: 100%;
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Travel Map</title>
+  <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet" />
+  <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f8f8f8; }
+    #map { height: 500px; width: 100%; }
+    .box, .controls {
+      max-width: 650px;
+      margin: 15px auto;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .controls input, .controls select {
+      padding: 8px;
+      font-size: 1rem;
+      width: 65%;
+    }
+    .controls button {
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box" id="weatherInfo">⛅ Loading current weather...</div>
+<div class="box" id="destWeatherInfo"></div>
+
+<div class="controls">
+  <input type="text" id="destinationInput" placeholder="Enter destination (e.g. Paris, Tokyo)" />
+  <select id="languageSelect">
+    <option value="en">English</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
+    <option value="es">Español</option>
+    <option value="ru">Русский</option>
+  </select>
+  <button onclick="routeToDestination()">Route</button>
+</div>
+
+<div class="box" id="routeInfo">🧭 Waiting for destination...</div>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.vectorgrid"></script>
+
+<script>
+const openRouteKey = "5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2";
+const weatherKey = "a65d564a892d82cd09d48a43888a1139";
+const maptilerKey = "c7mcIDrue1F8v9qGtlXH";
+
+let map = L.map('map').setView([0, 0], 2);
+let userLat = 0, userLng = 0;
+let routeLayer, userMarker;
+
+function initMap(language = 'en') {
+  map.eachLayer(layer => map.removeLayer(layer));
+
+  L.tileLayer(`https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${maptilerKey}&language=${language}`, {
+    tileSize: 512,
+    zoomOffset: -1,
+    attribution: '© MapTiler © OpenStreetMap'
+  }).addTo(map);
+
+  L.vectorGrid.protobuf(`https://api.maptiler.com/tiles/v3/tiles.json?key=${maptilerKey}`, {
+    vectorTileLayerStyles: {
+      building: {
+        fill: "#999",
+        fillOpacity: 0.7,
+        weight: 1
       }
-      #locateBtn {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: gold;
-        padding: 10px 16px;
-        z-index: 999;
-        border: none;
-        cursor: pointer;
-        border-radius: 6px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <button id="locateBtn">📍 Show My Location</button>
-    <div id="map"></div>
+    },
+    interactive: false
+  }).addTo(map);
+}
 
-    <script>
-      let map, userMarker, directionsService, directionsRenderer;
+function getWeather(lat, lon, boxId) {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`)
+    .then(res => res.json())
+    .then(data => {
+      const temp = data.main.temp;
+      const city = data.name;
+      const desc = data.weather[0].description;
+      const icon = data.weather[0].icon;
+      document.getElementById(boxId).innerHTML =
+        `🌦️ <strong>${city}</strong>: ${temp}°C, ${desc}
+         <img src="https://openweathermap.org/img/wn/${icon}.png" style="vertical-align:middle">`;
+    });
+}
 
-      function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-          center: { lat: 20, lng: 0 }, // World view
-          zoom: 2,
-          mapTypeControl: true,
-          streetViewControl: true,
-          fullscreenControl: true,
-        });
+function getUserLocation(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      map.setView([userLat, userLng], 5);
+      if (userMarker) map.removeLayer(userMarker);
+      userMarker = L.marker([userLat, userLng]).addTo(map).bindPopup("📍 You are here").openPopup();
+      getWeather(userLat, userLng, 'weatherInfo');
+      if (callback) callback();
+    }, () => {
+      document.getElementById("weatherInfo").innerText = "Location access denied.";
+    });
+  }
+}
 
-        directionsService = new google.maps.DirectionsService();
-        directionsRenderer = new google.maps.DirectionsRenderer();
-        directionsRenderer.setMap(map);
+async function routeToDestination() {
+  const place = document.getElementById("destinationInput").value;
+  const language = document.getElementById("languageSelect").value;
+  initMap(language);
 
-        document.getElementById("locateBtn").addEventListener("click", () => {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const userPos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
-                };
+  if (!place) return alert("Please enter a destination.");
 
-                if (userMarker) userMarker.setMap(null);
+  const geoURL = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+  const res = await fetch(geoURL);
+  const data = await res.json();
+  if (!data.length) return alert("Place not found.");
 
-                userMarker = new google.maps.Marker({
-                  position: userPos,
-                  map: map,
-                  title: "You are here",
-                  icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-                });
+  const destLat = parseFloat(data[0].lat);
+  const destLng = parseFloat(data[0].lon);
+  getWeather(destLat, destLng, 'destWeatherInfo');
 
-                map.setCenter(userPos);
-                map.setZoom(14);
+  fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${openRouteKey}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ coordinates: [[userLng, userLat], [destLng, destLat]] })
+  })
+    .then(res => res.json())
+    .then(data => {
+      const coords = data.features[0].geometry.coordinates.map(c => [c[1], c[0]]);
+      if (routeLayer) map.removeLayer(routeLayer);
+      routeLayer = L.polyline(coords, { color: 'blue', weight: 5 }).addTo(map);
+      map.fitBounds(routeLayer.getBounds());
 
-                // Optional: route to a fixed location (e.g., Eiffel Tower)
-                const destination = { lat: 48.8584, lng: 2.2945 };
-                directionsService.route(
-                  {
-                    origin: userPos,
-                    destination: destination,
-                    travelMode: "DRIVING",
-                  },
-                  (result, status) => {
-                    if (status === "OK") {
-                      directionsRenderer.setDirections(result);
-                    } else {
-                      alert("Directions request failed: " + status);
-                    }
-                  }
-                );
-              },
-              () => alert("Geolocation failed.")
-            );
-          } else {
-            alert("Geolocation is not supported by your browser.");
-          }
-        });
-      }
-    </script>
-    <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHEbfvQRrfBusxieWANTAzvsccvga9QP8&callback=initMap">
-    </script>
-  </body>
+      const dist = data.features[0].properties.summary.distance / 1000;
+      const dur = data.features[0].properties.summary.duration / 60;
+      document.getElementById("routeInfo").innerText = `🛣️ ${dist.toFixed(1)} km, ⏱️ ${dur.toFixed(1)} mins`;
+    });
+}
+
+// Initial setup
+getUserLocation();
+initMap();
+
+// Auto-refresh every 3 minutes
+setInterval(() => {
+  getUserLocation(() => {
+    if (document.getElementById('destinationInput').value.trim()) {
+      routeToDestination();
+    }
+  });
+}, 1000 * 60 * 3);
+</script>
+
+</body>
 </html>
-  
+                    
   <footer>
     &copy; 2025 Connect Gold. All rights reserved.
   </footer>
