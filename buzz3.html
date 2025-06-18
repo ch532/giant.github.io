@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+  .live-news-item {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .live-news-title {
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #0a74da;
+  }
+  .live-news-date {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 5px 0;
+  }
+  .live-news-summary {
+    display: none;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-top: 5px;
+    color: #333;
+  }
+</style>
   <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
@@ -91,6 +116,7 @@
  <script async src="https://cse.google.com/cse.js?cx=c1a8085d72f824bf3">
 </script>
 <div class="gcse-search"></div>
+
   
 <div class="ad-slot">
   <a href="https://www.profitableratecpm.com/r2cei1t0zb?key=7b061c3314f23f323e910b8459e7f9bc" class="ad-button" target="_blank" rel="nofollow">
@@ -119,7 +145,106 @@
   
   <div id="scoreaxis-widget-02be6" style="border-width:1px;border-color:rgba(0, 0, 0, 0.15);border-style:solid;border-radius:8px;padding:10px;background:rgb(255, 255, 255);width:100%"><iframe id="Iframe" src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=1&amp;inst=02be6" style="width:100%;border:none;transition:all 300ms ease"></iframe><script>window.addEventListener("DOMContentLoaded",event=>{window.addEventListener("message",event=>{if(event.data.appHeight&&"02be6"==event.data.inst){let container=document.querySelector("#scoreaxis-widget-02be6 iframe");container&&(container.style.height=parseInt(event.data.appHeight)+"px")}},!1)});</script></div><div style="font-size: 12px; font-family: Arial, sans-serif; text-align: left;">Data provided by <a target="_blank" href="https://www.scoreaxis.com/">Scoreaxis</a></div>
 
-  
+  <div id="news-feed" style="max-width: 700px; margin: 20px auto; font-family: Arial, sans-serif;">
+  <h2 style="text-align:center; color: #222;">🌍 Latest News (Auto-Refresh)</h2>
+  <div id="feed-entries">Loading news...</div>
+</div>
+
+<script>
+  const feeds = [
+    { name: "BBC", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
+    { name: "ChannelsTV", url: "https://www.channelstv.com/feed/" }
+  ];
+
+  async function fetchFeed(url) {
+    const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(url);
+    const res = await fetch(proxy);
+    const data = await res.json();
+    const parser = new DOMParser();
+    return parser.parseFromString(data.contents, "text/xml");
+  }
+
+  function formatTime(pubDate) {
+    const date = new Date(pubDate);
+    return date.toLocaleString("en-GB", { hour12: true });
+  }
+
+  function renderNews(items) {
+    const container = document.getElementById("feed-entries");
+    container.innerHTML = "";
+
+    items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+    items.forEach(({ title, link, description, pubDate, source }) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = "background:#f9f9f9; margin-bottom:12px; padding:12px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);";
+
+      const heading = document.createElement("h3");
+      heading.textContent = `${title} — (${source})`;
+      heading.style.cssText = "font-size:16px; margin-bottom:6px;";
+
+      const timestamp = document.createElement("small");
+      timestamp.textContent = `🕒 ${formatTime(pubDate)}`;
+      timestamp.style.cssText = "display:block; margin-bottom:6px; color:#555;";
+
+      const toggle = document.createElement("button");
+      toggle.textContent = "Expand";
+      toggle.style.cssText = "margin-top:4px; background:#007bff; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;";
+      
+      const preview = document.createElement("div");
+      preview.innerHTML = description;
+      preview.style.display = "none";
+      preview.style.marginTop = "8px";
+
+      toggle.addEventListener("click", () => {
+        preview.style.display = preview.style.display === "none" ? "block" : "none";
+        toggle.textContent = preview.style.display === "none" ? "Expand" : "Collapse";
+      });
+
+      const linkEl = document.createElement("a");
+      linkEl.href = link;
+      linkEl.target = "_blank";
+      linkEl.style.display = "inline-block";
+      linkEl.style.marginTop = "6px";
+      linkEl.style.color = "#007bff";
+      linkEl.textContent = "🔗 Open Full Story";
+
+      wrapper.appendChild(heading);
+      wrapper.appendChild(timestamp);
+      wrapper.appendChild(toggle);
+      wrapper.appendChild(preview);
+      wrapper.appendChild(linkEl);
+      container.appendChild(wrapper);
+    });
+  }
+
+  async function updateFeeds() {
+    let allItems = [];
+
+    for (const feed of feeds) {
+      try {
+        const xml = await fetchFeed(feed.url);
+        const items = xml.querySelectorAll("item");
+        items.forEach(item => {
+          allItems.push({
+            title: item.querySelector("title").textContent,
+            link: item.querySelector("link").textContent,
+            description: item.querySelector("description")?.textContent || "No preview available.",
+            pubDate: item.querySelector("pubDate")?.textContent || new Date().toString(),
+            source: feed.name
+          });
+        });
+      } catch (err) {
+        console.error("Feed error:", feed.name, err);
+      }
+    }
+
+    renderNews(allItems);
+  }
+
+  updateFeeds();
+  setInterval(updateFeeds, 5 * 60 * 1000); // Refresh every 5 minutes
+</script>
 
 <footer>
   &copy; 2025 Connect Gold. All rights reserved.
