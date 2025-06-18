@@ -1,27 +1,56 @@
-const CACHE_NAME = 'connectgold-cache-v1.8.0';
+const CACHE_NAME = 'connectgold-cache-v1.9.0';
 const urlsToCache = [
-  '/',
+  // DO NOT CACHE '/' or 'index.html' to avoid outdated homepage
   '/manifest.json',
   '/connect gold (1).png',
   '/gold (2).png'
-  // Add other assets you want cached here
 ];
 
+// Install Event
 self.addEventListener('install', event => {
+  console.log('Service worker installed.');
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
+// Activate Event
+self.addEventListener('activate', event => {
+  console.log('Service worker activated.');
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
+    )
+  );
+});
+
+// Unified Fetch Listener
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // Don't cache index.html or navigation
+  if (
+    event.request.mode === 'navigate' ||
+    url.pathname === '/' ||
+    url.pathname === '/index.html'
+  ) {
+    return; // Skip caching, fetch live
+  }
+
+  // Serve cached assets if available
   event.respondWith(
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
     })
   );
 });
+
 // Background Sync
 self.addEventListener('sync', event => {
   if (event.tag === 'affiliate-sync') {
@@ -72,23 +101,17 @@ self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(clients.openWindow(event.notification.data.url));
 });
+
+// Share Target Handling (POST to /share-target.html)
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-
-  // Check if this is a POST to /share-target.html
   if (url.pathname === '/share-target.html' && event.request.method === 'POST') {
     event.respondWith(
       (async () => {
-        // Clone the request to read its body
         const formData = await event.request.formData();
-
-        // Extract shared data from formData
         const title = formData.get('title') || '';
         const text = formData.get('text') || '';
         const sharedUrl = formData.get('url') || '';
-
-        // You can now save, show, or handle this data as you want
-        // For demo, build a simple HTML response showing the data
 
         const html = `
           <!DOCTYPE html>
@@ -109,16 +132,4 @@ self.addEventListener('fetch', event => {
       })()
     );
   }
-});
-self.addEventListener('install', (event) => {
-  console.log('Service worker installed.');
-});
-
-self.addEventListener('activate', (event) => {
-  console.log('Service worker activated.');
-});
-
-self.addEventListener('fetch', (event) => {
-  // No offline caching
-  return;
 });
