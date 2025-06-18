@@ -298,7 +298,12 @@
   <a href="contact.html">Contact</a>
   <a href="terms.html">Terms</a>
  </nav>
-
+<!-- 🔔 Install Banner -->
+<div id="installBanner" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; padding: 15px; background: #222; color: #fff; text-align: center; z-index: 9999; border-radius: 8px;">
+  <p style="margin: 0 0 10px;">📲 Install Connect Gold for faster access.</p>
+  <button id="installBtn" style="margin-right: 10px; padding: 8px 15px;">Install</button>
+  <button onclick="dismissBanner()" style="padding: 8px 15px;">Dismiss</button>
+</div>
 <div style="flex-grow:1; display:flex; flex-direction: column; min-height: 100vh;">
 
   <header>
@@ -399,39 +404,7 @@
 
 <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
     
-    <script>
-  if ('serviceWorker' in navigator) {
-    // ✅ First, unregister ALL old service workers to remove outdated caches
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-      for (let registration of registrations) {
-        registration.unregister();
-        console.log('Old Service Worker unregistered');
-      }
-    });
-
-    // ✅ Then register the new one fresh
-    navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
-      console.log('Service Worker Registered');
-
-      registration.onupdatefound = function () {
-        const installingWorker = registration.installing;
-        installingWorker.onstatechange = function () {
-          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            const updateNotice = document.createElement('div');
-            updateNotice.style.cssText = `
-              position: fixed; bottom: 20px; left: 20px; right: 20px; padding: 15px;
-              background: #0a74da; color: white; font-weight: bold; text-align: center;
-              border-radius: 8px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            `;
-            updateNotice.innerText = "🔄 A new version is available. Tap to refresh.";
-            updateNotice.onclick = () => location.reload(true);
-            document.body.appendChild(updateNotice);
-          }
-        };
-      };
-    }).catch(err => console.error('Service Worker registration failed:', err));
-  }
-    </script>
+    
 
     
 
@@ -447,13 +420,12 @@
     </div>
 
     <script>
-  let deferredPrompt;
+  let deferredPrompt = null;
 
+  // PWA install prompt logic
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-
-    // Show banner after 5 seconds
     setTimeout(() => {
       if (!window.matchMedia('(display-mode: standalone)').matches) {
         document.getElementById('installBanner').style.display = 'block';
@@ -479,8 +451,52 @@
   function dismissBanner() {
     document.getElementById('installBanner').style.display = 'none';
   }
-</script>
 
+  // Register Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+      console.log('Service Worker Registered');
+
+      registration.onupdatefound = function () {
+        const installing = registration.installing;
+        installing.onstatechange = function () {
+          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+            const notice = document.createElement('div');
+            notice.innerText = '🔄 New version available. Tap to refresh.';
+            notice.style = 'position:fixed;bottom:80px;left:20px;right:20px;padding:15px;background:#0a74da;color:white;text-align:center;font-weight:bold;border-radius:8px;z-index:10000;cursor:pointer;';
+            notice.onclick = () => window.location.reload(true);
+            document.body.appendChild(notice);
+          }
+        };
+      };
+    }).catch(err => {
+      console.error('Service Worker registration failed:', err);
+    });
+  }
+
+  // Optional: version.json check (backend should serve { "version": "1.0.0" })
+  async function checkVersion() {
+    try {
+      const response = await fetch('/version.json', { cache: "no-store" });
+      const data = await response.json();
+      const current = localStorage.getItem('appVersion');
+
+      if (data.version && current !== data.version) {
+        localStorage.setItem('appVersion', data.version);
+        const banner = document.createElement('div');
+        banner.textContent = '🔄 New update found! Tap to refresh.';
+        banner.style = 'position:fixed;bottom:120px;left:20px;right:20px;padding:12px;background:#007bff;color:white;text-align:center;font-weight:bold;cursor:pointer;border-radius:8px;z-index:10000;';
+        banner.onclick = () => window.location.reload(true);
+        document.body.appendChild(banner);
+      }
+    } catch (error) {
+      console.error('Version check failed:', error);
+    }
+  }
+
+  checkVersion();
+  setInterval(checkVersion, 1000 * 60 * 10); // Check every 10 mins
+    </script>
 
     <footer>
       &copy; 2025 Connect Gold. All rights reserved. | Powered by Chyke22
