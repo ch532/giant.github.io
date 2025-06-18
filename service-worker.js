@@ -1,52 +1,43 @@
-const CACHE_NAME = 'connectgold-cache-v2.0.0';
+const CACHE_NAME = 'connectgold-cache-v2.0.0'; // 🔁 Bump this when updating
 const urlsToCache = [
-  // DO NOT CACHE '/' or 'index.html' to avoid outdated homepage
   '/manifest.json',
   '/connect gold (1).png',
-  '/gold (2).png'
+  '/gold (2).png',
+  // Add more static files (but NOT the homepage!)
 ];
 
-// Install Event
+// Install & cache only static assets (not homepage)
 self.addEventListener('install', event => {
-  console.log('Service worker installed.');
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
 
-// Activate Event
+// Clean old caches
 self.addEventListener('activate', event => {
-  console.log('Service worker activated.');
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
+      Promise.all(keys.map(key => {
+        if (key !== CACHE_NAME) return caches.delete(key);
+      }))
     )
   );
+  self.clients.claim();
 });
 
-// Unified Fetch Listener
+// ⚠️ Do not cache index.html or homepage
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Don't cache index.html or navigation
-  if (
-    event.request.mode === 'navigate' ||
-    url.pathname === '/' ||
-    url.pathname === '/index.html'
-  ) {
-    return; // Skip caching, fetch live
+  if (url.pathname === '/' || url.pathname === '/index.html') {
+    return; // Always fetch live homepage
   }
 
-  // Serve cached assets if available
+  // Cache-first for assets only
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request);
     })
   );
 });
@@ -62,7 +53,7 @@ async function syncAffiliateClicks() {
   try {
     await fetch('/sync-affiliate-clicks');
   } catch (err) {
-    console.error('Sync failed', err);
+    console.error('Sync failed:', err);
   }
 }
 
@@ -79,7 +70,7 @@ async function refreshBuzzContent() {
     const data = await res.json();
     console.log('Buzz refreshed', data);
   } catch (err) {
-    console.error('Periodic sync failed', err);
+    console.error('Buzz sync failed:', err);
   }
 }
 
@@ -102,9 +93,10 @@ self.addEventListener('notificationclick', event => {
   event.waitUntil(clients.openWindow(event.notification.data.url));
 });
 
-// Share Target Handling (POST to /share-target.html)
+// Share Target Handling
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
+
   if (url.pathname === '/share-target.html' && event.request.method === 'POST') {
     event.respondWith(
       (async () => {
@@ -116,9 +108,9 @@ self.addEventListener('fetch', event => {
         const html = `
           <!DOCTYPE html>
           <html lang="en">
-          <head><title>Shared Content Received</title></head>
+          <head><title>Shared Content</title></head>
           <body>
-            <h1>Content Shared to Connect Gold</h1>
+            <h1>Shared to Connect Gold</h1>
             <p><strong>Title:</strong> ${title}</p>
             <p><strong>Text:</strong> ${text}</p>
             <p><strong>URL:</strong> <a href="${sharedUrl}" target="_blank">${sharedUrl}</a></p>
