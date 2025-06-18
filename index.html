@@ -523,18 +523,17 @@
       const data = await response.json();
       const current = localStorage.getItem('appVersion');
 
-      if (data.version && current !== data.version) {
-        localStorage.setItem('appVersion', data.version);
-        const banner = document.createElement('div');
-        banner.textContent = '🔄 New update found! Tap to refresh.';
-        banner.style = 'position:fixed;bottom:120px;left:20px;right:20px;padding:12px;background:#007bff;color:white;text-align:center;font-weight:bold;cursor:pointer;border-radius:8px;z-index:10000;';
-        banner.onclick = () => window.location.reload(true);
-        document.body.appendChild(banner);
-      }
-    } catch (error) {
-      console.error('Version check failed:', error);
-    }
-  }
+if (data.version && current && current !== data.version) {
+  localStorage.setItem('appVersion', data.version);
+  const banner = document.createElement('div');
+  banner.textContent = '🔄 New update found! Tap to refresh.';
+  banner.style = 'position:fixed;bottom:120px;left:20px;right:20px;padding:12px;background:#007bff;color:white;text-align:center;font-weight:bold;cursor:pointer;border-radius:8px;z-index:10000;';
+  banner.onclick = () => window.location.reload(true);
+  document.body.appendChild(banner);
+} else if (!current) {
+  // First-time user or cleared storage: set version silently
+  localStorage.setItem('appVersion', data.version);
+}
 
   checkVersion();
   setInterval(checkVersion, 1000 * 60 * 10); // Check every 10 mins
