@@ -1,31 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style>
-  .live-news-item {
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  .live-news-title {
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #0a74da;
-  }
-  .live-news-date {
-    font-size: 0.8rem;
-    color: #666;
-    margin: 5px 0;
-  }
-  .live-news-summary {
-    display: none;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-top: 5px;
-    color: #333;
-  }
-</style>
+  
   <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
@@ -145,107 +121,174 @@
   
   <div id="scoreaxis-widget-02be6" style="border-width:1px;border-color:rgba(0, 0, 0, 0.15);border-style:solid;border-radius:8px;padding:10px;background:rgb(255, 255, 255);width:100%"><iframe id="Iframe" src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=1&amp;inst=02be6" style="width:100%;border:none;transition:all 300ms ease"></iframe><script>window.addEventListener("DOMContentLoaded",event=>{window.addEventListener("message",event=>{if(event.data.appHeight&&"02be6"==event.data.inst){let container=document.querySelector("#scoreaxis-widget-02be6 iframe");container&&(container.style.height=parseInt(event.data.appHeight)+"px")}},!1)});</script></div><div style="font-size: 12px; font-family: Arial, sans-serif; text-align: left;">Data provided by <a target="_blank" href="https://www.scoreaxis.com/">Scoreaxis</a></div>
 
-  <div id="news-feed" style="max-width: 700px; margin: 20px auto; font-family: Arial, sans-serif;">
-  <h2 style="text-align:center; color: #222;">🌍 Latest News (Auto-Refresh)</h2>
-  <div id="feed-entries">Loading news...</div>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Travel Map</title>
+  <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet" />
+  <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f8f8f8; }
+    #map { height: 500px; width: 100%; }
+    .box, .controls {
+      max-width: 650px;
+      margin: 15px auto;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .controls input, .controls select {
+      padding: 8px;
+      font-size: 1rem;
+      width: 65%;
+    }
+    .controls button {
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box" id="weatherInfo">⛅ Loading current weather...</div>
+<div class="box" id="destWeatherInfo"></div>
+
+<div class="controls">
+  <input type="text" id="destinationInput" placeholder="Enter destination (e.g. Paris, Tokyo)" />
+  <select id="languageSelect">
+    <option value="en">English</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
+    <option value="es">Español</option>
+    <option value="ru">Русский</option>
+  </select>
+  <button onclick="routeToDestination()">Route</button>
 </div>
 
+<div class="box" id="routeInfo">🧭 Waiting for destination...</div>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.vectorgrid"></script>
+
 <script>
-  const feeds = [
-    { name: "BBC", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-    { name: "ChannelsTV", url: "https://www.channelstv.com/feed/" }
-  ];
+const openRouteKey = "5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2";
+const weatherKey = "a65d564a892d82cd09d48a43888a1139";
+const maptilerKey = "c7mcIDrue1F8v9qGtlXH";
 
-  async function fetchFeed(url) {
-    const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(url);
-    const res = await fetch(proxy);
-    const data = await res.json();
-    const parser = new DOMParser();
-    return parser.parseFromString(data.contents, "text/xml");
-  }
+let map = L.map('map').setView([0, 0], 2);
+let userLat = 0, userLng = 0;
+let routeLayer, userMarker;
 
-  function formatTime(pubDate) {
-    const date = new Date(pubDate);
-    return date.toLocaleString("en-GB", { hour12: true });
-  }
+function initMap(language = 'en') {
+  map.eachLayer(layer => map.removeLayer(layer));
 
-  function renderNews(items) {
-    const container = document.getElementById("feed-entries");
-    container.innerHTML = "";
+  L.tileLayer(`https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${maptilerKey}&language=${language}`, {
+    tileSize: 512,
+    zoomOffset: -1,
+    attribution: '© MapTiler © OpenStreetMap'
+  }).addTo(map);
 
-    items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+  L.vectorGrid.protobuf(`https://api.maptiler.com/tiles/v3/tiles.json?key=${maptilerKey}`, {
+    vectorTileLayerStyles: {
+      building: {
+        fill: "#999",
+        fillOpacity: 0.7,
+        weight: 1
+      }
+    },
+    interactive: false
+  }).addTo(map);
+}
 
-    items.forEach(({ title, link, description, pubDate, source }) => {
-      const wrapper = document.createElement("div");
-      wrapper.style.cssText = "background:#f9f9f9; margin-bottom:12px; padding:12px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);";
+function getWeather(lat, lon, boxId) {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`)
+    .then(res => res.json())
+    .then(data => {
+      const temp = data.main.temp;
+      const city = data.name;
+      const desc = data.weather[0].description;
+      const icon = data.weather[0].icon;
+      document.getElementById(boxId).innerHTML =
+        `🌦️ <strong>${city}</strong>: ${temp}°C, ${desc}
+         <img src="https://openweathermap.org/img/wn/${icon}.png" style="vertical-align:middle">`;
+    });
+}
 
-      const heading = document.createElement("h3");
-      heading.textContent = `${title} — (${source})`;
-      heading.style.cssText = "font-size:16px; margin-bottom:6px;";
-
-      const timestamp = document.createElement("small");
-      timestamp.textContent = `🕒 ${formatTime(pubDate)}`;
-      timestamp.style.cssText = "display:block; margin-bottom:6px; color:#555;";
-
-      const toggle = document.createElement("button");
-      toggle.textContent = "Expand";
-      toggle.style.cssText = "margin-top:4px; background:#007bff; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;";
-      
-      const preview = document.createElement("div");
-      preview.innerHTML = description;
-      preview.style.display = "none";
-      preview.style.marginTop = "8px";
-
-      toggle.addEventListener("click", () => {
-        preview.style.display = preview.style.display === "none" ? "block" : "none";
-        toggle.textContent = preview.style.display === "none" ? "Expand" : "Collapse";
-      });
-
-      const linkEl = document.createElement("a");
-      linkEl.href = link;
-      linkEl.target = "_blank";
-      linkEl.style.display = "inline-block";
-      linkEl.style.marginTop = "6px";
-      linkEl.style.color = "#007bff";
-      linkEl.textContent = "🔗 Open Full Story";
-
-      wrapper.appendChild(heading);
-      wrapper.appendChild(timestamp);
-      wrapper.appendChild(toggle);
-      wrapper.appendChild(preview);
-      wrapper.appendChild(linkEl);
-      container.appendChild(wrapper);
+function getUserLocation(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      map.setView([userLat, userLng], 5);
+      if (userMarker) map.removeLayer(userMarker);
+      userMarker = L.marker([userLat, userLng]).addTo(map).bindPopup("📍 You are here").openPopup();
+      getWeather(userLat, userLng, 'weatherInfo');
+      if (callback) callback();
+    }, () => {
+      document.getElementById("weatherInfo").innerText = "Location access denied.";
     });
   }
+}
 
-  async function updateFeeds() {
-    let allItems = [];
+async function routeToDestination() {
+  const place = document.getElementById("destinationInput").value;
+  const language = document.getElementById("languageSelect").value;
+  initMap(language);
 
-    for (const feed of feeds) {
-      try {
-        const xml = await fetchFeed(feed.url);
-        const items = xml.querySelectorAll("item");
-        items.forEach(item => {
-          allItems.push({
-            title: item.querySelector("title").textContent,
-            link: item.querySelector("link").textContent,
-            description: item.querySelector("description")?.textContent || "No preview available.",
-            pubDate: item.querySelector("pubDate")?.textContent || new Date().toString(),
-            source: feed.name
-          });
-        });
-      } catch (err) {
-        console.error("Feed error:", feed.name, err);
-      }
+  if (!place) return alert("Please enter a destination.");
+
+  const geoURL = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+  const res = await fetch(geoURL);
+  const data = await res.json();
+  if (!data.length) return alert("Place not found.");
+
+  const destLat = parseFloat(data[0].lat);
+  const destLng = parseFloat(data[0].lon);
+  getWeather(destLat, destLng, 'destWeatherInfo');
+
+  fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${openRouteKey}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ coordinates: [[userLng, userLat], [destLng, destLat]] })
+  })
+    .then(res => res.json())
+    .then(data => {
+      const coords = data.features[0].geometry.coordinates.map(c => [c[1], c[0]]);
+      if (routeLayer) map.removeLayer(routeLayer);
+      routeLayer = L.polyline(coords, { color: 'blue', weight: 5 }).addTo(map);
+      map.fitBounds(routeLayer.getBounds());
+
+      const dist = data.features[0].properties.summary.distance / 1000;
+      const dur = data.features[0].properties.summary.duration / 60;
+      document.getElementById("routeInfo").innerText = `🛣️ ${dist.toFixed(1)} km, ⏱️ ${dur.toFixed(1)} mins`;
+    });
+}
+
+// Initial setup
+getUserLocation();
+initMap();
+
+// Auto-refresh every 3 minutes
+setInterval(() => {
+  getUserLocation(() => {
+    if (document.getElementById('destinationInput').value.trim()) {
+      routeToDestination();
     }
-
-    renderNews(allItems);
-  }
-
-  updateFeeds();
-  setInterval(updateFeeds, 5 * 60 * 1000); // Refresh every 5 minutes
+  });
+}, 1000 * 60 * 3);
 </script>
 
+</body>
+</html>
+  
 <footer>
   &copy; 2025 Connect Gold. All rights reserved.
 </footer>
