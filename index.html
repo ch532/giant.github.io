@@ -1,6 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    font-family: sans-serif;
+  }
+
+  img, video, iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+    }
+    .section {
+      width: 48%;
+      margin: 1%;
+    }
+  }
+</style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0a74da" />
 
@@ -274,6 +311,11 @@
   </style>
 </head>
 <body>
+
+  <body>
+  <div class="container">
+    <div class="section">
+  
 <div id="installBanner" style="display:none;" role="dialog" aria-live="polite">
   <div style="background: #333; color: #fff; padding: 16px; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
               box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 9999; border-radius: 8px; text-align: center;">
@@ -545,6 +587,6 @@
   </main>
 
 </div>
-
+    </div>
 </body>
 </html>
