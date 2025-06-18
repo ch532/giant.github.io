@@ -104,171 +104,134 @@
 
 <script async src="https://tpemb.com/content?currency=usd&trs=421109&shmarker=589064&locale=en&powered_by=true&limit=3&primary_color=00AE98&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111" charset="utf-8"></script>
 
- <!DOCTYPE html>
-<html lang="en">
+
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Interactive Travel Map</title>
-  <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet" />
-  <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Map App</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f8f8f8; }
-    #map { height: 500px; width: 100%; }
-    .box, .controls {
-      max-width: 650px;
-      margin: 15px auto;
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.9);
       padding: 10px;
-      background: white;
       border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      font-family: sans-serif;
     }
-    .controls input, .controls select {
-      padding: 8px;
-      font-size: 1rem;
-      width: 65%;
-    }
-    .controls button {
-      padding: 8px 12px;
-      background: #007bff;
-      color: white;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
+    .controls input, .controls select, .controls button {
+      margin: 4px 0;
+      padding: 6px;
+      width: 100%;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 </head>
 <body>
+  <div id="map"></div>
+  <div class="controls">
+    <input type="text" id="destination" placeholder="Enter destination" />
+    <button onclick="routeToDestination()">Get Directions</button>
+    <button onclick="toggleStreetView()">Toggle Street View</button>
+    <button onclick="toggle3DBuildings()">Toggle 3D Buildings</button>
+    <select id="langSelector">
+      <option value="en">English</option>
+      <option value="fr">French</option>
+      <option value="es">Spanish</option>
+    </select>
+    <div id="weatherInfo"></div>
+  </div>
+  <script>
+    let map = L.map('map').setView([20, 0], 2);const tileLayer = L.tileLayer(`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=c7mcIDrue1F8v9qGtlXH`, {
+  attribution: '&copy; MapTiler &copy; OpenStreetMap contributors'
+}).addTo(map);
 
-<div class="box" id="weatherInfo">⛅ Loading current weather...</div>
-<div class="box" id="destWeatherInfo"></div>
+let routingControl;
+let streetViewOn = false;
+let buildingLayer;
+let lang = 'en';
 
-<div class="controls">
-  <input type="text" id="destinationInput" placeholder="Enter destination (e.g. Paris, Tokyo)" />
-  <select id="languageSelect">
-    <option value="en">English</option>
-    <option value="fr">Français</option>
-    <option value="de">Deutsch</option>
-    <option value="es">Español</option>
-    <option value="ru">Русский</option>
-  </select>
-  <button onclick="routeToDestination()">Route</button>
-</div>
+L.Control.geocoder().addTo(map);
 
-<div class="box" id="routeInfo">🧭 Waiting for destination...</div>
-<div id="map"></div>
+navigator.geolocation.getCurrentPosition(pos => {
+  const { latitude, longitude } = pos.coords;
+  map.setView([latitude, longitude], 13);
+  L.marker([latitude, longitude]).addTo(map).bindPopup("You are here").openPopup();
+});
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.vectorgrid"></script>
-
-<script>
-const openRouteKey = "5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2";
-const weatherKey = "a65d564a892d82cd09d48a43888a1139";
-const maptilerKey = "c7mcIDrue1F8v9qGtlXH";
-
-let map = L.map('map').setView([0, 0], 2);
-let userLat = 0, userLng = 0;
-let routeLayer, userMarker;
-
-function initMap(language = 'en') {
-  map.eachLayer(layer => map.removeLayer(layer));
-
-  L.tileLayer(`https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${maptilerKey}&language=${language}`, {
-    tileSize: 512,
-    zoomOffset: -1,
-    attribution: '© MapTiler © OpenStreetMap'
-  }).addTo(map);
-
-  L.vectorGrid.protobuf(`https://api.maptiler.com/tiles/v3/tiles.json?key=${maptilerKey}`, {
-    vectorTileLayerStyles: {
-      building: {
-        fill: "#999",
-        fillOpacity: 0.7,
-        weight: 1
-      }
-    },
-    interactive: false
-  }).addTo(map);
+function routeToDestination() {
+  const dest = document.getElementById('destination').value;
+  if (!dest) return alert("Please enter destination");
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const { latitude, longitude } = pos.coords;
+    if (routingControl) map.removeControl(routingControl);
+    routingControl = L.Routing.control({
+      waypoints: [L.latLng(latitude, longitude), null],
+      routeWhileDragging: false,
+      router: L.Routing.openrouteservice('5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2'),
+      geocoder: L.Control.Geocoder.nominatim(),
+    }).addTo(map);
+    const geocode = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${dest}`);
+    const json = await geocode.json();
+    if (json.length) {
+      const d = json[0];
+      routingControl.setWaypoints([
+        L.latLng(latitude, longitude),
+        L.latLng(d.lat, d.lon)
+      ]);
+      fetchWeather(d.lat, d.lon);
+    }
+  });
 }
 
-function getWeather(lat, lon, boxId) {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`)
+function fetchWeather(lat, lon) {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=a65d564a892d82cd09d48a43888a1139&units=metric`)
     .then(res => res.json())
     .then(data => {
-      const temp = data.main.temp;
-      const city = data.name;
-      const desc = data.weather[0].description;
-      const icon = data.weather[0].icon;
-      document.getElementById(boxId).innerHTML =
-        `🌦️ <strong>${city}</strong>: ${temp}°C, ${desc}
-         <img src="https://openweathermap.org/img/wn/${icon}.png" style="vertical-align:middle">`;
+      const w = data.weather[0].description;
+      const t = data.main.temp;
+      document.getElementById('weatherInfo').innerText = `🌤️ ${w}, 🌡 ${t}°C`;
     });
 }
 
-function getUserLocation(callback) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      userLat = pos.coords.latitude;
-      userLng = pos.coords.longitude;
-      map.setView([userLat, userLng], 5);
-      if (userMarker) map.removeLayer(userMarker);
-      userMarker = L.marker([userLat, userLng]).addTo(map).bindPopup("📍 You are here").openPopup();
-      getWeather(userLat, userLng, 'weatherInfo');
-      if (callback) callback();
-    }, () => {
-      document.getElementById("weatherInfo").innerText = "Location access denied.";
-    });
+function toggleStreetView() {
+  streetViewOn = !streetViewOn;
+  alert(streetViewOn ? "Street View enabled (use Google Maps)" : "Street View disabled");
+}
+
+function toggle3DBuildings() {
+  if (buildingLayer) {
+    map.removeLayer(buildingLayer);
+    buildingLayer = null;
+  } else {
+    buildingLayer = L.tileLayer('https://api.maptiler.com/maps/3d/{z}/{x}/{y}.pbf?key=c7mcIDrue1F8v9qGtlXH');
+    map.addLayer(buildingLayer);
   }
 }
 
-async function routeToDestination() {
-  const place = document.getElementById("destinationInput").value;
-  const language = document.getElementById("languageSelect").value;
-  initMap(language);
-
-  if (!place) return alert("Please enter a destination.");
-
-  const geoURL = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
-  const res = await fetch(geoURL);
-  const data = await res.json();
-  if (!data.length) return alert("Place not found.");
-
-  const destLat = parseFloat(data[0].lat);
-  const destLng = parseFloat(data[0].lon);
-  getWeather(destLat, destLng, 'destWeatherInfo');
-
-  fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${openRouteKey}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ coordinates: [[userLng, userLat], [destLng, destLat]] })
-  })
-    .then(res => res.json())
-    .then(data => {
-      const coords = data.features[0].geometry.coordinates.map(c => [c[1], c[0]]);
-      if (routeLayer) map.removeLayer(routeLayer);
-      routeLayer = L.polyline(coords, { color: 'blue', weight: 5 }).addTo(map);
-      map.fitBounds(routeLayer.getBounds());
-
-      const dist = data.features[0].properties.summary.distance / 1000;
-      const dur = data.features[0].properties.summary.duration / 60;
-      document.getElementById("routeInfo").innerText = `🛣️ ${dist.toFixed(1)} km, ⏱️ ${dur.toFixed(1)} mins`;
-    });
-}
-
-// Initial setup
-getUserLocation();
-initMap();
-
-// Auto-refresh every 3 minutes
 setInterval(() => {
-  getUserLocation(() => {
-    if (document.getElementById('destinationInput').value.trim()) {
-      routeToDestination();
-    }
-  });
-}, 1000 * 60 * 3);
-</script>
+  const dest = document.getElementById('destination').value;
+  if (dest && routingControl) routeToDestination();
+}, 180000);
 
+document.getElementById('langSelector').addEventListener('change', (e) => {
+  lang = e.target.value;
+  alert(`Language switched to ${lang}`);
+});
+
+  </script>
+</body>
+</html>
 </body>
 </html>
                     
