@@ -1,4 +1,4 @@
-const CACHE_NAME = 'connectgold-cache-v1.9.0';
+const CACHE_NAME = 'connectgold-cache-v2.0.0';
 const urlsToCache = [
   // DO NOT CACHE '/' or 'index.html' to avoid outdated homepage
   '/manifest.json',
