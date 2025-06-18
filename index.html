@@ -400,77 +400,38 @@
 <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
     
     <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(() => console.log('Service Worker Registered'))
-          .catch(err => console.error('Service Worker registration failed:', err));
-      }
-    </script>
-    <!-- Service Worker Update Popup -->
-<script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-      registration.onupdatefound = function() {
+    // ✅ First, unregister ALL old service workers to remove outdated caches
+    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+      for (let registration of registrations) {
+        registration.unregister();
+        console.log('Old Service Worker unregistered');
+      }
+    });
+
+    // ✅ Then register the new one fresh
+    navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+      console.log('Service Worker Registered');
+
+      registration.onupdatefound = function () {
         const installingWorker = registration.installing;
-        installingWorker.onstatechange = function() {
-          if (installingWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              // New version available
-              const updateNotice = document.createElement('div');
-              updateNotice.style.cssText = `
-                position: fixed; bottom: 20px; left: 20px; right: 20px; padding: 15px;
-                background: #0a74da; color: white; font-weight: bold; text-align: center;
-                border-radius: 8px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-              `;
-              updateNotice.innerText = "🔄 A new version is available. Tap to refresh.";
-              updateNotice.onclick = () => location.reload(true);
-              document.body.appendChild(updateNotice);
-            }
+        installingWorker.onstatechange = function () {
+          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            const updateNotice = document.createElement('div');
+            updateNotice.style.cssText = `
+              position: fixed; bottom: 20px; left: 20px; right: 20px; padding: 15px;
+              background: #0a74da; color: white; font-weight: bold; text-align: center;
+              border-radius: 8px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            `;
+            updateNotice.innerText = "🔄 A new version is available. Tap to refresh.";
+            updateNotice.onclick = () => location.reload(true);
+            document.body.appendChild(updateNotice);
           }
         };
       };
-    });
+    }).catch(err => console.error('Service Worker registration failed:', err));
   }
-
-</script>
-<script>
-  async function checkVersion() {
-    try {
-      const response = await fetch('/version.json', { cache: "no-store" });
-      const data = await response.json();
-      const currentVersion = localStorage.getItem('appVersion');
-
-      if (currentVersion !== data.version) {
-        localStorage.setItem('appVersion', data.version);
-        showUpdateNotification();
-      }
-    } catch (error) {
-      console.error('Version check failed:', error);
-    }
-  }
-
-  function showUpdateNotification() {
-    const banner = document.createElement('div');
-    banner.style.position = 'fixed';
-    banner.style.bottom = '0';
-    banner.style.left = '0';
-    banner.style.right = '0';
-    banner.style.background = '#007bff';
-    banner.style.color = 'white';
-    banner.style.padding = '12px';
-    banner.style.textAlign = 'center';
-    banner.style.cursor = 'pointer';
-    banner.style.zIndex = '1000';
-    banner.textContent = 'New version available! Click to refresh.';
-
-    banner.onclick = () => window.location.reload();
-
-    document.body.appendChild(banner);
-  }
-
-  checkVersion();
-  setInterval(checkVersion, 1000 * 60 * 10);
-</script>
+    </script>
 
     
 
