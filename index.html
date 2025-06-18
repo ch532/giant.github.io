@@ -498,6 +498,38 @@
   setInterval(checkVersion, 1000 * 60 * 10); // Check every 10 mins
     </script>
 
+<!-- 🔁 Refresh Button -->
+<button id="refreshBtn">🔄 Refresh App</button>
+
+<style>
+  #refreshBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 16px;
+    background: #0a74da;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 9999;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  document.getElementById('refreshBtn').addEventListener('click', () => {
+    // Clear all cache and force reload
+    if ('caches' in window) {
+      caches.keys().then(names => {
+        for (let name of names) caches.delete(name);
+      });
+    }
+    location.reload(true); // Force full reload
+  });
+</script>
+    
     <footer>
       &copy; 2025 Connect Gold. All rights reserved. | Powered by Chyke22
     </footer>
