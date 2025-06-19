@@ -10,12 +10,17 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#f9c311",
-  "icons": [
-    {
-      "src": "/gold-2.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
-}
+"icons": [
+  {
+    "src": "/icons/icon-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any"
+  },
+  {
+    "src": "/gold-2.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "maskable"
+  }
+]
