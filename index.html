@@ -101,41 +101,7 @@ nav a:focus {
     min-height: 100vh;
   }
 
-  header {
-    background: #111;
-    color: gold;
-    padding: 15px;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  }
-
-  /* Navigation Bar */
-  nav {
-    background: #000;
-    padding: 5px 10px;
-    max-height: 50px;
-    overflow-y: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  nav a {
-    display: inline-block;
-    margin: 2px 8px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: white;
-    text-decoration: none;
-  }
-
-  nav a:hover {
-    text-decoration: underline;
-  }
+  
 
   .section {
     padding: 20px;
@@ -149,7 +115,50 @@ nav a:focus {
 
   h2 {
     color: #444;
-    border-left: 4px solid gold;
+    border-left: 4px solid /* Header (fixed at top) */
+header {
+  background: #2196f3;
+  color: white;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation just below header */
+nav {
+  margin-top: 60px; /* space below header */
+  background: #111;
+  padding: 8px 0;
+  text-align: center;
+  position: sticky;
+  top: 48px;
+  z-index: 999;
+}
+
+/* Links inside navigation */
+nav a {
+  display: inline-block;
+  margin: 4px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Body padding to allow full header & nav visibility */
+body {
+  padding-top: 120px; /* Enough space to show header + nav */
+}gold;
     padding-left: 10px;
     margin-bottom: 15px;
   }
