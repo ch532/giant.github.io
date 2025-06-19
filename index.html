@@ -312,6 +312,10 @@ body {
     </nav>
   </header>
 
+  <button id="installBtn" style="padding: 12px 24px; background: #f9c311; border: none; border-radius: 6px; color: #000; font-weight: bold; cursor: pointer;">
+  📥 Install Connect Gold
+</button>
+  
   <header>
   <img src="gold-2.png" alt="Logo" style="height: 40px; vertical-align: middle;">
   <span>Connect Gold</span>
@@ -654,7 +658,32 @@ body {
   checkVersion();
   setInterval(checkVersion, 1000 * 30); // every 10 minutes
 </script>
-    
+
+  <script>
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+  installBtn.style.display = 'none';
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'inline-block';
+  });
+
+  installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        deferredPrompt = null;
+      });
+    }
+  });
+</script>
     
     <footer>
       &copy; 2025 Connect Gold. All rights reserved. | Powered by Chyke22
