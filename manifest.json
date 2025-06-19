@@ -1,0 +1,21 @@
+{
+  "name": "Connect Gold",
+  "short_name": "ConnectGold",
+  "description": "Connect Gold is your all-in-one hub for downloading premium apps, tools, games, ebooks, and mobile utilities.",
+  "lang": "en-NG",
+  "dir": "ltr",
+  "start_url": "/index.html?utm_source=homescreen",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#f9c311",
+  "icons": [
+    {
+      "src": "/gold (2).png",
+      "sizes": "512x512",
+      "type": "png",
+      "purpose": "any maskable"
+    }
+  ]
+}
