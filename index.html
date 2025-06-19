@@ -510,6 +510,51 @@ nav a {
       border-radius: 6px;
     }
 
+    @media (max-width: 600px) {<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>📺 Live TV Streaming</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #0a74da;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin: 15px 0;
+      box-sizing: border-box;
+    }
+    .channel-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .channel {
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      width: 320px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .channel h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: #333;
+    }
+    video {
+      width: 100%;
+      border-radius: 6px;
+    }
     @media (max-width: 600px) {
       .channel {
         width: 100%;
@@ -520,76 +565,80 @@ nav a {
 <body>
 
   <h2>📡 Live IPTV Streaming</h2>
-<input type="text" id="searchInput" placeholder="🔍 Search for a channel..." onkeyup="filterChannels()" />
+  <input type="text" id="searchInput" placeholder="🔍 Search for a channel..." onkeyup="filterChannels()" />
 
-<div class="channel-list" id="channelList">
+  <div class="channel-list" id="channelList">
 
-  <div class="channel" data-title="Cinema Hausa">
-    <h4>Cinema Hausa</h4>
-    <video id="cinema" controls muted width="100%"></video>
+    <div class="channel" data-title="Cinema Hausa">
+      <h4>Cinema Hausa</h4>
+      <video id="cinema" controls muted width="100%"></video>
+    </div>
+
+    <div class="channel" data-title="Sports Connect">
+      <h4>Sports Connect</h4>
+      <video id="sports" controls muted width="100%"></video>
+    </div>
+
+    <div class="channel" data-title="Bloomberg Quicktake">
+      <h4>Bloomberg Quicktake</h4>
+      <video id="bloomberg" controls muted width="100%"></video>
+    </div>
+
   </div>
 
-  <div class="channel" data-title="Sports Connect">
-    <h4>Sports Connect</h4>
-    <video id="sports" controls muted width="100%"></video>
-  </div>
-
-</div>
+  <!-- Load HLS.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <script>
-  window.onload = function () {
-    playHLS("cinema", "https://origin3.afxp.telemedia.co.za/PremiumFree/cinemahausa/playlist.m3u8");
-    playHLS("sports", "https://origin3.afxp.telemedia.co.za/PremiumFree/sportsconnect/playlist.m3u8");
-  };
-</script>
-
-    <div class="section">
-      <h2>📍 Our Locati<!-- Load HLS.js -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-<script>
-  // Filter channels by title (for search bar)
-  function filterChannels() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const channels = document.querySelectorAll(".channel");
-    channels.forEach((channel) => {
-      const title = channel.getAttribute("data-title").toLowerCase();
-      channel.style.display = title.includes(input) ? "block" : "none";
-    });
-  }
-
-  // Play an HLS stream by attaching it to the video player
-  function playHLS(id, url) {
-    const video = document.getElementById(id);
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(url);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play();
+    // Filter channels by title (for search bar)
+    function filterChannels() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const channels = document.querySelectorAll(".channel");
+      channels.forEach((channel) => {
+        const title = channel.getAttribute("data-title").toLowerCase();
+        channel.style.display = title.includes(input) ? "block" : "none";
       });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = url;
-      video.addEventListener('loadedmetadata', function () {
-        video.play();
-      });
-    } else {
-      video.outerHTML = `<p>⚠️ Live stream not supported on this device.</p>`;
     }
-  }
 
-  // ✅ Play multiple channels when page loads
-  window.onload = function () {
-    playHLS("cinema", "https://origin3.afxp.telemedia.co.za/PremiumFree/cinemahausa/playlist.m3u8");
-    playHLS("sports", "https://origin3.afxp.telemedia.co.za/PremiumFree/sportsconnect/playlist.m3u8");
-    playHLS("bloomberg", "https://bloomberg-quicktake-1-nl.samsung.wurl.tv/playlist.m3u8");
-  };
-</script>on</h2>
-      <p>
-        Near Beulah International School, Kurudu, Abuja, Nigeria.<br />
-        Postcode: 900109
-      </p>
-    </div>
+    // Play an HLS stream by attaching it to the video player
+    function playHLS(id, url) {
+      const video = document.getElementById(id);
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play();
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = url;
+        video.addEventListener('loadedmetadata', function () {
+          video.play();
+        });
+      } else {
+        video.outerHTML = `<p>⚠️ Live stream not supported on this device.</p>`;
+      }
+    }
+
+    // Play multiple channels when page loads
+    window.onload = function () {
+      playHLS("cinema", "https://origin3.afxp.telemedia.co.za/PremiumFree/cinemahausa/playlist.m3u8");
+      playHLS("sports", "https://origin3.afxp.telemedia.co.za/PremiumFree/sportsconnect/playlist.m3u8");
+      playHLS("bloomberg", "https://bloomberg-quicktake-1-nl.samsung.wurl.tv/playlist.m3u8");
+    };
+  </script>
+
+</body>
+</html>
+      
+      
+      <div class="section">
+  <h2>📍 Our Location</h2>
+  <p>
+    Near Beulah International School, Kurudu, Abuja, Nigeria.<br />
+    Postcode: 900109
+  </p>
+      </div>
 
     <script>
   let deferredPrompt = null;
