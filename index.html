@@ -88,98 +88,179 @@ nav a:hover,
 nav a:focus {
   text-decoration: underline;
   color: gold;
-}
+<style>
+  /* Reset and base styles */
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f0e9e0 25%, #f9f9f9 100%);
+    line-height: 1.6;
+    color: #333;
+    min-height: 100vh;
+  }
 
-/* Body padding to prevent content hiding under fixed header */
-body {
-  padding-top: 80px; /* Header height + some spacing */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  header {
+    background: #111;
+    color: gold;
+    padding: 15px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
 
-/* Container to hold page content */
-.container {
-  width: 90%;
-  max-width: 900px;
-  margin: 20px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Sections inside the container */
-.section {
-  background: white;
-  padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-
-/* Headings */
-h2 {
-  color: #444;
-  border-left: 4px solid gold;
-  padding-left: 10px;
-  margin-bottom: 15px;
-}
-
-/* Lists */
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-li {
-  position: relative;
-  padding-left: 20px;
-  margin-bottom: 10px;
-}
-
-li::before {
-  content: "✔️";
-  position: absolute;
-  left: 0;
-  color: gold;
-}
-
-/* Images, videos, iframes responsive */
-img, video, iframe {
-  max-width: 100%;
-  height: auto;
-  border-radius: 6px;
-}
-
-/* Footer */
-footer {
-  width: 100%;
-  background: #111;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: auto;
-  font-size: 14px;
-}
-
-/* Responsive tweaks */
-@media (max-width: 600px) {
+  /* Navigation Bar */
   nav {
-    max-height: 150px;
+    background: #000;
+    padding: 5px 10px;
+    max-height: 50px;
     overflow-y: auto;
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   nav a {
-    margin: 5px 0;
-    font-size: 0.95rem;
+    display: inline-block;
+    margin: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
   }
 
-  .container {
-    width: 95%;
+  nav a:hover {
+    text-decoration: underline;
   }
-}
- </style>     
+
+  .section {
+    padding: 20px;
+    background: #fff;
+    margin: 90px auto 20px; /* adjust top margin to clear the fixed nav */
+    max-width: 900px;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 6px;
+  }
+
+  h2 {
+    color: #444;
+    border-left: 4px solid gold;
+    padding-left: 10px;
+    margin-bottom: 15px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    margin: 8px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  li::before {
+    content: "\2714\FE0F";
+    position: absolute;
+    left: 0;
+    color: gold;
+  }
+
+  .ad-placeholder {
+    background: #f9f9f9;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin: 25px auto;
+    max-width: 900px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    border-radius: 6px;
+  }
+
+  footer {
+    background: #111;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: auto;
+    width: 100%;
+  }
+
+  a {
+    color: #0056b3;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* WhatsApp Floating Button */
+  #whatsappSupport {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    text-decoration: none;
+  }
+
+  #whatsappSupport:hover {
+    background-color: #1ebe57;
+  }
+
+  .website-image {
+    display: block;
+    max-width: 900px;
+    width: 90%;
+    height: auto;
+    margin: 15px auto;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+
+  /* Responsive design */
+  @media (max-width: 600px) {
+    nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    nav a {
+      display: inline-block;
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+
+    .section {
+      width: 95%;
+      padding: 15px;
+      margin-top: 100px;
+    }
+  }
+</style>}
+
+
+ 
       
     
   
