@@ -65,29 +65,7 @@ header {
   flex-wrap: wrap;
 }
 
-/* Navigation styles */
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  max-height: 70px; /* Limit nav height */
-  overflow-y: auto; /* Scroll if too tall */
-  align-items: center;
-  margin-top: 5px;
-}
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin: 0 10px;
-  font-weight: 600;
-  font-size: 1rem;
-  white-space: nowrap;
-}
-
-nav a:hover,
-nav a:focus {
-  text-decoration: underline;
-  color: gold;
 <style>
   /* Reset and base styles */
   html, body {
@@ -132,7 +110,28 @@ nav a {
   display: inline-block;
   margin: 6px 10px;
   font-size: 14px;
+  fonnav {
+  margin-top: 10px;
+  background-color: #000; /* black background */
+  color: white;
+  padding: 10px;
+  position: fixed;
+  top: 60px; /* directly below the fixed header */
+  width: 100%;
+  z-index: 9;
+}
+
+nav a {
+  color: white !important;  /* force white color */
+  margin: 0 10px;
+  text-decoration: none;
   font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: gold; /* optional highlight on hover */
+}t-weight: bold;
   color: white;
   text-decoration: none;
 }
