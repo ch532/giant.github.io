@@ -3,41 +3,7 @@ i<!DOCTYPE html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
 
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    font-family: sans-serif;
-  }
 
-  img, video, iframe {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .section {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 768px) {
-    .container {
-      flex-direction: row;
-    }
-    .section {
-      width: 48%;
-      margin: 1%;
-    }
-  }
-</style>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0a74da" />
 
@@ -67,357 +33,155 @@ i<!DOCTYPE html>
   <meta name="twitter:image" content="https://connectgold.sbs/social-preview.jpg" />
 
   <style>
-    /* Your original styles */
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f0e9e0 25%, #f9f9f9 100%);
-      margin: 0;
-      padding-top: 60px;
-      line-height: 1.6;
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    header {
-      background: #111;
-      color: gold;
-      padding: 15px;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-    nav {
-      margin-top: 10px;
-    }
-    nav a {
-      color: <style>
-    /* Your original styles */
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f0e9e0 25%, #f9f9f9 100%);
-      margin: 0;
-      padding-top: 70px;
-      line-height: 1.6;
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    header {
-      background: #111;
-      color: gold;
-      padding: 15px;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-    nav {
-      margin-top: 10px;
-    }
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underlinewhite;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .section {
-      padding: 20px;
-      background: #fff;
-      margin: 15px auto;
-      max-width: 900px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border-radius: 6px;
-      width: 90%;
-    }
-    h2 {
-      color: #444;
-      border-left: 4px solid gold;
-      padding-left: 10px;
-      margin-bottom: 15px;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin: 8px 0;
-      padding-left: 20px;
-      position: relative;
-    }
-    li::before {
-      content: "\2714\FE0F";
-      position: absolute;
-      left: 0;
-      color: gold;
-    }
-    .ad-placeholder {
-      background: #f9f9f9;
-      border: 2px dashed #ccc;
-      padding: 20px;
-      margin: 25px auto;
-      max-width: 900px;
-      text-align: center;
-      color: #666;
-      font-style: italic;
-      border-radius: 6px;
-    }
-    footer {
-      background: #111;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-      margin-top: auto;
-      width: 100%;
-    }
-    a {
-      color: #0056b3;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .coo<style>
-    /* Your original styles */
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f0e9e0 25%, #f9f9f9 100%);
-      margin: 0;
-      padding-top: 80px;
-      line-height: 1.6;
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    header {
-      background: #111;
-      color: gold;
-      padding: 15px;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-    nav {
-      margin-top: 10px;
-    }
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underlinewhite;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .section {
-      padding: 20px;
-      background: #fff;
-      margin: 15px auto;
-      margin-top: 20px;
-      max-width: 900px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border-radius: 6px;
-      width: 90%;
-    }
-    h2 {
-      color: #444;
-      border-left: 4px solid gold;
-      padding-left: 10px;
-      margin-bottom: 15px;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin: 8px 0;
-      padding-left: 20px;
-      position: relative;
-    }
-    li::before {
-      content: "\2714\FE0F";
-      position: absolute;
-      left: 0;
-      color: gold;
-    }
-    .ad-placeholder {
-      background: #f9f9f9;
-      border: 2px dashed #ccc;
-      padding: 20px;
-      margin: 25px auto;
-      max-width: 900px;
-      text-align: center;
-      color: #666;
-      font-style: italic;
-      border-radius: 6px;
-    }
-    footer {
-      background: #111;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-      margin-top: auto;
-      width: 100%;
-    }
-    a {
-      color: #0056b3;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .cookie-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #222;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      font-size: 14px;
-      z-index: 20;
-    }
-    .cookie-banner button {
-      margin-left: 10px;
-      background: gold;
-      border: none;
-      padding: 6px 12px;kie-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #222;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      font-size: 14px;
-      z-index: 20;
-    }
-    .cookie-banner button {
-      margin-left: 10px;
-      background: gold;
-      border: none;
-      padding: 6px 12px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    /* WhatsApp Support Button */
-    #whatsappSupport {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      background-color: #25D366;
-      color: white;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      text-align: center;
-      font-size: 30px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 30;
-      text-decoration: none;
-    }
-    #whatsappSupport:hover {
-      background-color: #1ebe57;
-    }
-    .website-image {
-      display: block;
-      max-width: 900px;
-      width: 90%;
-      height: auto;
-      margin: 15px auto;
-      border-radius: 6px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    @media (max-width: 600px) {
-      nav a {
-        display: block;
-        margin: 8px 0;
-      }
-      .section {
-        width: 95%;
-        padding: 15px;
-      }
-      .website-image {
-        height: auto;
-      }
-      nav {
-  background: #f8f8f8;
-  padding: 8px 16px;
-  font-size: 0.9rem;
+    /* Reset and base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f0e9e0 25%, #f9f9f9 100%);
+  color: #333;
+  min-height: 100vh;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+/* Header and Navigation */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #111;
+  color: gold;
+  padding: 15px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation styles */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 70px; /* Limit nav height */
+  overflow-y: auto; /* Scroll if too tall */
+  align-items: center;
+  margin-top: 5px;
 }
 
 nav a {
-  margin: 0 8px;
-  color: #333;
+  color: white;
   text-decoration: none;
-  font-weight: 500;
+  margin: 0 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
-/* Responsive tweaks for small screens */
+nav a:hover,
+nav a:focus {
+  text-decoration: underline;
+  color: gold;
+}
+
+/* Body padding to prevent content hiding under fixed header */
+body {
+  padding-top: 80px; /* Header height + some spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Container to hold page content */
+.container {
+  width: 90%;
+  max-width: 900px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sections inside the container */
+.section {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h2 {
+  color: #444;
+  border-left: 4px solid gold;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+/* Lists */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+li::before {
+  content: "✔️";
+  position: absolute;
+  left: 0;
+  color: gold;
+}
+
+/* Images, videos, iframes responsive */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Footer */
+footer {
+  width: 100%;
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  font-size: 14px;
+}
+
+/* Responsive tweaks */
 @media (max-width: 600px) {
   nav {
+    max-height: 150px;
+    overflow-y: auto;
     flex-direction: column;
     align-items: flex-start;
   }
 
   nav a {
-    display: inline-block;
-    margin: 1px 0;
+    margin: 5px 0;
     font-size: 0.95rem;
   }
 
-  body.homepage nav {
-    padding: 1px 0px;
-    max-height: 150px;
-    overflow-y: auto;
-    font-size: 14px;
+  .container {
+    width: 95%;
   }
 }
-        
-
-<body class="homepage">
+ </style>     
+      
+    
   
   <body>
   <div class="container">
