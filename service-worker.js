@@ -1,4 +1,4 @@
-const CACHE_NAME = 'connectgold-cache-v3.3.0'; // 🔁 Bump this when updating
+const CACHE_NAME = 'connectgold-cache-v3.4.0'; // 🔁 Bump this when updating
 const urlsToCache = [
   '/manifest.json',
   '/connect gold (1).png',
