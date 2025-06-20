@@ -630,10 +630,27 @@ body {
   }
 
 
-    <!-- 🔘 Update Button (hidden by default) -->
-<button id="updateBtn" style="display:none; position:fixed; bottom:120px; left:20px; right:20px; padding:12px; background:#28a745; color:white; text-align:center; font-weight:bold; cursor:pointer; border:none; border-radius:8px; z-index:10000;">
-  ⬆️ New Update Available - Tap to Update
-</button>
+    <!-- Windows App Download Button -->
+<div style="text-align: center; margin-top: 40px;">
+  <a href="https://connectgold.sbs/Connect-gold.exe" download>
+    <button style="
+      background-color: #f9c311;
+      color: black;
+      font-size: 18px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    ">
+      ⬇️ Download Connect Gold for Windows
+    </button>
+  </a>
+  <p style="margin-top: 10px; font-size: 14px; color: #555;">
+    Size: ~40MB | Format: .EXE | OS: Windows 7/10/11
+  </p>
+</div>
 
 <script>
   async function checkVersion() {
