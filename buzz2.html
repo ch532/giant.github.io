@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- MapLibre GL -->
+<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
   <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
@@ -257,6 +260,15 @@ l.parentNode.insertBefore(s, l);
 #voiceBtn:hover {
   background: #0056b3;
 }
+    #map3d {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  width: 300px;
+  height: 200px;
+  border: 2px solid #ccc;
+  z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -268,7 +280,7 @@ l.parentNode.insertBefore(s, l);
   <button id="voiceBtn">🎤 Voice Search</button>
 </div>
 
-<div id="map"></div>
+<div id="map"></div><div id="map3d"></div>
 
 <script>
   const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
@@ -372,6 +384,20 @@ l.parentNode.insertBefore(s, l);
 </body>
 </html>
 
+<script>
+  const map3d = new maplibregl.Map({
+    container: 'map3d',
+    style: 'https://api.maptiler.com/maps/streets/style.json?key=c7mcIDrue1F8v9qGtlXH',
+    center: [7.49508, 9.05785], // You can sync with main map center
+    zoom: 15,
+    pitch: 60,
+    bearing: -17,
+    antialias: true
+  });
+
+  map3d.addControl(new maplibregl.NavigationControl());
+</script>
+  
 <iframe src="https://www.fiverr.com/gig_widgets?id=U2FsdGVkX18VRhaPmUkIgRgU8HeBczzgaJz67V5VElRVkM5vCYIUZKo5vp+7Vuqm3xMPCEyToR6WQxQbF4UIyz+Bp+0xgcFSLJ2+yvjBdejHT4/LZ6J0Syf56drrH6ATzoFhwU2MTyMYjAj5YVEVRhDGPQXbfqgP3bYVe6Tc+tIvNF4mZBodNM0iWUgdJjQyLcBY6OudbLKzsqXXvMlsGYEC/2ds8Q7ugoqGoJGcidaqSBaiPM5P29aW78v2pQtok007YhmO/KBEmt0ursalE9RwCfE34G2eCW6fTCzvJrE0KzxKWCpOND5ZraIET0PrhRUQb8AVecP1Rd4w9tDU2N2TvEZT0j8ubrxfH/sEatGFCtLW4Z0k0ecgwms3ejmITgWl3WNcOBzqf6foDAYXaiPMlWXF/YKsO1x4Gzu9bFf2ZQHk7BAaatTl/hMouizRzpxonsnYxzwMMtX0oxb9LQ==&affiliate_id=401037&strip_google_tagmanager=true" loading="lazy" data-with-title="true" class="fiverr_nga_frame" frameborder="0" height="350" width="100%" referrerpolicy="no-referrer-when-downgrade" data-mode="random_gigs" onload=" var frame = this; var script = document.createElement('script'); script.addEventListener('load', function() { window.FW_SDK.register(frame); }); script.setAttribute('src', 'https://www.fiverr.com/gig_widgets/sdk'); document.body.appendChild(script); " ></iframe>
    
 </body>
