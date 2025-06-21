@@ -182,58 +182,7 @@ l.parentNode.insertBefore(s, l);
 <iframe id='iframe-widget' src='https://changenow.io/embeds/exchange-widget/v2/widget.html?FAQ=true&amount=0.1&amountFiat=1500&backgroundColor=FFFFFF&darkMode=false&from=btc&fromFiat=eur&horizontal=false&isFiat&lang=en-US&link_id=00b41621be1db6&locales=true&logo=true&primaryColor=00C26F&to=eth&toFiat=eth&toTheMoon=true' style="height: 356px; width: 100%; border: none"></iframe>
     <script defer type='text/javascript' src='https://changenow.io/embeds/exchange-widget/v2/stepper-connector.js'></script>
 
-  <!-- PartneroJS -->
-<script>
-    (function(p,t,n,e,r,o){ p['__partnerObject']=r;function f(){
-    var c={ a:arguments,q:[]};var r=this.push(c);return "number"!=typeof r?r:f.bind(c.q);}
-    f.q=f.q||[];p[r]=p[r]||f.bind(f.q);p[r].q=p[r].q||f.q;o=t.createElement(n);
-    var _=t.getElementsByTagName(n)[0];o.async=1;o.src=e+'?v'+(~~(new Date().getTime()/1e6));
-    _.parentNode.insertBefore(o,_);})(window, document, 'script', 'https://app.partnero.com/js/universal.js', 'po');
-    po('settings', 'assets_host', 'https://assets.partnero.com');
-    po('program', 'SZNE3FT1', 'load');
-</script>
-<!-- End PartneroJS -->
-
-  <footer>
-    &copy; 2025 Connect Gold. All rights reserved.
-  </footer>
-
-  <script>
-(function() {
-        const cookieValue = (document.cookie.match(/(^| )partnero_partner=([^;]+)/) || [])[2];
-
-        function getURLParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        if (cookieValue) {
-            const transactionID = getURLParameter('tx') || getURLParameter('txn_id');
-            const amount = getURLParameter('amt') || getURLParameter('payment_gross');
-            const payerID = getURLParameter('PayerID') || getURLParameter('payer_id');
-            const payerEmail = getURLParameter('payer_email');
-            const firstName = getURLParameter('first_name');
-            const lastName = getURLParameter('last_name');
-
-            if (transactionID && amount && payerEmail) {
-                po('transactions', 'create', {
-                    data: {
-                        key: 'paypal_' + transactionID,
-                        amount: amount,
-                        action: 'sale',
-                        customer: {
-                            key:  payerID || payerEmail,
-                            email: payerEmail,
-                            name: `${firstName || ''} ${lastName || ''}`.trim()
-                        }
-                    },
-                    options: {
-                        create_customer: true
-                    }
-                });
-            }
-        }
-    })();
-  </script>
+<iframe width="500" height="300" src="https://api.maptiler.com/maps/basic-v2/?key=c7mcIDrue1F8v9qGtlXH#1.0/0.00000/0.00000"></iframe>
+  
 </body>
 </html>
