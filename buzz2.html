@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- MapLibre GL -->
-<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+  <!-- Mapillary Viewer CSS -->
+<link rel="stylesheet" href="https://unpkg.com/mapillary-js@4.0.0-beta.1/dist/mapillary.min.css" />
+<!-- Mapillary Viewer JS -->
+<script src="https://unpkg.com/mapillary-js@4.0.0-beta.1/dist/mapillary.min.js"></script>
   <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
@@ -314,6 +315,13 @@ l.parentNode.insertBefore(s, l);
 <div id="map"></div><div id="map3d"></div>
 <button id="toggle3d">🧱 View 3D Mode</button>
 <div id="map3d" style="display: none;"></div>
+<div id="mlyPanel" style="display: flex; gap: 10px; margin-top: 10px;">
+  <div id="mly" style="flex: 1; height: 300px; display: none; border: 1px solid #ccc;"></div>
+  <div id="info" style="flex: 1; font-size: 14px;">
+    <div><strong>🌡️ Weather:</strong> <span id="weather"></span></div>
+    <div><strong>🕒 Timezone:</strong> <span id="timezone"></span></div>
+  </div>
+</div>
   
 <script>
   const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
@@ -480,7 +488,54 @@ map.on('moveend', () => {
   }
 });
 </script>  
+<script>
+  const mapillaryToken = "MLY|24671506535785368|bbe0af716d1a2fe323f34b8e893e310a";
+  const weatherKey = "a65d564a892d82cd09d48a43888a1139";
+  const timezoneKey = "5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2";
+  let viewer = null;
 
+  async function loadStreetView(lat, lng) {
+    const response = await fetch(`https://graph.mapillary.com/images?access_token=${mapillaryToken}&fields=id&closeto=${lng},${lat}&limit=1`);
+    const data = await response.json();
+    if (data.data && data.data.length > 0) {
+      const imageId = data.data[0].id;
+      document.getElementById("mly").style.display = "block";
+      if (!viewer) {
+        viewer = new Mapillary.Viewer({
+          container: "mly",
+          imageId,
+          accessToken: mapillaryToken
+        });
+      } else {
+        viewer.moveTo(imageId);
+      }
+    } else {
+      document.getElementById("mly").style.display = "none";
+      alert("🚫 No street view at this location.");
+    }
+  }
+
+  async function loadWeather(lat, lon) {
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`);
+    const data = await res.json();
+    document.getElementById("weather").innerHTML = `${data.main.temp}°C, ${data.weather[0].description}`;
+  }
+
+  async function loadTimezone(lat, lon) {
+    const res = await fetch(`https://api.openrouteservice.org/timezone?api_key=${timezoneKey}&location=${lon},${lat}`);
+    const data = await res.json();
+    document.getElementById("timezone").textContent = data.timezone;
+  }
+
+  // 🖱️ When user clicks the map
+  map.on("click", function (e) {
+    const lat = e.latlng.lat;
+    const lng = e.latlng.lng;
+    loadStreetView(lat, lng);
+    loadWeather(lat, lng);
+    loadTimezone(lat, lng);
+  });
+</script>
   
 </body>
 </html>
