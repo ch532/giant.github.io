@@ -249,17 +249,8 @@ l.parentNode.insertBefore(s, l);
   </style>
 </head>
 <body>
-  <div id="map"></div>
-  <div id="map3d"></div>
-  <div id="streetView"></div>
-  <div id="routeSummary">Route summary will appear here.</div>  <div class="controls">
-    <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
-    <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
-    <button id="toggle3d">🧱 View 3D Mode</button><br>
-    <span id="timezoneInfo">Timezone: </span><br>
-    <button id="voiceBtn">🎤 Voice Search</button>
-    <div id="voiceStatus"></div>
-  </div>  <script>
+
+  <script>
     const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
     const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
     const routeKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
@@ -280,9 +271,28 @@ l.parentNode.insertBefore(s, l);
     });
 
     document.getElementById('weatherToggle').addEventListener('change', function () {
-      this.checked ? weatherLayer.addTo(map) : map.removeLayer(weatherLayer);
-    });
+    document.getElementById('weatherToggle').addEventListener('change', function () {
+  if (this.checked) {
+    weatherLayer.addTo(map);
+  } else {
+    map.removeLayer(weatherLayer);
+  }
+});
+  <div id="mapControls" class="leaflet-bottom leaflet-left">
+  <div class="control-box">
+    <input type="text" id="searchInput" placeholder="Search place..." />
+    <button id="voiceBtn">🎤</button>
+    <p id="voiceStatus"></p>
 
+    <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
+    <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
+    <label><input type="checkbox" id="streetToggle"> Street View</label><br>
+
+    <button id="toggle3d">🧱 3D Mode</button><br>
+    <span id="timezoneInfo">Timezone: </span>
+    </div>
+  </div>
+                                                              
     document.getElementById('buildingToggle').addEventListener('change', function () {
       this.checked ? buildingLayer.addTo(map) : map.removeLayer(buildingLayer);
     });
@@ -404,7 +414,8 @@ l.parentNode.insertBefore(s, l);
         toggleBtn.textContent = '🧱 View 3D Mode';
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
   
 </body>
