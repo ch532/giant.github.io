@@ -310,6 +310,8 @@ l.parentNode.insertBefore(s, l);
   <label><input type="checkbox" id="buildingToggle"> 🏙️ 3D Buildings</label><br>
   <div id="timezoneInfo">⏰ Timezone: —</div>
   <button id="voiceBtn">🎤 Voice Search</button>
+  <button id="voiceBtn" style="font-size:20px; padding: 8px; margin: 10px; cursor: pointer;">🎤 Voice Search</button>
+<div id="voiceStatus" style="margin-top: 5px; font-style: italic; color: #555;"></div>
 </div>
 
 <div id="map"></div><div id="map3d"></div>
@@ -364,12 +366,75 @@ l.parentNode.insertBefore(s, l);
       .openOn(map);
     document.getElementById('timezoneInfo').innerText = `Timezone: GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
   });
+  map.on('click', function(e) {
+  if (routePoints.length < 2) {
+    routePoints.push(e.latlng);
+    if (routePoints.length === 2) {
+      displayRoute(routePoints[0], routePoints[1]);
+      routePoints = []; // reset for next route
+    }
+  }
+});
 
   let routePoints = [];
 
-  async function drawRoute() {
-    if (routePoints.length === 2) {
-      const res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+  async function displayRoute(start, end) {
+  try {
+    const routeCoords = await getRoute(start, end);
+
+    const samplePoints = routeCoords.filter((_, i) => i % 10 === 0);
+
+    const weatherResults = await Promise.all(
+      samplePoints.map(([lng, lat]) => getWeatherAtPoint(lat, lng))
+    );
+
+    let segments = [];
+    let currentSegment = [];
+    let currentWeather = weatherResults[0];
+
+    for (let i = 0; i < samplePoints.length; i++) {
+      if (weatherResults[i] === currentWeather) {
+        currentSegment.push(samplePoints[i]);
+      } else {
+        segments.push({ coords: currentSegment, weather: currentWeather });
+        currentSegment = [samplePoints[i]];
+        currentWeather = weatherResults[i];
+      }
+    }
+    segments.push({ coords: currentSegment, weather: currentWeather });
+
+    if (window.routeLayers) {
+      window.routeLayers.forEach(layer => map.removeLayer(layer));
+    }
+    window.routeLayers = [];
+
+    segments.forEach(seg => {
+      const badWeatherConditions = ['rain', 'storm', 'snow'];
+      const isBadWeather = badWeatherConditions.includes(seg.weather);
+      const color = isBadWeather ? 'red' : 'green';
+
+      const polyline = L.polyline(
+        seg.coords.map(c => [c[1], c[0]]),
+        { color, weight: 5 }
+      ).addTo(map);
+
+      window.routeLayers.push(polyline);
+    });
+
+    if (weatherResults.some(w => ['rain', 'storm', 'snow'].includes(w))) {
+      alert("⚠️ Warning: Bad weather detected on your route!");
+    }
+
+    const latLngs = routeCoords.map(c => [c[1], c[0]]);
+    const bounds = L.latLngBounds(latLngs);
+    map.fitBounds(bounds);
+
+  } catch (error) {
+    console.error("Error in displayRoute:", error);
+    alert("Failed to fetch route or weather data. Please try again.");
+  }
+  
+  } fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
         method: 'POST',
         headers: {
           'Authorization': routeKey,
@@ -536,6 +601,101 @@ map.on('moveend', () => {
     loadTimezone(lat, lng);
   });
 </script>
-  
+ 
+<script> 
+  const voiceBtn = document.getElementById("voiceBtn");
+const voiceStatus = document.getElementById("voiceStatus");
+
+if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+  voiceStatus.textContent = "⚠️ Your browser does not support Speech Recognition.";
+} else {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  voiceBtn.onclick = () => {
+    recognition.start();
+    voiceStatus.textContent = "🎙️ Listening...";
+    voiceBtn.disabled = true;
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+    voiceStatus.textContent = `🗣️ You said: "${transcript}"`;
+    voiceBtn.disabled = false;
+    processCommand(transcript);
+  };
+
+  recognition.onerror = (event) => {
+    voiceStatus.textContent = `❌ Error: ${event.error}`;
+    voiceBtn.disabled = false;
+  };
+
+  recognition.onend = () => {
+    voiceBtn.disabled = false;
+    if (voiceStatus.textContent === "🎙️ Listening...") {
+      voiceStatus.textContent = "";
+    }
+  };
+}
+
+function processCommand(command) {
+  // Basic command parsing
+  if (command.startsWith("navigate to")) {
+    const place = command.replace("navigate to", "").trim();
+    searchAndNavigate(place);
+  } else if (command === "zoom in") {
+    map.zoomIn();
+  } else if (command === "zoom out") {
+    map.zoomOut();
+  } else if (command.startsWith("show weather in")) {
+    const place = command.replace("show weather in", "").trim();
+    searchAndShowWeather(place);
+  } else {
+    voiceStatus.textContent += " (Command not recognized)";
+  }
+}
+
+function searchAndNavigate(place) {
+  // Use OpenStreetMap Nominatim API to get coordinates for place
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+        map.setView([lat, lon], 15);
+        voiceStatus.textContent += ` → Navigated to ${place}`;
+      } else {
+        voiceStatus.textContent += ` → Place "${place}" not found.`;
+      }
+    })
+    .catch(() => {
+      voiceStatus.textContent += " → Error searching place.";
+    });
+}
+
+function searchAndShowWeather(place) {
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+        loadWeather(lat, lon);
+        voiceStatus.textContent += ` → Showing weather in ${place}`;
+      } else {
+        voiceStatus.textContent += ` → Place "${place}" not found.`;
+      }
+    })
+    .catch(() => {
+      voiceStatus.textContent += " → Error searching place.";
+    });
+}
+    </script
+
 </body>
 </html>
