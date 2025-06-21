@@ -1,19 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
 <head>
-<head>
-  <!-- other head stuff -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-</head>
-  <!-- Mapillary Viewer CSS -->
-<link rel="stylesheet" href="https://unpkg.com/mapillary-js@4.0.0-beta.1/dist/mapillary.min.css" />
-<!-- Mapillary Viewer JS -->
-<script src="https://unpkg.com/mapillary-js@4.0.0-beta.1/dist/mapillary.min.js"></script>
-  <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
-<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
-
-  <meta name="ec5fcd94bc4cd2536994210372efa79b246b7fce" content="ec5fcd94bc4cd2536994210372efa79b246b7fce" />
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Buzz 2</title>
@@ -211,237 +199,101 @@ l.parentNode.insertBefore(s, l);
   * This is an affiliate link — if you click and sign up, I may earn a commission at no extra cost to you.
 </p>
 
-
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Voice-Enabled Map</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Map with Weather, Routing, 3D, Voice & Street View</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-  <script src="https://unpkg.com/moment/min/moment.min.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/@maptiler/maplibre-gl-mapillary@1.0.0/dist/mapillary.js"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
+    #map, #map3d {
+      width: 100%;
+      height: 60vh;
+      max-height: 500px;
+      margin-bottom: 10px;
     }
-    #map {
-  height: 60vh; /* Less dominant but still visible */
-  width: 100%;
-  max-height: 400px;
-  min-height: 250px;
-}
-@media (max-width: 768px) {
-  #map {
-    height: 50vh;
-  }
-}
-    .map-widget-controls {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  background: white;
-  padding: 10px 14px;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  font-size: 14px;
-  line-height: 1.6;
-  z-index: 1001;
-}
-
-#voiceBtn {
-  margin-top: 8px;
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-}
-
-#voiceBtn:hover {
-  background: #0056b3;
-}
     #map3d {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  width: 300px;
-  height: 200px;
-  border: 2px solid #ccc;
-  z-index: 1000;
+      display: none;
     }
-    <style>
-#toggle3d {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 1001;
-  padding: 10px 14px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-#toggle3d:hover {
-  background-color: #0056b3;
-}
-
-#map3d {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  width: 300px;
-  height: 200px;
-  border: 2px solid #ccc;
-  z-index: 1000;
-  display: none;
-}
+    .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 10px;
+      z-index: 999;
+      font-size: 14px;
+    }
+    #streetView {
+      height: 300px;
+      width: 100%;
+      border: 2px solid #ccc;
+      display: none;
+    }
+    #voiceStatus {
+      margin-top: 8px;
+      color: #333;
+    }
+    #routeSummary {
+      padding: 10px;
+      background: #eef;
+      font-family: Arial, sans-serif;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
+  <div id="map"></div>
+  <div id="map3d"></div>
+  <div id="streetView"></div>
+  <div id="routeSummary">Route summary will appear here.</div>  <div class="controls">
+    <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
+    <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
+    <button id="toggle3d">🧱 View 3D Mode</button><br>
+    <span id="timezoneInfo">Timezone: </span><br>
+    <button id="voiceBtn">🎤 Voice Search</button>
+    <div id="voiceStatus"></div>
+  </div>  <script>
+    const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
+    const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
+    const routeKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
+    const mapillaryToken = 'MLY|24671506535785368|bbe0af716d1a2fe323f34b8e893e310a';
 
-<div class="map-widget-controls" id="mapControls">
-  <label><input type="checkbox" id="weatherToggle" checked> ☁️ Weather</label><br>
-  <label><input type="checkbox" id="buildingToggle"> 🏙️ 3D Buildings</label><br>
-  <div id="timezoneInfo">⏰ Timezone: —</div>
-  <button id="voiceBtn">🎤 Voice Search</button>
-  <button id="voiceBtn" style="font-size:20px; padding: 8px; margin: 10px; cursor: pointer;">🎤 Voice Search</button>
-<div id="voiceStatus" style="margin-top: 5px; font-style: italic; color: #555;"></div>
-</div>
+    const map = L.map('map').setView([9.05785, 7.49508], 6);
 
-<div id="map"></div><div id="map3d"></div>
-<button id="toggle3d">🧱 View 3D Mode</button>
-<div id="map3d" style="display: none;"></div>
-<div id="mlyPanel" style="display: flex; gap: 10px; margin-top: 10px;">
-  <div id="mly" style="flex: 1; height: 300px; display: none; border: 1px solid #ccc;"></div>
-  <div id="info" style="flex: 1; font-size: 14px;">
-    <div><strong>🌡️ Weather:</strong> <span id="weather"></span></div>
-    <div><strong>🕒 Timezone:</strong> <span id="timezone"></span></div>
-  </div>
-</div>
-  
-<script>
-  const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
-  const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
-  const routeKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
+    const baseLayer = L.tileLayer(`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=${maptilerKey}`, {
+      attribution: '© MapTiler © OpenStreetMap'
+    }).addTo(map);
 
-  <div id="map" style="height: 400px;"></div>
-<script>
-  const map = L.map('map').setView([9.05785, 7.49508], 13);
-  L.tileLayer(`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=c7mcIDrue1F8v9qGtlXH`, {
-    attribution: '© MapTiler © OpenStreetMap'
-  }).addTo(map);
-</script>
+    const weatherLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${weatherKey}`, {
+      opacity: 0.5
+    }).addTo(map);
 
- <script>
-  const weatherLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${weatherKey}`, {
-    opacity: 0.5
-  }).addTo(map);
-
-  const buildingLayer = L.tileLayer(`https://api.maptiler.com/maps/3d/{z}/{x}/{y}.png?key=${maptilerKey}`, {
-    opacity: 0.7
-  });
-
-  document.getElementById('weatherToggle').addEventListener('change', function () {
-    this.checked ? weatherLayer.addTo(map) : map.removeLayer(weatherLayer);
-  });
-
-  document.getElementById('buildingToggle').addEventListener('change', function () {
-    this.checked ? buildingLayer.addTo(map) : map.removeLayer(buildingLayer);
-  });
-
-  map.on('click', async function(e) {
-    const lat = e.latlng.lat;
-    const lon = e.latlng.lng;
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`);
-    const data = await res.json();
-    const weather = data.weather[0].description;
-    const temp = data.main.temp;
-    const timezoneOffset = data.timezone / 3600;
-    L.popup()
-      .setLatLng([lat, lon])
-      .setContent(`<b>Weather:</b> ${weather}<br><b>Temp:</b> ${temp}°C<br><b>Timezone:</b> GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`)
-      .openOn(map);
-    document.getElementById('timezoneInfo').innerText = `Timezone: GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
-  });
-  map.on('click', function(e) {
-  if (routePoints.length < 2) {
-    routePoints.push(e.latlng);
-    if (routePoints.length === 2) {
-      displayRoute(routePoints[0], routePoints[1]);
-      routePoints = []; // reset for next route
-    }
-  }
-});
-
-  let routePoints = [];
-
-  async function displayRoute(start, end) {
-  try {
-    const routeCoords = await getRoute(start, end);
-
-    const samplePoints = routeCoords.filter((_, i) => i % 10 === 0);
-
-    const weatherResults = await Promise.all(
-      samplePoints.map(([lng, lat]) => getWeatherAtPoint(lat, lng))
-    );
-
-    let segments = [];
-    let currentSegment = [];
-    let currentWeather = weatherResults[0];
-
-    for (let i = 0; i < samplePoints.length; i++) {
-      if (weatherResults[i] === currentWeather) {
-        currentSegment.push(samplePoints[i]);
-      } else {
-        segments.push({ coords: currentSegment, weather: currentWeather });
-        currentSegment = [samplePoints[i]];
-        currentWeather = weatherResults[i];
-      }
-    }
-    segments.push({ coords: currentSegment, weather: currentWeather });
-
-    if (window.routeLayers) {
-      window.routeLayers.forEach(layer => map.removeLayer(layer));
-    }
-    window.routeLayers = [];
-
-    segments.forEach(seg => {
-      const badWeatherConditions = ['rain', 'storm', 'snow'];
-      const isBadWeather = badWeatherConditions.includes(seg.weather);
-      const color = isBadWeather ? 'red' : 'green';
-
-      const polyline = L.polyline(
-        seg.coords.map(c => [c[1], c[0]]),
-        { color, weight: 5 }
-      ).addTo(map);
-
-      window.routeLayers.push(polyline);
+    const buildingLayer = L.tileLayer(`https://api.maptiler.com/maps/3d/{z}/{x}/{y}.png?key=${maptilerKey}`, {
+      opacity: 0.7
     });
 
-    if (weatherResults.some(w => ['rain', 'storm', 'snow'].includes(w))) {
-      alert("⚠️ Warning: Bad weather detected on your route!");
-    }
+    document.getElementById('weatherToggle').addEventListener('change', function () {
+      this.checked ? weatherLayer.addTo(map) : map.removeLayer(weatherLayer);
+    });
 
-    const latLngs = routeCoords.map(c => [c[1], c[0]]);
-    const bounds = L.latLngBounds(latLngs);
-    map.fitBounds(bounds);
+    document.getElementById('buildingToggle').addEventListener('change', function () {
+      this.checked ? buildingLayer.addTo(map) : map.removeLayer(buildingLayer);
+    });
 
-  } catch (error) {
-    console.error("Error in displayRoute:", error);
-    alert("Failed to fetch route or weather data. Please try again.");
-  }
-  
-  } fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+    let routePoints = [];
+    let routeLine;
+
+    async function drawRoute() {
+      if (routePoints.length !== 2) return;
+
+      const res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
         method: 'POST',
         headers: {
           'Authorization': routeKey,
@@ -449,324 +301,122 @@ l.parentNode.insertBefore(s, l);
         },
         body: JSON.stringify({ coordinates: routePoints })
       });
-      const json = await res.json();
-      L.geoJSON(json, {
-        style: { color: 'blue', weight: 4 }
-      }).addTo(map);
+
+      const data = await res.json();
+      const coords = data.features[0].geometry.coordinates;
+      const summary = data.features[0].properties.summary;
+      const distance = (summary.distance / 1000).toFixed(2);
+      const duration = (summary.duration / 60).toFixed(1);
+
+      document.getElementById("routeSummary").innerHTML = `<b>Distance:</b> ${distance} km<br><b>Duration:</b> ${duration} mins`;
+
+      if (routeLine) map.removeLayer(routeLine);
+
+      routeLine = L.polyline(coords.map(p => [p[1], p[0]]), { color: 'blue' }).addTo(map);
+      map.fitBounds(routeLine.getBounds());
+
       routePoints = [];
     }
-  }
 
-  const geocoder = L.Control.geocoder({ defaultMarkGeocode: false })
-    .on('markgeocode', function(e) {
-      const latlng = e.geocode.center;
-      L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
-      map.setView(latlng, 10);
-      routePoints.push([latlng.lng, latlng.lat]);
-      if (routePoints.length === 2) drawRoute();
-    })
-    .addTo(map);
+    const geocoder = L.Control.geocoder({ defaultMarkGeocode: false })
+      .on('markgeocode', function(e) {
+        const latlng = e.geocode.center;
+        map.setView(latlng, 10);
+        L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
+        routePoints.push([latlng.lng, latlng.lat]);
+        if (routePoints.length === 2) drawRoute();
+      }).addTo(map);
 
-  // Voice search
-  document.getElementById('voiceBtn').addEventListener('click', () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Your browser doesn't support voice recognition.");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.start();
-
-    recognition.onresult = function(event) {
-      const query = event.results[0][0].transcript;
-      geocoder.options.geocoder.geocode(query, function(results) {
-        if (results.length > 0) {
-          const result = results[0];
-          map.setView(result.center, 10);
-          L.marker(result.center).addTo(map).bindPopup(result.name).openPopup();
-          routePoints.push([result.center.lng, result.center.lat]);
-          if (routePoints.length === 2) drawRoute();
-        }
-      });
-    };
-  });
-</script>
-
-</body>
-</html>
-
-<script>
-  const map3d = new maplibregl.Map({
-    container: 'map3d',
-    style: 'https://api.maptiler.com/maps/streets/style.json?key=c7mcIDrue1F8v9qGtlXH',
-    center: [7.49508, 9.05785], // You can sync with main map center
-    zoom: 15,
-    pitch: 60,
-    bearing: -17,
-    antialias: true
-  });
-
-  map3d.addControl(new maplibregl.NavigationControl());
-</script>
-<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-
-<script>
-  // Initialize 3D map but don't display yet
-  const map3d = new maplibregl.Map({
-    container: 'map3d',
-    style: 'https://api.maptiler.com/maps/streets/style.json?key=c7mcIDrue1F8v9qGtlXH',
-    center: [7.49508, 9.05785], // Abuja (default)
-    zoom: 15,
-    pitch: 60,
-    bearing: -17,
-    antialias: true
-  });
-
-  map3d.addControl(new maplibregl.NavigationControl());
-
-  // Toggle 3D map visibility
-  const toggleBtn = document.getElementById('toggle3d');
-  const map3dDiv = document.getElementById('map3d');
-
-  toggleBtn.addEventListener('click', () => {
-    if (map3dDiv.style.display === 'none') {
-      // 🔁 Sync 3D map center with Leaflet map
-      const center = map.getCenter(); // From Leaflet
-      map3d.jumpTo({
-        center: [center.lng, center.lat],
-        zoom: map.getZoom()
-      });
-
-      map3dDiv.style.display = 'block';
-      toggleBtn.textContent = '❌ Close 3D Mode';
-    } else {
-      map3dDiv.style.display = 'none';
-      toggleBtn.textContent = '🧱 View 3D Mode';
-    }
-  });
-</script>
-
-<script>
-  // 🔁 Auto-sync the 3D map with Leaflet when it moves or zooms
-map.on('moveend', () => {
-  if (map3dDiv.style.display === 'block') { // Only sync if 3D is visible
-    const center = map.getCenter();
-    map3d.jumpTo({
-      center: [center.lng, center.lat],
-      zoom: map.getZoom()
-    });
-  }
-});
-</script>  
-<script>
-  const mapillaryToken = "MLY|24671506535785368|bbe0af716d1a2fe323f34b8e893e310a";
-  const weatherKey = "a65d564a892d82cd09d48a43888a1139";
-  const timezoneKey = "5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2";
-  let viewer = null;
-
-  async function loadStreetView(lat, lng) {
-    const response = await fetch(`https://graph.mapillary.com/images?access_token=${mapillaryToken}&fields=id&closeto=${lng},${lat}&limit=1`);
-    const data = await response.json();
-    if (data.data && data.data.length > 0) {
-      const imageId = data.data[0].id;
-      document.getElementById("mly").style.display = "block";
-      if (!viewer) {
-        viewer = new Mapillary.Viewer({
-          container: "mly",
-          imageId,
-          accessToken: mapillaryToken
-        });
-      } else {
-        viewer.moveTo(imageId);
+    document.getElementById('voiceBtn').addEventListener('click', () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Your browser doesn't support voice recognition.");
+        return;
       }
-    } else {
-      document.getElementById("mly").style.display = "none";
-      alert("🚫 No street view at this location.");
-    }
-  }
-
-  async function loadWeather(lat, lon) {
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`);
-    const data = await res.json();
-    document.getElementById("weather").innerHTML = `${data.main.temp}°C, ${data.weather[0].description}`;
-  }
-
-  async function loadTimezone(lat, lon) {
-    const res = await fetch(`https://api.openrouteservice.org/timezone?api_key=${timezoneKey}&location=${lon},${lat}`);
-    const data = await res.json();
-    document.getElementById("timezone").textContent = data.timezone;
-  }
-
-  // 🖱️ When user clicks the map
-  map.on("click", function (e) {
-    const lat = e.latlng.lat;
-    const lng = e.latlng.lng;
-    loadStreetView(lat, lng);
-    loadWeather(lat, lng);
-    loadTimezone(lat, lng);
-  });
-</script>
- 
-<script> 
-  const voiceBtn = document.getElementById("voiceBtn");
-const voiceStatus = document.getElementById("voiceStatus");
-
-if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-  voiceStatus.textContent = "⚠️ Your browser does not support Speech Recognition.";
-} else {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = new SpeechRecognition();
-
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  voiceBtn.onclick = () => {
-    recognition.start();
-    voiceStatus.textContent = "🎙️ Listening...";
-    voiceBtn.disabled = true;
-  };
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript.toLowerCase().trim();
-    voiceStatus.textContent = `🗣️ You said: "${transcript}"`;
-    voiceBtn.disabled = false;
-    processCommand(transcript);
-  };
-
-  recognition.onerror = (event) => {
-    voiceStatus.textContent = `❌ Error: ${event.error}`;
-    voiceBtn.disabled = false;
-  };
-
-  recognition.onend = () => {
-    voiceBtn.disabled = false;
-    if (voiceStatus.textContent === "🎙️ Listening...") {
-      voiceStatus.textContent = "";
-    }
-  };
-}
-
-function processCommand(command) {
-  // Basic command parsing
-  if (command.startsWith("navigate to")) {
-    const place = command.replace("navigate to", "").trim();
-    searchAndNavigate(place);
-  } else if (command === "zoom in") {
-    map.zoomIn();
-  } else if (command === "zoom out") {
-    map.zoomOut();
-  } else if (command.startsWith("show weather in")) {
-    const place = command.replace("show weather in", "").trim();
-    searchAndShowWeather(place);
-  } else {
-    voiceStatus.textContent += " (Command not recognized)";
-  }
-}
-
-function searchAndNavigate(place) {
-  // Use OpenStreetMap Nominatim API to get coordinates for place
-  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.length > 0) {
-        const lat = parseFloat(data[0].lat);
-        const lon = parseFloat(data[0].lon);
-        map.setView([lat, lon], 15);
-        voiceStatus.textContent += ` → Navigated to ${place}`;
-      } else {
-        voiceStatus.textContent += ` → Place "${place}" not found.`;
-      }
-    })
-    .catch(() => {
-      voiceStatus.textContent += " → Error searching place.";
-    });
-}
-
-function searchAndShowWeather(place) {
-  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.length > 0) {
-        const lat = parseFloat(data[0].lat);
-        const lon = parseFloat(data[0].lon);
-        loadWeather(lat, lon);
-        voiceStatus.textContent += ` → Showing weather in ${place}`;
-      } else {
-        voiceStatus.textContent += ` → Place "${place}" not found.`;
-      }
-    })
-    .catch(() => {
-      voiceStatus.textContent += " → Error searching place.";
-    });
-}
-    </script>
-
-      <script>
-  let routePoints = [];
-  const markers = [];
-
-  const geocoder = L.Control.geocoder({ defaultMarkGeocode: false })
-    .on('markgeocode', function(e) {
-      const latlng = e.geocode.center;
-
-      // Clear old markers if you want
-      markers.forEach(m => map.removeLayer(m));
-      markers.length = 0;
-
-      const marker = L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
-      markers.push(marker);
-
-      map.setView(latlng, 10);
-      routePoints.push([latlng.lng, latlng.lat]);
-      if (routePoints.length === 2) {
-        drawRoute();
-        routePoints = [];  // Reset for next route
-      }
-    })
-    .addTo(map);
-
-  document.getElementById('voiceBtn').addEventListener('click', () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Your browser doesn't support voice recognition.");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.start();
-
-    recognition.onresult = function(event) {
-      const query = event.results[0][0].transcript;
-      geocoder.options.geocoder.geocode(query, function(results) {
-        if (results.length > 0) {
-          // Clear old markers
-          markers.forEach(m => map.removeLayer(m));
-          markers.length = 0;
-
-          const result = results[0];
-          map.setView(result.center, 10);
-          const marker = L.marker(result.center).addTo(map).bindPopup(result.name).openPopup();
-          markers.push(marker);
-
-          routePoints.push([result.center.lng, result.center.lat]);
-          if (routePoints.length === 2) {
-            drawRoute();
-            routePoints = [];
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.start();
+      recognition.onresult = function(event) {
+        const query = event.results[0][0].transcript;
+        geocoder.options.geocoder.geocode(query, function(results) {
+          if (results.length > 0) {
+            const latlng = results[0].center;
+            map.setView(latlng, 10);
+            L.marker(latlng).addTo(map).bindPopup(results[0].name).openPopup();
+            routePoints.push([latlng.lng, latlng.lat]);
+            if (routePoints.length === 2) drawRoute();
           }
-        }
-      });
-    };
-  });
+        });
+      };
+    });
 
-  function drawRoute() {
-    // Your routing logic here
-    console.log('Drawing route with points:', routePoints);
-  }
-</script>
-      
+    map.on('click', async function(e) {
+      const lat = e.latlng.lat;
+      const lon = e.latlng.lng;
+
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`);
+      const data = await res.json();
+      const weather = data.weather[0].description;
+      const temp = data.main.temp;
+      const timezoneOffset = data.timezone / 3600;
+      const risk = weather.includes("storm") || weather.includes("snow") || weather.includes("thunder") || weather.includes("extreme") ? "⚠️ Risky weather!" : "✅ Weather OK";
+
+      L.popup()
+        .setLatLng([lat, lon])
+        .setContent(`<b>Weather:</b> ${weather}<br><b>Temp:</b> ${temp}°C<br><b>Timezone:</b> GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}<br><b>Status:</b> ${risk}`)
+        .openOn(map);
+
+      document.getElementById('timezoneInfo').innerText = `Timezone: GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
+
+      const viewer = new Mapillary.Viewer({
+        container: 'streetView',
+        imageId: null,
+        accessToken: mapillaryToken
+      });
+      viewer.moveCloseTo(lat, lon).then(() => {
+        document.getElementById('streetView').style.display = 'block';
+      }).catch(() => {
+        document.getElementById('streetView').style.display = 'none';
+      });
+    });
+
+    const map3d = new maplibregl.Map({
+      container: 'map3d',
+      style: `https://api.maptiler.com/maps/streets/style.json?key=${maptilerKey}`,
+      center: [7.49508, 9.05785],
+      zoom: 5,
+      pitch: 60,
+      bearing: -17,
+      antialias: true
+    });
+    map3d.addControl(new maplibregl.NavigationControl());
+
+    const toggleBtn = document.getElementById('toggle3d');
+    toggleBtn.addEventListener('click', () => {
+      const map3dDiv = document.getElementById('map3d');
+      if (map3dDiv.style.display === 'none') {
+        const center = map.getCenter();
+        map3d.jumpTo({ center: [center.lng, center.lat], zoom: map.getZoom() });
+        map3dDiv.style.display = 'block';
+        toggleBtn.textContent = '❌ Close 3D Mode';
+      } else {
+        map3dDiv.style.display = 'none';
+        toggleBtn.textContent = '🧱 View 3D Mode';
+      }
+    });
+  </script></body>
+</html>
+  
 </body>
 </html>
+
+    
+        
+    
+ 
+      
+
+  
+
+
+  
