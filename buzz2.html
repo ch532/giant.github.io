@@ -199,228 +199,29 @@ l.parentNode.insertBefore(s, l);
   * This is an affiliate link — if you click and sign up, I may earn a commission at no extra cost to you.
 </p>
 
-  <!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Smart Map</title>  <!-- Leaflet CSS -->  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-  <link rel="stylesheet" href="https://unpkg.com/mapillary-js/dist/mapillary.min.css" />  <style>
-    #map, #map3d {
-      width: 100%;
-      height: 60vh;
-      max-height: 500px;
-      min-height: 250px;
-    }
+   <section style="max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  <h2 style="text-align:center; font-size: 24px; margin-bottom: 20px;">
+    🔧 Handy Tools by Common Ninja
+  </h2>
 
-    #map3d {
-      display: none;
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      width: 300px;
-      height: 200px;
-      border: 2px solid #ccc;
-      z-index: 1000;
-    }
+  <!-- Common Ninja Widget -->
+  <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
+  <div class="commonninja_component pid-a31b348f-bb97-4713-8b64-b41071d3b61d"
+       data-affiliate="Chibuike"
+       style="width:100%; max-width:100%;"></div>
 
-    .leaflet-bottom.leaflet-left {
-      z-index: 1001;
-    }
+  <p style="text-align:center; font-size: 14px; color: #888; margin-top: 20px;">
+    This widget may include affiliate links. I may earn a small commission if you make a purchase.
+  </p>
+</section>     
 
-    .control-box {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.3);
-      max-width: 250px;
-    }
+<a href="https://www.qhoster.com/clients/aff.php?aff=1799">
+  <img src="https://www.qhoster.com/banners/300x250.gif" style="height:250px;width:300px;" border="0" alt="Web Hosting and Linux/Windows VPS in USA, UK and Germany">
+</a>
 
-    #searchInput {
-      width: 100%;
-      padding: 5px;
-      margin-bottom: 6px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    #voiceBtn {
-      width: 100%;
-      padding: 6px;
-      margin-bottom: 8px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    #voiceBtn:hover {
-      background: #0056b3;
-    }
-
-    #instructions {
-      background: #f9f9f9;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 14px;
-      border-radius: 5px;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-  </style></head>
-<body>
-  <div id="map"></div>
-  <div id="map3d"></div>  <!-- Controls inside map -->  <div id="mapControls" class="leaflet-bottom leaflet-left">
-    <div class="control-box">
-      <input type="text" id="searchInput" placeholder="Search place..." />
-      <button id="voiceBtn">🎤</button>
-      <p id="voiceStatus"></p>
-      <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
-      <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
-      <label><input type="checkbox" id="streetToggle"> Street View</label><br>
-      <button id="toggle3d">🧱 3D Mode</button><br>
-      <span id="timezoneInfo">Timezone: </span>
-    </div>
-  </div>  <!-- Mapillary Viewer Panel -->  <div id="streetViewPanel" style="width: 100%; height: 300px;"></div>
-  <div id="instructions"></div>  <!-- JS Scripts -->  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>  <script src="https://unpkg.com/mapillary-js"></script>  <script>
-    const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
-    const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
-    const routeKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
-    const mapillaryToken = 'MLY|24671506535785368|bbe0af716d1a2fe323f34b8e893e310a';
-
-    const map = L.map('map').setView([9.05785, 7.49508], 6);
-
-    const baseLayer = L.tileLayer(`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=${maptilerKey}`, {
-      attribution: '© MapTiler © OpenStreetMap'
-    }).addTo(map);
-
-    const weatherLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${weatherKey}`, {
-      opacity: 0.5
-    }).addTo(map);
-
-    const buildingLayer = L.tileLayer(`https://api.maptiler.com/maps/3d/{z}/{x}/{y}.png?key=${maptilerKey}`, {
-      opacity: 0.7
-    });
-
-    document.getElementById('weatherToggle').addEventListener('change', function () {
-      this.checked ? weatherLayer.addTo(map) : map.removeLayer(weatherLayer);
-    });
-
-    document.getElementById('buildingToggle').addEventListener('change', function () {
-      this.checked ? buildingLayer.addTo(map) : map.removeLayer(buildingLayer);
-    });
-
-    document.getElementById('streetToggle').addEventListener('change', function () {
-      document.getElementById('streetViewPanel').style.display = this.checked ? 'block' : 'none';
-    });
-
-    const viewer = new Mapillary.Viewer({
-      container: 'streetViewPanel',
-      accessToken: mapillaryToken
-    });
-
-    map.on('click', async function(e) {
-      const lat = e.latlng.lat;
-      const lon = e.latlng.lng;
-      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`);
-      const data = await res.json();
-      const weather = data.weather[0].description;
-      const temp = data.main.temp;
-      const timezoneOffset = data.timezone / 3600;
-      L.popup()
-        .setLatLng([lat, lon])
-        .setContent(`<b>Weather:</b> ${weather}<br><b>Temp:</b> ${temp}°C<br><b>Timezone:</b> GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`)
-        .openOn(map);
-      document.getElementById('timezoneInfo').innerText = `Timezone: GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
-      viewer.moveCloseTo(lat, lon).catch(console.warn);
-    });
-
-    const map3d = new maplibregl.Map({
-      container: 'map3d',
-      style: `https://api.maptiler.com/maps/streets/style.json?key=${maptilerKey}`,
-      center: [7.49508, 9.05785],
-      zoom: 14,
-      pitch: 60,
-      bearing: -17,
-      antialias: true
-    });
-    map3d.addControl(new maplibregl.NavigationControl());
-
-    document.getElementById('toggle3d').addEventListener('click', () => {
-      if (map3dDiv.style.display === 'none') {
-        const center = map.getCenter();
-        map3d.jumpTo({ center: [center.lng, center.lat], zoom: map.getZoom() });
-        map3dDiv.style.display = 'block';
-        toggleBtn.textContent = '❌ Close 3D Mode';
-      } else {
-        map3dDiv.style.display = 'none';
-        toggleBtn.textContent = '🧱 3D Mode';
-      }
-    });
-
-    // Route Drawing with Weather Risk
-    let routeLayer;
-    async function getRoute(start, end) {
-      const response = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
-        method: 'POST',
-        headers: {
-          'Authorization': routeKey,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ coordinates: [start, end] })
-      });
-      return await response.json();
-    }
-
-    async function displayRoute(start, end) {
-      if (routeLayer) map.removeLayer(routeLayer);
-      const geojson = await getRoute(start, end);
-      routeLayer = L.geoJSON(geojson, {
-        style: feature => ({
-          color: 'blue',
-          weight: 4
-        })
-      }).addTo(map);
-
-      // Show step-by-step instructions
-      const steps = geojson.features[0].properties.segments[0].steps;
-      let instructions = '<h4>Directions</h4><ol>';
-      steps.forEach(step => {
-        instructions += `<li>${step.instruction}</li>`;
-      });
-      instructions += '</ol>';
-      document.getElementById('instructions').innerHTML = instructions;
-    }
-
-    // Voice Search
-    document.getElementById('voiceBtn').addEventListener('click', () => {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) return alert("Browser doesn't support voice recognition.");
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.start();
-      recognition.onresult = event => {
-        const query = event.results[0][0].transcript;
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.length > 0) {
-              const lat = parseFloat(data[0].lat);
-              const lon = parseFloat(data[0].lon);
-              map.setView([lat, lon], 13);
-              L.marker([lat, lon]).addTo(map).bindPopup(query).openPopup();
-            }
-          });
-      };
-    });
-
-    // Auto example route
-    displayRoute([7.49508, 9.05785], [3.3792, 6.5244]); // Abuja to Lagos
-  </script>
-</body>
-</html>    
+<p style="font-size: 13px; color: #555;">
+  <em>This is an affiliate link. I may earn a small commission if you make a purchase — at no extra cost to you.</em>
+</p>
   
 </body>
 </html>
