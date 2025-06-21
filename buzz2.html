@@ -202,8 +202,7 @@ l.parentNode.insertBefore(s, l);
   * This is an affiliate link — if you click and sign up, I may earn a commission at no extra cost to you.
 </p>
 
-<iframe src="https://www.fiverr.com/gig_widgets?id=U2FsdGVkX18VRhaPmUkIgRgU8HeBczzgaJz67V5VElRVkM5vCYIUZKo5vp+7Vuqm3xMPCEyToR6WQxQbF4UIyz+Bp+0xgcFSLJ2+yvjBdejHT4/LZ6J0Syf56drrH6ATzoFhwU2MTyMYjAj5YVEVRhDGPQXbfqgP3bYVe6Tc+tIvNF4mZBodNM0iWUgdJjQyLcBY6OudbLKzsqXXvMlsGYEC/2ds8Q7ugoqGoJGcidaqSBaiPM5P29aW78v2pQtok007YhmO/KBEmt0ursalE9RwCfE34G2eCW6fTCzvJrE0KzxKWCpOND5ZraIET0PrhRUQb8AVecP1Rd4w9tDU2N2TvEZT0j8ubrxfH/sEatGFCtLW4Z0k0ecgwms3ejmITgWl3WNcOBzqf6foDAYXaiPMlWXF/YKsO1x4Gzu9bFf2ZQHk7BAaatTl/hMouizRzpxonsnYxzwMMtX0oxb9LQ==&affiliate_id=401037&strip_google_tagmanager=true" loading="lazy" data-with-title="true" class="fiverr_nga_frame" frameborder="0" height="350" width="100%" referrerpolicy="no-referrer-when-downgrade" data-mode="random_gigs" onload=" var frame = this; var script = document.createElement('script'); script.addEventListener('load', function() { window.FW_SDK.register(frame); }); script.setAttribute('src', 'https://www.fiverr.com/gig_widgets/sdk'); document.body.appendChild(script); " ></iframe>
-  
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -231,36 +230,41 @@ l.parentNode.insertBefore(s, l);
     height: 50vh;
   }
 }
-    .controls {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 1000;
-      background: white;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    #voiceBtn {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 6px 10px;
-      margin-top: 6px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    #voiceBtn:hover {
-      background: #0056b3;
-    }
+    .map-widget-controls {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  line-height: 1.6;
+  z-index: 1001;
+}
+
+#voiceBtn {
+  margin-top: 8px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#voiceBtn:hover {
+  background: #0056b3;
+}
   </style>
 </head>
 <body>
 
-<div class="controls">
-  <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
-  <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
-  <span id="timezoneInfo">Timezone: </span><br>
+<div class="map-widget-controls" id="mapControls">
+  <label><input type="checkbox" id="weatherToggle" checked> ☁️ Weather</label><br>
+  <label><input type="checkbox" id="buildingToggle"> 🏙️ 3D Buildings</label><br>
+  <div id="timezoneInfo">⏰ Timezone: —</div>
   <button id="voiceBtn">🎤 Voice Search</button>
 </div>
 
@@ -367,6 +371,8 @@ l.parentNode.insertBefore(s, l);
 
 </body>
 </html>
-  
+
+<iframe src="https://www.fiverr.com/gig_widgets?id=U2FsdGVkX18VRhaPmUkIgRgU8HeBczzgaJz67V5VElRVkM5vCYIUZKo5vp+7Vuqm3xMPCEyToR6WQxQbF4UIyz+Bp+0xgcFSLJ2+yvjBdejHT4/LZ6J0Syf56drrH6ATzoFhwU2MTyMYjAj5YVEVRhDGPQXbfqgP3bYVe6Tc+tIvNF4mZBodNM0iWUgdJjQyLcBY6OudbLKzsqXXvMlsGYEC/2ds8Q7ugoqGoJGcidaqSBaiPM5P29aW78v2pQtok007YhmO/KBEmt0ursalE9RwCfE34G2eCW6fTCzvJrE0KzxKWCpOND5ZraIET0PrhRUQb8AVecP1Rd4w9tDU2N2TvEZT0j8ubrxfH/sEatGFCtLW4Z0k0ecgwms3ejmITgWl3WNcOBzqf6foDAYXaiPMlWXF/YKsO1x4Gzu9bFf2ZQHk7BAaatTl/hMouizRzpxonsnYxzwMMtX0oxb9LQ==&affiliate_id=401037&strip_google_tagmanager=true" loading="lazy" data-with-title="true" class="fiverr_nga_frame" frameborder="0" height="350" width="100%" referrerpolicy="no-referrer-when-downgrade" data-mode="random_gigs" onload=" var frame = this; var script = document.createElement('script'); script.addEventListener('load', function() { window.FW_SDK.register(frame); }); script.setAttribute('src', 'https://www.fiverr.com/gig_widgets/sdk'); document.body.appendChild(script); " ></iframe>
+   
 </body>
 </html>
