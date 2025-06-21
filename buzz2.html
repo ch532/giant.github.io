@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<head>
+  <!-- other head stuff -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</head>
   <!-- Mapillary Viewer CSS -->
 <link rel="stylesheet" href="https://unpkg.com/mapillary-js@4.0.0-beta.1/dist/mapillary.min.css" />
 <!-- Mapillary Viewer JS -->
@@ -300,7 +305,6 @@ l.parentNode.insertBefore(s, l);
   z-index: 1000;
   display: none;
 }
-</style>
   </style>
 </head>
 <body>
@@ -698,7 +702,71 @@ function searchAndShowWeather(place) {
       voiceStatus.textContent += " → Error searching place.";
     });
 }
-    </script
+    </script>
 
+      <script>
+  let routePoints = [];
+  const markers = [];
+
+  const geocoder = L.Control.geocoder({ defaultMarkGeocode: false })
+    .on('markgeocode', function(e) {
+      const latlng = e.geocode.center;
+
+      // Clear old markers if you want
+      markers.forEach(m => map.removeLayer(m));
+      markers.length = 0;
+
+      const marker = L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
+      markers.push(marker);
+
+      map.setView(latlng, 10);
+      routePoints.push([latlng.lng, latlng.lat]);
+      if (routePoints.length === 2) {
+        drawRoute();
+        routePoints = [];  // Reset for next route
+      }
+    })
+    .addTo(map);
+
+  document.getElementById('voiceBtn').addEventListener('click', () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Your browser doesn't support voice recognition.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.start();
+
+    recognition.onresult = function(event) {
+      const query = event.results[0][0].transcript;
+      geocoder.options.geocoder.geocode(query, function(results) {
+        if (results.length > 0) {
+          // Clear old markers
+          markers.forEach(m => map.removeLayer(m));
+          markers.length = 0;
+
+          const result = results[0];
+          map.setView(result.center, 10);
+          const marker = L.marker(result.center).addTo(map).bindPopup(result.name).openPopup();
+          markers.push(marker);
+
+          routePoints.push([result.center.lng, result.center.lat]);
+          if (routePoints.length === 2) {
+            drawRoute();
+            routePoints = [];
+          }
+        }
+      });
+    };
+  });
+
+  function drawRoute() {
+    // Your routing logic here
+    console.log('Drawing route with points:', routePoints);
+  }
+</script>
+      
 </body>
 </html>
