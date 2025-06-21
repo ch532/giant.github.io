@@ -330,12 +330,15 @@ l.parentNode.insertBefore(s, l);
   const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
   const routeKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
 
-  const map = L.map('map').setView([20, 0], 2);
-
-  const baseLayer = L.tileLayer(`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=${maptilerKey}`, {
+  <div id="map" style="height: 400px;"></div>
+<script>
+  const map = L.map('map').setView([9.05785, 7.49508], 13);
+  L.tileLayer(`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=c7mcIDrue1F8v9qGtlXH`, {
     attribution: '© MapTiler © OpenStreetMap'
   }).addTo(map);
+</script>
 
+ <script>
   const weatherLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${weatherKey}`, {
     opacity: 0.5
   }).addTo(map);
