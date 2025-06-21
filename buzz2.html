@@ -269,6 +269,37 @@ l.parentNode.insertBefore(s, l);
   border: 2px solid #ccc;
   z-index: 1000;
     }
+    <style>
+#toggle3d {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  padding: 10px 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#toggle3d:hover {
+  background-color: #0056b3;
+}
+
+#map3d {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  width: 300px;
+  height: 200px;
+  border: 2px solid #ccc;
+  z-index: 1000;
+  display: none;
+}
+</style>
   </style>
 </head>
 <body>
@@ -281,7 +312,9 @@ l.parentNode.insertBefore(s, l);
 </div>
 
 <div id="map"></div><div id="map3d"></div>
-
+<button id="toggle3d">🧱 View 3D Mode</button>
+<div id="map3d" style="display: none;"></div>
+  
 <script>
   const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
   const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
@@ -396,6 +429,43 @@ l.parentNode.insertBefore(s, l);
   });
 
   map3d.addControl(new maplibregl.NavigationControl());
+</script>
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+
+<script>
+  // Initialize 3D map but don't display yet
+  const map3d = new maplibregl.Map({
+    container: 'map3d',
+    style: 'https://api.maptiler.com/maps/streets/style.json?key=c7mcIDrue1F8v9qGtlXH',
+    center: [7.49508, 9.05785], // Abuja (default)
+    zoom: 15,
+    pitch: 60,
+    bearing: -17,
+    antialias: true
+  });
+
+  map3d.addControl(new maplibregl.NavigationControl());
+
+  // Toggle 3D map visibility
+  const toggleBtn = document.getElementById('toggle3d');
+  const map3dDiv = document.getElementById('map3d');
+
+  toggleBtn.addEventListener('click', () => {
+    if (map3dDiv.style.display === 'none') {
+      // 🔁 Sync 3D map center with Leaflet map
+      const center = map.getCenter(); // From Leaflet
+      map3d.jumpTo({
+        center: [center.lng, center.lat],
+        zoom: map.getZoom()
+      });
+
+      map3dDiv.style.display = 'block';
+      toggleBtn.textContent = '❌ Close 3D Mode';
+    } else {
+      map3dDiv.style.display = 'none';
+      toggleBtn.textContent = '🧱 View 3D Mode';
+    }
+  });
 </script>
   
 <iframe src="https://www.fiverr.com/gig_widgets?id=U2FsdGVkX18VRhaPmUkIgRgU8HeBczzgaJz67V5VElRVkM5vCYIUZKo5vp+7Vuqm3xMPCEyToR6WQxQbF4UIyz+Bp+0xgcFSLJ2+yvjBdejHT4/LZ6J0Syf56drrH6ATzoFhwU2MTyMYjAj5YVEVRhDGPQXbfqgP3bYVe6Tc+tIvNF4mZBodNM0iWUgdJjQyLcBY6OudbLKzsqXXvMlsGYEC/2ds8Q7ugoqGoJGcidaqSBaiPM5P29aW78v2pQtok007YhmO/KBEmt0ursalE9RwCfE34G2eCW6fTCzvJrE0KzxKWCpOND5ZraIET0PrhRUQb8AVecP1Rd4w9tDU2N2TvEZT0j8ubrxfH/sEatGFCtLW4Z0k0ecgwms3ejmITgWl3WNcOBzqf6foDAYXaiPMlWXF/YKsO1x4Gzu9bFf2ZQHk7BAaatTl/hMouizRzpxonsnYxzwMMtX0oxb9LQ==&affiliate_id=401037&strip_google_tagmanager=true" loading="lazy" data-with-title="true" class="fiverr_nga_frame" frameborder="0" height="350" width="100%" referrerpolicy="no-referrer-when-downgrade" data-mode="random_gigs" onload=" var frame = this; var script = document.createElement('script'); script.addEventListener('load', function() { window.FW_SDK.register(frame); }); script.setAttribute('src', 'https://www.fiverr.com/gig_widgets/sdk'); document.body.appendChild(script); " ></iframe>
