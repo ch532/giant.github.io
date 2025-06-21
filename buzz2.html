@@ -199,58 +199,92 @@ l.parentNode.insertBefore(s, l);
   * This is an affiliate link — if you click and sign up, I may earn a commission at no extra cost to you.
 </p>
 
-<!DOCTYPE html><html lang="en">
+  <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Advanced Map with Weather, Routing, 3D, Voice & Street View</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Smart Map</title>  <!-- Leaflet CSS -->  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-  <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-  <script src="https://unpkg.com/@maptiler/maplibre-gl-mapillary@1.0.0/dist/mapillary.js"></script>
-  <style>
+  <link rel="stylesheet" href="https://unpkg.com/mapillary-js/dist/mapillary.min.css" />  <style>
     #map, #map3d {
       width: 100%;
       height: 60vh;
       max-height: 500px;
-      margin-bottom: 10px;
+      min-height: 250px;
     }
+
     #map3d {
       display: none;
-    }
-    .controls {
       position: absolute;
-      top: 10px;
+      bottom: 10px;
       left: 10px;
-      background: white;
-      padding: 10px;
-      z-index: 999;
-      font-size: 14px;
-    }
-    #streetView {
-      height: 300px;
-      width: 100%;
+      width: 300px;
+      height: 200px;
       border: 2px solid #ccc;
-      display: none;
+      z-index: 1000;
     }
-    #voiceStatus {
-      margin-top: 8px;
-      color: #333;
-    }
-    #routeSummary {
-      padding: 10px;
-      background: #eef;
-      font-family: Arial, sans-serif;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
 
-  <script>
+    .leaflet-bottom.leaflet-left {
+      z-index: 1001;
+    }
+
+    .control-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      max-width: 250px;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #voiceBtn {
+      width: 100%;
+      padding: 6px;
+      margin-bottom: 8px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #voiceBtn:hover {
+      background: #0056b3;
+    }
+
+    #instructions {
+      background: #f9f9f9;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style></head>
+<body>
+  <div id="map"></div>
+  <div id="map3d"></div>  <!-- Controls inside map -->  <div id="mapControls" class="leaflet-bottom leaflet-left">
+    <div class="control-box">
+      <input type="text" id="searchInput" placeholder="Search place..." />
+      <button id="voiceBtn">🎤</button>
+      <p id="voiceStatus"></p>
+      <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
+      <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
+      <label><input type="checkbox" id="streetToggle"> Street View</label><br>
+      <button id="toggle3d">🧱 3D Mode</button><br>
+      <span id="timezoneInfo">Timezone: </span>
+    </div>
+  </div>  <!-- Mapillary Viewer Panel -->  <div id="streetViewPanel" style="width: 100%; height: 300px;"></div>
+  <div id="instructions"></div>  <!-- JS Scripts -->  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>  <script src="https://unpkg.com/mapillary-js"></script>  <script>
     const maptilerKey = 'c7mcIDrue1F8v9qGtlXH';
     const weatherKey = 'a65d564a892d82cd09d48a43888a1139';
     const routeKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
@@ -271,139 +305,50 @@ l.parentNode.insertBefore(s, l);
     });
 
     document.getElementById('weatherToggle').addEventListener('change', function () {
-    document.getElementById('weatherToggle').addEventListener('change', function () {
-  if (this.checked) {
-    weatherLayer.addTo(map);
-  } else {
-    map.removeLayer(weatherLayer);
-  }
-});
-  <div id="mapControls" class="leaflet-bottom leaflet-left">
-  <div class="control-box">
-    <input type="text" id="searchInput" placeholder="Search place..." />
-    <button id="voiceBtn">🎤</button>
-    <p id="voiceStatus"></p>
+      this.checked ? weatherLayer.addTo(map) : map.removeLayer(weatherLayer);
+    });
 
-    <label><input type="checkbox" id="weatherToggle" checked> Weather</label><br>
-    <label><input type="checkbox" id="buildingToggle"> 3D Buildings</label><br>
-    <label><input type="checkbox" id="streetToggle"> Street View</label><br>
-
-    <button id="toggle3d">🧱 3D Mode</button><br>
-    <span id="timezoneInfo">Timezone: </span>
-    </div>
-  </div>
-                                                              
     document.getElementById('buildingToggle').addEventListener('change', function () {
       this.checked ? buildingLayer.addTo(map) : map.removeLayer(buildingLayer);
     });
 
-    let routePoints = [];
-    let routeLine;
+    document.getElementById('streetToggle').addEventListener('change', function () {
+      document.getElementById('streetViewPanel').style.display = this.checked ? 'block' : 'none';
+    });
 
-    async function drawRoute() {
-      if (routePoints.length !== 2) return;
-
-      const res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
-        method: 'POST',
-        headers: {
-          'Authorization': routeKey,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ coordinates: routePoints })
-      });
-
-      const data = await res.json();
-      const coords = data.features[0].geometry.coordinates;
-      const summary = data.features[0].properties.summary;
-      const distance = (summary.distance / 1000).toFixed(2);
-      const duration = (summary.duration / 60).toFixed(1);
-
-      document.getElementById("routeSummary").innerHTML = `<b>Distance:</b> ${distance} km<br><b>Duration:</b> ${duration} mins`;
-
-      if (routeLine) map.removeLayer(routeLine);
-
-      routeLine = L.polyline(coords.map(p => [p[1], p[0]]), { color: 'blue' }).addTo(map);
-      map.fitBounds(routeLine.getBounds());
-
-      routePoints = [];
-    }
-
-    const geocoder = L.Control.geocoder({ defaultMarkGeocode: false })
-      .on('markgeocode', function(e) {
-        const latlng = e.geocode.center;
-        map.setView(latlng, 10);
-        L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
-        routePoints.push([latlng.lng, latlng.lat]);
-        if (routePoints.length === 2) drawRoute();
-      }).addTo(map);
-
-    document.getElementById('voiceBtn').addEventListener('click', () => {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Your browser doesn't support voice recognition.");
-        return;
-      }
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.start();
-      recognition.onresult = function(event) {
-        const query = event.results[0][0].transcript;
-        geocoder.options.geocoder.geocode(query, function(results) {
-          if (results.length > 0) {
-            const latlng = results[0].center;
-            map.setView(latlng, 10);
-            L.marker(latlng).addTo(map).bindPopup(results[0].name).openPopup();
-            routePoints.push([latlng.lng, latlng.lat]);
-            if (routePoints.length === 2) drawRoute();
-          }
-        });
-      };
+    const viewer = new Mapillary.Viewer({
+      container: 'streetViewPanel',
+      accessToken: mapillaryToken
     });
 
     map.on('click', async function(e) {
       const lat = e.latlng.lat;
       const lon = e.latlng.lng;
-
       const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`);
       const data = await res.json();
       const weather = data.weather[0].description;
       const temp = data.main.temp;
       const timezoneOffset = data.timezone / 3600;
-      const risk = weather.includes("storm") || weather.includes("snow") || weather.includes("thunder") || weather.includes("extreme") ? "⚠️ Risky weather!" : "✅ Weather OK";
-
       L.popup()
         .setLatLng([lat, lon])
-        .setContent(`<b>Weather:</b> ${weather}<br><b>Temp:</b> ${temp}°C<br><b>Timezone:</b> GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}<br><b>Status:</b> ${risk}`)
+        .setContent(`<b>Weather:</b> ${weather}<br><b>Temp:</b> ${temp}°C<br><b>Timezone:</b> GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`)
         .openOn(map);
-
       document.getElementById('timezoneInfo').innerText = `Timezone: GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
-
-      const viewer = new Mapillary.Viewer({
-        container: 'streetView',
-        imageId: null,
-        accessToken: mapillaryToken
-      });
-      viewer.moveCloseTo(lat, lon).then(() => {
-        document.getElementById('streetView').style.display = 'block';
-      }).catch(() => {
-        document.getElementById('streetView').style.display = 'none';
-      });
+      viewer.moveCloseTo(lat, lon).catch(console.warn);
     });
 
     const map3d = new maplibregl.Map({
       container: 'map3d',
       style: `https://api.maptiler.com/maps/streets/style.json?key=${maptilerKey}`,
       center: [7.49508, 9.05785],
-      zoom: 5,
+      zoom: 14,
       pitch: 60,
       bearing: -17,
       antialias: true
     });
     map3d.addControl(new maplibregl.NavigationControl());
 
-    const toggleBtn = document.getElementById('toggle3d');
-    toggleBtn.addEventListener('click', () => {
-      const map3dDiv = document.getElementById('map3d');
+    document.getElementById('toggle3d').addEventListener('click', () => {
       if (map3dDiv.style.display === 'none') {
         const center = map.getCenter();
         map3d.jumpTo({ center: [center.lng, center.lat], zoom: map.getZoom() });
@@ -411,12 +356,71 @@ l.parentNode.insertBefore(s, l);
         toggleBtn.textContent = '❌ Close 3D Mode';
       } else {
         map3dDiv.style.display = 'none';
-        toggleBtn.textContent = '🧱 View 3D Mode';
+        toggleBtn.textContent = '🧱 3D Mode';
       }
     });
+
+    // Route Drawing with Weather Risk
+    let routeLayer;
+    async function getRoute(start, end) {
+      const response = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+        method: 'POST',
+        headers: {
+          'Authorization': routeKey,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ coordinates: [start, end] })
+      });
+      return await response.json();
+    }
+
+    async function displayRoute(start, end) {
+      if (routeLayer) map.removeLayer(routeLayer);
+      const geojson = await getRoute(start, end);
+      routeLayer = L.geoJSON(geojson, {
+        style: feature => ({
+          color: 'blue',
+          weight: 4
+        })
+      }).addTo(map);
+
+      // Show step-by-step instructions
+      const steps = geojson.features[0].properties.segments[0].steps;
+      let instructions = '<h4>Directions</h4><ol>';
+      steps.forEach(step => {
+        instructions += `<li>${step.instruction}</li>`;
+      });
+      instructions += '</ol>';
+      document.getElementById('instructions').innerHTML = instructions;
+    }
+
+    // Voice Search
+    document.getElementById('voiceBtn').addEventListener('click', () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Browser doesn't support voice recognition.");
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.start();
+      recognition.onresult = event => {
+        const query = event.results[0][0].transcript;
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.length > 0) {
+              const lat = parseFloat(data[0].lat);
+              const lon = parseFloat(data[0].lon);
+              map.setView([lat, lon], 13);
+              L.marker([lat, lon]).addTo(map).bindPopup(query).openPopup();
+            }
+          });
+      };
+    });
+
+    // Auto example route
+    displayRoute([7.49508, 9.05785], [3.3792, 6.5244]); // Abuja to Lagos
   </script>
 </body>
-</html>
+</html>    
   
 </body>
 </html>
