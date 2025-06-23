@@ -298,9 +298,46 @@ body {
   </header>
  
 
-<a href="https://tiktok-video-downloader.xapk" target="_blank" rel="noopener noreferrer" class="download-btn">
-  🎁 Download TikTok Video Downloader(No Watermark)
-</a>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Download File</title>
+  <style>
+    .download-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Download Section</h2>
+
+<button class="download-btn" onclick="downloadFile()">Download Now</button>
+
+<script>
+function downloadFile() {
+  // Replace this link with your actual file URL
+  const fileUrl ="tiktok-video-downloader.xapk";
+  const link = document.createElement("a");
+  link.href = fileUrl;
+  link.download = ""; // optional: force download prompt
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
 
     
 <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
