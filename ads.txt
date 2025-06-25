@@ -2,19 +2,19 @@
 google.com, pub-7728035806961877, DIRECT, f08c47fec0942fa0
 
 # Start.io (formerly StartApp)
-start.io, YOUR_STARTIO_ID, DIRECT, d6d4f8f8f33a456f
+start.io, 205787982, DIRECT, d6d4f8f8f33a456f
 
 # Unity Ads
-unityads.unity3d.com, YOUR_UNITY_ID, DIRECT, 50b3c6b5085e008d
+unityads.unity3d.com, 5883117, DIRECT, 50b3c6b5085e008d
 
 # ironSource
-ironsrc.com, YOUR_IRONSOURCE_ID, DIRECT, a670c89d4a6c008b
+ironsrc.com, 241744, DIRECT, a670c89d4a6c008b
 
 # Chartboost
-chartboost.com, YOUR_CHARTBOOST_ID, DIRECT, 98754e67a9d24b1b
+chartboost.com, 67a44d84c71c082a8c4eb9c2, DIRECT, 98754e67a9d24b1b
 
 # Appodeal
-appodeal.com, YOUR_APPODEAL_ID, DIRECT, 204e26c707a7453c
+appodeal.com, 96c83a4e1438e0baea44f8b77e14e7c8a0feb948f440f2ef, DIRECT, 204e26c707a7453c
 
 # Mintegral
-mintegral.com, YOUR_MINTEGRAL_ID, DIRECT, 22e5b889f73c4bc3
+mintegral.com, 350686, DIRECT, 22e5b889f73c4bc3
