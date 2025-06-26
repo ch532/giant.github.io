@@ -596,3 +596,23 @@ yieldlab.net,2172218,RESELLER
 bigo.sg,1112518,reseller
 
 applovin.com,a97e4a2a60836795b8e1433cefd17f30,RESELLER
+
+adcash.com, 123456, DIRECT, a20b6c6f73c0de9b
+
+clickadu.com, 123456, DIRECT, f08c47fec0942fa0
+
+adsterra.com, 123456, DIRECT, 5d62403b186f3a10
+
+propellerads.com, 123456, DIRECT, 8fdbba9e3672b0e2
+
+mgid.com, 123456, DIRECT, 38b1422d5c56a2e0
+
+coinzilla.io, 123456, DIRECT, 67bddeec4a9e6d3a
+
+teads.tv, 123456, DIRECT, 4fd3a0f528bda99a
+
+outbrain.com, 123456, DIRECT, f41f1b69fe9a3f92
+
+revcontent.com, 123456, DIRECT, 23ab6b883e3e218c
+
+vdo.ai, 123456, DIRECT, 50faeda744ae2d2b
