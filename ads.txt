@@ -12,7 +12,6 @@ fyber.com, 789012, DIRECT
 vungle.com, 890123, DIRECT
 smaato.com, 901234, DIRECT
 mytarget.ru, 012345, DIRECT
-bidmachine.io, 987321, DIRECT
 
 # === Start.io Partners ===
 start.io, 101112, DIRECT
