@@ -17,9 +17,7 @@ bidmachine.io, 987321, DIRECT
 # === Start.io Partners ===
 start.io, 101112, DIRECT
 appnexus.com, 131415, DIRECT
-openx.com, 141516, DIRECT
-indexexchange.com, 151617, DIRECT
-rubiconproject.com, 161718, DIRECT
+
 
 # === Unity Ads ===
 unityads.unity3d.com, 111213, DIRECT
