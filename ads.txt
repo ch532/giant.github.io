@@ -36,3 +36,5 @@ vdo.ai, 987654, DIRECT
 pubnative.net, 112233, DIRECT
 mobilefuse.com, 776655, DIRECT
 yahoo.com, 332211, DIRECT
+
+digitalturbine.com, 789012, DIRECT
