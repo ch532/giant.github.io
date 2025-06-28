@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src='//libtl.com/sdk.js' data-zone='9503469' data-sdk='show_9503469'></script>
   
   <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
@@ -105,6 +106,53 @@ s.referrerPolicy = 'no-referrer-when-downgrade';
 l.parentNode.insertBefore(s, l);
 })({})
 </script>
+
+  <!-- Load the Monetag SDK script -->
+<script src="https://propu.sh/pfe/current/tag.min.js?z=9503469" data-cfasync="false" async></script>
+
+<script>
+  function showRewardedAd() {
+    // Make sure the function exists before calling it
+    if (typeof show_9503469 === 'function') {
+      show_9503469().then(() => {
+        // ✅ Reward function goes here
+        alert('✅ You have earned a reward for watching the ad!');
+        
+        // 👉 Optional: Give user a bonus, unlock feature, etc.
+        // Example: document.getElementById("download-btn").style.display = "block";
+      }).catch((error) => {
+        console.error("Ad was not shown or closed early:", error);
+        alert("⚠️ You must watch the full ad to get the reward.");
+      });
+    } else {
+      console.error("Ad function is not ready yet. Try again shortly.");
+      alert("⚠️ Please wait — ad is still loading.");
+    }
+  }
+</script>
+
+    <!-- Include the Monetag SDK -->
+<script src="https://propu.sh/pfe/current/tag.min.js?z=9503469" data-cfasync="false" async></script>
+
+<script>
+  // Wait for ad system to load fully
+  window.addEventListener('load', function () {
+    if (typeof show_9503469 === 'function') {
+      show_9503469({
+        type: 'inApp',
+        inAppSettings: {
+          frequency: 2,       // Max 2 ads per 6 minutes
+          capping: 0.1,       // 0.1 hours = 6 mins
+          interval: 30,       // 30 seconds between ads
+          timeout: 5,         // Wait 5 sec after page load
+          everyPage: false    // Session persists across navigation
+        }
+      });
+    } else {
+      console.warn("Monetag not ready yet.");
+    }
+  });
+</script>    
     
   <iframe src="https://www.fiverr.com/gig_widgets?id=U2FsdGVkX18VRhaPmUkIgRgU8HeBczzgaJz67V5VElRVkM5vCYIUZKo5vp+7Vuqm3xMPCEyToR6WQxQbF4UIyz+Bp+0xgcFSLJ2+yvjBdejHT4/LZ6J0Syf56drrH6ATzoFhwU2MTyMYjAj5YVEVRhDGPQXbfqgP3bYVe6Tc+tIvNF4mZBodNM0iWUgdJjQyLcBY6OudbLKzsqXXvMlsGYEC/2ds8Q7ugoqGoJGcidaqSBaiPM5P29aW78v2pQtok007YhmO/KBEmt0ursalE9RwCfE34G2eCW6fTCzvJrE0KzxKWCpOND5ZraIET0PrhRUQb8AVecP1Rd4w9tDU2N2TvEZT0j8ubrxfH/sEatGFCtLW4Z0k0ecgwms3ejmITgWl3WNcOBzqf6foDAYXaiPMlWXF/YKsO1x4Gzu9bFf2ZQHk7BAaatTl/hMouizRzpxonsnYxzwMMtX0oxb9LQ==&affiliate_id=401037&strip_google_tagmanager=true" loading="lazy" data-with-title="true" class="fiverr_nga_frame" frameborder="0" height="350" width="100%" referrerpolicy="no-referrer-when-downgrade" data-mode="random_gigs" onload=" var frame = this; var script = document.createElement('script'); script.addEventListener('load', function() { window.FW_SDK.register(frame); }); script.setAttribute('src', 'https://www.fiverr.com/gig_widgets/sdk'); document.body.appendChild(script); " ></iframe>
    
