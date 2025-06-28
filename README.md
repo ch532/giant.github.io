@@ -1,37 +1,32 @@
+# Connect Gold
 
-# Connect Gold – All-in-One Android App
-
-**Connect Gold** is a lightweight, feature-rich Android app built for users who want news, streaming content, smart tools, affiliate offers and more — all in one place.
-
----
+Connect Gold is a powerful lightweight all-in-one mobile experience designed to keep users engaged, informed, and connected.
 
 ## 🌟 Features
 
-- 📰 **Live News Feeds** – Stay informed with updates from trusted global sources.
-- 📺 **Streaming Widgets** – Watch and interact with live content.
-- 🛠️ **Smart Tools** – Useful utilities to boost productivity and daily use.
-- 🌍 **Affiliate Discovery** – Explore curated offers and deals.
+- 📰 Real-time news and global feeds
+- 🎮 Game discovery links and entertainment hub
+- 🔗 Affiliate deals and smart shopping offers
+- 🛠 Tools and utilities for daily productivity
+- 📺 Streaming widgets for video & media interaction
+- 💡 Clean, responsive design optimized for Android
+
+## 📦 Version
+
+**v1.0** – Initial public release
+
+## 🔒 Privacy
+
+Your data is important. Read our [Privacy Policy](https://www.freeprivacypolicy.com/live/87ded83f-96ef-4c6f-a441-72bd9b786a19).
+
+## 🔗 Official Website
+
+Visit the project site: [connectgold.sbs](https://connectgold.sbs)
+
+## 📂 License
+
+This project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0)
 
 ---
 
-## 📦 Built With
-
-- Hosted on [Itch.io](https://ch532.itch.io/connect-gold-apk)
-
----
-
-## 📲 Download Now
-
-🔗 [Click here to download the APK](https://bit.ly/4nqAbIa)  
-📦 Hosted on Itch.io
-
-> 💡 *The app is free to use. Donations are appreciated to support ongoing development.*
-
-## 🚀 Future Updates
-
-- More tools, premium content, and new designs
-- Your feedback is always welcome — reach out anytime!
-
-## License 
-
-Apache-2.0 license 
+_This app is independently published and maintained._
