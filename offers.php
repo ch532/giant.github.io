@@ -1,19 +1,26 @@
-<header>
-  <h1 style="font-size: 2em; color: #FFD700; margin-bottom: 0.5em;">Connect Gold</h1>
-  <nav style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; font-weight: bold;">
-    <a href="index.html">Home</a>
-    <a href="offers.php">Offers</a>
-    <a href="buzz1.html">Buzz 1</a>
-    <a href="buzz2.html">Buzz 2</a>
-    <a href="buzz3.html">Buzz 3</a>
-    <a href="buzz4.html">Buzz 4</a>
-    <a href="testimonials.html">Testimonials</a>
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="contact.html">Contact</a>
-    <a href="terms.html">Terms</a>
-  </nav>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connect Gold - Offers</title>
+</head>
+<body>
+  <header>
+    <h1>Connect Gold</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="offers.php">Offers</a>
+      <a href="buzz1.html">Buzz 1</a>
+      <a href="buzz2.html">Buzz 2</a>
+      <a href="buzz3.html">Buzz 3</a>
+      <a href="buzz4.html">Buzz 4</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </header>
 
 
 <?php
