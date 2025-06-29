@@ -94,3 +94,31 @@ button {
 button:hover {
   background-color: #005fa3;
 }
+
+.footer {
+  background-color: #0078d7;
+  color: white;
+  text-align: center;
+  padding: 20px 15px;
+  margin-top: 60px;
+  font-size: 14px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.footer a {
+  color: #ffdd57;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-content p {
+  margin: 6px 0;
+}
+
+.social-links {
+  margin-top: 10px;
+}
