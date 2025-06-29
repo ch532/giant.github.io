@@ -36,6 +36,33 @@
     </section>
   </main>
 
+  <section id="smashing-feed">
+  <h3>Latest from Smashing Magazine</h3>
+  <div id="rss-feed"></div>
+</section>
+
+<script>
+  const feedUrl = encodeURIComponent('https://www.smashingmagazine.com/feed/');
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('rss-feed');
+      let html = '<ul>';
+
+      data.items.slice(0, 5).forEach(item => {
+        html += `<li><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></li>`;
+      });
+
+      html += '</ul>';
+      container.innerHTML = html;
+    })
+    .catch(error => {
+      document.getElementById('rss-feed').innerHTML = 'Failed to load feed.';
+      console.error('Error fetching RSS:', error);
+    });
+</script>
 
   <footer class="footer">
   <div class="footer-content">
