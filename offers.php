@@ -1,3 +1,21 @@
+<header>
+    <h1>Connect Gold</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="offers.php">Home</a>
+      <a href="buzz1.html">Buzz 1</a>
+      <a href="buzz2.html">Buzz 2</a>
+      <a href="buzz3.html">Buzz 3</a>
+      <a href="buzz4.html">Buzz 4</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </header>
+
+
 <?php
 $tracking_id = 'user@gmail.com'; //This is used to track the user doing the offer. can be email, clickid, subid.. etc
 $userip = $_SERVER['REMOTE_ADDR']; //We need to get the users ip, so the rss feed can display the correct offers for their country.
