@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Connect Gold - Offers</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    header { background: #f9f9f9; padding: 10px 20px; border-bottom: 1px solid #ccc; }
+    nav a { margin-right: 15px; text-decoration: none; color: #0073aa; }
+    nav a:hover { text-decoration: underline; }
+    .offers { margin-top: 30px; }
+  </style>
 </head>
 <body>
   <header>
@@ -22,17 +29,18 @@
     </nav>
   </header>
 
-
+  <div class="offers">
 <?php
+// Detect if user is inside Telegram app
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
 if (strpos($user_agent, 'Telegram') !== false) {
-    // ✅ Only runs when user is inside Telegram
-
-    $tracking_id = 'user@gmail.com'; // Your tracking or user ID
+    // ✅ Telegram-only offer feed
+    $tracking_id = 'user@gmail.com'; // change this if needed
     $userip = $_SERVER['REMOTE_ADDR'];
-    $max_offers = 10; // Number of offers to show
-    $feedurl = 'https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0&limit='.$max_offers.'&ip='.$userip.'&ua='.urlencode($user_agent).'&tracking_id='.urlencode($tracking_id);
+    $max_offers = 10;
+
+    $feedurl = 'https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0&limit=' . $max_offers . '&ip=' . $userip . '&ua=' . urlencode($user_agent) . '&tracking_id=' . urlencode($tracking_id);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $feedurl);
@@ -44,19 +52,23 @@ if (strpos($user_agent, 'Telegram') !== false) {
     $xml = @simplexml_load_string($output);
 
     if ($xml !== false) {
-        foreach ($xml->offers->offer as $offeritem) {
-            $offeritem->offerlink = str_replace('www.cpagrip.com', 'filetrkr.com', $offeritem->offerlink);
-            echo '<a target="_blank" href="'.$offeritem->offerlink.'">'.$offeritem->title.'</a><br/><br/>';
-        }
-
         if (count($xml->offers->children()) == 0) {
-            echo 'Sorry, no offers available for your region right now.';
+            echo '<p>Sorry, no offers available in your region right now.</p>';
+        } else {
+            foreach ($xml->offers->offer as $offeritem) {
+                $offeritem->offerlink = str_replace('www.cpagrip.com', 'filetrkr.com', $offeritem->offerlink);
+                echo '<p><a target="_blank" href="' . $offeritem->offerlink . '">' . $offeritem->title . '</a></p>';
+            }
         }
     } else {
-        echo 'Error loading offers.';
+        echo '<p>Error loading offers. Please try again later.</p>';
     }
 } else {
-    // ❌ Not in Telegram
-    echo 'Offers are available exclusively in the Telegram App.';
+    // ❌ Not Telegram user
+    echo '<p style="color:red;">Offers are available exclusively inside the Telegram App. Please open this page from Telegram.</p>';
 }
 ?>
+  </div>
+
+</body>
+</html>
