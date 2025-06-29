@@ -64,6 +64,10 @@
     });
 </script>
 
+<iframe src="https://www.scorebat.com/embed/videofeed/?token=MjE4ODAyXzE3NTEyMTg5ODBfZmJmMjkwNDQ2YjhlMDI4N2E2NzY0MDFjOTU0YTIwMGMzMjQzZmUzOQ==" frameborder="0" width="600" height="760" allowfullscreen allow='autoplay; fullscreen' style="width:100%;height:760px;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe><script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
+
+<iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
+  
   <footer class="footer">
   <div class="footer-content">
     <p>&copy; 2025 Connect Gold. All rights reserved.</p>
@@ -72,8 +76,30 @@
       <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener noreferrer">Instagram</a> |
       <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
     </div>
-  </div>
-</footer>
 
+    <!-- Cookie Consent Banner inside footer -->
+    <div id="cookieConsent" class="cookie-consent">
+      <p>We use cookies to improve your experience on Connect Gold. By continuing to browse, you accept our <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+      <button id="acceptCookies">Accept</button>
+    </div>
+  </div>
+  </footer>
+
+<script>
+  const cookieBanner = document.getElementById('cookieConsent');
+  const acceptBtn = document.getElementById('acceptCookies');
+
+  if (!localStorage.getItem('cookiesAccepted')) {
+    cookieBanner.style.display = 'flex';
+  } else {
+    cookieBanner.style.display = 'none';
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem('cookiesAccepted', 'true');
+    cookieBanner.style.display = 'none';
+  });
+</script>
+  
 </body>
 </html>
