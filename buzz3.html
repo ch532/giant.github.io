@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src='//libtl.com/sdk.js' data-zone='9503469' data-sdk='show_9503469'></script>
+<script>
+  if (!navigator.userAgent.includes("Telegram")) {
+    // Not Telegram, redirect or hide content
+    document.write("This page is only available via Telegram.");
+    throw new Error("Not Telegram WebView");
+  }
+</script>
   
   <script defer data-domain="connectgold.sbs" src="https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js"></script>
 <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
