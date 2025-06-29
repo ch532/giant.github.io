@@ -155,3 +155,46 @@ button:hover {
 #rss-feed a:hover {
   text-decoration: underline;
 }
+
+.cookie-consent {
+  position: relative; /* Changed from fixed */
+  bottom: auto;
+  left: auto;
+  right: auto;
+  background-color: #0078d7;
+  color: white;
+  padding: 15px 20px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  box-shadow: none; /* Remove shadow inside footer */
+  margin-top: 20px;
+}
+
+.cookie-consent p {
+  margin: 0;
+}
+
+.cookie-consent a {
+  color: #ffdd57;
+  text-decoration: underline;
+}
+
+.cookie-consent button {
+  background-color: #ffdd57;
+  border: none;
+  padding: 8px 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.cookie-consent button:hover {
+  background-color: #e6c84d;
+}
