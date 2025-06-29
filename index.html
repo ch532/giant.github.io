@@ -304,14 +304,18 @@ body {
       <script src="script.js" defer></script>
 
 <script>
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://playabledownloads.com/script_include.php?id=1821179';
-      document.body.appendChild(script);
-    }, 15000);
-  });
+  // Check if user is inside Telegram WebApp
+  const isTelegram = navigator.userAgent.includes("Telegram");
+
+  if (isTelegram) {
+    // Load CPAgrip ad script ONLY inside Telegram
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://playabledownloads.com/script_include.php?id=1821179";
+    document.body.appendChild(script);
+  } else {
+    console.log("Not inside Telegram. Ad not loaded.");
+  }
 </script>
     
   <!-- Load HLS.js -->
