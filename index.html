@@ -3,35 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My HTML App</title>
+  <title>Connect Gold</title>
+  <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Welcome to My HTML App</h1>
+    <h1>Welcome to Connect Gold</h1>
+    <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>
 
-  <nav>
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('about')">About</button>
-    <button onclick="showSection('contact')">Contact</button>
-  </nav>
-
   <main>
-    <section id="home" class="content-section">
-      <p>This is the home page content.</p>
-      <div class="ad-placeholder">[Ad Banner Placeholder]</div>
-    </section>
-
-    <section id="about" class="content-section" style="display:none;">
-      <p>About this app and your business.</p>
-    </section>
-
-    <section id="contact" class="content-section" style="display:none;">
-      <p>Contact info here.</p>
+    <section class="hero">
+      <h2>Your trusted gateway to amazing content</h2>
+      <button onclick="exploreNow()">Explore Now</button>
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script>
+    function exploreNow() {
+      // Placeholder for navigation or action
+      alert('Explore now clicked! We will add real navigation here soon.');
+    }
+  </script>
 </body>
 </html>
