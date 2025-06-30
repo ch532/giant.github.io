@@ -51,24 +51,13 @@
     </div>
   </div>   
 
-<!-- Interstitial container -->
-<div id="interstitialAd" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999; text-align:center; padding-top:100px;">
-  <p style="font-size:20px;">Sponsored Ad</p>
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:300px;height:250px"
-       data-ad-client="ca-pub-7728035806961877"
-       data-ad-slot="6332099936"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  <br><br>
-  <button onclick="document.getElementById('interstitialAd').style.display='none'">Close Ad</button>
-</div>
 
 <script>
   setTimeout(() => {
-    document.getElementById('interstitialAd').style.display = 'block';
-  }, 30000); // Show after 30 seconds
+    if (typeof showInterstitialAd === "function") {
+      showInterstitialAd();
+    }
+  }, 30000); // 30 seconds
 </script>
       
     </section>
