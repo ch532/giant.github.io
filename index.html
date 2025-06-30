@@ -92,39 +92,15 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-<!-- Interstitial container -->
-<div id="interstitialAd" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999; text-align:center; padding-top:100px;">
-  <p style="font-size:20px;">Sponsored Ad</p>
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:300px;height:250px"
-       data-ad-client="ca-pub-7728035806961877"
-       data-ad-slot="6332099936"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  <br><br>
-  <button onclick="document.getElementById('interstitialAd').style.display='none'">Close Ad</button>
-</div>
-
-<script>
-  setTimeout(() => {
-    document.getElementById('interstitialAd').style.display = 'block';
-  }, 30000); // Show after 30 seconds
-</script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const contentBlocks = document.querySelectorAll('.blog-post, .news-post, .content'); // Adjust these selectors as needed
+  const posts = document.querySelectorAll('.blog-post, .news-post, .content');
 
-  contentBlocks.forEach(block => {
-    const paragraphs = block.querySelectorAll('p');
-    let adCount = 0;
-
-    for (let i = 2; i < paragraphs.length; i += 3) { // Insert after every 2 paragraphs
-      if (adCount >= 3) break; // Limit to 3 ads per post (adjust if needed)
-
-      const adContainer = document.createElement('div');
-      adContainer.innerHTML = `
+  posts.forEach(post => {
+    const paragraphs = post.querySelectorAll('p');
+    if (paragraphs.length > 2) {
+      const ad = document.createElement('div');
+      ad.innerHTML = `
         <div style="margin:20px 0;">
           <ins class="adsbygoogle"
                style="display:block"
@@ -135,13 +111,20 @@ document.addEventListener('DOMContentLoaded', function () {
           <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
       `;
-
-      paragraphs[i].after(adContainer);
-      adCount++;
+      paragraphs[2].after(ad); // After 2nd paragraph
     }
   });
 });
 </script>
+  
+<script>
+  setTimeout(() => {
+    if (typeof showInterstitialAd === "function") {
+      showInterstitialAd();
+    }
+  }, 30000); // 30 seconds
+</script>
+  
   
   <footer class="footer">
   <div class="footer-content">
