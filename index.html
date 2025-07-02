@@ -63,13 +63,38 @@
   </section>
 </main>
 
-<div style="width: 100%; height: 600px; overflow: hidden; border: none;">
-  <iframe src="https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNREZxYUdjU0FtVnVLQUFQAQ?hl=en-NG&gl=NG&ceid=NG:en"
-          style="border: none; width: 100%; height: 100%;" 
-          loading="lazy">
-  </iframe>
+<div id="nigeria-news">
+  <h2>📰 Nigeria News</h2>
+  <ul id="news-feed" style="list-style-type: none;"></ul>
 </div>
 
+<script>
+  async function fetchNews() {
+    const proxy = 'https://api.allorigins.win/get?url=';
+    const feedUrl = encodeURIComponent('https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en');
+    const response = await fetch(`${proxy}${feedUrl}`);
+    const data = await response.json();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const items = xml.querySelectorAll("item");
+    
+    const newsFeed = document.getElementById("news-feed");
+    newsFeed.innerHTML = "";
+
+    items.forEach((item, index) => {
+      if (index < 5) {  // show only top 5 headlines
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
+        newsFeed.appendChild(li);
+      }
+    });
+  }
+
+  fetchNews();
+</script>
+  
 <iframe src="https://www.scorebat.com/embed/videofeed/?token=MjE4ODAyXzE3NTEyMTg5ODBfZmJmMjkwNDQ2YjhlMDI4N2E2NzY0MDFjOTU0YTIwMGMzMjQzZmUzOQ==" frameborder="0" width="600" height="760" allowfullscreen allow='autoplay; fullscreen' style="width:100%;height:760px;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe><script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
 
 <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
