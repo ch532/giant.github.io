@@ -63,6 +63,12 @@
   </section>
 </main>
 
+ 
+<iframe src="https://www.scorebat.com/embed/videofeed/?token=MjE4ODAyXzE3NTEyMTg5ODBfZmJmMjkwNDQ2YjhlMDI4N2E2NzY0MDFjOTU0YTIwMGMzMjQzZmUzOQ==" frameborder="0" width="600" height="760" allowfullscreen allow='autoplay; fullscreen' style="width:100%;height:760px;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe><script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
+
+<iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
+
+
 <div id="nigeria-news">
   <h2>📰 Nigeria News</h2>
   <ul id="news-feed" style="list-style-type: none;"></ul>
@@ -93,38 +99,6 @@
   }
 
   fetchNews();
-</script>
-  
-<iframe src="https://www.scorebat.com/embed/videofeed/?token=MjE4ODAyXzE3NTEyMTg5ODBfZmJmMjkwNDQ2YjhlMDI4N2E2NzY0MDFjOTU0YTIwMGMzMjQzZmUzOQ==" frameborder="0" width="600" height="760" allowfullscreen allow='autoplay; fullscreen' style="width:100%;height:760px;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe><script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
-
-<iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
-
-<section id="smashing-feed">
-  <h3>Latest from Smashing Magazine</h3>
-  <div id="rss-feed"></div>
-</section>
-
-<script>
-  const feedUrl = encodeURIComponent('https://www.smashingmagazine.com/feed/');
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}`;
-
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      const container = document.getElementById('rss-feed');
-      let html = '<ul>';
-
-      data.items.slice(0, 5).forEach(item => {
-        html += `<li><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></li>`;
-      });
-
-      html += '</ul>';
-      container.innerHTML = html;
-    })
-    .catch(error => {
-      document.getElementById('rss-feed').innerHTML = 'Failed to load feed.';
-      console.error('Error fetching RSS:', error);
-    });
 </script>
   
 <footer class="footer">
