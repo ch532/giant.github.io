@@ -58,12 +58,37 @@
   </div>   
 
 
-<div style="width: 100%; height: 600px; overflow: hidden; border: none;">
-  <iframe src="https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNREZxYUdjU0FtVnVLQUFQAQ?hl=en-NG&gl=NG&ceid=NG:en"
-          style="border: none; width: 100%; height: 100%;" 
-          loading="lazy">
-  </iframe>
+<div id="nigeria-news">
+  <h2>📰 Nigeria News</h2>
+  <ul id="news-feed" style="list-style-type: none;"></ul>
 </div>
+
+<script>
+  async function fetchNews() {
+    const proxy = 'https://api.allorigins.win/get?url=';
+    const feedUrl = encodeURIComponent('https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en');
+    const response = await fetch(`${proxy}${feedUrl}`);
+    const data = await response.json();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const items = xml.querySelectorAll("item");
+    
+    const newsFeed = document.getElementById("news-feed");
+    newsFeed.innerHTML = "";
+
+    items.forEach((item, index) => {
+      if (index < 5) {  // show only top 5 headlines
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
+        newsFeed.appendChild(li);
+      }
+    });
+  }
+
+  fetchNews();
+</script>
       
     </section>
   </main>
