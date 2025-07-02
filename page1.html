@@ -28,6 +28,51 @@
     <section>
       <h1>Welcome to Page 1</h1>
 
+<div id="nigeria-news">
+  <h2>📰 Latest Nigeria News</h2>
+  <ul id="news-feed" style="list-style-type: none; padding-left: 0;"></ul>
+</div>
+
+<script>
+  async function fetchNews() {
+    const proxy = "https://api.allorigins.win/get?url=";
+    const feedURL = encodeURIComponent("https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en");
+
+    try {
+      const response = await fetch(`${proxy}${feedURL}`);
+      const data = await response.json();
+
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, "text/xml");
+      const items = xml.querySelectorAll("item");
+
+      const newsFeed = document.getElementById("news-feed");
+      newsFeed.innerHTML = "";
+
+      items.forEach((item, index) => {
+        if (index < 5) {
+          const title = item.querySelector("title").textContent;
+          const link = item.querySelector("link").textContent;
+          const description = item.querySelector("description")?.textContent || "";
+
+          const li = document.createElement("li");
+          li.style.marginBottom = "10px";
+          li.innerHTML = `
+            <strong><a href="${link}" target="_blank" style="text-decoration: none; color: #007bff;">${title}</a></strong><br>
+            <small>${description}</small>
+          `;
+          newsFeed.appendChild(li);
+        }
+      });
+    } catch (err) {
+      console.error("Error fetching news:", err);
+      document.getElementById("news-feed").innerHTML = "<li>⚠️ Failed to load news. Please try again later.</li>";
+    }
+  }
+
+  fetchNews();
+</script>
+      
 <iframe
   title="fx"
   src="https://wise.com/gb/currency-converter/fx-widget/converter?sourceCurrency=GBP&targetCurrency=EUR&ctaVariant=CONVERT&ctaLink=https%3A%2F%2Fwise.com%2Finvite%2Fmic%2Fchibuikeo110"
@@ -57,41 +102,6 @@
     </div>
   </div>   
 
-
-<div id="nigeria-news">
-  <h2>📰 Nigeria News</h2>
-  <ul id="news-feed" style="list-style-type: none;"></ul>
-</div>
-
-<script>
-  async function fetchNews() {
-    const proxy = 'https://api.allorigins.win/get?url=';
-    const feedUrl = encodeURIComponent('https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en');
-    const response = await fetch(`${proxy}${feedUrl}`);
-    const data = await response.json();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'text/xml');
-    const items = xml.querySelectorAll("item");
-    
-    const newsFeed = document.getElementById("news-feed");
-    newsFeed.innerHTML = "";
-
-    items.forEach((item, index) => {
-      if (index < 5) {  // show only top 5 headlines
-        const title = item.querySelector("title").textContent;
-        const link = item.querySelector("link").textContent;
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
-        newsFeed.appendChild(li);
-      }
-    });
-  }
-
-  fetchNews();
-</script>
-      
-    </section>
-  </main>
 
   <footer class="footer">
     <div class="footer-content">
