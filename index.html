@@ -64,21 +64,22 @@
 </main>
 
   <div id="nigeria-news">
+<div id="nigeria-news">
   <h2>📰 Latest Nigeria News</h2>
   <ul id="news-feed" style="list-style-type: none; padding-left: 0;"></ul>
 </div>
 
 <script>
   async function fetchNews() {
-    const proxy = "https://api.allorigins.win/get?url=";
-    const feedURL = encodeURIComponent("https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en");
+    const proxy = "https://cors-anywhere.herokuapp.com/";
+    const feedURL = "https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en";
 
     try {
       const response = await fetch(`${proxy}${feedURL}`);
-      const data = await response.json();
+      const text = await response.text();
 
       const parser = new DOMParser();
-      const xml = parser.parseFromString(data.contents, "text/xml");
+      const xml = parser.parseFromString(text, "application/xml");
       const items = xml.querySelectorAll("item");
 
       const newsFeed = document.getElementById("news-feed");
@@ -88,12 +89,12 @@
         if (index < 5) {
           const title = item.querySelector("title").textContent;
           const link = item.querySelector("link").textContent;
-          const description = item.querySelector("description")?.textContent || "";
+          const description = item.querySelector("description").textContent;
 
           const li = document.createElement("li");
-          li.style.marginBottom = "10px";
+          li.style.marginBottom = "15px";
           li.innerHTML = `
-            <strong><a href="${link}" target="_blank" style="text-decoration: none; color: #007bff;">${title}</a></strong><br>
+            <strong><a href="${link}" target="_blank" style="text-decoration: none; color: #0056b3;">${title}</a></strong><br>
             <small>${description}</small>
           `;
           newsFeed.appendChild(li);
