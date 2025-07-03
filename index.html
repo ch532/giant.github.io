@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=app_opened&source=webview");
+</script>
   <!DOCTYPE html>
 <html>
 <head>
   <title>Connect Gold</title>
   <script>
+  (function() {
+    const source = navigator.userAgent.includes("wv") ? "android_app" : "webview";
     const timestamp = new Date().toISOString();
-    fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=webview&timestamp=" + encodeURIComponent(timestamp));
+    const screenSize = `${window.screen.width}x${window.screen.height}`;
+    const language = navigator.language || 'unknown';
+    const platform = navigator.platform || 'unknown';
+    const referrer = document.referrer || 'direct';
+
+    const pixel = new Image();
+    pixel.src = `https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view` +
+                `&source=${encodeURIComponent(source)}` +
+                `&timestamp=${encodeURIComponent(timestamp)}` +
+                `&screen=${encodeURIComponent(screenSize)}` +
+                `&language=${encodeURIComponent(language)}` +
+                `&platform=${encodeURIComponent(platform)}` +
+                `&referrer=${encodeURIComponent(referrer)}`;
+    document.body.appendChild(pixel);
+  })();
   </script>
 </head>
 <body>
@@ -15,9 +34,7 @@
   <!-- Your content goes here -->
 </body>
 </html>
-  <script>
-  fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=app_opened&source=webview");
-</script>
+  
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
      crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
@@ -70,7 +87,7 @@
     📲 Download from Amazon Appstore
   </button>
 </a>
-  
+
 <!-- Banner Ad Spacer (top of page) -->
 <div id="ad-banner" style="margin: 10px 0;"></div>
   
@@ -86,6 +103,21 @@
   </section>
 </main>
 
+<img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=webview" style="display:none;" />
+
+<img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=android_app" style="display:none;" />
+  
+<script>
+  const source = "android_app"; // or "webview"
+  const timestamp = new Date().toISOString(); // generates timestamp in ISO format
+
+  const trackingPixel = document.createElement("img");
+  trackingPixel.src = `https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=${source}&timestamp=${encodeURIComponent(timestamp)}`;
+  trackingPixel.style.display = "none";
+
+  document.body.appendChild(trackingPixel);
+</script>
+  
 <!-- start sw-rss-feed code --> 
 <script type="text/javascript"> 
 <!-- 
