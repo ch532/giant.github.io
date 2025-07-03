@@ -108,14 +108,45 @@
 <img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=android_app" style="display:none;" />
   
 <script>
-  const source = "android_app"; // or "webview"
-  const timestamp = new Date().toISOString(); // generates timestamp in ISO format
+  (async () => {
+    // Basic device info
+    const device = `${navigator.platform} | ${navigator.userAgent}`;
+    const screenSize = `${window.innerWidth}x${window.innerHeight}`;
+    const version = "1.0.0"; // Set your app or website version here
 
-  const trackingPixel = document.createElement("img");
-  trackingPixel.src = `https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=${source}&timestamp=${encodeURIComponent(timestamp)}`;
-  trackingPixel.style.display = "none";
+    // Get location via IP
+    let location = "Unknown";
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+      location = `${data.city}, ${data.region}, ${data.country_name}`;
+    } catch (e) {
+      console.warn("Location fetch failed", e);
+    }
 
-  document.body.appendChild(trackingPixel);
+    // Send to LogSnag
+    fetch("https://api.logsnag.com/v1/log", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
+      },
+      body: JSON.stringify({
+        project: "connectgold",
+        channel: "app-events",
+        event: "App Opened",
+        description: "A user just opened the homepage",
+        icon: "🚀",
+        notify: true,
+        tags: {
+          device: device,
+          screen: screenSize,
+          version: version,
+          location: location
+        }
+      })
+    }).catch(error => console.error("LogSnag error:", error));
+  })();
 </script>
   
 <!-- start sw-rss-feed code --> 
@@ -169,40 +200,7 @@ rssfeed_cache = "66cd2c2c78ca755bf48467c3b037a994";
 <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
 
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>EmailJS Test</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-      (function(){
-        emailjs.init("E4mFx5002KMFrf75t"); // Your public key
-      })();
-    </script>
-  </head>
-  <body>
-    <h2>Send Email Event</h2>
-    <button onclick="sendEmail()">Send Test</button>
 
-    <div id="status"></div>
-
-    <script type="text/javascript">
-      function sendEmail() {
-        emailjs.send("service_o7p7qam", "template_j2bk8co", {
-          message: "This is a test from my app!"
-        })
-        .then(function(response) {
-          document.getElementById("status").innerText = "✅ Sent successfully!";
-          console.log("SUCCESS!", response.status, response.text);
-        }, function(error) {
-          document.getElementById("status").innerText = "❌ Failed to send.";
-          console.log("FAILED...", error);
-        });
-      }
-    </script>
-  </body>
-</html>
-  
 <footer class="footer">
   <div class="footer-content">
     <p>&copy; 2025 Connect Gold. All rights reserved.</p>
