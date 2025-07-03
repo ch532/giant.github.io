@@ -131,151 +131,26 @@ rssfeed_cache = "66cd2c2c78ca755bf48467c3b037a994";
 <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
 
 <script>
-  (async () => {
-    // Basic device info
-    const device = `${navigator.platform} | ${navigator.userAgent}`;
-    const screenSize = `${window.innerWidth}x${window.innerHeight}`;
-    const version = "1.0.0"; // Set your app or website version here
-
-    // Get location via IP
-    let location = "Unknown";
-    try {
-      const res = await fetch("https://ipapi.co/json/");
-      const data = await res.json();
-      location = `${data.city}, ${data.region}, ${data.country_name}`;
-    } catch (e) {
-      console.warn("Location fetch failed", e);
-    }
-
-    // Send to LogSnag
-    fetch("https://api.logsnag.com/v1/log", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
-      },
-      body: JSON.stringify({
-        project: "connectgold",
-        channel: "app-events",
-        event: "App Opened",
-        description: "A user just opened the homepage",
-        icon: "🚀",
-        notify: true,
-        tags: {
-          device: device,
-          screen: screenSize,
-          version: version,
-          location: location
-        }
-      })
-    }).catch(error => console.error("LogSnag error:", error));
-  })();
+  console.log("📡 Sending LogSnag event…");
+  fetch("https://api.logsnag.com/v1/log", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
+    },
+    body: JSON.stringify({
+      project: "connectgold",
+      channel: "webview",
+      event: "Page View",
+      description: "User viewed homepage in WebView",
+      icon: "👁️",
+      notify: true
+    })
+  })
+  .then(res => console.log("✅ LogSnag response:", res.status))
+  .catch(err => console.error("❌ LogSnag error:", err));
 </script>
-
-<script>
-  (async () => {
-    const device = `${navigator.platform} | ${navigator.userAgent}`;
-    const screen = `${window.innerWidth}x${window.innerHeight}`;
-    const version =<script>
-  (async () => {
-    // Basic device info
-    const device = `${navigator.platform} | ${navigator.userAgent}`;
-    const screenSize = `${window.innerWidth}x${window.innerHeight}`;
-    const version = "1.0.0"; // Set your app or website version here
-
-    // Get location via IP
-    let location = "Unknown";
-    try {
-      const res = await fetch("https://ipapi.co/json/");
-      const data = await res.json();
-      location = `${data.city}, ${data.region}, ${data.country_name}`;
-    } catch (e) {
-      console.warn("Location fetch failed", e);
-    }
-
-    // Send to LogSnag
-    fetch("https://api.logsnag.com/v1/log", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
-      },
-      body: JSON.stringify({
-        project: "connectgold",
-        channel: "app-events",
-        event: "App Opened",
-        description: "A user just opened the homepage",
-        icon: "🚀",
-        notify: true,
-        tags: {
-          device: device,
-    // Send to LogSnag
-    fetch("https://api.logsnag.com/v1/log", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
-      },
-      body: JSON.stringify({
-        project: "connectgold",
-        channel: "app-events",
-        event: "App Opened",
-        description: "A user just opened the homepage",
-        icon: "🚀",
-        notify: true,
-        tags: {
-          device: device,
-          screen: screenSize,
-          version: version,
-          location: location
-        }
-      })
-    }).catch(error => console.error("LogSnag error:", error));
-  })();
-</script>
-
-<script>
-  (async () => {
-    const device = `${navigator.platform} | ${navigator.userAgent}`;
-    const screen = `${window.innerWidth}x${window.innerHeight}`;
-    const version = "1.0.0"; // You can update this as needed
-    let location = "Unknown";
-
-    try { "1.0.0"; // You can update this as needed
-    let location = "Unknown";
-
-    try {
-      const res = await fetch("https://ipapi.co/json/");
-      const data = await res.json();
-      location = `${data.city}, ${data.region}, ${data.country_name}`;
-    } catch (err) {
-      console.warn("Location fetch failed", err);
-    }
-
-    fetch("https://api.logsnag.com/v1/log", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
-      },
-      body: JSON.stringify({
-        project: "connectgold",
-        channel: "webview",
-        event: "Page View",
-        description: "User viewed homepage in WebView",
-        icon: "👁️",
-        notify: false,
-        tags: {
-          context: "WebView",
-          device: device,
-          screen: screen,
-          version: version,
-          location: location
-        }
-      })
-    }).catch(error => console.error("LogSnag error:", error));
-  })();
-</script>
+          
   
   
 <footer class="footer">
