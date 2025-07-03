@@ -27,6 +27,26 @@
     <section>
       <h1>Welcome to Page 3</h1>
 
+      <!DOCTYPE html>
+<html>
+<head>
+  <title>Connect Gold</title>
+</head>
+<body>
+
+  <h2>Download Our App</h2>
+
+  <!-- Track this button click -->
+  <button onclick="trackEvent('download_clicked')">Download Now</button>
+
+  <script>
+    function trackEvent(eventName) {
+      fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
+    }
+  </script>
+
+</body>
+</html>
 
 <div style="text-align: center;">
   <a href="https://tagembed.com?fpr=chibuike-52" target="_blank" style="outline: none; border: none;">
