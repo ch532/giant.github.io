@@ -1,35 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-  fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=app_opened&source=webview");
-</script>
-  <!DOCTYPE html>
-<html>
-<head>
-  <title>Connect Gold</title>
-  <script>
-  (function() {
-    const source = navigator.userAgent.includes("wv") ? "android_app" : "webview";
-    const timestamp = new Date().toISOString();
-    const screenSize = `${window.screen.width}x${window.screen.height}`;
-    const language = navigator.language || 'unknown';
-    const platform = navigator.platform || 'unknown';
-    const referrer = document.referrer || 'direct';
-
-    const pixel = new Image();
-    pixel.src = `https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view` +
-                `&source=${encodeURIComponent(source)}` +
-                `&timestamp=${encodeURIComponent(timestamp)}` +
-                `&screen=${encodeURIComponent(screenSize)}` +
-                `&language=${encodeURIComponent(language)}` +
-                `&platform=${encodeURIComponent(platform)}` +
-                `&referrer=${encodeURIComponent(referrer)}`;
-    document.body.appendChild(pixel);
-  })();
-  </script>
-</head>
-<body>
   <h1>Welcome to Connect Gold</h1>
   <!-- Your content goes here -->
 </body>
@@ -141,6 +112,46 @@
         tags: {
           device: device,
           screen: screenSize,
+          version: version,
+          location: location
+        }
+      })
+    }).catch(error => console.error("LogSnag error:", error));
+  })();
+</script>
+
+<script>
+  (async () => {
+    const device = `${navigator.platform} | ${navigator.userAgent}`;
+    const screen = `${window.innerWidth}x${window.innerHeight}`;
+    const version = "1.0.0"; // You can update this as needed
+    let location = "Unknown";
+
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+      location = `${data.city}, ${data.region}, ${data.country_name}`;
+    } catch (err) {
+      console.warn("Location fetch failed", err);
+    }
+
+    fetch("https://api.logsnag.com/v1/log", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer 6dc0313a9a341e1ff3987c679c6421fd"
+      },
+      body: JSON.stringify({
+        project: "connectgold",
+        channel: "webview",
+        event: "Page View",
+        description: "User viewed homepage in WebView",
+        icon: "👁️",
+        notify: false,
+        tags: {
+          context: "WebView",
+          device: device,
+          screen: screen,
           version: version,
           location: location
         }
