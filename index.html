@@ -169,29 +169,39 @@ rssfeed_cache = "66cd2c2c78ca755bf48467c3b037a994";
 <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#9.6/-15.65340/-47.78541"></iframe>
 
 
-<!-- EmailJS SDK -->
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EmailJS Test</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+        emailjs.init("E4mFx5002KMFrf75t"); // Your public key
+      })();
+    </script>
+  </head>
+  <body>
+    <h2>Send Email Event</h2>
+    <button onclick="sendEmail()">Send Test</button>
 
-<script type="text/javascript">
-  (function(){
-    emailjs.init("E4mFx5002KMFrf75t"); // Your public key
-  })();
+    <div id="status"></div>
 
-  window.onload = function () {
-    emailjs.send("service_o7p7qam", "template_j2bk8co", {
-      source: "android_app",
-      timestamp: new Date().toISOString(),
-      screen: `${screen.width}x${screen.height}`,
-      platform: navigator.platform,
-      language: navigator.language,
-      referrer: document.referrer || "direct"
-    }).then(function (response) {
-      console.log("SUCCESS!", response.status, response.text);
-    }, function (error) {
-      console.log("FAILED...", error);
-    });
-  };
-</script>
+    <script type="text/javascript">
+      function sendEmail() {
+        emailjs.send("service_o7p7qam", "template_j2bk8co", {
+          message: "This is a test from my app!"
+        })
+        .then(function(response) {
+          document.getElementById("status").innerText = "✅ Sent successfully!";
+          console.log("SUCCESS!", response.status, response.text);
+        }, function(error) {
+          document.getElementById("status").innerText = "❌ Failed to send.";
+          console.log("FAILED...", error);
+        });
+      }
+    </script>
+  </body>
+</html>
   
 <footer class="footer">
   <div class="footer-content">
