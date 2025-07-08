@@ -27,37 +27,24 @@
     <section>
       <h1>Welcome to Page 2</h1>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Connect Gold</title>
-</head>
-<body>
+      <h2>Download Our App</h2>
+      <button onclick="trackEvent('download_clicked')">Download Now</button>
 
-  <h2>Download Our App</h2>
+      <script>
+        function trackEvent(eventName) {
+          fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
+        }
+      </script>
 
-  <!-- Track this button click -->
-  <button onclick="trackEvent('download_clicked')">Download Now</button>
+      <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&locale=en&curr=USD&powered_by=true&border_radius=0&plain=true&color_button=%232681ff&color_button_text=%23ffffff&color_border=%232681ff&promo_id=4132&campaign_id=121" charset="utf-8"></script> 
 
-  <script>
-    function trackEvent(eventName) {
-      fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
-    }
-  </script>
+      <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
 
-</body>
-</html>
-      
-     <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&locale=en&curr=USD&powered_by=true&border_radius=0&plain=true&color_button=%232681ff&color_button_text=%23ffffff&color_border=%232681ff&promo_id=4132&campaign_id=121" charset="utf-8"></script> 
-
-<script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
-
-<script async defer src="https://wegotrip.com/helpers/widgetManager.js" data-weg-partner-id="5444"></script><iframe class="js-wegotrip-widget" width="100%" height="490px" frameborder="0" scrolling="no" style="margin-left: -10px; margin-right: -10px;" src="https://wegotrip.com/en/widgets/?perPage=3&coupon=5444&showMore=true&preorder=true" title="WeGoTrip Partner Widget"></iframe>
-      
+      <script async defer src="https://wegotrip.com/helpers/widgetManager.js" data-weg-partner-id="5444"></script>
+      <iframe class="js-wegotrip-widget" width="100%" height="490px" frameborder="0" scrolling="no" style="margin-left: -10px; margin-right: -10px;" src="https://wegotrip.com/en/widgets/?perPage=3&coupon=5444&showMore=true&preorder=true" title="WeGoTrip Partner Widget"></iframe>
+    </section>
   </main>
 
-
-  
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
@@ -73,6 +60,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Spacer for Mobincube Banner Ad -->
+  <div style="height: 100px;"></div>
 
 </body>
 </html>
