@@ -1,32 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Add this inside the <head> tag -->
-<script src="https://cdn.appodeal.com/sdk/appodeal-web-sdk.min.js"></script>
-<script>
-  window.appodeal = window.appodeal || {};
-  appodeal.start({
-    appKey: '923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0',
-    adTypes: ['banner', 'interstitial', 'rewarded'],
-    testMode: false,
-    onLoad: function() {
-      console.log('Appodeal Web SDK loaded!');
-    }
-  });
-</script>
-  <meta <!-- Add this inside the <head> tag -->
-<script src="https://cdn.appodeal.com/sdk/appodeal-web-sdk.min.js"></script>
-<script>
-  window.appodeal = window.appodeal || {};
-  appodeal.start({
-    appKey: '923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0',
-    adTypes: ['banner', 'interstitial', 'rewarded'],
-    testMode: false,
-    onLoad: function() {
-      console.log('Appodeal Web SDK loaded!');
-    }
-  });
-</script>" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connect Gold</title>
   <link rel="icon" href="gold-2.ico" />
@@ -126,17 +100,6 @@
       version: "1.0.0"
     });
   </script>
-
-  <div id="appodeal-banner" style="width:320px; height:50px; margin: auto;"></div>
-
-  <script>
-  document.getElementById('showInterstitialBtn').addEventListener('click', function() {
-    appodeal.show('interstitial');
-  });
-</script>
-  
-  <button id="showInterstitialBtn">Show Interstitial Ad</button>
-
   
 <!-- Reserve space for AdMob banner -->
 <div style="height: 70px;"></div>
