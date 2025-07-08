@@ -27,35 +27,22 @@
     <section>
       <h1>Welcome to Page 3</h1>
 
-      <!DOCTYPE html>
-<html>
-<head>
-  <title>Connect Gold</title>
-</head>
-<body>
+      <h2>Download Our App</h2>
+      <button onclick="trackEvent('download_clicked')">Download Now</button>
 
-  <h2>Download Our App</h2>
+      <script>
+        function trackEvent(eventName) {
+          fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
+        }
+      </script>
 
-  <!-- Track this button click -->
-  <button onclick="trackEvent('download_clicked')">Download Now</button>
+      <div style="text-align: center;">
+        <a href="https://tagembed.com?fpr=chibuike-52" target="_blank" style="outline: none; border: none;">
+          <img src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/qpscag8g/marketing_asset/banner/8610/sideimg.jpg" alt="tagembed" border="0" />
+        </a>
+      </div>
 
-  <script>
-    function trackEvent(eventName) {
-      fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
-    }
-  </script>
-
-</body>
-</html>
-
-<div style="text-align: center;">
-  <a href="https://tagembed.com?fpr=chibuike-52" target="_blank" style="outline: none; border: none;">
-    <img src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/qpscag8g/marketing_asset/banner/8610/sideimg.jpg" alt="tagembed" border="0" />
-  </a>
-</div>
-
-      
-<script>
+      <script>
         (function(d, s, id) {
             if (d.getElementById(id)) {
                 if (window.__TOMORROW__) {
@@ -67,44 +54,32 @@
             const js = d.createElement(s);
             js.id = id;
             js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
             fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'tomorrow-sdk');
-        </script>
+      </script>
 
-        <div class="tomorrow"
-           data-location-id=""
-           data-language="EN"
-           data-unit-system="METRIC"
-           data-skin="light"
-           data-widget-type="summary"
-           style="padding-bottom:22px;position:relative;"
-        >
-          <a
-            href="https://weather.tomorrow.io/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by Tomorrow.io"
-              src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
-              width="250"
-              height="18"
-            />
-          </a>
-        </div>
+      <div class="tomorrow"
+         data-location-id=""
+         data-language="EN"
+         data-unit-system="METRIC"
+         data-skin="light"
+         data-widget-type="summary"
+         style="padding-bottom:22px;position:relative;">
+        <a href="https://weather.tomorrow.io/" rel="nofollow noopener noreferrer" target="_blank" style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;">
+          <img alt="Powered by Tomorrow.io" src="https://weather-website-client.tomorrow.io/img/powered-by.svg" width="250" height="18" />
+        </a>
+      </div>
 
+      <a href="https://www.qhoster.com/clients/aff.php?aff=1799">
+        <img src="https://www.qhoster.com/banners/728x90.gif" style="height:90px;width:728px;" border="0" alt="Web Hosting and Linux/Windows VPS in USA, UK and Germany">
+      </a>
 
-<a href="https://www.qhoster.com/clients/aff.php?aff=1799"><img src="https://www.qhoster.com/banners/728x90.gif" style="height:90px;width:728px;" border="0" alt="Web Hosting and Linux/Windows VPS in USA, UK and Germany"></a>
-
-      
     </section>
   </main>
 
+  <!-- Spacer for Mobincube banner ad -->
+  <div style="height: 100px;"></div>
 
-
-  
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
