@@ -95,8 +95,6 @@
   <main>
     <section>
       <h1>Welcome to Page 1</h1>
-      <h2>Download Our App</h2>
-      <button onclick="trackEvent('download_clicked')">Download Now</button>
       <script>
         function trackEvent(eventName) {
           fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
