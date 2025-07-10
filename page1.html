@@ -165,6 +165,26 @@
 
   </main>
 
+<script>
+  window.onload = function () {
+    // ✅ Show interstitial once per session
+    if (!sessionStorage.getItem("adShown")) {
+      if (window.MedianAdmob) {
+        window.MedianAdmob.showInterstitialAd('ca-app-pub-1171216593802007/4945244849');
+        sessionStorage.setItem("adShown", "yes");
+      }
+    }
+
+    // ✅ Show banner ad at the top
+    if (window.MedianAdmob) {
+      window.MedianAdmob.showBannerAd('ca-app-pub-1171216593802007/8884489855', {
+        position: "top"
+      });
+    }
+  };
+</script>
+</body>
+  
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
