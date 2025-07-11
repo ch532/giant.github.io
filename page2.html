@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,145 +8,198 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
       background-color: #f9f9f9;
     }
+
     .main-nav ul {
       list-style: none;
       padding: 0;
+      margin: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       background-color: #333;
-      margin: 0;
     }
+
     .main-nav li {
       margin: 0;
     }
+
     .main-nav a {
       display: block;
-      padding: 12px 18px;
+      padding: 14px 20px;
       color: white;
       text-decoration: none;
+      font-size: 1em;
     }
-    .main-nav a.active, .main-nav a:hover {
-      background-color: #555;
+
+    .main-nav a.active,
+    .main-nav a:hover {
+      background-color: #0077cc;
     }
+
     main {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 40px 20px;
+      background: #fff;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     }
+
+    h1 {
+      font-size: 2.2em;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     iframe {
-      margin: 20px auto;
       display: block;
+      margin: 30px auto;
     }
+
     footer {
       background-color: #222;
-      color: #fff;
-      padding: 20px 10px;
+      color: #eee;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 16px;
     }
+
     .footer-content {
       max-width: 800px;
       margin: 0 auto;
     }
+
+    .footer-nav a {
+      color: #ccc;
+      margin: 0 5px;
+      text-decoration: none;
+    }
+
+    .footer-nav a:hover {
+      text-decoration: underline;
+    }
+
+    .social-links {
+      margin-top: 10px;
+    }
+
     .social-links a {
       color: #ccc;
-      margin: 0 10px;
+      margin: 0 8px;
       text-decoration: none;
     }
   </style>
 </head>
-<body><header>
-  <nav class="main-nav">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="page1.html">Page 1</a></li>
-      <li><a href="page2.html" class="active">Page 2</a></li>
-      <li><a href="page3.html">Page 3</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="terms.html">Terms of Service</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header><main>
-  <section>
-    <h1>Welcome to Page 2</h1><!-- Banner Ad -->
-<script type="text/javascript">
-  atOptions = {
-    'key': '9540504584aa81db7813ddd10512b045',
-    'format': 'iframe',
-    'height': 90,
-    'width': 728,
-    'params': {}
-  };
-</script>
-<script src="//www.highperformanceformat.com/9540504584aa81db7813ddd10512b045/invoke.js"></script>
+<body>
 
-<!-- Event Tracker -->
-<script>
-  function trackEvent(eventName) {
-    fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
-  }
-</script>
-
-<!-- Ticket Widgets -->
-<script async src="https://tpemb.com/content?trs=421109&shmarker=589064&locale=en&curr=USD&powered_by=true&border_radius=0&plain=true&color_button=%232681ff&color_button_text=%23ffffff&color_border=%232681ff&promo_id=4132&campaign_id=121" charset="utf-8"></script>
-<script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
-
-<!-- Yandex Banner Ad -->
-<div id="yandex_rtb_R-M-16231492-1"></div>
-<script type="text/javascript">
-  (function(w, d, n, s, t) {
-    w[n] = w[n] || [];
-    w[n].push(function() {
-      Ya.Context.AdvManager.render({
-        blockId: "R-M-16231492-1",
-        renderTo: "yandex_rtb_R-M-16231492-1",
-        async: true
-      });
-    });
-    t = d.getElementsByTagName("script")[0];
-    s = d.createElement("script");
-    s.type = "text/javascript";
-    s.src = "https://yandex.ru/ads/system/context.js";
-    s.async = true;
-    t.parentNode.insertBefore(s, t);
-  })(this, this.document, "yandexContextAsyncCallbacks");
-</script>
-
-<!-- WeGoTrip Widget -->
-<script async defer src="https://wegotrip.com/helpers/widgetManager.js" data-weg-partner-id="5444"></script>
-<iframe class="js-wegotrip-widget" width="100%" height="490px" frameborder="0" scrolling="no" src="https://wegotrip.com/en/widgets/?perPage=3&coupon=5444&showMore=true&preorder=true" title="WeGoTrip Partner Widget"></iframe>
-
-  </section>
-</main><!-- Admob Activation --><script>
-  window.onload = function () {
-    if (window.median && median.admob && median.admob.banner) {
-      median.admob.banner.enable();
-    }
-    setTimeout(function () {
-      if (window.median && median.admob) {
-        median.admob.showInterstitialIfReady();
-      } else {
-        console.log("Interstitial plugin not found.");
-      }
-    }, 3000);
-  };
-</script><footer class="footer">
-  <div class="footer-content">
-    <p>&copy; 2025 Connect Gold. All rights reserved.</p>
-    <nav class="footer-nav">
-      <a href="privacy.html">Privacy Policy</a> |
-      <a href="terms.html">Terms of Service</a> |
-      <a href="contact.html">Contact</a>
+  <header>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="page1.html">Page 1</a></li>
+        <li><a href="page2.html" class="active">Page 2</a></li>
+        <li><a href="page3.html">Page 3</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
     </nav>
-    <p>Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a> | Phone: +2349125007235, +2347061740924</p>
-    <div class="social-links">
-      <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener noreferrer">Instagram</a> |
-      <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+  </header>
+
+  <main>
+    <section>
+      <h1>Welcome to Page 2</h1>
+
+      <!-- Banner Ad -->
+      <script type="text/javascript">
+        atOptions = {
+          'key': '9540504584aa81db7813ddd10512b045',
+          'format': 'iframe',
+          'height': 90,
+          'width': 728,
+          'params': {}
+        };
+      </script>
+      <script src="//www.highperformanceformat.com/9540504584aa81db7813ddd10512b045/invoke.js"></script>
+
+      <!-- Event Tracker -->
+      <script>
+        function trackEvent(eventName) {
+          fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
+        }
+      </script>
+
+      <!-- Ticket Widgets -->
+      <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&locale=en&curr=USD&powered_by=true&border_radius=0&plain=true&color_button=%232681ff&color_button_text=%23ffffff&color_border=%232681ff&promo_id=4132&campaign_id=121" charset="utf-8"></script>
+      <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
+
+      <!-- Yandex Banner Ad -->
+      <div id="yandex_rtb_R-M-16231492-1"></div>
+      <script type="text/javascript">
+        (function(w, d, n, s, t) {
+          w[n] = w[n] || [];
+          w[n].push(function() {
+            Ya.Context.AdvManager.render({
+              blockId: "R-M-16231492-1",
+              renderTo: "yandex_rtb_R-M-16231492-1",
+              async: true
+            });
+          });
+          t = d.getElementsByTagName("script")[0];
+          s = d.createElement("script");
+          s.type = "text/javascript";
+          s.src = "https://yandex.ru/ads/system/context.js";
+          s.async = true;
+          t.parentNode.insertBefore(s, t);
+        })(this, this.document, "yandexContextAsyncCallbacks");
+      </script>
+
+      <!-- WeGoTrip Widget -->
+      <script async defer src="https://wegotrip.com/helpers/widgetManager.js" data-weg-partner-id="5444"></script>
+      <iframe class="js-wegotrip-widget" width="100%" height="490px" frameborder="0" scrolling="no" src="https://wegotrip.com/en/widgets/?perPage=3&coupon=5444&showMore=true&preorder=true" title="WeGoTrip Partner Widget"></iframe>
+
+    </section>
+  </main>
+
+  <!-- Admob Activation -->
+  <script>
+    window.onload = function () {
+      if (window.median && median.admob && median.admob.banner) {
+        median.admob.banner.enable();
+      }
+      setTimeout(function () {
+        if (window.median && median.admob) {
+          median.admob.showInterstitialIfReady();
+        } else {
+          console.log("Interstitial plugin not found.");
+        }
+      }, 3000);
+    };
+  </script>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Connect Gold. All rights reserved.</p>
+      <nav class="footer-nav">
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms of Service</a> |
+        <a href="contact.html">Contact</a>
+      </nav>
+      <p>
+        Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a><br>
+        Phone: +2349125007235, +2347061740924
+      </p>
+      <div class="social-links">
+        <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener noreferrer">Instagram</a> |
+        <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+      </div>
     </div>
-  </div>
-</footer></body>
+  </footer>
+
+</body>
 </html>
