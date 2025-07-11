@@ -21,13 +21,17 @@
       width: 100%; background-color: #fff;
       z-index: 999; box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
     }
-    body { padding-bottom: 90px; margin: 0; }
+    body {
+      padding-bottom: 90px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
     @media (max-width: 600px) {
       #ad-banner { height: 60px; }
       body { padding-bottom: 60px; }
     }
 
-    /* Scaling content only */
     #appContent {
       transform: scale(0.9);
       transform-origin: top left;
@@ -61,15 +65,67 @@
       margin-top: 20px;
       display: none;
     }
+
+    .navbar, .main-nav {
+      background-color: #333;
+      padding: 0;
+    }
+    .nav-list, .main-nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-list li, .main-nav li {
+      margin: 0;
+    }
+    .nav-list a, .main-nav a {
+      display: block;
+      padding: 12px 18px;
+      color: white;
+      text-decoration: none;
+    }
+    .nav-list a:hover, .main-nav a:hover {
+      background-color: #0077cc;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+    header .logo img {
+      max-width: 120px;
+    }
+    .welcome-message {
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    footer {
+      background-color: #222;
+      color: #eee;
+      padding: 30px 20px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .footer-content a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    .social-links a {
+      margin: 0 10px;
+      color: #ccc;
+    }
   </style>
 </head>
 
 <body>
-
-  <!-- Adsterra Top Ad -->
+  <!-- ✅ Adsterra Ad Banner remains intact -->
   <div id="ad-banner"></div>
 
-  <!-- Main Content (Scaled) -->
+  <!-- ✅ Zoomed content -->
   <div id="appContent">
 
     <!-- Navigation -->
@@ -95,7 +151,7 @@
 
     <!-- Yandex Banner Ad -->
     <div id="yandex_rtb_R-M-16231492-1"></div>
-    <script type="text/javascript">
+    <script>
       (function(w, d, n, s, t) {
         w[n] = w[n] || [];
         w[n].push(function() {
@@ -113,7 +169,7 @@
       })(this, this.document, "yandexContextAsyncCallbacks");
     </script>
 
-    <!-- RSS News -->
+    <!-- RSS News Feed -->
     <h2>Technology News</h2>
     <div id="rss-feed-container">Loading news...</div>
 
@@ -135,10 +191,9 @@
         </div>
       </div>
     </footer>
+  </div>
 
-  </div> <!-- End of #appContent -->
-
-  <!-- JS: News & Ads -->
+  <!-- RSS Loader -->
   <script>
     const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
@@ -148,14 +203,12 @@
         const container = document.getElementById('rss-feed-container');
         container.innerHTML = '';
         if (!data.items) return;
-
         data.items.forEach((item, index) => {
           const postDiv = document.createElement('div');
           postDiv.className = 'news-post';
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = item.description || '';
           const snippet = tempDiv.textContent || '';
-
           postDiv.innerHTML = `
             <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
             <p>${snippet}</p>
@@ -172,7 +225,7 @@
       });
   </script>
 
-  <!-- Trackers -->
+  <!-- Tracking Pixels -->
   <img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=webview" style="display:none;" />
   <img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=android_app" style="display:none;" />
 
@@ -189,7 +242,7 @@
       if (median && median.admob && median.admob.banner) {
         median.admob.banner.enable();
       }
-      setTimeout(function () {
+      setTimeout(() => {
         if (window.median && median.admob) {
           median.admob.showInterstitialIfReady();
         }
@@ -197,7 +250,7 @@
     };
   </script>
 
-  <!-- Cookie Banner -->
+  <!-- Cookie Consent -->
   <script>
     const cookieBanner = document.getElementById('cookieConsent');
     const acceptBtn = document.getElementById('acceptCookies');
@@ -209,6 +262,5 @@
       cookieBanner.style.display = 'none';
     });
   </script>
-
 </body>
 </html>
