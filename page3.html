@@ -6,27 +6,73 @@
   <title>Page 3 - Connect Gold</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .center-container {
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-nav ul {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background: #333;
+    }
+
+    .main-nav ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .main-nav ul li a:hover,
+    .main-nav ul li a.active {
+      background: #0077cc;
     }
 
     main section {
-      width: 100%;
-      max-width: 800px;
+      max-width: 960px;
       margin: 0 auto;
+      padding: 40px 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     }
 
-    header, footer {
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 30px;
+    }
+
+    .center-container {
       text-align: center;
     }
 
-    button {
-      padding: 10px 20px;
+    .footer {
+      background: #222;
+      color: #eee;
+      padding: 30px 20px;
+      text-align: center;
       font-size: 16px;
-      cursor: pointer;
+    }
+
+    .footer a {
+      color: #66c;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .social-links {
+      margin-top: 10px;
     }
 
     img {
@@ -56,54 +102,39 @@
     <section class="center-container">
       <h1>Welcome to Page 3</h1>
 
+      <!-- Ads and Widgets - untouched -->
       <!-- Yandex Banner Ad -->
-<div id="yandex_rtb_R-M-16231492-1"></div>
-<script type="text/javascript">
-  (function(w, d, n, s, t) {
-    w[n] = w[n] || [];
-    w[n].push(function() {
-      Ya.Context.AdvManager.render({
-        blockId: "R-M-16231492-1",
-        renderTo: "yandex_rtb_R-M-16231492-1",
-        async: true
-      });
-    });
-    t = d.getElementsByTagName("script")[0];
-    s = d.createElement("script");
-    s.type = "text/javascript";
-    s.src = "https://yandex.ru/ads/system/context.js";
-    s.async = true;
-    t.parentNode.insertBefore(s, t);
-  })(this, this.document, "yandexContextAsyncCallbacks");
-</script>
-      
+      <div id="yandex_rtb_R-M-16231492-1"></div>
+      <script type="text/javascript">
+        (function(w, d, n, s, t) {
+          w[n] = w[n] || [];
+          w[n].push(function() {
+            Ya.Context.AdvManager.render({
+              blockId: "R-M-16231492-1",
+              renderTo: "yandex_rtb_R-M-16231492-1",
+              async: true
+            });
+          });
+          t = d.getElementsByTagName("script")[0];
+          s = d.createElement("script");
+          s.type = "text/javascript";
+          s.src = "https://yandex.ru/ads/system/context.js";
+          s.async = true;
+          t.parentNode.insertBefore(s, t);
+        })(this, this.document, "yandexContextAsyncCallbacks");
+      </script>
+
       <script>
         function trackEvent(eventName) {
           fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
         }
       </script>
 
-      <div>
-        <a href="https://tagembed.com?fpr=chibuike-52" target="_blank" style="outline: none; border: none;">
+      <div style="margin: 30px 0;">
+        <a href="https://tagembed.com?fpr=chibuike-52" target="_blank">
           <img src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/qpscag8g/marketing_asset/banner/8610/sideimg.jpg" alt="tagembed" />
         </a>
       </div>
-      
-      <script>
-        (function(d, s, id) {
-          if (d.getElementById(id)) {
-            if (window.__TOMORROW__) {
-              window.__TOMORROW__.renderWidget();
-            }
-            return;
-          }
-          const fjs = d.getElementsByTagName(s)[0];
-          const js = d.createElement(s);
-          js.id = id;
-          js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-          fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-      </script>
 
       <div class="tomorrow"
            data-location-id=""
@@ -112,44 +143,53 @@
            data-skin="light"
            data-widget-type="summary"
            style="padding-bottom:22px;position:relative;">
-        <a href="https://weather.tomorrow.io/" rel="nofollow noopener noreferrer" target="_blank" style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;">
-          <img alt="Powered by Tomorrow.io" src="https://weather-website-client.tomorrow.io/img/powered-by.svg" width="250" height="18" />
+        <a href="https://weather.tomorrow.io/" target="_blank" rel="nofollow noopener noreferrer"
+           style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;">
+          <img alt="Powered by Tomorrow.io"
+               src="https://weather-website-client.tomorrow.io/img/powered-by.svg" width="250" height="18" />
         </a>
       </div>
 
+      <script>
+        (function(d, s, id) {
+          if (d.getElementById(id)) {
+            if (window.__TOMORROW__) window.__TOMORROW__.renderWidget();
+            return;
+          }
+          const js = d.createElement(s), fjs = d.getElementsByTagName(s)[0];
+          js.id = id;
+          js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'tomorrow-sdk');
+      </script>
+
       <a href="https://www.qhoster.com/clients/aff.php?aff=1799">
-        <img src="https://www.qhoster.com/banners/728x90.gif" style="height:90px;width:728px;" border="0" alt="Web Hosting and Linux/Windows VPS in USA, UK and Germany">
+        <img src="https://www.qhoster.com/banners/728x90.gif" style="height:90px;width:728px;" border="0" alt="Web Hosting">
       </a>
     </section>
   </main>
 
-  <script>
-    window.onload = function () {
-      if (median && median.admob && median.admob.banner) {
-        median.admob.banner.enable();
-      }
-
-      <!-- Yandex Interstitial Ad -->
-<script type="text/javascript">
-  (function(w, d, n, s, t) {
-    w[n] = w[n] || [];
-    w[n].push(function() {
-      setTimeout(function () {
-        Ya.Context.AdvManager.render({
-          blockId: "R-M-16231492-2",
-          type: "fullscreen",
-          platform: "touch"
-        });
-      }, 5000); // Delay in milliseconds (5 seconds)
-    });
-    t = d.getElementsByTagName("script")[0];
-    s = d.createElement("script");
-    s.type = "text/javascript";
-    s.src = "https://yandex.ru/ads/system/context.js";
-    s.async = true;
-    t.parentNode.insertBefore(s, t);
-  })(this, this.document, "yandexContextAsyncCallbacks");
-</script>
+  <!-- Yandex Interstitial Ad -->
+  <script type="text/javascript">
+    (function(w, d, n, s, t) {
+      w[n] = w[n] || [];
+      w[n].push(function() {
+        setTimeout(function () {
+          Ya.Context.AdvManager.render({
+            blockId: "R-M-16231492-2",
+            type: "fullscreen",
+            platform: "touch"
+          });
+        }, 5000);
+      });
+      t = d.getElementsByTagName("script")[0];
+      s = d.createElement("script");
+      s.type = "text/javascript";
+      s.src = "https://yandex.ru/ads/system/context.js";
+      s.async = true;
+      t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+  </script>
 
   <footer class="footer">
     <div class="footer-content">
@@ -159,10 +199,11 @@
         <a href="terms.html">Terms of Service</a> |
         <a href="contact.html">Contact</a>
       </nav>
-      <p>Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a> | Phone: +2349125007235, +2347061740924</p>
+      <p>Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a><br>
+      Phone: +2349125007235, +2347061740924</p>
       <div class="social-links">
-        <a href="https://instagram.com/connectgold20" target="_blank" rel="noopener noreferrer">Instagram</a> |
-        <a href="https://twitter.com/Connectgold20" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+        <a href="https://instagram.com/connectgold20" target="_blank">Instagram</a> |
+        <a href="https://twitter.com/Connectgold20" target="_blank">X (Twitter)</a>
       </div>
     </div>
   </footer>
