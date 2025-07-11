@@ -56,6 +56,26 @@
     <section class="center-container">
       <h1>Welcome to Page 3</h1>
 
+      <!-- Yandex Banner Ad -->
+<div id="yandex_rtb_R-M-16231492-1"></div>
+<script type="text/javascript">
+  (function(w, d, n, s, t) {
+    w[n] = w[n] || [];
+    w[n].push(function() {
+      Ya.Context.AdvManager.render({
+        blockId: "R-M-16231492-1",
+        renderTo: "yandex_rtb_R-M-16231492-1",
+        async: true
+      });
+    });
+    t = d.getElementsByTagName("script")[0];
+    s = d.createElement("script");
+    s.type = "text/javascript";
+    s.src = "https://yandex.ru/ads/system/context.js";
+    s.async = true;
+    t.parentNode.insertBefore(s, t);
+  })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
       
       <script>
         function trackEvent(eventName) {
@@ -68,7 +88,7 @@
           <img src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/qpscag8g/marketing_asset/banner/8610/sideimg.jpg" alt="tagembed" />
         </a>
       </div>
-
+      
       <script>
         (function(d, s, id) {
           if (d.getElementById(id)) {
@@ -109,15 +129,27 @@
         median.admob.banner.enable();
       }
 
+      <!-- Yandex Interstitial Ad -->
+<script type="text/javascript">
+  (function(w, d, n, s, t) {
+    w[n] = w[n] || [];
+    w[n].push(function() {
       setTimeout(function () {
-        if (window.median && median.admob) {
-          median.admob.showInterstitialIfReady();
-        } else {
-          console.log("Interstitial plugin not found.");
-        }
-      }, 3000);
-    };
-  </script>
+        Ya.Context.AdvManager.render({
+          blockId: "R-M-16231492-2",
+          type: "fullscreen",
+          platform: "touch"
+        });
+      }, 5000); // Delay in milliseconds (5 seconds)
+    });
+    t = d.getElementsByTagName("script")[0];
+    s = d.createElement("script");
+    s.type = "text/javascript";
+    s.src = "https://yandex.ru/ads/system/context.js";
+    s.async = true;
+    t.parentNode.insertBefore(s, t);
+  })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
 
   <footer class="footer">
     <div class="footer-content">
