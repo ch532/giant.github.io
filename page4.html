@@ -95,6 +95,22 @@
     </section>
   </main>
 
+ <!-- Admob Activation -->
+  <script>
+    window.onload = function () {
+      if (window.median && median.admob && median.admob.banner) {
+        median.admob.banner.enable();
+      }
+      setTimeout(function () {
+        if (window.median && median.admob) {
+          median.admob.showInterstitialIfReady();
+        } else {
+          console.log("Interstitial plugin not found.");
+        }
+      }, 3000);
+    };
+  </script>
+  
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
