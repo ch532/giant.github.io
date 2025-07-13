@@ -217,7 +217,31 @@
     </form>
   </div>
 </div>
-    
+
+    <!-- Yandex Adfox Mobile Banner -->
+<div id="adfox_banner"></div>
+
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.create({
+      ownerId: 12491672,
+      containerId: 'adfox_banner',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: 'gydq', // Dummy; real one isn't always shown; it's okay to omit
+        puid1: '',
+        puid2: ''
+      },
+      onLoad: function () {
+        console.log('Banner loaded');
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
     
     <!-- News Section -->
 <h2>📰 General News (Nigeria + Global)</h2>
@@ -290,6 +314,26 @@
     <!-- Map -->
     <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559"></iframe>
 
+<!-- Yandex Adfox Interstitial -->
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.createInterstitial({
+      ownerId: 12491672,
+      containerId: 'adfox_interstitial',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: '',
+        puid1: '',
+        puid2: ''
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+    
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
