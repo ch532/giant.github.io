@@ -197,15 +197,75 @@
     margin-top: 10px;
   ">Shop Now on Amazon</a>
 </div>
-
-<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
- <ins class="eas6a97888e37" data-zoneid="5674120"></ins> 
- <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
     
-    <!-- RSS News Feed -->
-    <h2>Technology News</h2>
-    <div id="rss-feed-container">Loading news...</div>
+    
+    <!-- News Section -->
+<h2>📰 General News (Nigeria + Global)</h2>
+<div id="rss-feed-container">Loading news...</div>
 
+<!-- RSS Feed Script with Ads -->
+<script>
+  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nigeria+OR+world&hl=en&gl=NG&ceid=NG:en');
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('rss-feed-container');
+      container.innerHTML = '';
+      if (!data.items) return;
+
+      // Inject ExoClick base script globally
+      const exoScript = document.createElement('script');
+      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
+      exoScript.async = true;
+      document.head.appendChild(exoScript);
+
+      data.items.forEach((item, index) => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'news-post';
+        postDiv.style = "border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 10px; background: #fff;";
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.description || '';
+        const snippet = tempDiv.textContent || '';
+
+        // Fill the post
+        postDiv.innerHTML = `
+          <h3 style="margin-top:0;"><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
+          <p>${snippet}</p>
+
+          <!-- Adsterra Native -->
+          <div class="adsterra-native" id="adsterra-${index}"></div>
+
+          <!-- ExoClick Native Banner -->
+          <div class="exo-native-banner">
+            <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
+          </div>
+
+          <!-- ExoClick Video Ad -->
+          <div class="exo-outstream-video">
+            <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
+          </div>
+        `;
+
+        container.appendChild(postDiv);
+
+        // Adsterra Native Script
+        const adsterraScript = document.createElement('script');
+        adsterraScript.setAttribute('data-cfasync', 'false');
+        adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
+        adsterraScript.async = true;
+        adsterraScript.type = 'text/javascript';
+        document.getElementById(`adsterra-${index}`).appendChild(adsterraScript);
+      });
+
+      // Activate ExoClick
+      setTimeout(() => {
+        (window.AdProvider = window.AdProvider || []).push({ serve: {} });
+      }, 500);
+    });
+</script>
     
     <!-- Map -->
     <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559"></iframe>
@@ -268,39 +328,43 @@
       cookieBanner.style.display = 'none';
     })
       
-      <!-- RSS Loader with rss2json.io API -->
+      <!-- News Section -->
+<h2>📰 General News (Nigeria + Global)</h2>
+<div id="rss-feed-container">Loading news...</div>
+
+<!-- RSS Feed Script with Ads -->
 <script>
-  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
-  const apiUrl = `https://rss2json.io/api/rss?url=${rssUrl}`;
+  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nigeria+OR+world&hl=en&gl=NG&ceid=NG:en');
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
   fetch(apiUrl)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById('rss-feed-container');
       container.innerHTML = '';
-      if (!data.items || data.items.length === 0) {
-        container.innerHTML = 'No news found.';
-        return;
-      }
+      if (!data.items) return;
 
-      // Load ExoClick globally
+      // Inject ExoClick base script globally
       const exoScript = document.createElement('script');
       exoScript.src = 'https://a.magsrv.com/ad-provider.js';
       exoScript.async = true;
-      exoScript.type = 'application/javascript';
       document.head.appendChild(exoScript);
 
       data.items.forEach((item, index) => {
         const postDiv = document.createElement('div');
         postDiv.className = 'news-post';
+        postDiv.style = "border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 10px; background: #fff;";
 
-        const snippet = item.description || '';
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.description || '';
+        const snippet = tempDiv.textContent || '';
 
+        // Fill the post
         postDiv.innerHTML = `
-          <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+          <h3 style="margin-top:0;"><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
           <p>${snippet}</p>
 
-          <!-- Adsterra Native Ad -->
+          <!-- Adsterra Native -->
           <div class="adsterra-native" id="adsterra-${index}"></div>
 
           <!-- ExoClick Native Banner -->
@@ -316,7 +380,7 @@
 
         container.appendChild(postDiv);
 
-        // Adsterra native script
+        // Adsterra Native Script
         const adsterraScript = document.createElement('script');
         adsterraScript.setAttribute('data-cfasync', 'false');
         adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
@@ -325,14 +389,10 @@
         document.getElementById(`adsterra-${index}`).appendChild(adsterraScript);
       });
 
-      // Trigger ExoClick ads
+      // Activate ExoClick
       setTimeout(() => {
         (window.AdProvider = window.AdProvider || []).push({ serve: {} });
       }, 500);
-    })
-    .catch(err => {
-      document.getElementById('rss-feed-container').innerHTML = 'Error loading feed.';
-      console.error(err);
     });
 </script>
  
