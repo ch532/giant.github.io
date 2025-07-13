@@ -127,6 +127,31 @@
   </div>
 </div>
 
+<!-- Yandex Adfox Mobile Banner -->
+<div id="adfox_banner"></div>
+
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.create({
+      ownerId: 12491672,
+      containerId: 'adfox_banner',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: 'gydq', // Dummy; real one isn't always shown; it's okay to omit
+        puid1: '',
+        puid2: ''
+      },
+      onLoad: function () {
+        console.log('Banner loaded');
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+      
       <!-- Start.io Referral Banner Widget with Logo -->
 <div style="border:2px solid #eaeaea; border-radius:8px; overflow:hidden; width:320px; font-family:Arial, sans-serif; box-shadow:0 4px 8px rgba(0,0,0,0.1); margin: 20px auto;">
   <a href="https://portal.start.io/#/signup?referredby=ce5100ce-d2ef-7b0d-92e4-35c172707df7&preferredsite=pub&source=directURL" target="_blank" rel="noopener noreferrer">
@@ -171,6 +196,26 @@
       }, 3000);
     };
   </script>
+
+<!-- Yandex Adfox Interstitial -->
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.createInterstitial({
+      ownerId: 12491672,
+      containerId: 'adfox_interstitial',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: '',
+        puid1: '',
+        puid2: ''
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
   
   <footer class="footer">
     <div class="footer-content">
