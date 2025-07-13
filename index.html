@@ -219,37 +219,58 @@
     </footer>
   </div>
 
-  <!-- RSS Loader -->
-  <script>
-    const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
-    fetch(apiUrl)
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('rss-feed-container');
-        container.innerHTML = '';
-        if (!data.items) return;
-        data.items.forEach((item, index) => {
-          const postDiv = document.createElement('div');
-          postDiv.className = 'news-post';
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = item.description || '';
-          const snippet = tempDiv.textContent || '';
-          postDiv.innerHTML = `
-            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-            <p>${snippet}</p>
-            <div class="native-ad-container" id="container-ad-${index}"></div>
-          `;
-          container.appendChild(postDiv);
+  <!-- RSS Loader with both ProfitablerateCPM and ExoClick Native Ads -->
+<script>
+  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('rss-feed-container');
+      container.innerHTML = '';
+      if (!data.items) return;
 
-          const adScript = document.createElement('script');
-          adScript.async = true;
-          adScript.setAttribute('data-cfasync', 'false');
-          adScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
-          postDiv.querySelector('.native-ad-container').appendChild(adScript);
-        });
+      data.items.forEach((item, index) => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'news-post';
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.description || '';
+        const snippet = tempDiv.textContent || '';
+
+        // Add content
+        postDiv.innerHTML = `
+          <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+          <p>${snippet}</p>
+          <div class="native-ad-container" id="profitablerate-${index}"></div>
+          <div class="exo-native-ad" id="exo-ad-${index}">
+            <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
+          </div>
+        `;
+
+        container.appendChild(postDiv);
+
+        // Add ProfitablerateCPM ad script
+        const profitAdScript = document.createElement('script');
+        profitAdScript.setAttribute('data-cfasync', 'false');
+        profitAdScript.async = true;
+        profitAdScript.type = 'text/javascript';
+        profitAdScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
+        document.getElementById(`profitablerate-${index}`).appendChild(profitAdScript);
       });
-  </script>
+
+      // Add ExoClick script ONCE globally
+      const exoScript = document.createElement('script');
+      exoScript.async = true;
+      exoScript.type = 'application/javascript';
+      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
+      document.body.appendChild(exoScript);
+
+      const exoPush = document.createElement('script');
+      exoPush.innerHTML = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
+      document.body.appendChild(exoPush);
+    });
+</script>
 
   <!-- Tracking Pixels -->
   <img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=webview" style="display:none;" />
