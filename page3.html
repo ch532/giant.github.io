@@ -160,6 +160,31 @@
           fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'tomorrow-sdk');
       </script>
+
+<!-- Yandex Adfox Mobile Banner -->
+<div id="adfox_banner"></div>
+
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.create({
+      ownerId: 12491672,
+      containerId: 'adfox_banner',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: 'gydq', // Dummy; real one isn't always shown; it's okay to omit
+        puid1: '',
+        puid2: ''
+      },
+      onLoad: function () {
+        console.log('Banner loaded');
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
       
       <a href="https://www.qhoster.com/clients/aff.php?aff=1799">
         <img src="https://www.qhoster.com/banners/728x90.gif" style="height:90px;width:728px;" border="0" alt="Web Hosting">
@@ -180,6 +205,26 @@
     };
   </script>
 
+<!-- Yandex Adfox Interstitial -->
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.createInterstitial({
+      ownerId: 12491672,
+      containerId: 'adfox_interstitial',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: '',
+        puid1: '',
+        puid2: ''
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+  
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
