@@ -268,17 +268,71 @@
       cookieBanner.style.display = 'none';
     })
       
-      <div id="rss-feed-container">Loading...</div>
+      <!-- RSS Loader with rss2json.io API -->
 <script>
-  const url = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
-  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${url}`)
+  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
+  const apiUrl = `https://rss2json.io/api/rss?url=${rssUrl}`;
+
+  fetch(apiUrl)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById('rss-feed-container');
-      if (!data.items) return;
-      container.innerHTML = data.items.map(item =>
-        `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3>`
-      ).join('');
+      container.innerHTML = '';
+      if (!data.items || data.items.length === 0) {
+        container.innerHTML = 'No news found.';
+        return;
+      }
+
+      // Load ExoClick globally
+      const exoScript = document.createElement('script');
+      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
+      exoScript.async = true;
+      exoScript.type = 'application/javascript';
+      document.head.appendChild(exoScript);
+
+      data.items.forEach((item, index) => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'news-post';
+
+        const snippet = item.description || '';
+
+        postDiv.innerHTML = `
+          <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+          <p>${snippet}</p>
+
+          <!-- Adsterra Native Ad -->
+          <div class="adsterra-native" id="adsterra-${index}"></div>
+
+          <!-- ExoClick Native Banner -->
+          <div class="exo-native-banner">
+            <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
+          </div>
+
+          <!-- ExoClick Video Ad -->
+          <div class="exo-outstream-video">
+            <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
+          </div>
+        `;
+
+        container.appendChild(postDiv);
+
+        // Adsterra native script
+        const adsterraScript = document.createElement('script');
+        adsterraScript.setAttribute('data-cfasync', 'false');
+        adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
+        adsterraScript.async = true;
+        adsterraScript.type = 'text/javascript';
+        document.getElementById(`adsterra-${index}`).appendChild(adsterraScript);
+      });
+
+      // Trigger ExoClick ads
+      setTimeout(() => {
+        (window.AdProvider = window.AdProvider || []).push({ serve: {} });
+      }, 500);
+    })
+    .catch(err => {
+      document.getElementById('rss-feed-container').innerHTML = 'Error loading feed.';
+      console.error(err);
     });
 </script>
  
