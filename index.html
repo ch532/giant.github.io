@@ -314,25 +314,7 @@
     <!-- Map -->
     <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559"></iframe>
 
-<!-- Yandex Adfox Interstitial -->
-<script>
-  window.yaContextCb = window.yaContextCb || [];
-  window.yaContextCb.push(() => {
-    Ya.adfoxCode.createInterstitial({
-      ownerId: 12491672,
-      containerId: 'adfox_interstitial',
-      params: {
-        pp: 'g',
-        ps: 'cmvs',
-        p2: '',
-        puid1: '',
-        puid2: ''
-      }
-    });
-  });
-</script>
 
-<script src="https://yandex.ru/ads/system/context.js" async></script>
     
     <!-- Footer -->
     <footer class="footer">
@@ -341,7 +323,36 @@
         <p>Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a> | Phone: +2349125007235, +2347061740924</p>
         <div class="social-links">
           <a href="https://instagram.com/connectgold20" target="_blank">Instagram</a> |
-          <a href="https://twitter.com/Connectgold20" target="_blank">X (Twitter)</a>
+          <a href="https://twitter.com/C<!-- Load Adfox Script -->
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+
+<!-- Trigger Interstitial After 10 Seconds -->
+<script>
+  function showAdfoxInterstitial() {
+    window.yaContextCb = window.yaContextCb || [];
+    window.yaContextCb.push(() => {
+      Ya.adfoxCode.loadInterstitial({
+        ownerId: 12491672, // Your Adfox owner ID
+        containerId: 'adfox_interstitial',
+        params: {
+          pp: 'g',
+          ps: 'cmvs',
+          p2: '',
+          puid1: '',
+          puid2: ''
+        }
+      });
+    });
+  }
+
+  // Auto show after 10 seconds
+  setTimeout(() => {
+    showAdfoxInterstitial();
+  }, 10000);
+</script>
+
+<!-- Container (required by Adfox) -->
+<div id="adfox_interstitial"></div>onnectgold20" target="_blank">X (Twitter)</a>
         </div>
         <div id="cookieConsent" class="cookie-consent">
           <p>We use cookies to improve your experience. By browsing, you accept our <a href="privacy.html">Privacy Policy</a>.</p>
