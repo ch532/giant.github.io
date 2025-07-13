@@ -158,6 +158,30 @@
       <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&locale=en&curr=USD&powered_by=true&border_radius=0&plain=true&color_button=%232681ff&color_button_text=%23ffffff&color_border=%232681ff&promo_id=4132&campaign_id=121" charset="utf-8"></script>
       <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
 
+      <!-- Yandex Adfox Mobile Banner -->
+<div id="adfox_banner"></div>
+
+<script>
+  window.yaContextCb = window.yaContextCb || [];
+  window.yaContextCb.push(() => {
+    Ya.adfoxCode.create({
+      ownerId: 12491672,
+      containerId: 'adfox_banner',
+      params: {
+        pp: 'g',
+        ps: 'cmvs',
+        p2: 'gydq', // Dummy; real one isn't always shown; it's okay to omit
+        puid1: '',
+        puid2: ''
+      },
+      onLoad: function () {
+        console.log('Banner loaded');
+      }
+    });
+  });
+</script>
+
+<script src="https://yandex.ru/ads/system/context.js" async></script>
 
       <!-- WeGoTrip Widget -->
       <script async defer src="https://wegotrip.com/helpers/widgetManager.js" data-weg-partner-id="5444"></script>
