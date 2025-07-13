@@ -268,78 +268,17 @@
       cookieBanner.style.display = 'none';
     })
       
-      <!-- RSS Loader with Adsterra + ExoClick Native + ExoClick Video -->
+      <div id="rss-feed-container">Loading...</div>
 <script>
-  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
-
-  fetch(apiUrl)
+  const url = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
+  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${url}`)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById('rss-feed-container');
-      container.innerHTML = '';
-
-      if (!data.items || data.items.length === 0) {
-        container.innerHTML = '<p>No news available right now.</p>';
-        return;
-      }
-
-      // Load ExoClick globally
-      const exoScript = document.createElement('script');
-      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
-      exoScript.async = true;
-      exoScript.type = 'application/javascript';
-      document.head.appendChild(exoScript);
-
-      data.items.forEach((item, index) => {
-        const postDiv = document.createElement('div');
-        postDiv.className = 'news-post';
-        postDiv.style.marginBottom = '30px';
-        postDiv.style.borderBottom = '1px solid #eee';
-        postDiv.style.paddingBottom = '15px';
-
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = item.description || '';
-        const snippet = tempDiv.textContent || '';
-
-        // Add content and ad containers
-        postDiv.innerHTML = `
-          <h3 style="margin:0;"><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></h3>
-          <p style="color:#555;">${snippet}</p>
-
-          <!-- Adsterra Native Ad -->
-          <div class="adsterra-native" id="adsterra-${index}" style="margin:10px 0;"></div>
-
-          <!-- ExoClick Native Banner -->
-          <div class="exo-native-banner" style="margin:10px 0;">
-            <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
-          </div>
-
-          <!-- ExoClick Outstream Video Ad -->
-          <div class="exo-outstream-video" style="margin:10px 0;">
-            <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
-          </div>
-        `;
-
-        container.appendChild(postDiv);
-
-        // Inject Adsterra Native Script
-        const adsterraScript = document.createElement('script');
-        adsterraScript.setAttribute('data-cfasync', 'false');
-        adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
-        adsterraScript.async = true;
-        adsterraScript.type = 'text/javascript';
-        document.getElementById(`adsterra-${index}`).appendChild(adsterraScript);
-      });
-
-      // Re-initialize ExoClick ads once all content is loaded
-      setTimeout(() => {
-        (window.AdProvider = window.AdProvider || []).push({ serve: {} });
-      }, 1000);
-    })
-    .catch(error => {
-      document.getElementById('rss-feed-container').innerHTML = '<p>Error loading news.</p>';
-      console.error('RSS Feed Error:', error);
+      if (!data.items) return;
+      container.innerHTML = data.items.map(item =>
+        `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3>`
+      ).join('');
     });
 </script>
  
