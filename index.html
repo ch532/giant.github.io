@@ -227,69 +227,8 @@
     </footer>
   </div>
 
-  <script>
-  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
-  fetch(apiUrl)
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('rss-feed-container');
-      container.innerHTML = '';
-      if (!data.items) return;
-
-      data.items.forEach((item, index) => {
-        const postDiv = document.createElement('div');
-        postDiv.className = 'news-post';
-        postDiv.style = 'padding:15px;border:1px solid #ccc;border-radius:10px;margin-bottom:20px;background:#fff;';
-
-        // Extract snippet
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = item.description || '';
-        const snippet = tempDiv.textContent || '';
-
-        // Set content (but not ads yet)
-        postDiv.innerHTML = `
-          <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-          <p>${snippet}</p>
-        `;
-
-        // Ad container for ProfitablerateCPM
-        const profitDiv = document.createElement('div');
-        profitDiv.id = `profit-ad-${index}`;
-        profitDiv.style = 'margin: 10px 0;';
-        postDiv.appendChild(profitDiv);
-
-        // Ad container for ExoClick
-        const exoDiv = document.createElement('div');
-        exoDiv.innerHTML = `<ins class="eas6a97888e20" data-zoneid="5674104"></ins>`;
-        exoDiv.style = 'margin: 10px 0;';
-        postDiv.appendChild(exoDiv);
-
-        // Append post to container
-        container.appendChild(postDiv);
-
-        // Inject ProfitablerateCPM script into this post
-        const profitScript = document.createElement('script');
-        profitScript.setAttribute('data-cfasync', 'false');
-        profitScript.async = true;
-        profitScript.type = 'text/javascript';
-        profitScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
-        profitDiv.appendChild(profitScript);
-      });
-
-      // ExoClick global script (added once)
-      const exoScript = document.createElement('script');
-      exoScript.async = true;
-      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
-      document.body.appendChild(exoScript);
-
-      const exoPush = document.createElement('script');
-      exoPush.innerHTML = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
-      document.body.appendChild(exoPush);
-    });
-  </script>
-
+  
   <!-- Tracking Pixels -->
   <img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=webview" style="display:none;" />
   <img src="https://eo8t1s3otg5pdnk.m.pipedream.net?event=page_view&source=android_app" style="display:none;" />
@@ -327,7 +266,69 @@
     acceptBtn.addEventListener('click', () => {
       localStorage.setItem('cookiesAccepted', 'true');
       cookieBanner.style.display = 'none';
+    })<!-- RSS Loader with Adsterra + ExoClick Native + ExoClick Video -->
+<script>
+  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=technology&hl=en-US&gl=US&ceid=US:en');
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('rss-feed-container');
+      container.innerHTML = '';
+      if (!data.items) return;
+
+      // Load ExoClick globally
+      const exoScript = document.createElement('script');
+      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
+      exoScript.async = true;
+      exoScript.type = 'application/javascript';
+      document.head.appendChild(exoScript);
+
+      data.items.forEach((item, index) => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'news-post';
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.description || '';
+        const snippet = tempDiv.textContent || '';
+
+        // Add post content
+        postDiv.innerHTML = `
+          <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+          <p>${snippet}</p>
+
+          <!-- Adsterra Native Ad -->
+          <div class="adsterra-native" id="adsterra-${index}"></div>
+
+          <!-- ExoClick Native Banner -->
+          <div class="exo-native-banner">
+            <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
+          </div>
+
+          <!-- ExoClick Video Ad -->
+          <div class="exo-outstream-video">
+            <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
+          </div>
+        `;
+
+        container.appendChild(postDiv);
+
+        // Inject Adsterra script as actual element
+        const adsterraScript = document.createElement('script');
+        adsterraScript.setAttribute('data-cfasync', 'false');
+        adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
+        adsterraScript.async = true;
+        adsterraScript.type = 'text/javascript';
+        document.getElementById(`adsterra-${index}`).appendChild(adsterraScript);
+      });
+
+      // Trigger ExoClick after content is in DOM
+      setTimeout(() => {
+        (window.AdProvider = window.AdProvider || []).push({ serve: {} });
+      }, 500);
     });
+  </script>;
   </script>
 </body>
 </html>
