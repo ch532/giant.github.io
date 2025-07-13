@@ -157,7 +157,14 @@
        </section>
   </main>
 
-
+  <!-- AdMob -->
+  <script>
+    window.onload = function () {
+      if (window.median && median.admob && median.admob.banner) {
+        median.admob.banner.enable();
+      }
+    };
+  </script>
 
   <footer class="footer">
     <div class="footer-content">
