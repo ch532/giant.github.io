@@ -189,59 +189,54 @@
   <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" style="width:100%;border-radius:8px;">
   <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" style="background:#FF9900;color:#fff;padding:10px 20px;margin-top:10px;display:inline-block;border-radius:5px;text-decoration:none;font-weight:bold;">Shop Now on Amazon</a>
 </div><
-  
-  <div id="news-container">
-  <h2>Latest Nigeria & World News</h2>
-  <ul id="news-list"></ul>
-</div>
+ 
+        <!-- News Feed Container -->
+<div id="newsContainer" style="padding: 15px;"></div>
 
-<!-- AdSense script (included only once) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
      crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  async function loadNews() {
-    try {
-      const response = await fetch(feedUrl);
-      const data = await response.json();
+  function loadNewsWithYourAdUnit() {
+    $.getJSON(feedUrl, function(data) {
+      const container = $('#newsContainer').empty();
 
-      const newsList = document.getElementById('news-list');
-      newsList.innerHTML = ''; // clear existing news
+      data.items.slice(0, 10).forEach((item, index) => {
+        const newsItem = $(`
+          <div class="news-post" style="background:#fff; padding:15px; border-radius:10px; margin-bottom:30px;">
+            <h3 style="font-size:17px; color:#0077cc; margin:0 0 8px;">
+              <a href="${item.link}" target="_blank" style="text-decoration:none; color:inherit;">
+                ${item.title}
+              </a>
+            </h3>
+            <p style="font-size:13px; color:#666;">${new Date(item.pubDate).toLocaleString()}</p>
+            <p style="font-size:14px; color:#333;">${item.description.slice(0, 150)}...</p>
 
-      data.items.slice(0, 10).forEach(item => {
-        const li = document.createElement('li');
+            <!-- Your Fluid Ad Unit -->
+            <div style="margin-top:15px;">
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-format="fluid"
+                   data-ad-layout-key="-6q+cy-1k+86+2f"
+                   data-ad-client="ca-pub-1171216593802007"
+                   data-ad-slot="8506700427"></ins>
+            </div>
+          </div>
+        `);
 
-        li.innerHTML = `
-          <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-          <p><small>Published on: ${new Date(item.pubDate).toLocaleString()}</small></p>
-          <p>${item.description.substring(0, 100)}...</p>
-
-          <!-- Ad block under each post -->
-          <ins class="adsbygoogle"
-               style="display:block; margin: 15px 0;"
-               data-ad-format="fluid"
-               data-ad-layout-key="-6q+cy-1k+86+2f"
-               data-ad-client="ca-pub-1171216593802007"
-               data-ad-slot="8506700427"></ins>
-        `;
-
-        newsList.appendChild(li);
+        container.append(newsItem);
+        // Push ad manually for each block
         (adsbygoogle = window.adsbygoogle || []).push({});
       });
-
-    } catch (error) {
-      console.error('Failed to load news:', error);
-      document.getElementById('news-container').innerHTML = '<p>Sorry, failed to load news at this time.</p>';
-    }
+    });
   }
 
-  // Load news immediately
-  loadNews();
-
-  // Reload every 5 minutes (300000 ms)
-  setInterval(loadNews, 300000);
+  loadNewsWithYourAdUnit();
+  setInterval(loadNewsWithYourAdUnit, 300000); // Auto-refresh every 5 minutes
 </script>
  
   <!-- Map --><iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe><!-- Footer --><footer>
