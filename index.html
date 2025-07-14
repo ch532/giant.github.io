@@ -193,15 +193,17 @@
         <!-- News Feed Container -->
 <div id="newsContainer" style="padding: 15px;"></div>
 
+<!-- ✅ Load AdSense Script (only once) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
      crossorigin="anonymous"></script>
 
+<!-- ✅ Load jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  function loadNewsWithYourAdUnit() {
+  function loadNewsWithInFeedAndInArticleAds() {
     $.getJSON(feedUrl, function(data) {
       const container = $('#newsContainer').empty();
 
@@ -214,29 +216,40 @@
               </a>
             </h3>
             <p style="font-size:13px; color:#666;">${new Date(item.pubDate).toLocaleString()}</p>
+
+            <!-- ✅ In-Article Ad (kept) -->
+            <div style="margin:15px 0;">
+              <ins class="adsbygoogle"
+                   style="display:block; text-align:center;"
+                   data-ad-layout="in-article"
+                   data-ad-format="fluid"
+                   data-ad-client="ca-pub-1171216593802007"
+                   data-ad-slot="6481256597"></ins>
+            </div>
+
             <p style="font-size:14px; color:#333;">${item.description.slice(0, 150)}...</p>
 
-            <!-- Your Fluid Ad Unit -->
+            <!-- ✅ Replaced Fluid Ad with In-Feed Ad -->
             <div style="margin-top:15px;">
               <ins class="adsbygoogle"
                    style="display:block"
                    data-ad-format="fluid"
-                   data-ad-layout-key="-6q+cy-1k+86+2f"
+                   data-ad-layout-key="-75+ez-18-43+c4"
                    data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="8506700427"></ins>
+                   data-ad-slot="7243673926"></ins>
             </div>
           </div>
         `);
 
         container.append(newsItem);
-        // Push ad manually for each block
+        (adsbygoogle = window.adsbygoogle || []).push({});
         (adsbygoogle = window.adsbygoogle || []).push({});
       });
     });
   }
 
-  loadNewsWithYourAdUnit();
-  setInterval(loadNewsWithYourAdUnit, 300000); // Auto-refresh every 5 minutes
+  loadNewsWithInFeedAndInArticleAds();
+  setInterval(loadNewsWithInFeedAndInArticleAds, 300000); // Refresh every 5 minutes
 </script>
  
   <!-- Map --><iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe><!-- Footer --><footer>
