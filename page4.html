@@ -440,37 +440,7 @@ provided by <a style="color:#000000" href="https://www.freethesaurus.com/" rel="
 </div></div>
 <!--end of Match Up-->
 
-<!-- Load Adfox Script -->
-<script src="https://yandex.ru/ads/system/context.js" async></script>
 
-<!-- Trigger Interstitial After 10 Seconds -->
-<script>
-  function showAdfoxInterstitial() {
-    window.yaContextCb = window.yaContextCb || [];
-    window.yaContextCb.push(() => {
-      Ya.adfoxCode.loadInterstitial({
-        ownerId: 12491672, // Your Adfox owner ID
-        containerId: 'adfox_interstitial',
-        params: {
-          pp: 'g',
-          ps: 'cmvs',
-          p2: '',
-          puid1: '',
-          puid2: ''
-        }
-      });
-    });
-  }
-
-  // Auto show after 10 seconds
-  setTimeout(() => {
-    showAdfoxInterstitial();
-  }, 10000);
-</script>
-
-<!-- Container (required by Adfox) -->
-<div id="adfox_interstitial"></div>
-      
     </section>
   </main>
 
@@ -491,6 +461,20 @@ provided by <a style="color:#000000" href="https://www.freethesaurus.com/" rel="
       }, 3000);
     };
   </script>
+
+<!-- Start.io Interstitial -->
+<script async src="https://cdn.start.io/ad.js"></script>
+
+<script>
+  window.addEventListener("load", function () {
+    if (window.StartApp) {
+      StartApp.showInterstitial({
+        accountId: "176855992",
+        appId: "205787982"
+      });
+    }
+  });
+</script>
   
   <footer class="footer">
     <div class="footer-content">
