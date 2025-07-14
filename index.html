@@ -29,20 +29,33 @@
     })('groleegni.net',9381060,document.createElement('script'))
   </script> 
   
+<!-- Enable Zoom + Set Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+
 <!-- Inline CSS -->
 <style>
-  /* Basic Page Styling */
-  body {
-    margin: 0;
-    padding-bottom: 90px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+  /* Allow zoom */
+  html {
+    touch-action: manipulation;
   }
 
-  /* Ad Banner */
-  #ad-banner {
+  body {
+    margin: 0;
+    padding: 0; /* Remove bottom padding */
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    zoom: 100%; /* Just in case - for older devices */
+  }
+
+  /* AdSense Top Banner */
+  #adsense-top {
     width: 100%;
-    height: 90px;
+    height: auto;
+    padding: 10px 0;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   /* News Post Styling */
@@ -52,6 +65,21 @@
     border-radius: 10px;
     padding: 15px 0;
     margin: 15px 0;
+  }
+
+  /* AdMob Banner Area (bottom placeholder) */
+  #admob-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: #fff;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #ddd;
   }
 
   /* Cookie & Native Ads */
@@ -68,6 +96,7 @@
     color: #eee;
     padding: 30px 20px;
     text-align: center;
+    margin-bottom: 90px; /* Reserve space for AdMob banner */
   }
 
   .footer-content a,
@@ -110,6 +139,7 @@
     background-color: #0077cc;
   }
 </style>
+
 
   <body>
   
