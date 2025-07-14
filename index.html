@@ -284,22 +284,6 @@
           <div class="exo-video-banner">
             <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
           </div>
-        `;
-
-        postDiv.innerHTML = `
-          <h3 style="margin-top:0;"><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
-          <p>${snippet}</p>
-          ${adBlock}
-        `;
-
-        container.appendChild(postDiv);
-      });
-
-      // Trigger ExoClick Ad Serving
-      if (window.AdProvider) {
-        (window.AdProvider = window.AdProvider || []).push({ serve: {} });
-      }
-    });
       </script>     
       
       <!-- Map -->
