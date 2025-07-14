@@ -147,31 +147,58 @@
   <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" style="background:#FF9900;color:#fff;padding:10px 20px;margin-top:10px;display:inline-block;border-radius:5px;text-decoration:none;font-weight:bold;">Shop Now on Amazon</a>
 </div><
   
-  !-- News Feed --><h2 style="text-align:center">📰 General News (Nigeria + Global)</h2>
-<div id="rss-feed-container" style="padding: 0 20px;">Loading news...</div><script>
-  const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nigeria+OR+world&hl=en&gl=NG&ceid=NG:en');
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
-  fetch(apiUrl)
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('rss-feed-container');
-      container.innerHTML = '';
-      data.items.forEach(item => {
-        const postDiv = document.createElement('div');
-        postDiv.className = 'news-post';
-        postDiv.innerHTML = `
-          <h3><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
-          <p>${item.description.replace(/<[^>]*>?/gm, '')}</p>
-          <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1171216593802007" data-ad-slot="8506700427"></ins>
-          <div class="exo-native-banner"><ins class="eas6a97888e20" data-zoneid="5674104"></ins></div>
-          <div class="exo-video-banner"><ins class="eas6a97888e37" data-zoneid="5674120"></ins></div>
+  <div id="news-container">
+  <h2>Latest Nigeria & World News</h2>
+  <ul id="news-list"></ul>
+</div>
+
+<!-- AdSense script (included only once) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
+     crossorigin="anonymous"></script>
+
+<script>
+  const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
+
+  async function loadNews() {
+    try {
+      const response = await fetch(feedUrl);
+      const data = await response.json();
+
+      const newsList = document.getElementById('news-list');
+      newsList.innerHTML = ''; // clear existing news
+
+      data.items.slice(0, 10).forEach(item => {
+        const li = document.createElement('li');
+
+        li.innerHTML = `
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+          <p><small>Published on: ${new Date(item.pubDate).toLocaleString()}</small></p>
+          <p>${item.description.substring(0, 100)}...</p>
+
+          <!-- Ad block under each post -->
+          <ins class="adsbygoogle"
+               style="display:block; margin: 15px 0;"
+               data-ad-format="fluid"
+               data-ad-layout-key="-6q+cy-1k+86+2f"
+               data-ad-client="ca-pub-1171216593802007"
+               data-ad-slot="8506700427"></ins>
         `;
-        container.appendChild(postDiv);
-        try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+
+        newsList.appendChild(li);
+        (adsbygoogle = window.adsbygoogle || []).push({});
       });
-      if (window.AdProvider && typeof window.AdProvider.push === 'function') {
-  window.AdProvider.push({ serve: {} });
-      }
+
+    } catch (error) {
+      console.error('Failed to load news:', error);
+      document.getElementById('news-container').innerHTML = '<p>Sorry, failed to load news at this time.</p>';
+    }
+  }
+
+  // Load news immediately
+  loadNews();
+
+  // Reload every 5 minutes (300000 ms)
+  setInterval(loadNews, 300000);
 </script>
  
   <!-- Map --><iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe><!-- Footer --><footer>
