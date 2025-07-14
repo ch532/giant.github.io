@@ -218,45 +218,32 @@
 <!-- Amazon Category Banner Widget by Chyke22 -->
 <div style="border: 1px solid #ddd; border-radius: 10px; padding: 15px; width: 300px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">
   <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" alt="Amazon Deals Banner" style="width:100%; border-radius: 8px;">
-  
-  <h3 style="font-size: 18px; margin: 10px 0;">🔥 Hot Amazon Deals</h3>
-  <p style="color: #333; font-size: 14px;">Discover trending products and exclusive limited-time offers. Perfect for smart shoppers!</p>
-
-  <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" rel="noopener noreferrer" style="
-    display: inline-block;
+ <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" rel="noopener noreferrer" style=">Shop Now on Amazon</a>
+  display: inline-block;
     background-color: #FF9900;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    margin-top: 10px;
-  ">Shop Now on Amazon</a>
+  <h3 style="font-size: 18px; margin: 10px 0;">🔥 Hot Amazon Deals</h3>
+<p style="color: #333; font-size: 14px;">Discover trending products and exclusive limited-time offers. Perfect for smart shoppers!</p>
 
-  <!-- Amazon Appstore Search Box -->
-  <div style="margin-top: 20px;">
-    <form method="GET" action="https://www.amazon.com/s">
-      <input type="hidden" name="tag" value="chyke09-20" />
-      <input type="text" name="k" placeholder="Search Amazon..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px;" />
-      <button type="submit" style="
-        width: 100%;
-        padding: 8px;
-        background-color: #FF9900;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        cursor: pointer;
-      ">Search Amazon</button>
-    </form>
-  </div>
-</div>
-    
-      <!-- News Section -->
+
+      
+        <!-- News Section -->
 <h2>📰 General News (Nigeria + Global)</h2>
 <div id="rss-feed-container">Loading news...</div>
 
-<!-- RSS Feed Script with Ads -->
+<!-- FeedWind Script -->
+<script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="173745/"></script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
+
+<!-- ExoClick Provider Script -->
+<script async src="https://a.magsrv.com/ad-provider.js" type="application/javascript"></script>
+
 <script>
   const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nigeria+OR+world&hl=en&gl=NG&ceid=NG:en');
   const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
@@ -266,20 +253,8 @@
     .then(data => {
       const container = document.getElementById('rss-feed-container');
       container.innerHTML = '';
+
       if (!data.items) return;
-
-      // Inject ExoClick script
-      const exoScript = document.createElement('script');
-      exoScript.src = 'https://a.magsrv.com/ad-provider.js';
-      exoScript.async = true;
-      document.head.appendChild(exoScript);
-
-      // Inject AdSense script
-      const adsenseScript = document.createElement('script');
-      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007';
-      adsenseScript.crossOrigin = 'anonymous';
-      adsenseScript.async = true;
-      document.head.appendChild(adsenseScript);
 
       data.items.forEach((item, index) => {
         const postDiv = document.createElement('div');
@@ -290,61 +265,49 @@
         tempDiv.innerHTML = item.description || '';
         const snippet = tempDiv.textContent || '';
 
-        postDiv.innerHTML = `
-          <h3><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
-          <p>${snippet}</p>
-
-          <!-- AdSense -->
+        const adBlock = `
+          <!-- Google AdSense -->
           <ins class="adsbygoogle"
-               style="display:block; text-align:center;"
-               data-ad-format="fluid"
-               data-ad-layout-key="-6q+cy-1k+86+2f"
-               data-ad-client="ca-pub-1171216593802007"
-               data-ad-slot="8506700427"></ins>
+              style="display:block"
+              data-ad-format="fluid"
+              data-ad-layout-key="-6q+cy-1k+86+2f"
+              data-ad-client="ca-pub-1171216593802007"
+              data-ad-slot="8506700427"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-          <!-- Adsterra Native -->
-          <div class="adsterra-native" id="adsterra-${index}"></div>
-
-          <!-- ExoClick Native -->
+          <!-- ExoClick Native Ad -->
           <div class="exo-native-banner">
             <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
           </div>
 
-          <!-- ExoClick Video -->
-          <div class="exo-outstream-video">
+          <!-- ExoClick Video Ad -->
+          <div class="exo-video-banner">
             <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
           </div>
         `;
 
+        postDiv.innerHTML = `
+          <h3 style="margin-top:0;"><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
+          <p>${snippet}</p>
+          ${adBlock}
+        `;
+
         container.appendChild(postDiv);
-
-        // Trigger AdSense
-        try {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) {}
-
-        // Trigger Adsterra
-        const adsterraScript = document.createElement('script');
-        adsterraScript.setAttribute('data-cfasync', 'false');
-        adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
-        adsterraScript.async = true;
-        adsterraScript.type = 'text/javascript';
-        document.getElementById(`adsterra-${index}`).appendChild(adsterraScript);
       });
 
-      // Activate ExoClick
-      setTimeout(() => {
+      // Trigger ExoClick Ad Serving
+      if (window.AdProvider) {
         (window.AdProvider = window.AdProvider || []).push({ serve: {} });
-      }, 500);
+      }
     });
-</script>  
+      </script>     
       
-    <!-- Map -->
+      <!-- Map -->
     <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559"></iframe>
 
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer="footer">
       <div class="footer-content">
         <p>&copy; 2025 Connect Gold. All rights reserved.</p>
         <p>Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a> | Phone: +2349125007235, +2347061740924</p>
