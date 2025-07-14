@@ -174,10 +174,6 @@
 
 <a href="" rel="nofollow"><img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/png/300%20x%20250%20px.png" /></a>
 
-<script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script> 
- <ins class="eas6a97888e35" data-zoneid="5674186"></ins> 
- <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-      
     </section>
   </main>
 
@@ -197,36 +193,19 @@
     };
   </script>
 
-<!-- Load Adfox Script -->
-<script src="https://yandex.ru/ads/system/context.js" async></script>
+<!-- Start.io Interstitial -->
+<script async src="https://cdn.start.io/ad.js"></script>
 
-<!-- Trigger Interstitial After 10 Seconds -->
 <script>
-  function showAdfoxInterstitial() {
-    window.yaContextCb = window.yaContextCb || [];
-    window.yaContextCb.push(() => {
-      Ya.adfoxCode.loadInterstitial({
-        ownerId: 12491672, // Your Adfox owner ID
-        containerId: 'adfox_interstitial',
-        params: {
-          pp: 'g',
-          ps: 'cmvs',
-          p2: '',
-          puid1: '',
-          puid2: ''
-        }
+  window.addEventListener("load", function () {
+    if (window.StartApp) {
+      StartApp.showInterstitial({
+        accountId: "176855992",
+        appId: "205787982"
       });
-    });
-  }
-
-  // Auto show after 10 seconds
-  setTimeout(() => {
-    showAdfoxInterstitial();
-  }, 10000);
+    }
+  });
 </script>
-
-<!-- Container (required by Adfox) -->
-<div id="adfox_interstitial"></div>
   
   <footer class="footer">
     <div class="footer-content">
