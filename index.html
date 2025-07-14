@@ -216,46 +216,7 @@
  <ins class="eas6a97888e2" data-zoneid="5674184"></ins> 
  <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
     
-    <!-- Amazon Category Banner Widget by Chyke22 -->
-<div style="border: 1px solid #ddd; border-radius: 10px; padding: 15px; width: 300px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">
-  <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" alt="Amazon Deals Banner" style="width:100%; border-radius: 8px;">
-  
-  <h3 style="font-size: 18px; margin: 10px 0;">🔥 Hot Amazon Deals</h3>
-  <p style="color: #333; font-size: 14px;">Discover trending products and exclusive limited-time offers. Perfect for smart shoppers!</p>
-
-  <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" rel="noopener noreferrer" style="
-    display: inline-block;
-    background-color: #FF9900;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 10px;
-  ">Shop Now on Amazon</a>
-
-  <!-- Amazon Appstore Search Box -->
-  <div style="margin-top: 20px;">
-    <form method="GET" action="https://www.amazon.com/s">
-      <input type="hidden" name="tag" value="chyke09-20" />
-      <input type="text" name="k" placeholder="Search Amazon..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px;" />
-      <button type="submit" style="
-        width: 100%;
-        padding: 8px;
-        background-color: #FF9900;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        cursor: pointer;
-      ">Search Amazon</button>
-    </form>
-  </div>
-</div>
-
-
-    
-    <!-- News Section -->
+      <!-- News Section -->
 <h2>📰 General News (Nigeria + Global)</h2>
 <div id="rss-feed-container">Loading news...</div>
 
@@ -271,11 +232,18 @@
       container.innerHTML = '';
       if (!data.items) return;
 
-      // Inject ExoClick base script globally
+      // Inject ExoClick script
       const exoScript = document.createElement('script');
       exoScript.src = 'https://a.magsrv.com/ad-provider.js';
       exoScript.async = true;
       document.head.appendChild(exoScript);
+
+      // Inject AdSense script
+      const adsenseScript = document.createElement('script');
+      adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007';
+      adsenseScript.crossOrigin = 'anonymous';
+      adsenseScript.async = true;
+      document.head.appendChild(adsenseScript);
 
       data.items.forEach((item, index) => {
         const postDiv = document.createElement('div');
@@ -286,20 +254,27 @@
         tempDiv.innerHTML = item.description || '';
         const snippet = tempDiv.textContent || '';
 
-        // Fill the post
         postDiv.innerHTML = `
-          <h3 style="margin-top:0;"><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
+          <h3><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
           <p>${snippet}</p>
+
+          <!-- AdSense -->
+          <ins class="adsbygoogle"
+               style="display:block; text-align:center;"
+               data-ad-format="fluid"
+               data-ad-layout-key="-6q+cy-1k+86+2f"
+               data-ad-client="ca-pub-1171216593802007"
+               data-ad-slot="8506700427"></ins>
 
           <!-- Adsterra Native -->
           <div class="adsterra-native" id="adsterra-${index}"></div>
 
-          <!-- ExoClick Native Banner -->
+          <!-- ExoClick Native -->
           <div class="exo-native-banner">
             <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
           </div>
 
-          <!-- ExoClick Video Ad -->
+          <!-- ExoClick Video -->
           <div class="exo-outstream-video">
             <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
           </div>
@@ -307,7 +282,12 @@
 
         container.appendChild(postDiv);
 
-        // Adsterra Native Script
+        // Trigger AdSense
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {}
+
+        // Trigger Adsterra
         const adsterraScript = document.createElement('script');
         adsterraScript.setAttribute('data-cfasync', 'false');
         adsterraScript.src = '//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js';
@@ -321,8 +301,8 @@
         (window.AdProvider = window.AdProvider || []).push({ serve: {} });
       }, 500);
     });
-</script>
-    
+</script>  
+      
     <!-- Map -->
     <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559"></iframe>
 
