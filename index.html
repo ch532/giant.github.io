@@ -213,9 +213,7 @@
     </header>
 
 
-
-    
-<!-- Amazon Category Banner Widget by Chyke22 -->
+Category Banner Widget by Chyke22 -->
 <div style="border: 1px solid #ddd; border-radius: 10px; padding: 15px; width: 300px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">
   <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" alt="Amazon Deals Banner" style="width:100%; border-radius: 8px;">
  <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" rel="noopener noreferrer" style=">Shop Now on Amazon</a>
@@ -229,21 +227,12 @@
   <h3 style="font-size: 18px; margin: 10px 0;">🔥 Hot Amazon Deals</h3>
 <p style="color: #333; font-size: 14px;">Discover trending products and exclusive limited-time offers. Perfect for smart shoppers!</p>
 
-
-      
-        <!-- News Section -->
+    
+<!-- News Section -->
 <h2>📰 General News (Nigeria + Global)</h2>
 <div id="rss-feed-container">Loading news...</div>
 
-<!-- FeedWind Script -->
-<script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="173745/"></script>
-
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
-
-<!-- ExoClick Provider Script -->
-<script async src="https://a.magsrv.com/ad-provider.js" type="application/javascript"></script>
-
+<!-- RSS + Ads Script -->
 <script>
   const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nigeria+OR+world&hl=en&gl=NG&ceid=NG:en');
   const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
@@ -254,37 +243,63 @@
       const container = document.getElementById('rss-feed-container');
       container.innerHTML = '';
 
-      if (!data.items) return;
+      if (!data.items || data.items.length === 0) {
+        container.innerHTML = '<p>No news found.</p>';
+        return;
+      }
 
       data.items.forEach((item, index) => {
         const postDiv = document.createElement('div');
         postDiv.className = 'news-post';
         postDiv.style = "border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 10px; background: #fff;";
 
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = item.description || '';
-        const snippet = tempDiv.textContent || '';
+        const snippet = item.description ? item.description.replace(/<[^>]*>?/gm, '') : '';
 
-        const adBlock = `
-          <!-- Google AdSense -->
+        postDiv.innerHTML = `
+          <h3><a href="${item.link}" target="_blank" style="color:#007bff;">${item.title}</a></h3>
+          <p>${snippet}</p>
+
+          <!-- Google AdSense In-Feed Ad -->
           <ins class="adsbygoogle"
-              style="display:block"
-              data-ad-format="fluid"
-              data-ad-layout-key="-6q+cy-1k+86+2f"
-              data-ad-client="ca-pub-1171216593802007"
-              data-ad-slot="8506700427"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            style="display:block; text-align:center;"
+            data-ad-layout="in-article"
+            data-ad-format="fluid"
+            data-ad-client="ca-pub-1171216593802007"
+            data-ad-slot="8506700427"></ins>
 
-          <!-- ExoClick Native Ad -->
-          <div class="exo-native-banner">
+          <!-- ExoClick Native -->
+          <div class="exo-native-banner" style="margin: 10px 0;">
             <ins class="eas6a97888e20" data-zoneid="5674104"></ins>
           </div>
 
-          <!-- ExoClick Video Ad -->
-          <div class="exo-video-banner">
+          <!-- ExoClick Video -->
+          <div class="exo-video-banner" style="margin: 10px 0;">
             <ins class="eas6a97888e37" data-zoneid="5674120"></ins>
           </div>
-      </script>     
+        `;
+
+        container.appendChild(postDiv);
+
+        // Load AdSense for this post
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {}
+
+      });
+
+      // Trigger ExoClick
+      setTimeout(() => {
+        (window.AdProvider = window.AdProvider || []).push({ serve: {} });
+      }, 500);
+    });
+</script>
+
+<!-- AdSense Loader -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
+
+<!-- ExoClick Script -->
+<script async src="https://a.magsrv.com/ad-provider.js"></script>
+    
       
       <!-- Map -->
     <iframe width="500" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559"></iframe>
