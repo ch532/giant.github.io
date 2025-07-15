@@ -177,7 +177,92 @@
   <p class="welcome-message">Connect Gold — the right place to be</p>
 </header>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
+<s<!-- 🎬 Channel Selector -->
+<div style="margin: 20px 0;">
+  <label style="font-weight:bold;">Choose a Nigerian Entertainment Channel:</label>
+  <select id="channelSelect" style="padding:8px; width:100%; margin-top:10px;">
+    <option value="">-- Select Channel --</option>
+    <option value="https://abr-afrobeats24.bitgravity.com/abr/playlist.m3u8">Afrobeats24</option>
+    <option value="https://wazobiamax.ng/live.m3u8">Wazobia Max</option>
+    <option value="https://galaxytvonline.com/stream/galaxy.m3u8">Galaxy TV</option>
+    <option value="https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ng.m3u8">Nollywood TV</option>
+  </select>
+</div>
+
+<!-- 📺 Video Player -->
+<video
+  id="my-video"
+  class="video-js vjs-default-skin"
+  controls
+  width="100%"
+  height="300"
+  preload="auto"
+  poster="https://via.placeholder.com/728x300.png?text=Nigeria+Entertainment+TV"
+  data-setup='{}'>
+  <source src="" type="application/x-mpegURL" />
+</video>
+
+<!-- 🔌 Scripts -->
+<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.6.6/dist/videojs.ads.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
+
+<script>
+  const player = videojs('my-video');
+  const inmobiVastUrl = "https://i.w.inmobi.com/showad.asm?plid=10000417606";
+  const exoClickIframe = `<iframe src="https://syndication.exoclick.com/instream.php?zoneid=5674120" width="100%" height="300" frameborder="0" scrolling="no" allowfullscreen></iframe>`;
+
+  function loadVastAd(vastUrl) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', vastUrl, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200 && xhr.responseText.includes('<VAST')) {
+            resolve(true);
+          } else {
+            reject();
+          }
+        }
+      };
+      xhr.send();
+    });
+  }
+
+  document.getElementById("channelSelect").addEventListener("change", function () {
+    const selectedStream = this.value;
+
+    if (!selectedStream) return;
+
+    // Replace video element with fallback container
+    const videoElement = document.getElementById("my-video");
+    if (!videoElement) return;
+
+    // Reset if previously replaced
+    if (!videoElement.tagName.toLowerCase().includes("video")) {
+      location.reload(); // reloads to restore original video player
+      return;
+    }
+
+    player.src({ type: 'application/x-mpegURL', src: selectedStream });
+
+    loadVastAd(inmobiVastUrl).then(() => {
+      player.ima({ adTagUrl: inmobiVastUrl });
+      player.play();
+    }).catch(() => {
+      // Replace with fallback ad
+      videoElement.outerHTML = exoClickIframe;
+    });
+  });
+
+<!-- Amazon Promo --><div style="width:300px;margin:20px auto;text-align:center;background:#fff;padding:15px;border-radius:10px;">
+  <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" style="width:100%;border-radius:8px;">
+  <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" style="background:#FF9900;color:#fff;padding:10px 20px;margin-top:10px;display:inline-block;border-radius:5px;text-decoration:none;font-weight:bold;">Shop Now on Amazon</a>
+</div><
+
+  
+</script>cript async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
      crossorigin="anonymous"></script>
 <ins class="adsbygoogle"
      style="display:block"
@@ -188,10 +273,6 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
     
-  <!-- Amazon Promo --><div style="width:300px;margin:20px auto;text-align:center;background:#fff;padding:15px;border-radius:10px;">
-  <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" style="width:100%;border-radius:8px;">
-  <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" style="background:#FF9900;color:#fff;padding:10px 20px;margin-top:10px;display:inline-block;border-radius:5px;text-decoration:none;font-weight:bold;">Shop Now on Amazon</a>
-</div><
 
 <div id="inmobi-banner"></div>
 
@@ -201,64 +282,7 @@
 </script>
 <script src="https://cf.inmobi.com/adScript.js" async></script>
 
-  <!-- Load Video.js and VAST Plugin -->
-<link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet" />
-<script src="https://unpkg.com/video.js/dist/video.min.js"></script>
-<script src="https://unpkg.com/videojs-contrib-ads/dist/videojs.ads.min.js"></script>
-<script src="https://unpkg.com/videojs-ima/dist/videojs.ima.min.js"></script>
-
-<style>
-  .video-container {
-    margin-bottom: 30px;
-  }
-</style>
-
-<div class="video-container">
-  <h3>🎵 Trace Naija</h3>
-  <video id="traceNaija" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
-    <source src="https://d2ktlibtvvj8vp.cloudfront.net/trace_naija/6/prog_index.m3u8" type="application/x-mpegURL">
-  </video>
-</div>
-
-<div class="video-container">
-  <h3>🌍 Trace Africa</h3>
-  <video id="traceAfrica" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
-    <source src="https://d2ktlibtvvj8vp.cloudfront.net/trace_africa/6/prog_index.m3u8" type="application/x-mpegURL">
-  </video>
-</div>
-
-<div class="video-container">
-  <h3>📺 Vox Africa</h3>
-  <video id="voxAfrica" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
-    <source src="http://top-iptv.zapto.org:8000/live/adem/adem/780.m3u8" type="application/x-mpegURL">
-  </video>
-</div>
-
-<div class="video-container">
-  <h3>🇳🇬 Nigeria TV</h3>
-  <video id="nigeriaTV" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
-    <source src="http://162.244.81.111:1937/liveTrans/livestream_360p/playlist.m3u8" type="application/x-mpegURL">
-  </video>
-</div>
-
-<script>
-  function attachVAST(playerId) {
-    const player = videojs(playerId);
-    player.ima({
-      adTagUrl: 'https://cdn.inmobi.com/ad/vast/videoadtag.xml?placementid=10000417606',
-      debug: true
-    });
-  }
-
-  ['traceNaija', 'traceAfrica', 'voxAfrica', 'nigeriaTV'].forEach(attachVAST);
-</script>
-        
-        <!-- 🟨 Fixed Native Ad on Homepage -->
-<div id="fixed-native" style="margin: 30px auto; text-align:center;"></div>
-<script>
-  window._inmobi = window._inmobi || {};
-  _inmobi.placementId = "10000400135";
-</script>
+  
 
 <!-- 📰 News Feed Container -->
 <div id="newsContainer" style="padding: 15px;"></div>
