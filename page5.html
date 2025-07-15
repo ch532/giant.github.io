@@ -172,6 +172,79 @@
 
 <a href="" rel="nofollow"><img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/png/300%20x%20250%20px.png" /></a>
 
+<div style="text-align:center; padding: 20px;">
+  <h3>🎬 Watch Sponsored Ad to Unlock Live Nigerian TV</h3>
+
+  <!-- Button for Fallback -->
+  <button id="playAdButton" style="display:none; padding:10px 20px; background:#0077cc; color:#fff; border:none; border-radius:5px; margin-bottom:15px;">
+    ▶️ Play Ad
+  </button>
+
+  <!-- Video Player -->
+  <video
+    id="rewardedAd"
+    class="video-js vjs-default-skin"
+    width="100%"
+    height="300"
+    muted
+    playsinline
+    poster="https://via.placeholder.com/728x300.png?text=Loading+Ad..."
+    controls
+  ></video>
+
+  <!-- Live Stream Section -->
+  <div id="liveStreamSection" style="display:none; margin-top:30px;">
+    <h4>🎉 Enjoy Live Nigerian/African Entertainment</h4>
+    <video id="liveTV" width="100%" height="300" controls autoplay playsinline>
+      <source src="https://edge2.mobnaija.site/Live/africamagicurban/index.m3u8" type="application/x-mpegURL">
+      <p>Your browser does not support HLS live streaming.</p>
+    </video>
+  </div>
+</div>
+
+<!-- Video.js + IMA SDK -->
+<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
+
+<script>
+  const player = videojs('rewardedAd');
+  const vastTag = "https://i.w.inmobi.com/showad.asm?plid=10000400134";
+  const fallbackBtn = document.getElementById('playAdButton');
+  const liveTV = document.getElementById('liveStreamSection');
+
+  let adStarted = false;
+
+  player.ima({
+    adTagUrl: vastTag,
+    debug: true,
+    timeout: 5000,
+  });
+
+  player.ready(() => {
+    player.ima.initializeAdDisplayContainer();
+    player.ima.requestAds();
+
+    // Try autoplay
+    player.play().then(() => {
+      adStarted = true;
+    }).catch((error) => {
+      console.warn("Autoplay blocked. Showing manual button.");
+      fallbackBtn.style.display = 'inline-block';
+    });
+  });
+
+  fallbackBtn.addEventListener('click', () => {
+    player.play();
+    fallbackBtn.style.display = 'none';
+  });
+
+  player.on('ended', () => {
+    liveTV.style.display = 'block';
+  });
+</script>
+      
     </section>
   </main>
 
