@@ -177,72 +177,64 @@
   <p class="welcome-message">Connect Gold — the right place to be</p>
 </header>
 
-<!-- Amazon Promo --><div style="width:300px;margin:20px auto;text-align:center;background:#fff;padding:15px;border-radius:10px;">
+<!-- Amazon Promo -->
+<div style="width:300px;margin:20px auto;text-align:center;background:#fff;padding:15px;border-radius:10px;">
   <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" style="width:100%;border-radius:8px;">
   <a href="https://www.amazon.com/b?node=122430398011&tag=chyke09-20" target="_blank" style="background:#FF9900;color:#fff;padding:10px 20px;margin-top:10px;display:inline-block;border-radius:5px;text-decoration:none;font-weight:bold;">Shop Now on Amazon</a>
 </div><
     
-    
-<s<!-- 🎬 Channel Selector -->
-<div style="margin: 20px 0;">
-  <label style="font-weight:bold;">Choose a Nigerian Entertainment Channel:</label>
-  <select id="channelSelect" style="padding:8px; width:100%; margin-top:10px;">
-    <option value="">-- Select Channel --</option>
-    <option value="https://abr-afrobeats24.bitgravity.com/abr/playlist.m3u8">Afrobeats24</option>
-    <option value="https://wazobiamax.ng/live.m3u8">Wazobia Max</option>
-    <option value="https://galaxytvonline.com/stream/galaxy.m3u8">Galaxy TV</option>
-    <option value="https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ng.m3u8">Nollywood TV</option>
-  </select>
-</div>
-
-<video
-  id="my-video"
-  class="video-js vjs-default-skin"
-  controls
-  autoplay
-  muted
-  width="100%"
-  height="300"
-  preload="auto"
-  poster="https://via.placeholder.com/728x300.png?text=Nigeria+Entertainment+TV"
-  data-setup='{}'>
-  <source src="" type="application/x-mpegURL" />
-</video>
-
-<!-- 🔌 Scripts -->
-<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.6.6/dist/videojs.ads.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
-
-<script>
-  const player = videojs('my-video');
-  const inmobiVastUrl = "https://i<div id="videoContainer" style="margin: 20px 0;">
+<div id="videoContainer" style="margin: 20px 0;">
   <div id="adSlot" style="width: 100%; height: 300px; background: #000;"></div>
 </div>
 
 <script>
   const vastUrl = "https://i.w.inmobi.com/showad.asm?plid=10000417606";
-const exoClickIframe = `<iframe src="https://syndication.exoclick.com/instream.php?zoneid=5674120" width="100%" height="300" frameborder="0" scrolling="no" allowfullscreen></iframe>`;
+  const exoFallback = `<iframe src="https://syndication.exoclick.com/instream.php?zoneid=5674120" width="100%" height="300" frameborder="0" scrolling="no" allowfullscreen></iframe>`;
+  const ytEmbed = `<iframe id="yt-player" width="100%" height="300"
+    src="https://www.youtube.com/embed/videoseries?list=PLWz5rJ2EKKc8j2B95zGMb8muZvrIy-wcY&autoplay=1&mute=0&loop=1&rel=0&controls=1"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen></iframe>`;
 
-function loadVastAd(vastUrl) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', vastUrl, true);
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200 && xhr.responseText.includes('<VAST')) {
-          resolve(true);
-        } else {
-          reject();
+  function loadVastAd(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200 && xhr.responseText.includes('<VAST')) {
+            resolve(true);
+          } else {
+            reject();
+          }
         }
-      }
-    };
-    xhr.send();
-  });
-}
+      };
+      xhr.send();
+    });
+  }
 
-    
+  function showContent(embedHtml) {
+    document.getElementById('adSlot').innerHTML = embedHtml;
+  }
+
+  // Load VAST ad and fallback if needed
+  loadVastAd(vastUrl).then(() => {
+    const adScript = document.createElement('script');
+    adScript.src = `https://i.w.inmobi.com/showad.asm?plid=10000417606`;
+    document.getElementById('adSlot').appendChild(adScript);
+
+    // After a short delay, show YouTube playlist
+    setTimeout(() => {
+      showContent(ytEmbed);
+    }, 15000); // assume 15s VAST duration
+  }).catch(() => {
+    // Show fallback ad then playlist
+    showContent(exoFallback);
+    setTimeout(() => {
+      showContent(ytEmbed);
+    }, 15000);
+  });
+</script>   
 
 <div id="inmobi-banner"></div>
 
