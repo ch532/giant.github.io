@@ -206,6 +206,57 @@
   };
 </script>om/jquery-3.6.0.min.js"></script>
 
+  <!-- Load Video.js and VAST Plugin -->
+<link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet" />
+<script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+<script src="https://unpkg.com/videojs-contrib-ads/dist/videojs.ads.min.js"></script>
+<script src="https://unpkg.com/videojs-ima/dist/videojs.ima.min.js"></script>
+
+<style>
+  .video-container {
+    margin-bottom: 30px;
+  }
+</style>
+
+<div class="video-container">
+  <h3>🎵 Trace Naija</h3>
+  <video id="traceNaija" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
+    <source src="https://d2ktlibtvvj8vp.cloudfront.net/trace_naija/6/prog_index.m3u8" type="application/x-mpegURL">
+  </video>
+</div>
+
+<div class="video-container">
+  <h3>🌍 Trace Africa</h3>
+  <video id="traceAfrica" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
+    <source src="https://d2ktlibtvvj8vp.cloudfront.net/trace_africa/6/prog_index.m3u8" type="application/x-mpegURL">
+  </video>
+</div>
+
+<div class="video-container">
+  <h3>📺 Vox Africa</h3>
+  <video id="voxAfrica" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
+    <source src="http://top-iptv.zapto.org:8000/live/adem/adem/780.m3u8" type="application/x-mpegURL">
+  </video>
+</div>
+
+<div class="video-container">
+  <h3>🇳🇬 Nigeria TV</h3>
+  <video id="nigeriaTV" class="video-js vjs-default-skin" controls autoplay muted width="100%" height="300">
+    <source src="http://162.244.81.111:1937/liveTrans/livestream_360p/playlist.m3u8" type="application/x-mpegURL">
+  </video>
+</div>
+
+<script>
+  function attachVAST(playerId) {
+    const player = videojs(playerId);
+    player.ima({
+      adTagUrl: 'https://cdn.inmobi.com/ad/vast/videoadtag.xml?placementid=10000417606',
+      debug: true
+    });
+  }
+
+  ['traceNaija', 'traceAfrica', 'voxAfrica', 'nigeriaTV'].forEach(attachVAST);
+</script>
         
         <!-- News Feed Container -->
 <div id="newsContainer" style="padding: 15px;"></div>
