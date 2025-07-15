@@ -13,7 +13,8 @@
   <!-- Ads & Tracking -->  
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>  
   <script defer src="https://cloud.umami.is/script.js" data-website-id="ad62eff8-87c6-4022-a552-0702b190b299"></script>  
-  <script async src="//d.smopy.com/d/?resource=pubJS"></script>  <script async src="https://a.magsrv.com/ad-provider.js"></script>  
+  <script async src="//d.smopy.com/d/?resource=pubJS"></script>  
+  <script async src="https://a.magsrv.com/ad-provider.js"></script>  
   <script src="https://cdn.inmobi.com/sdk/web/inmobi-html5.js"></script>  
   
   <!-- Yandex Metrika --> 
@@ -173,6 +174,23 @@
   </script>  
   
   <iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe> 
+
+<div id="inmobi-interstitial" style="display:none;"></div>
+
+<script>
+  window._inmobiTag = window._inmobiTag || [];
+  _inmobiTag.push({
+    placementId: "10000417606", // Replace with your actual interstitial placement ID
+    type: "interstitial",
+    slot: "inmobi-interstitial"
+  });
+
+  // Optional: Show it after 5 seconds
+  setTimeout(function() {
+    const el = document.getElementById("inmobi-interstitial");
+    if (el) el.style.display = "block"; // trigger display
+  }, 5000);
+</script>
   
   <footer>  
     <div class="footer-content">
