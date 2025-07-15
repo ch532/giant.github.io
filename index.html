@@ -253,28 +253,32 @@
   ['traceNaija', 'traceAfrica', 'voxAfrica', 'nigeriaTV'].forEach(attachVAST);
 </script>
         
-        <!-- News Feed Container -->
+        <!-- 🟨 Fixed Native Ad on Homepage -->
+<div id="fixed-native" style="margin: 30px auto; text-align:center;"></div>
+<script>
+  window._inmobi = window._inmobi || {};
+  _inmobi.placementId = "10000400135";
+</script>
+
+<!-- 📰 News Feed Container -->
 <div id="newsContainer" style="padding: 15px;"></div>
 
-<!-- ✅ Load AdSense Script -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
-     crossorigin="anonymous"></script>
+<!-- ✅ Load AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007" crossorigin="anonymous"></script>
 
-<!-- ✅ Load InMobi Native Script -->
-<script src="https://cf.cdn.inmobi.com/nativeads/main.js"></script>
+<!-- ✅ Load InMobi Script -->
+<script async src="https://cf.inmobi.com/adScript.js"></script>
 
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  function loadNewsWithAds() {
+  function loadNewsWithAllAds() {
     $.getJSON(feedUrl, function(data) {
       const container = $('#newsContainer').empty();
 
       data.items.slice(0, 10).forEach((item, index) => {
-        const uniqueId = 'inmobi-native-' + index;
-
         const newsItem = $(`
-          <div class="news-post" style="background:#fff; padding:15px; border-radius:10px; margin-bottom:30px;">
+          <div class="news-post" style="background:#fff; padding:15px; border-radius:10px; margin-bottom:30px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
             <h3 style="font-size:17px; color:#0077cc; margin:0 0 8px;">
               <a href="${item.link}" target="_blank" style="text-decoration:none; color:inherit;">
                 ${item.title}
@@ -282,12 +286,7 @@
             </h3>
             <p style="font-size:13px; color:#666;">${new Date(item.pubDate).toLocaleString()}</p>
 
-            <!-- ✅ InMobi Native Ad -->
-            <div id="${uniqueId}" style="margin:15px 0;"></div>
-
-            <p style="font-size:14px; color:#333;">${item.description.slice(0, 150)}...</p>
-
-            <!-- ✅ In-Article AdSense Ad -->
+            <!-- ✅ AdSense In-Article Ad -->
             <div style="margin:15px 0;">
               <ins class="adsbygoogle"
                    style="display:block; text-align:center;"
@@ -297,7 +296,16 @@
                    data-ad-slot="6481256597"></ins>
             </div>
 
-            <!-- ✅ In-Feed AdSense Ad -->
+            <!-- ✅ InMobi Native Ad in Post -->
+            <div id="inmobi-native-${index}" style="margin: 15px 0;"></div>
+            <script>
+              window._inmobi = window._inmobi || {};
+              _inmobi.placementId = "10000400135";
+            </script>
+
+            <p style="font-size:14px; color:#333;">${item.description.slice(0, 150)}...</p>
+
+            <!-- ✅ AdSense In-Feed Ad -->
             <div style="margin-top:15px;">
               <ins class="adsbygoogle"
                    style="display:block"
@@ -311,24 +319,15 @@
 
         container.append(newsItem);
 
-        // ✅ Load AdSense
+        // Load AdSense
         (adsbygoogle = window.adsbygoogle || []).push({});
         (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // ✅ Load InMobi Native Ad
-        window._inmobi_native = {
-          domain: "connectgold.sbs",
-          placementid: "10000417607", // Native ad placement ID
-          containerid: uniqueId,
-          width: 320,
-          height: 250
-        };
       });
     });
   }
 
-  loadNewsWithAds();
-  setInterval(loadNewsWithAds, 300000); // Refresh every 5 minutes
+  loadNewsWithAllAds();
+  setInterval(loadNewsWithAllAds, 300000); // Refresh every 5 minutes
 </script>
  
   <!-- Map --><iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe><!-- Footer --><footer>
