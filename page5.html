@@ -142,30 +142,18 @@
   </div>
 </div>
 
-<!-- Yandex Adfox Mobile Banner -->
-<div id="adfox_banner"></div>
+<div id="inmobi-banner-container" style="max-width: 100%; margin: 10px auto;"></div>
 
+<script src="https://cf.cdn.inmobi.com/ad/main.js"></script>
 <script>
-  window.yaContextCb = window.yaContextCb || [];
-  window.yaContextCb.push(() => {
-    Ya.adfoxCode.create({
-      ownerId: 12491672,
-      containerId: 'adfox_banner',
-      params: {
-        pp: 'g',
-        ps: 'cmvs',
-        p2: 'gydq', // Dummy; real one isn't always shown; it's okay to omit
-        puid1: '',
-        puid2: ''
-      },
-      onLoad: function () {
-        console.log('Banner loaded');
-      }
-    });
-  });
+  window._inmobi_banner = {
+    domain: "connectgold.sbs",
+    placementid: "10000417605", // Your Banner Placement ID
+    containerid: "inmobi-banner-container",
+    width: 320,
+    height: 50
+  };
 </script>
-
-<script src="https://yandex.ru/ads/system/context.js" async></script>
       
       <!-- Start.io Referral Banner Widget with Logo -->
 <div style="border:2px solid #eaeaea; border-radius:8px; overflow:hidden; width:320px; font-family:Arial, sans-serif; box-shadow:0 4px 8px rgba(0,0,0,0.1); margin: 20px auto;">
