@@ -146,81 +146,90 @@
  </script> 
 
   
-<div data-type="_mgwidget" data-widget-id="1821473"> 
- </div> 
- <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
- </script>  
+<!-- News Feed Container -->
+<section>
+  <div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
+</section>
 
-<!-- 📌 News Container -->
-<div id="newsContainer" style="max-width: 100%; padding: 15px;"></div>
+<hr />
 
-<!-- 📜 Load Scripts -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- AdsKeeper Feed -->
+<section>
+  <div data-type="_mgwidget" data-widget-id="1821479"></div>
+  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq");</script>
+</section>
+
+<hr />
+
+<!-- AdsKeeper In-Article -->
+<section>
+  <div data-type="_mgwidget" data-widget-id="1821473"></div>
+  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq");</script>
+</section>
+
+<hr />
+
+<!-- First AdSense Ad -->
+<section>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1171216593802007"
+       data-ad-slot="6481256597"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</section>
+
+<hr />
+
+<!-- Second AdSense Ad -->
+<section>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1171216593802007"
+       data-ad-slot="7243673926"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</section>
+
+<hr />
+
+<!-- InMobi Native Ad -->
+<section>
+  <div id="inmobi-native-ad" style="margin-top: 15px;"></div>
+  <script>
+    window._inmobiTag = window._inmobiTag || [];
+    _inmobiTag.push({ placementId: "10000400135", slot: "inmobi-native-ad" });
+  </script>
+</section>
+
+<!-- Load News from RSS Feed -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script async src="https://cdn.adskeeper.com/mg.js"></script>
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  function loadNewsWithAds() {
-    $.getJSON(feedUrl, function (data) {
+  function loadNews() {
+    $.getJSON(feedUrl, function(data) {
       const container = $('#newsContainer').empty();
-
-      data.items.slice(0, 6).forEach((item, index) => {
-        const newsBlock = `
-          <div class="news-post" style="border-bottom:1px solid #ccc; padding:15px 0;">
-            <h3 style="margin: 0 0 5px;"><a href="${item.link}" target="_blank" style="color:#111;text-decoration:none;">${item.title}</a></h3>
-            <p style="font-size:12px;color:#777;">${new Date(item.pubDate).toLocaleString()}</p>
-
-            <p style="margin: 10px 0;">${item.description.slice(0, 180)}...</p>
-
-            <!-- 🔹 AdSense: In-Article -->
-            <div style="margin:15px 0;">
-              <ins class="adsbygoogle"
-                   style="display:block; text-align:center;"
-                   data-ad-layout="in-article"
-                   data-ad-format="fluid"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="6481256597"></ins>
-            </div>
-
-            <!-- 🔸 InMobi Native -->
-            <div id="inmobi-native-${index}" style="margin: 15px 0;"></div>
-
-            ${index === 2 ? `
-              <!-- 🟢 AdsKeeper (In-Article Widget) after 3rd post -->
-              <div style="margin:20px 0;">
-                <div data-type="_mgwidget" data-widget-id="1821473"></div>
-              </div>
-            ` : ''}
-          </div>
-        `;
-
-        container.append(newsBlock);
-
-        // Load AdSense
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // Load InMobi
-        window._inmobiTag = window._inmobiTag || [];
-        _inmobiTag.push({
-          placementId: "10000400135",
-          slot: `inmobi-native-${index}`
-        });
+      data.items.slice(0, 5).forEach((item) => {
+        const newsItem = `
+          <div class="news-post" style="margin-bottom: 20px;">
+            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+            <p>${new Date(item.pubDate).toLocaleString()}</p>
+            <p>${item.description.slice(0, 150)}...</p>
+          </div>`;
+        container.append(newsItem);
       });
-
-      // Load AdsKeeper AFTER loop
-      window._mgq = window._mgq || [];
-      window._mgq.push(["_mgc.load"]);
     });
   }
 
-  $(document).ready(loadNewsWithAds);
+  $(document).ready(loadNews);
 </script>
   
   <iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe> 
 
-
-  
+ 
   <footer>  
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
