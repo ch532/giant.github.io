@@ -189,12 +189,6 @@
       <!-- WeGoTrip Widget -->
       <script async defer src="https://wegotrip.com/helpers/widgetManager.js" data-weg-partner-id="5444"></script>
       <iframe class="js-wegotrip-widget" width="100%" height="490px" frameborder="0" scrolling="no" src="https://wegotrip.com/en/widgets/?perPage=3&coupon=5444&showMore=true&preorder=true" title="WeGoTrip Partner Widget"></iframe>
-
-<div data-type="_mgwidget" data-widget-id="1821485"> 
- </div> 
- <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
- </script> 
- 
       
     </section>
   </main>
@@ -234,5 +228,25 @@
     </div>
   </footer>
 
+<!-- AdsKeeper Interstitial Loader -->
+<div data-type="_mgwidget" data-widget-id="1821485"></div>
+<script>
+  (function(w, q) {
+    w[q] = w[q] || [];
+    w[q].push(["_mgc.load"]);
+  })(window, "_mgq");
+</script>
+
+<!-- Auto Trigger After Page Load -->
+<script>
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      if (typeof window._mgq !== "undefined") {
+        window._mgq.push(["_mgc.show", 1821485]); // Trigger the interstitial
+      }
+    }, 3000); // Show after 3 seconds (adjust this time if you want)
+  });
+</script>
+  
 </body>
 </html>
