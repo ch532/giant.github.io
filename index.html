@@ -151,64 +151,70 @@
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script>  
 
-<div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
+<!-- 📌 News Container -->
+<div id="newsContainer" style="max-width: 100%; padding: 15px;"></div>
 
+<!-- 📜 Load Scripts -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script async src="https://cdn.adskeeper.com/mg.js"></script>
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  function loadNewsWithAllAds() {
+  function loadNewsWithAds() {
     $.getJSON(feedUrl, function (data) {
       const container = $('#newsContainer').empty();
 
-      data.items.slice(0, 5).forEach((item, index) => {
-        const newsItem = `
-          <div class="news-post" style="border-bottom:1px solid #ddd;padding:10px 0;">
-            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-            <p>${new Date(item.pubDate).toLocaleString()}</p>
+      data.items.slice(0, 6).forEach((item, index) => {
+        const newsBlock = `
+          <div class="news-post" style="border-bottom:1px solid #ccc; padding:15px 0;">
+            <h3 style="margin: 0 0 5px;"><a href="${item.link}" target="_blank" style="color:#111;text-decoration:none;">${item.title}</a></h3>
+            <p style="font-size:12px;color:#777;">${new Date(item.pubDate).toLocaleString()}</p>
 
-            <p>${item.description.slice(0, 150)}...</p>
+            <p style="margin: 10px 0;">${item.description.slice(0, 180)}...</p>
 
-            <!-- AdSense -->
+            <!-- 🔹 AdSense: In-Article -->
             <div style="margin:15px 0;">
               <ins class="adsbygoogle"
-                   style="display:block;text-align:center;"
+                   style="display:block; text-align:center;"
                    data-ad-layout="in-article"
                    data-ad-format="fluid"
                    data-ad-client="ca-pub-1171216593802007"
                    data-ad-slot="6481256597"></ins>
             </div>
 
-            <!-- InMobi -->
-            <div id="inmobi-native-ad-${index}" style="margin-top:15px;"></div>
+            <!-- 🔸 InMobi Native -->
+            <div id="inmobi-native-${index}" style="margin: 15px 0;"></div>
 
-            ${index === 1 ? `
-              <!-- AdsKeeper Widget (only once after second news post) -->
+            ${index === 2 ? `
+              <!-- 🟢 AdsKeeper (In-Article Widget) after 3rd post -->
               <div style="margin:20px 0;">
                 <div data-type="_mgwidget" data-widget-id="1821473"></div>
               </div>
-            ` : ``}
-          </div>`;
+            ` : ''}
+          </div>
+        `;
 
-        container.append(newsItem);
+        container.append(newsBlock);
 
-        // AdSense: only push once per block
+        // Load AdSense
         (adsbygoogle = window.adsbygoogle || []).push({});
 
-        // InMobi
+        // Load InMobi
         window._inmobiTag = window._inmobiTag || [];
         _inmobiTag.push({
           placementId: "10000400135",
-          slot: `inmobi-native-ad-${index}`
+          slot: `inmobi-native-${index}`
         });
       });
 
-      // Load AdsKeeper once after loop ends
+      // Load AdsKeeper AFTER loop
       window._mgq = window._mgq || [];
       window._mgq.push(["_mgc.load"]);
     });
   }
 
-  $(document).ready(loadNewsWithAllAds);
+  $(document).ready(loadNewsWithAds);
 </script>
   
   <iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe> 
