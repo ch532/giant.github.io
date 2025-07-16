@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="en">
 <head>
+  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9381060,document.createElement('script'))</script>
   <script src="https://jsc.adskeeper.com/site/1037886.js" async> 
  </script> 
  
@@ -146,85 +147,93 @@
  </script> 
 
   
-<!-- News Feed Container -->
+<!-- News Container -->
 <section>
   <div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
 </section>
 
-<hr />
+<hr>
 
-<!-- AdsKeeper Feed -->
-<section>
+<!-- AdsKeeper Feed Widget -->
+<section style="margin-top: 20px;">
   <div data-type="_mgwidget" data-widget-id="1821479"></div>
-  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq");</script>
-</section>
-
-<hr />
-
-<!-- AdsKeeper In-Article -->
-<section>
-  <div data-type="_mgwidget" data-widget-id="1821473"></div>
-  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq");</script>
-</section>
-
-<hr />
-
-<!-- First AdSense Ad -->
-<section>
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-1171216593802007"
-       data-ad-slot="6481256597"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</section>
-
-<hr />
-
-<!-- Second AdSense Ad -->
-<section>
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-1171216593802007"
-       data-ad-slot="7243673926"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</section>
-
-<hr />
-
-<!-- InMobi Native Ad -->
-<section>
-  <div id="inmobi-native-ad" style="margin-top: 15px;"></div>
   <script>
-    window._inmobiTag = window._inmobiTag || [];
-    _inmobiTag.push({ placementId: "10000400135", slot: "inmobi-native-ad" });
+    (function(w, q) {
+      w[q] = w[q] || [];
+      w[q].push(["_mgc.load"]);
+    })(window, "_mgq");
   </script>
 </section>
 
-<!-- Load News from RSS Feed -->
+<!-- AdSense Script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- jQuery (for fetching RSS feed) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  function loadNews() {
+  function loadNewsWithAllAds() {
     $.getJSON(feedUrl, function(data) {
       const container = $('#newsContainer').empty();
-      data.items.slice(0, 5).forEach((item) => {
+      window._inmobiTag = window._inmobiTag || [];
+      window._mgq = window._mgq || [];
+
+      data.items.slice(0, 10).forEach((item, index) => {
         const newsItem = `
-          <div class="news-post" style="margin-bottom: 20px;">
+          <div class="news-post" style="margin-bottom: 40px;">
             <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
             <p>${new Date(item.pubDate).toLocaleString()}</p>
+
+            <!-- First AdSense Ad (In-Article) -->
+            <div style="margin:15px 0;">
+              <ins class="adsbygoogle"
+                   style="display:block;text-align:center;"
+                   data-ad-layout="in-article"
+                   data-ad-format="fluid"
+                   data-ad-client="ca-pub-1171216593802007"
+                   data-ad-slot="6481256597"></ins>
+            </div>
+
+            <!-- AdsKeeper In-Article Widget -->
+            <div style="margin:10px 0;">
+              <div data-type="_mgwidget" data-widget-id="1821473"></div>
+            </div>
+
+            <!-- Second AdSense Ad (Fluid) -->
+            <div style="margin-top:15px;">
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-format="fluid"
+                   data-ad-layout-key="-75+ez-18-43+c4"
+                   data-ad-client="ca-pub-1171216593802007"
+                   data-ad-slot="7243673926"></ins>
+            </div>
+
+            <!-- InMobi Native Ad -->
+            <div id="inmobi-native-ad-${index}" style="margin-top:15px;"></div>
+
+            <!-- News Description -->
             <p>${item.description.slice(0, 150)}...</p>
-          </div>`;
+          </div>
+        `;
+
         container.append(newsItem);
+
+        // Load AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        // Load InMobi
+        _inmobiTag.push({ placementId: "10000400135", slot: `inmobi-native-ad-${index}` });
+
+        // Load AdsKeeper
+        _mgq.push(["_mgc.load"]);
       });
     });
   }
 
-  $(document).ready(loadNews);
+  $(document).ready(loadNewsWithAllAds);
 </script>
   
   <iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe> 
@@ -263,26 +272,6 @@
     mixpanel.init("a9e80af720413d23246cfcedff6291db", { debug: true, track_pageview: true });
     mixpanel.track("Page View", { source: "WebView", version: "1.0.0" });
   </script>
-
-<!-- AdsKeeper Interstitial Loader -->
-<div data-type="_mgwidget" data-widget-id="1821485"></div>
-<script>
-  (function(w, q) {
-    w[q] = w[q] || [];
-    w[q].push(["_mgc.load"]);
-  })(window, "_mgq");
-</script>
-
-<!-- Auto Trigger After Page Load -->
-<script>
-  window.addEventListener("load", function () {
-    setTimeout(function () {
-      if (typeof window._mgq !== "undefined") {
-        window._mgq.push(["_mgc.show", 1821485]); // Trigger the interstitial
-      }
-    }, 3000); // Show after 3 seconds (adjust this time if you want)
-  });
-</script>
   
 </body>
 </html>
