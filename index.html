@@ -212,13 +212,25 @@
     mixpanel.init("a9e80af720413d23246cfcedff6291db", { debug: true, track_pageview: true });
     mixpanel.track("Page View", { source: "WebView", version: "1.0.0" });
   </script>
+  
 
 <script>
-  var adUnits = [
-    // Place the full ad unit code from my previous message here
-  ];
+  var adUnits = [{
+    code: 'div-banner',
+    mediaTypes: {
+      banner: {
+        sizes: [[300, 250]]
+      }
+    },
+    bids: [{
+      bidder: 'appnexus',
+      params: {
+        placementId: 13144370  // This is a test placement ID from AppNexus
+      }
+    }]
+  }];
 </script>
-
+  
 <script>
   var pbjs = pbjs || {};
   pbjs.que = pbjs.que || [];
