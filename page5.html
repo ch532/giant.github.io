@@ -166,6 +166,37 @@
   </div>
 </div>
 
+<div class="content-box">
+  <h2>Watch a Short Ad to Unlock</h2>
+  <p>This content is locked. Watch a short video ad to continue.</p>
+
+  <!-- Applixir Placeholder -->
+  <div id="applixir_videoplayer" style="width:100%; height:360px; background:#000; display:none;"></div>
+
+  <!-- Trigger -->
+  <button id="unlock-button" onclick="playRewardedAd()">Watch Ad to Unlock</button>
+
+  <!-- Unlocked Content -->
+  <div id="unlocked-content" style="display:none; margin-top:20px;">
+    <h3>Unlocked Content</h3>
+    <a href="#">🎉 You have unlocked access!</a>
+  </div>
+</div>
+
+<!-- Applixir Script -->
+<script src="https://cdn.applixir.com/applixir.play.js"></script>
+<script>
+  var zId = 9999; // Temporary zone ID for testing
+
+  function playRewardedAd() {
+    document.getElementById("applixir_videoplayer").style.display = "block";
+    applixir.playAd(zId, function() {
+      document.getElementById("unlock-button").style.display = "none";
+      document.getElementById("unlocked-content").style.display = "block";
+    });
+  }
+</script>
+      
 <a href="" rel="nofollow"><img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/png/300%20x%20250%20px.png" /></a>
 
 <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
