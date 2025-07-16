@@ -156,77 +156,7 @@
           fetch("https://eo8t1s3otg5pdnk.m.pipedream.net?event=" + eventName + "&source=webview");
         }
       </script>
-
-<div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
-<script>
-  const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
-
-  function loadNewsWithAllAds() {
-    $.getJSON(feedUrl, function(data) {
-      const container = $('#newsContainer').empty();
-
-      data.items.slice(0, 10).forEach((item, index) => {
-        const newsItem = `
-          <div class="news-post">
-            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-            <p>${new Date(item.pubDate).toLocaleString()}</p>
-
-            <!-- AdSense In-Article Ad -->
-            <div style="margin:15px 0;">
-              <ins class="adsbygoogle"
-                   style="display:block;text-align:center;"
-                   data-ad-layout="in-article"
-                   data-ad-format="fluid"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="6481256597"></ins>
-            </div>
-
-            <!-- AdsKeeper Widget 1821473 (In-Article Style) -->
-            <div style="margin:10px 0;">
-              <div data-type="_mgwidget" data-widget-id="1821473"></div>
-            </div>
-
-            <p>${item.description.slice(0, 150)}...</p>
-
-            <!-- AdsKeeper Widget 1821479 (Feed Style or Second Slot) -->
-            <div style="margin:10px 0;">
-              <div data-type="_mgwidget" data-widget-id="1821479"></div>
-            </div>
-
-            <!-- AdSense Fluid Ad -->
-            <div style="margin-top:15px;">
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-format="fluid"
-                   data-ad-layout-key="-75+ez-18-43+c4"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="7243673926"></ins>
-            </div>
-
-            <!-- InMobi Native Ad -->
-            <div id="inmobi-native-ad-${index}" style="margin-top:15px;"></div>
-          </div>`;
-
-        container.append(newsItem);
-
-        // Load AdSense Ads
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // Load InMobi
-        window._inmobiTag = window._inmobiTag || [];
-        _inmobiTag.push({ placementId: "10000400135", slot: `inmobi-native-ad-${index}` });
-
-        // Load AdsKeeper
-        window._mgq = window._mgq || [];
-        window._mgq.push(["_mgc.load"]);
-      });
-    });
-  }
-
-  $(document).ready(loadNewsWithAllAds);
-</script>
-      
+    
       <!-- Ticket Widgets -->
       <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&locale=en&curr=USD&powered_by=true&border_radius=0&plain=true&color_button=%232681ff&color_button_text=%23ffffff&color_border=%232681ff&promo_id=4132&campaign_id=121" charset="utf-8"></script>
       <script async src="https://tpemb.com/content?trs=421109&shmarker=589064&bg_color=%23112266&title=Need%20tickets%3F&title_color=%23ffffff&icon_color=%230077ff&search_text=Search%20by%20artist%2C%20team%2C%20event%2C%20etc...&footer_color=%23ffffff&powered_by=true&campaign_id=72&promo_id=8505" charset="utf-8"></script>
