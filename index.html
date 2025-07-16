@@ -94,6 +94,12 @@
       padding: 10px;
       z-index: 9999;
     }
+    #newsContainer {
+  display: block !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 2;
+}
   </style></head>
 <body>
   <div id="mtn-top-banner">
@@ -138,7 +144,8 @@
  </div> 
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
-  
+
+  <div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
 <script>
   const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
