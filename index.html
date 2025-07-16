@@ -153,75 +153,7 @@
 
   <iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe> 
 
-  <div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
-<script>
-  const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
 
-  function loadNewsWithAllAds() {
-    $.getJSON(feedUrl, function(data) {
-      const container = $('#newsContainer').empty();
-
-      data.items.slice(0, 10).forEach((item, index) => {
-        const newsItem = `
-          <div class="news-post">
-            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-            <p>${new Date(item.pubDate).toLocaleString()}</p>
-
-            <!-- AdSense In-Article Ad -->
-            <div style="margin:15px 0;">
-              <ins class="adsbygoogle"
-                   style="display:block;text-align:center;"
-                   data-ad-layout="in-article"
-                   data-ad-format="fluid"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="6481256597"></ins>
-            </div>
-
-            <!-- AdsKeeper Widget 1821473 (In-Article Style) -->
-            <div style="margin:10px 0;">
-              <div data-type="_mgwidget" data-widget-id="1821473"></div>
-            </div>
-
-            <p>${item.description.slice(0, 150)}...</p>
-
-            <!-- AdsKeeper Widget 1821479 (Feed Style or Second Slot) -->
-            <div style="margin:10px 0;">
-              <div data-type="_mgwidget" data-widget-id="1821479"></div>
-            </div>
-
-            <!-- AdSense Fluid Ad -->
-            <div style="margin-top:15px;">
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-format="fluid"
-                   data-ad-layout-key="-75+ez-18-43+c4"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="7243673926"></ins>
-            </div>
-
-            <!-- InMobi Native Ad -->
-            <div id="inmobi-native-ad-${index}" style="margin-top:15px;"></div>
-          </div>`;
-
-        container.append(newsItem);
-
-        // Load AdSense Ads
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // Load InMobi
-        window._inmobiTag = window._inmobiTag || [];
-        _inmobiTag.push({ placementId: "10000400135", slot: `inmobi-native-ad-${index}` });
-
-        // Load AdsKeeper
-        window._mgq = window._mgq || [];
-        window._mgq.push(["_mgc.load"]);
-      });
-    });
-  }
-
-  $(document).ready(loadNewsWithAllAds);
-</script>
   
   <footer>  
     <div class="footer-content">
