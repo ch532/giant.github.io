@@ -1,5 +1,7 @@
 <!DOCTYPE html><html lang="en">
 <head>
+  <!-- Prebid.js Library -->
+<script async src="https://cdn.jsdelivr.net/npm/prebid.js@latest/dist/prebid.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>Connect Gold</title>  
@@ -119,7 +121,14 @@
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-  
+  <!-- Banner Ad -->
+<div id="div-banner" style="width:300px; height:250px; margin:20px auto;"></div>
+
+<!-- Outstream Video Ad -->
+<div id="div-video" style="width:640px; height:480px; margin:20px auto;"></div>
+
+<!-- Native Ad -->
+<div id="div-native" style="width:300px; border:1px solid #ddd; padding:10px; margin:20px auto;"></div>
   
   <div id="newsContainer" style="padding: 15px;"></div>  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <script>
     const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
@@ -204,5 +213,32 @@
     mixpanel.track("Page View", { source: "WebView", version: "1.0.0" });
   </script>
 
+<script>
+  var adUnits = [
+    // Place the full ad unit code from my previous message here
+  ];
+</script>
+
+<script>
+  var pbjs = pbjs || {};
+  pbjs.que = pbjs.que || [];
+
+  pbjs.que.push(function () {
+    pbjs.addAdUnits(adUnits);
+    pbjs.requestBids({
+      timeout: 1500,
+      bidsBackHandler: function () {
+        const bannerBid = pbjs.getHighestCpmBids('div-banner')[0];
+        const videoBid = pbjs.getHighestCpmBids('div-video')[0];
+        const nativeBid = pbjs.getHighestCpmBids('div-native')[0];
+
+        if (bannerBid) pbjs.renderAd(document.getElementById('div-banner'), bannerBid.adId);
+        if (videoBid) pbjs.renderAd(document.getElementById('div-video'), videoBid.adId);
+        if (nativeBid) pbjs.renderAd(document.getElementById('div-native'), nativeBid.adId);
+      }
+    });
+  });
+</script>
+  
 </body>
 </html>
