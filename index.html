@@ -119,16 +119,7 @@
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-  <script src="https://cf.inmobi.com/adScript.js" async></script>
-  <div id="inmobi-banner" style="width:100%; height:auto; text-align:center; margin:10px 0;"></div>
-
-<script>
-  window._inmobiTag = window._inmobiTag || [];
-  _inmobiTag.push({
-    placementId: "10000400133",  // Your banner placement
-    slot: "inmobi-banner"        // Must match the div ID
-  });
-</script>
+  <div id="inmobi-banner-ad" style="width:320px; height:50px; margin: 0 auto;"></div>
   
   <div style="width:300px;margin:20px auto;text-align:center;background:#fff;padding:15px;border-radius:10px;">
     <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" style="width:100%;border-radius:8px;">
@@ -175,21 +166,14 @@
   
   <iframe width="100%" height="300" src="https://api.maptiler.com/maps/openstreetmap/?key=c7mcIDrue1F8v9qGtlXH#0.7/22.80535/2.86559" style="border:0;margin-top:30px;"></iframe> 
 
-<div id="inmobi-interstitial" style="display:none;"></div>
-
 <script>
-  window._inmobiTag = window._inmobiTag || [];
-  _inmobiTag.push({
-    placementId: "10000417606", // Replace with your actual interstitial placement ID
-    type: "interstitial",
-    slot: "inmobi-interstitial"
-  });
-
-  // Optional: Show it after 5 seconds
-  setTimeout(function() {
-    const el = document.getElementById("inmobi-interstitial");
-    if (el) el.style.display = "block"; // trigger display
-  }, 5000);
+  window.onload = function () {
+    window._inmobiTag = window._inmobiTag || [];
+    _inmobiTag.push({
+      placementId: "10000417605",
+      slot: "inmobi-banner-ad"
+    });
+  };
 </script>
   
   <footer>  
