@@ -2,6 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "e36e5dd4-a2ed-4a22-b7bc-3668e79e9f81",
+    });
+  });
+</script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="ad62eff8-87c6-4022-a552-0702b190b299"></script>
   <script src="https://jsc.adskeeper.com/site/1037886.js" async> 
  </script> 
