@@ -1,5 +1,7 @@
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 
+google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
+
 onetag.com, 93f9ccb6a179370, DIRECT
 onetag.com, 93f9ccb6a179370-OB, DIRECT
 appnexus.com, 13099, RESELLER
