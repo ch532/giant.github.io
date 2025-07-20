@@ -1,5 +1,14 @@
 <!DOCTYPE html><html lang="en">
 <head>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "e36e5dd4-a2ed-4a22-b7bc-3668e79e9f81",
+    });
+  });
+</script>
   <script type="text/javascript" async src="https://platform.foremedia.net/code/59993/analytics"></script>
   <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9381060,document.createElement('script'))</script>
   <script src="https://jsc.adskeeper.com/site/1037886.js" async> 
