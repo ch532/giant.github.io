@@ -315,6 +315,30 @@
     mixpanel.init("a9e80af720413d23246cfcedff6291db", { debug: true, track_pageview: true });
     mixpanel.track("Page View", { source: "WebView", version: "1.0.0" });
   </script>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBuk5L7MH8E85-3BCsMuZNSL_QDqB8aZqk",
+    authDomain: "skyl101.firebaseapp.com",
+    projectId: "skyl101",
+    storageBucket: "skyl101.firebasestorage.app",
+    messagingSenderId: "932306097400",
+    appId: "1:932306097400:web:9be1ed152b27aea3d5570d",
+    measurementId: "G-V67YGDMDXR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
   
 </body>
 </html>
