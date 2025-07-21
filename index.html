@@ -1,5 +1,17 @@
 <!DOCTYPE html><html lang="en">
 <head>
+  <script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    // This runs when the user clicks a notification
+    OneSignal.on('notificationClick', function(event) {
+      // Trigger a custom event in Umami
+      if (typeof umami !== "undefined") {
+        umami.track("onesignal_notification_clicked");
+      }
+    });
+  });
+</script>
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
