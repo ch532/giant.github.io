@@ -284,57 +284,72 @@
   $(document).ready(loadNewsWithAllAds);
 </script>
   
-  <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Affiliate & Ad Network World Map</title>
-  <script src="https://api-maps.yandex.ru/2.1/?apikey=128d9a3e-ecd0-4651-8008-069f089206f4&lang=en_US" type="text/javascript"></script>
-  <style>
-    html, body, #map {
-      width: 100%;
-      height: 100vh;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
+  <div id="map" style="width: 100%; height: 600px;"></div>
 
-  <script type="text/javascript">
-    ymaps.ready(init);
+  <script>
+  ymaps.ready(init);
+  function init() {
+    var map = new ymaps.Map("map", {
+      center: [20, 0], // Center of the world
+      zoom: 2
+    });
 
-    function init() {
-      var myMap = new ymaps.Map("map", {
-        center: [30, 10], // center of world view
-        zoom: 2
+    // Define all your affiliate/business points globally
+    var points = [
+      {
+        name: "Connect Gold, Abuja",
+        coords: [9.0846, 7.4913],
+        color: 'red'
+      },
+      {
+        name: "Trip.com HQ, Shanghai",
+        coords: [31.2304, 121.4737],
+        color: 'blue'
+      },
+      {
+        name: "Fiverr HQ, Tel Aviv",
+        coords: [32.0853, 34.7818],
+        color: 'green'
+      },
+      {
+        name: "Konga HQ, Lagos",
+        coords: [6.5244, 3.3792],
+        color: 'purple'
+      },
+      {
+        name: "Ticket Network, USA",
+        coords: [41.6032, -73.0877],
+        color: 'orange'
+      },
+      {
+        name: "Google News, California",
+        coords: [37.422, -122.084],
+        color: 'gray'
+      },
+      {
+        name: "Start.io, New York",
+        coords: [40.7128, -74.006],
+        color: 'brown'
+      },
+      {
+        name: "Adsterra HQ, Cyprus",
+        coords: [35.1856, 33.3823],
+        color: 'black'
+      }
+    ];
+
+    // Add each point to the map
+    points.forEach(p => {
+      var placemark = new ymaps.Placemark(p.coords, {
+        balloonContent: p.name
+      }, {
+        preset: 'islands#dotIcon',
+        iconColor: p.color
       });
-
-      var points = [
-        { coords: [39.9042, 116.4074], label: "Trip.com (Beijing, China)" },
-        { coords: [41.3083, -72.9279], label: "TicketNetwork (Connecticut, USA)" },
-        { coords: [32.0853, 34.7818], label: "Fiverr (Tel Aviv, Israel)" },
-        { coords: [6.5244, 3.3792], label: "Konga (Lagos, Nigeria)" },
-        { coords: [37.4220, -122.0841], label: "Google News (California, USA)" },
-        { coords: [40.7128, -74.0060], label: "Start.io (New York, USA)" },
-        { coords: [34.7071, 33.0226], label: "Adsterra (Limassol, Cyprus)" }
-      ];
-
-      points.forEach(function(point) {
-        var placemark = new ymaps.Placemark(point.coords, {
-          balloonContent: point.label,
-          hintContent: point.label
-        }, {
-          preset: 'islands#redIcon'
-        });
-
-        myMap.geoObjects.add(placemark);
-      });
-    }
-  </script>
-</body>
-</html>
+      map.geoObjects.add(placemark);
+    });
+  }
+</script>
  
   <footer>  
     <div class="footer-content">
