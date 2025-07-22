@@ -192,20 +192,20 @@
       </iframe>
     </div>
 
-    <!-- Pixi.js + Playgama SDK -->
-<script src="https://pixijs.download/release/pixi.min.js"></script>
-<script src="playgama-bridge.js"></script> <!-- Make sure this path is correct -->
-
-<!-- Game will render here -->
+    <!-- Game Container -->
 <div id="pixigame" style="margin: 20px 0;"></div>
 
+<!-- SDK and Pixi.js -->
+<script src="https://pixijs.download/release/pixi.min.js"></script>
+<script src="sdk/playgama-bridge.js"></script>
+
 <script>
-  // ✅ Initialize Playgama SDK
+  // Playgama SDK Init
   playgamaSDK.init({
     clid: "p_536ce400-7d13-41f5-a8b8-0f5ba6a525c2"
   });
 
-  // ✅ Create Pixi Application
+  // PIXI Setup
   const app = new PIXI.Application({
     width: 800,
     height: 500,
@@ -213,103 +213,29 @@
   });
   document.getElementById("pixigame").appendChild(app.view);
 
-  // ✅ Add a red box as test sprite
+  // Draw a red square
   const square = new PIXI.Graphics();
   square.beginFill(0xff0000);
   square.drawRect(50, 50, 200, 200);
   square.endFill();
   app.stage.addChild(square);
 
-  // ✅ Show rewarded ad after 5 seconds (for test)
+  // Show an ad after 5 seconds
   setTimeout(() => {
     playgamaSDK.showRewardedAd()
       .then(() => {
-        alert("🎁 Ad watched! Give reward.");
+        alert("✅ Ad complete, reward granted!");
       })
       .catch(() => {
-        alert("❌ Ad skipped or failed.");
+        alert("⚠️ Ad skipped or failed.");
       });
   }, 5000);
 </script>
 
-<!-- Yandex Adfox Mobile Banner -->
-<div id="adfox_banner"></div>
 
-<script>
-  window.yaContextCb = window.yaContextCb || [];
-  window.yaContextCb.push(() => {
-    Ya.adfoxCode.create({
-      ownerId: 12491672,
-      containerId: 'adfox_banner',
-      params: {
-        pp: 'g',
-        ps: 'cmvs',
-        p2: 'gydq', // Dummy; real one isn't always shown; it's okay to omit
-        puid1: '',
-        puid2: ''
-      },
-      onLoad: function () {
-        console.log('Banner loaded');
-      }
-    });
-  });
-</script>
 
-<script src="https://yandex.ru/ads/system/context.js" async></script>
+
     
-    <!-- RSS Feed -->
-    <script type="text/javascript">
-      rssfeed_url = [
-        "https://news.google.com/rss/search?q=Nigeria&hl=en-NG&gl=NG&ceid=NG:en",
-        "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US:en",
-        "https://alltop.com/rss",
-        "https://www.skysports.com/rss/12040"
-      ];
-      rssfeed_frame_width = "230";
-      rssfeed_frame_height = "260";
-      rssfeed_scroll = "on";
-      rssfeed_scroll_step = "6";
-      rssfeed_scroll_bar = "off";
-      rssfeed_target = "_blank";
-      rssfeed_font_size = "12";
-      rssfeed_border = "on";
-      rssfeed_css_url = "https://feed.surfing-waves.com/css/style4.css";
-      rssfeed_title = "on";
-      rssfeed_title_bgcolor = "#3366ff";
-      rssfeed_title_color = "#fff";
-      rssfeed_item_description = "on";
-      rssfeed_item_description_length = "120";
-      rssfeed_item_description_color = "#666";
-      rssfeed_item_description_link_color = "#333";
-      rssfeed_item_border_bottom = "on";
-    </script>
-    <script src="//feed.surfing-waves.com/js/rss-feed.js" type="text/javascript"></script>
-
-    <div style="color:#ccc;font-size:10px; text-align:center;">
-      powered by <a href="https://surfing-waves.com" target="_blank">Surfing Waves</a>
-    </div>
-
-    <!-- Unity Ads Interstitial -->
-<script>
-  (function(w, d, u) {
-    w.UnityAds = w.UnityAds || [];
-    UnityAds.push(["init", {
-      appId: "5883117",
-      placement: "Love" // your bidding placement ID
-    }]);
-  })(window, document, "https://webads.unityads.unity3d.com/engine.js");
-
-  window.addEventListener("load", function () {
-    UnityAds.push(["show", "Love"]);
-  });
-</script>
-    
-    <!-- Wise Widget -->
-    <div style="width: 100%; max-width: 340px; margin: auto;">
-      <iframe title="fx" src="https://wise.com/gb/currency-converter/fx-widget/converter?sourceCurrency=GBP&targetCurrency=EUR&ctaVariant=CONVERT&ctaLink=https%3A%2F%2Fwise.com%2Finvite%2Fmic%2Fchibuikeo110"
-        height="490" width="340" frameBorder="0" allowtransparency="true"></iframe>
-    </div>
-
   </main>
 
   <!-- AdMob -->
