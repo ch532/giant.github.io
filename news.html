@@ -1,0 +1,14 @@
+<script>
+fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen')
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById('newsList');
+    data.items.forEach(item => {
+      const div = document.createElement('div');
+      div.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><p>${item.pubDate}</p>`;
+      container.appendChild(div);
+    });
+  });
+</script>
+
+<div id="newsList">Loading news...</div>
