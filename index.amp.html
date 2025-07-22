@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html amp lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Connect Gold - Nigeria & World News</title>
+    <link rel="canonical" href="https://www.connectgold.sbs/index.html">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="description" content="Stay updated with the latest Nigeria and world news from Connect Gold. Trusted updates from top news sources.">
+    <script async src="https://cdn.ampproject.org/v0.js"></script><!-- AMP auto ads script -->
+<script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+
+<!-- AMP list and mustache templates -->
+<script async custom-element="amp-list"
+        src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+<script async custom-template="amp-mustache"
+        src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+
+<style amp-boilerplate>
+  body {visibility:hidden}
+</style>
+<noscript>
+  <style amp-boilerplate>
+    body {visibility:visible}
+  </style>
+</noscript>
+
+<style amp-custom>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 1rem;
+    background: #fff;
+  }
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .news-item {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+  }
+  .news-item h2 {
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+  }
+  .news-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .news-item a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+  </head>  <body><!-- AMP Auto Ads config -->
+<amp-auto-ads type="adsense"
+  data-ad-client="ca-pub-1171216593802007">
+</amp-auto-ads>
+
+<h1>Latest Nigeria & World News</h1>
+
+<amp-list width="auto"
+          height="600"
+          layout="fixed-height"
+          src="https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen">
+  <template type="amp-mustache">
+    <div class="news-item">
+      <h2><a href="{{link}}" target="_blank">{{title}}</a></h2>
+      <p>{{pubDate}}</p>
+    </div>
+  </template>
+</amp-list>
+
+  </body>
+</html>
