@@ -1,65 +1,39 @@
+<!-- index.amp.html -->
 <!doctype html>
 <html ⚡>
-<head>
-  <meta charset="utf-8">
-  <title>Connect Gold - Latest News</title>
-  <link rel="canonical" href="https://connectgold.sbs">
-  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <meta name="description" content="Latest news updates from Nigeria and the world via Connect Gold.">
-
-  <!-- AMP Scripts -->
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
-  <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
-
-  <!-- Auto Ads (AdSense) -->
-  <script async custom-element="amp-auto-ads"
-          src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
-
-  <!-- AMP Styles -->
-  <style amp-custom>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 10px;
+  <head>
+    <meta charset="utf-8">
+    <title>Connect Gold News</title>
+    <link rel="canonical" <a href="news.html#1">Read full story</a>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+    <style amp-boilerplate>body{visibility:hidden}</style>
+    <noscript><style amp-boilerplate>body{visibility:visible}</style></noscript>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Top Stories from Nigeria & the World",
+      "datePublished": "2025-07-22"
     }
-    .news-card {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 12px;
-      margin: 12px 0;
-    }
-    .news-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .news-link {
-      text-decoration: none;
-      color: #3366cc;
-    }
-  </style>
-</head>
-<body>
+    </script>
+  </head>
+  <body>
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-1171216593802007"></amp-auto-ads>
 
-  <!-- Auto Ads -->
-  <amp-auto-ads type="adsense"
-      data-ad-client="ca-pub-1171216593802007">
-  </amp-auto-ads>
-
-  <h2>🌍 Latest News - Nigeria & World</h2>
-
-  <amp-list width="auto" height="500" layout="fixed-height"
-      src="https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen">
-    <template type="amp-mustache">
-      <div class="news-card">
-        <div class="news-title">{{title}}</div>
-        <a href="{{link}}" class="news-link" target="_blank">Read more</a>
-      </div>
-    </template>
-  </amp-list>
-
-  <br><br>
-  <a href="https://connectgold.sbs">← Back to Full Site</a>
-
-</body>
+<nav>
+  <a href="index.html">🏠 Home</a> |
+  <a href="index.amp.html">⚡ AMP News</a> |
+  <a href="news.html">📄 Full News</a>
+</nav>
+    
+    <h1>Latest News Headlines</h1>
+    <ul>
+      <li><a href="news.html#1">Nigeria's economy rebounds...</a></li>
+      <li><a href="news.html#2">Trip.com launches new deal...</a></li>
+      <li><a href="news.html#3">Fiverr freelancers power e-commerce boom</a></li>
+    </ul>
+  </body>
 </html>
