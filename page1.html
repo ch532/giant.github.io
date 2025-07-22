@@ -192,18 +192,45 @@
       </iframe>
     </div>
 
-    <!-- Playgama -->
-    <div id="widget-playgama"></div>
-    <script nonce="widget-playgama">
-      window.playgama_widgets = window.playgama_widgets || { clbs: [] };
-      window.playgama_widgets.clbs.push(() => {
-        window.playgama_widgets.defineWidget({
-          widget_id: "WA0000000000378",
-          element_id: "widget-playgama",
-        });
-        window.playgama_widgets.showWidget("widget-playgama");
+    <!-- Pixi.js + Playgama SDK -->
+<script src="https://pixijs.download/release/pixi.min.js"></script>
+<script src="playgama-bridge.js"></script> <!-- Make sure this path is correct -->
+
+<!-- Game will render here -->
+<div id="pixigame" style="margin: 20px 0;"></div>
+
+<script>
+  // ✅ Initialize Playgama SDK
+  playgamaSDK.init({
+    clid: "p_536ce400-7d13-41f5-a8b8-0f5ba6a525c2"
+  });
+
+  // ✅ Create Pixi Application
+  const app = new PIXI.Application({
+    width: 800,
+    height: 500,
+    backgroundColor: 0x1e1e1e
+  });
+  document.getElementById("pixigame").appendChild(app.view);
+
+  // ✅ Add a red box as test sprite
+  const square = new PIXI.Graphics();
+  square.beginFill(0xff0000);
+  square.drawRect(50, 50, 200, 200);
+  square.endFill();
+  app.stage.addChild(square);
+
+  // ✅ Show rewarded ad after 5 seconds (for test)
+  setTimeout(() => {
+    playgamaSDK.showRewardedAd()
+      .then(() => {
+        alert("🎁 Ad watched! Give reward.");
+      })
+      .catch(() => {
+        alert("❌ Ad skipped or failed.");
       });
-    </script>
+  }, 5000);
+</script>
 
 <!-- Yandex Adfox Mobile Banner -->
 <div id="adfox_banner"></div>
