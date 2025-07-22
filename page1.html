@@ -192,48 +192,9 @@
       </iframe>
     </div>
 
-    <!-- Game Container -->
-<div id="pixigame" style="margin: 20px 0;"></div>
+    <iframe src="https://html5.gamemonetize.co/jp22mjv7m4b283qu7mhzsy599omxbi13/" width="800" height="600" scrolling="none" frameborder="0"></iframe>
 
-<!-- SDK and Pixi.js -->
-<script src="https://pixijs.download/release/pixi.min.js"></script>
-<script src="sdk/playgama-bridge.js"></script>
-
-<script>
-  // Playgama SDK Init
-  playgamaSDK.init({
-    clid: "p_536ce400-7d13-41f5-a8b8-0f5ba6a525c2"
-  });
-
-  // PIXI Setup
-  const app = new PIXI.Application({
-    width: 800,
-    height: 500,
-    backgroundColor: 0x1e1e1e
-  });
-  document.getElementById("pixigame").appendChild(app.view);
-
-  // Draw a red square
-  const square = new PIXI.Graphics();
-  square.beginFill(0xff0000);
-  square.drawRect(50, 50, 200, 200);
-  square.endFill();
-  app.stage.addChild(square);
-
-  // Show an ad after 5 seconds
-  setTimeout(() => {
-    playgamaSDK.showRewardedAd()
-      .then(() => {
-        alert("✅ Ad complete, reward granted!");
-      })
-      .catch(() => {
-        alert("⚠️ Ad skipped or failed.");
-      });
-  }, 5000);
-</script>
-
-
-
+<iframe src="https://html5.gamemonetize.co/q83yuopnslnu9q4331chevaww9r9tct1/" width="750" height="1334" scrolling="none" frameborder="0"></iframe>
 
     
   </main>
