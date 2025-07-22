@@ -211,94 +211,17 @@
   </a>
 </div>
   
-<!-- News Container -->
-<section>
-  <div id="newsContainer" style="max-width: 100%; padding: 10px;"></div>
-</section>
+<a href="https://twitter.com/football?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @football</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<hr>
+  <a href="https://twitter.com/nigerianmusic?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @nigerianmusic</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<!-- AdsKeeper Feed Widget -->
-<section style="margin-top: 20px;">
-  <div data-type="_mgwidget" data-widget-id="1821479"></div>
-  <script>
-    (function(w, q) {
-      w[q] = w[q] || [];
-      w[q].push(["_mgc.load"]);
-    })(window, "_mgq");
-  </script>
-</section>
+<a href="https://twitter.com/intent/tweet?button_hashtag=naijablog&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #naijablog</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<!-- AdSense Script -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- jQuery (for fetching RSS feed) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<a href="https://twitter.com/intent/tweet?button_hashtag=worldeconomy&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #worldeconomy</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  
+<a href="https://twitter.com/basketball?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @basketball</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<script>
-  const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen';
-
-  function loadNewsWithAllAds() {
-    $.getJSON(feedUrl, function(data) {
-      const container = $('#newsContainer').empty();
-      window._inmobiTag = window._inmobiTag || [];
-      window._mgq = window._mgq || [];
-
-      data.items.slice(0, 10).forEach((item, index) => {
-        const newsItem = `
-          <div class="news-post" style="margin-bottom: 40px;">
-            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-            <p>${new Date(item.pubDate).toLocaleString()}</p>
-
-            <!-- First AdSense Ad (In-Article) -->
-            <div style="margin:15px 0;">
-              <ins class="adsbygoogle"
-                   style="display:block;text-align:center;"
-                   data-ad-layout="in-article"
-                   data-ad-format="fluid"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="6481256597"></ins>
-            </div>
-
-            <!-- AdsKeeper In-Article Widget -->
-            <div style="margin:10px 0;">
-              <div data-type="_mgwidget" data-widget-id="1821473"></div>
-            </div>
-
-            <!-- Second AdSense Ad (Fluid) -->
-            <div style="margin-top:15px;">
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-format="fluid"
-                   data-ad-layout-key="-75+ez-18-43+c4"
-                   data-ad-client="ca-pub-1171216593802007"
-                   data-ad-slot="7243673926"></ins>
-            </div>
-
-            <!-- InMobi Native Ad -->
-            <div id="inmobi-native-ad-${index}" style="margin-top:15px;"></div>
-
-            <!-- News Description -->
-            <p>${item.description.slice(0, 150)}...</p>
-          </div>
-        `;
-
-        container.append(newsItem);
-
-        // Load AdSense
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // Load InMobi
-        _inmobiTag.push({ placementId: "10000400135", slot: `inmobi-native-ad-${index}` });
-
-        // Load AdsKeeper
-        _mgq.push(["_mgc.load"]);
-      });
-    });
-  }
-
-  $(document).ready(loadNewsWithAllAds);
-</script>
+<a href="https://twitter.com/intent/tweet?button_hashtag=americansports&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #americansports</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   
   <div id="map" style="width: 100%; height: 600px;"></div>
 
