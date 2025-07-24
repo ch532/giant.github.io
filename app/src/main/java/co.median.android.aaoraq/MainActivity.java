@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient()); // Stay inside app
         webView.addJavascriptInterface(new AppodealJSInterface(this), "AndroidAdInterface");
 
+webView.addJavascriptInterface(new AppodealJSInterface(this), "AndroidAdInterface");
+        
         // 3. Load HTML (local or online)
         webView.loadUrl("https://connectgold.sbs/index.html"); // or use https://connectgold.sbs/adpage.html
     }
