@@ -1,33 +1,31 @@
 package co.median.android.aaoraq;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
-import androidx.appcompat.app.AppCompatActivity;
+import android.webkit.WebViewClient;
 import com.appodeal.ads.Appodeal;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // Make sure you have this layout with a WebView
 
-        // Initialize Appodeal
-        Appodeal.initialize(this, "923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0", Appodeal.BANNER | Appodeal.INTERSTITIAL) | Appodeal.REWARDED VIDEO);
+        // 1. Initialize Appodeal
+        Appodeal.initialize(this, "YOUR_APPODEAL_KEY", // 🔁 Replace with your actual key
+                Appodeal.BANNER | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO);
 
-        // Load layout with WebView
-        setContentView(R.layout.activity_main);
-
-        // Set up WebView
+        // 2. Setup WebView
         webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-
-        // Add interface for JS to trigger native ads
+        webView.setWebViewClient(new WebViewClient()); // Stay inside app
         webView.addJavascriptInterface(new AppodealJSInterface(this), "AndroidAdInterface");
 
-        // Load your local HTML or online site
-        webView.loadUrl("file:///android_asset/index.html");
-        // or for online: webView.loadUrl("https://www.yoursite.com");
+        // 3. Load HTML (local or online)
+        webView.loadUrl("https://connectgold.sbs"); // or use https://connectgold.sbs/adpage.html
     }
 }
