@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Initialize Appodeal
-        Appodeal.initialize(this, "YOUR_APPODEAL_API_KEY", Appodeal.BANNER | Appodeal.INTERSTITIAL);
+        Appodeal.initialize(this, "923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0", Appodeal.BANNER | Appodeal.INTERSTITIAL);
 
         // Load layout with WebView
         setContentView(R.layout.activity_main);
