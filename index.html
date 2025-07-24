@@ -423,57 +423,33 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </head>
 <body>
 
-  <h2>Ads Loading... Please Wait</h2>
+<h2 id="adStatus">Checking ad interface...</h2>
 
-  <!-- ✅ Place your script just before this closing tag -->
-  <script>
-    // Auto-show banner ad after 2 seconds
-    setTimeout(function() {
-      if (typeof AndroidAdInterface !== 'undefined') {
-        AndroidAdInterface.showBanner();
-        console.log("Banner requested");
-      }
-    }, 2000);
-
-    // Auto-show interstitial after 5 seconds
-    setTimeout(function() {
-      if (typeof AndroidAdInterface !== 'undefined') {
-        AndroidAdInterface.showInterstitial();
-        console.log("Interstitial requested");
-      }
-    }, 5000);
-
-    // Auto-show rewarded ad after 15 seconds
-    setTimeout(function() {
-      if (typeof AndroidAdInterface !== 'undefined') {
-        AndroidAdInterface.showRewarded();
-        console.log("Rewarded ad requested");
-      }
-    }, 15000);
-  </script>
-
-</body>
-</html>
-
-  <script>
-  document.write("Loading ad interface check...<br>");
+<script>
+  const status = document.getElementById("adStatus");
 
   if (typeof AndroidAdInterface !== "undefined") {
-    document.write("✅ AndroidAdInterface is connected.<br>");
-    
+    status.innerText = "✅ Ads connected. Showing banner...";
     AndroidAdInterface.showBanner();
 
     setTimeout(() => {
+      status.innerText = "🎬 Showing interstitial ad...";
       AndroidAdInterface.showInterstitial();
     }, 5000);
 
     setTimeout(() => {
+      status.innerText = "🎁 Showing rewarded ad...";
       AndroidAdInterface.showRewarded();
     }, 10000);
   } else {
-    document.write("❌ AndroidAdInterface is undefined. Ads cannot show.<br>");
+    status.innerText = "❌ Ads not available. Interface not connected.";
   }
 </script>
+
+</body>
+</html>
+
+  
 
   <footer>  
     <div class="footer-content">
