@@ -16,18 +16,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main); // Make sure you have this layout with a WebView
 
         // 1. Initialize Appodeal
-        Appodeal.initialize(this, "923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0", // 🔁 Replace with your actual key
+        Appodeal.initialize(this, "923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0",
                 Appodeal.BANNER | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO);
 
         // 2. Setup WebView
         webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient()); // Stay inside app
+        webView.setWebViewClient(new WebViewClient());
         webView.addJavascriptInterface(new AppodealJSInterface(this), "AndroidAdInterface");
 
-webView.addJavascriptInterface(new AppodealJSInterface(this), "AndroidAdInterface");
-        
-        // 3. Load HTML (local or online)
-        webView.loadUrl("https://connectgold.sbs/index.html"); // or use https://connectgold.sbs/adpage.html
+        // 3. Load your hosted page
+        webView.loadUrl("https://connectgold.sbs/index.html");
     }
 }
