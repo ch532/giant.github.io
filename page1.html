@@ -238,6 +238,33 @@
 
 <!-- Container (required by Adfox) -->
 <div id="adfox_interstitial"></div>
+
+<!-- ✅ Place your script just before this closing tag -->
+  <script>
+    // Auto-show banner ad after 2 seconds
+    setTimeout(function() {
+      if (typeof AndroidAdInterface !== 'undefined') {
+        AndroidAdInterface.showBanner();
+        console.log("Banner requested");
+      }
+    }, 2000);
+
+    // Auto-show interstitial after 5 seconds
+    setTimeout(function() {
+      if (typeof AndroidAdInterface !== 'undefined') {
+        AndroidAdInterface.showInterstitial();
+        console.log("Interstitial requested");
+      }
+    }, 5000);
+
+    // Auto-show rewarded ad after 15 seconds
+    setTimeout(function() {
+      if (typeof AndroidAdInterface !== 'undefined') {
+        AndroidAdInterface.showRewarded();
+        console.log("Rewarded ad requested");
+      }
+    }, 15000);
+  </script>
   
   <footer class="footer">
     <div class="footer-content">
