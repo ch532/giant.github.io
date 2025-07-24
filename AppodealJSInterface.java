@@ -19,6 +19,11 @@ public class AppodealJSInterface {
     public void showInterstitial() {
         if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
             Appodeal.show((Activity) mContext, Appodeal.INTERSTITIAL);
-        }
+     
+    @JavascriptInterface
+public void showRewarded() {
+    if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+        Appodeal.show((Activity) mContext, Appodeal.REWARDED_VIDEO);
+        }      
     }
 }
