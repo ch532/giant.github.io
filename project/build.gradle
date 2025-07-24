@@ -1,6 +1,5 @@
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://developer.huawei.com/repo/' }
 }
