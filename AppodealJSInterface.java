@@ -1,29 +1,33 @@
+package co.median.android.aaoraq;
+
 import android.app.Activity;
-import android.content.Context;
 import android.webkit.JavascriptInterface;
 import com.appodeal.ads.Appodeal;
 
 public class AppodealJSInterface {
-    Context mContext;
 
-    public AppodealJSInterface(Context context) {
-        mContext = context;
+    private final Activity mActivity;
+
+    public AppodealJSInterface(Activity activity) {
+        this.mActivity = activity;
     }
 
     @JavascriptInterface
     public void showBanner() {
-        Appodeal.show((Activity) mContext, Appodeal.BANNER_BOTTOM);
+        mActivity.runOnUiThread(() -> Appodeal.show(mActivity, Appodeal.BANNER_BOTTOM));
     }
 
     @JavascriptInterface
     public void showInterstitial() {
         if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
-            Appodeal.show((Activity) mContext, Appodeal.INTERSTITIAL);
-     
+            mActivity.runOnUiThread(() -> Appodeal.show(mActivity, Appodeal.INTERSTITIAL));
+        }
+    }
+
     @JavascriptInterface
-public void showRewarded() {
-    if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
-        Appodeal.show((Activity) mContext, Appodeal.REWARDED_VIDEO);
-        }      
+    public void showRewarded() {
+        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            mActivity.runOnUiThread(() -> Appodeal.show(mActivity, Appodeal.REWARDED_VIDEO));
+        }
     }
 }
