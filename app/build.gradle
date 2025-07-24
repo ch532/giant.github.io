@@ -1,0 +1,3 @@
+dependencies {
+    implementation 'com.appodeal.ads:sdk:3.0.1.+'
+}
