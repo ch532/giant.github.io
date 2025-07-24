@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main); // Make sure you have this layout with a WebView
 
         // 1. Initialize Appodeal
-        Appodeal.initialize(this, "YOUR_APPODEAL_KEY", // 🔁 Replace with your actual key
+        Appodeal.initialize(this, "923bc30ebaca5186de21bbebb9612173a8759ba61bbb4ed0", // 🔁 Replace with your actual key
                 Appodeal.BANNER | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO);
 
         // 2. Setup WebView
