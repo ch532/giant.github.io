@@ -1,3 +1,4 @@
 dependencies {
-    implementation 'com.appodeal.ads:sdk:3.0.2.+'
+    implementation 'com.huawei.hms:ads-lite:13.4.56.300'
+    implementation 'com.huawei.hms:pps-jsbridge:3.4.56.300'
 }
