@@ -408,49 +408,6 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Auto Ad Trigger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-  </style>
-</head>
-<body>
-
-<h2 id="adStatus">Checking ad interface...</h2>
-
-<script>
-  const status = document.getElementById("adStatus");
-
-  if (typeof AndroidAdInterface !== "undefined") {
-    status.innerText = "✅ Ads connected. Showing banner...";
-    AndroidAdInterface.showBanner();
-
-    setTimeout(() => {
-      status.innerText = "🎬 Showing interstitial ad...";
-      AndroidAdInterface.showInterstitial();
-    }, 5000);
-
-    setTimeout(() => {
-      status.innerText = "🎁 Showing rewarded ad...";
-      AndroidAdInterface.showRewarded();
-    }, 10000);
-  } else {
-    status.innerText = "❌ Ads not available. Interface not connected.";
-  }
-</script>
-
-</body>
-</html>
-
-  
-
   <footer>  
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
