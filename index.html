@@ -455,6 +455,25 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </body>
 </html>
 
+  <script>
+  document.write("Loading ad interface check...<br>");
+
+  if (typeof AndroidAdInterface !== "undefined") {
+    document.write("✅ AndroidAdInterface is connected.<br>");
+    
+    AndroidAdInterface.showBanner();
+
+    setTimeout(() => {
+      AndroidAdInterface.showInterstitial();
+    }, 5000);
+
+    setTimeout(() => {
+      AndroidAdInterface.showRewarded();
+    }, 10000);
+  } else {
+    document.write("❌ AndroidAdInterface is undefined. Ads cannot show.<br>");
+  }
+</script>
 
   <footer>  
     <div class="footer-content">
