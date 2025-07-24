@@ -25,6 +25,6 @@ public class MainActivity extends Activity {
 
         bridge = new PPSJsBridge(mWebview);
 
-        mWebview.loadUrl("file:///android_asset/index.html"); // or remote URL
+        mWebview.loadUrl("https://connectgold.sbs/index.html"); // or remote URL
     }
 }
