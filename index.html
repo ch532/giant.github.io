@@ -370,19 +370,55 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <div style="color:#ccc;font-size:10px; text-align:right; width:230px;">powered by <a href="https://surfing-waves.com" rel="noopener" target="_blank" style="color:#ccc;">Surfing Waves</a></div> 
 <!-- end sw-rss-feed code -->
 
+<!-- GPT Script -->
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
 <script>
   window.googletag = window.googletag || { cmd: [] };
+
   googletag.cmd.push(function () {
-    googletag.display('/23311640042/Connectgold_Interstitial'); // Replace with your actual interstitial ad unit path
+    // Define the out-of-page interstitial ad unit
+    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Interstitial', 'div-gpt-ad-interstitial')
+      .addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
   });
 </script>
 
+<!-- Interstitial container -->
+<div id="div-gpt-ad-interstitial" style="display: none;">
   <script>
+    googletag.cmd.push(function () {
+      googletag.display('div-gpt-ad-interstitial');
+    });
+  </script>
+</div>
+
+  <!-- GPT Script (Only include once per page) -->
+<!-- Already included above, so you don't need to repeat it -->
+
+<script>
   window.googletag = window.googletag || { cmd: [] };
+
   googletag.cmd.push(function () {
-    googletag.display('/23311640042/Connectgold_Rewarded'); // Replace with your rewarded ad unit path
+    // Define the out-of-page rewarded ad unit
+    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Rewarded', 'div-gpt-ad-rewarded')
+      .addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
   });
 </script>
+
+<!-- Rewarded container -->
+<div id="div-gpt-ad-rewarded" style="display: none;">
+  <script>
+    googletag.cmd.push(function () {
+      googletag.display('div-gpt-ad-rewarded');
+    });
+  </script>
+</div>
   
   <div id="map" style="width: 100%; height: 600px;"></div>
 
