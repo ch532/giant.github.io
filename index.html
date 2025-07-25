@@ -203,17 +203,7 @@
   </a>
 </div>
 
-<div style="text-align:center; max-width:728px; margin:auto; padding:10px; border:1px solid #ddd; background:#f9f9f9;">
-  <a href="https://www.travelstart.com.ng/?affid=219336&utm_source=affiliate&utm_medium=219336" target="_blank" rel="noopener noreferrer">
-    <img src="travelstart.webp" alt="Travelstart Promo" style="width:100%; max-width:728px; height:auto; border-radius:8px;" />
-  </a>
-  <br><br>
-  <a href="https://www.travelstart.com.ng/?affid=219336&utm_source=affiliate&utm_medium=219336" target="_blank" rel="noopener noreferrer" style="display:inline-block; padding:10px 20px; font-size:16px; background:#0073e6; color:#fff; text-decoration:none; border-radius:5px; font-weight:bold;">
-    ✈️ Book Now
-  </a>
-</div>
-
-<!-- Google IMA Video Ad Player -->
+<di<!-- ✅ Google IMA Video Ad Player -->
 <div id="ima_ad_section" style="max-width: 640px; margin: auto; position: relative;">
   <video id="content_video" width="100%" height="360" controls preload="auto">
     <source src="https://storage.googleapis.com/interactive-media-ads/media/bbb.mp4" type="video/mp4">
@@ -221,7 +211,7 @@
   <div id="ad_container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
 </div>
 
-<!-- IMA SDK -->
+<!-- ✅ IMA SDK -->
 <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 <script>
   const adTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_preroll&description_url=https%3A%2F%2Fconnectgold.sbs&env=vp&impl=s&output=vast";
@@ -229,7 +219,6 @@
   const videoElement = document.getElementById('content_video');
   const adContainer = document.getElementById('ad_container');
   const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoElement);
-
   const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
   function initAd() {
@@ -249,17 +238,49 @@
   adsLoader.addEventListener(
     google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
     (event) => {
-      const adsManager = event.getAdsManager(videoElement);
-      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-      adsManager.start();
+      try {
+        const adsManager = event.getAdsManager(videoElement);
+        adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+        adsManager.start();
+      } catch (e) {
+        console.warn("❌ Error playing IMA ad. Showing fallback.");
+        showExoclickFallback();
+      }
     }
   );
 
-  // Automatically call when page loads
-  window.addEventListener("load", () => {
-    initAd();
-  });
+  adsLoader.addEventListener(
+    google.ima.AdErrorEvent.Type.AD_ERROR,
+    (event) => {
+      console.warn("❌ IMA Ad error:", event.getError());
+      showExoclickFallback();
+    }
+  );
+
+  // 🔁 Fallback: Show ExoClick Outstream
+  function showExoclickFallback() {
+    adContainer.innerHTML = `
+      <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+      <ins class="eas6a97888e37" data-zoneid="5674120" data-sub="123450000"></ins>
+      <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+    `;
+  }
+
+  // 🚀 Start on page load
+  window.addEventListener("load", initAd);
 </script>
+  
+  <div style="text-align:center; max-width:728px; margin:auto; padding:10px; border:1px solid #ddd; background:#f9f9f9;">
+  <a href="https://www.travelstart.com.ng/?affid=219336&utm_source=affiliate&utm_medium=219336" target="_blank" rel="noopener noreferrer">
+    <img src="travelstart.webp" alt="Travelstart Promo" style="width:100%; max-width:728px; height:auto; border-radius:8px;" />
+  </a>
+  <br><br>
+  <a href="https://www.travelstart.com.ng/?affid=219336&utm_source=affiliate&utm_medium=219336" target="_blank" rel="noopener noreferrer" style="display:inline-block; padding:10px 20px; font-size:16px; background:#0073e6; color:#fff; text-decoration:none; border-radius:5px; font-weight:bold;">
+    ✈️ Book Now
+  </a>
+</div>
+
+
   
 <!-- Start Blog Widget for Multiple Sources -->
 <script type="text/javascript">
