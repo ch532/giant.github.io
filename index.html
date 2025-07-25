@@ -1,5 +1,23 @@
 <!DOCTYPE html><html lang="en">
 <head>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
+<script>
+  window.googletag = window.googletag || {cmd: []};
+
+  googletag.cmd.push(function () {
+    // Interstitial slot
+    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Interstitial', googletag.enums.OutOfPageFormat.INTERSTITIAL)
+      .addService(googletag.pubads());
+
+    // Rewarded slot
+    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Rewarded', googletag.enums.OutOfPageFormat.REWARDED)
+      .addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+  
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
 <script>
   window.googletag = window.googletag || {cmd: []};
@@ -395,30 +413,25 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   </script>
 </div>
 
-  <!-- GPT Script (Only include once per page) -->
-<!-- Already included above, so you don't need to repeat it -->
-
 <script>
-  window.googletag = window.googletag || { cmd: [] };
-
-  googletag.cmd.push(function () {
-    // Define the out-of-page rewarded ad unit
-    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Rewarded', 'div-gpt-ad-rewarded')
-      .addService(googletag.pubads());
-
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
+  // Automatically show interstitial when page loads
+  window.addEventListener('load', function () {
+    googletag.cmd.push(function () {
+      googletag.display('/23311640042/Connectgold_Interstitial');
+    });
   });
 </script>
 
-<!-- Rewarded container -->
-<div id="div-gpt-ad-rewarded" style="display: none;">
   <script>
+  function showRewardedAd() {
     googletag.cmd.push(function () {
-      googletag.display('div-gpt-ad-rewarded');
+      googletag.display('/23311640042/Connectgold_Rewarded');
     });
-  </script>
-</div>
+  }
+</script>
+
+<!-- Example trigger -->
+<!-- <button onclick="showRewardedAd()">Watch Ad to Unlock</button> -->
   
   <div id="map" style="width: 100%; height: 600px;"></div>
 
