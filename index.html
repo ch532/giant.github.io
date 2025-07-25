@@ -213,6 +213,54 @@
   </a>
 </div>
 
+<!-- Google IMA Video Ad Player -->
+<div id="ima_ad_section" style="max-width: 640px; margin: auto; position: relative;">
+  <video id="content_video" width="100%" height="360" controls preload="auto">
+    <source src="https://storage.googleapis.com/interactive-media-ads/media/bbb.mp4" type="video/mp4">
+  </video>
+  <div id="ad_container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+</div>
+
+<!-- IMA SDK -->
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script>
+  const adTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_preroll&description_url=https%3A%2F%2Fconnectgold.sbs&env=vp&impl=s&output=vast";
+
+  const videoElement = document.getElementById('content_video');
+  const adContainer = document.getElementById('ad_container');
+  const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoElement);
+
+  const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+  function initAd() {
+    videoElement.load();
+    adDisplayContainer.initialize();
+
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = adTagUrl;
+    adsRequest.linearAdSlotWidth = 640;
+    adsRequest.linearAdSlotHeight = 360;
+    adsRequest.nonLinearAdSlotWidth = 640;
+    adsRequest.nonLinearAdSlotHeight = 150;
+
+    adsLoader.requestAds(adsRequest);
+  }
+
+  adsLoader.addEventListener(
+    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+    (event) => {
+      const adsManager = event.getAdsManager(videoElement);
+      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    }
+  );
+
+  // Automatically call when page loads
+  window.addEventListener("load", () => {
+    initAd();
+  });
+</script>
+  
 <!-- Start Blog Widget for Multiple Sources -->
 <script type="text/javascript">
 rssfeed_url = [];
