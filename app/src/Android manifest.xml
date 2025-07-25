@@ -1,28 +1,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.median.android.aaoraq">
 
-    <!-- Permissions for internet and network access -->
+    <!-- Permissions for network access -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:label="MyWebViewApp"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- Appodeal SDK requires this -->
-        <activity android:name="com.appodeal.ads.AppodealActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent" />
-
-        <!-- Your main app activity -->
-        <activity android:name=".MainActivity"
-            android:exported="true">
+        <!-- Your main activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- Optional: Huawei AppGallery Connect (for analytics or push) -->
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=YOUR_HUAWEI_APP_ID_HERE" />
+            
+        <!-- Optional GDPR Meta for Petal Ads -->
+        <meta-data
+            android:name="hw.ads.gdpr"
+            android:value="true" />
+
+        <!-- Optional: For Petal Ads if you’re using adid -->
+        <meta-data
+            android:name="hw.ads.consent"
+            android:value="PERSONALIZED" />
+
     </application>
+
 </manifest>
