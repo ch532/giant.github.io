@@ -404,23 +404,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   });
 </script>
 
-<!-- Interstitial container -->
-<div id="div-gpt-ad-interstitial" style="display: none;">
-  <script>
-    googletag.cmd.push(function () {
-      googletag.display('div-gpt-ad-interstitial');
-    });
-  </script>
-</div>
 
-<script>
-  // Automatically show interstitial when page loads
-  window.addEventListener('load', function () {
-    googletag.cmd.push(function () {
-      googletag.display('/23311640042/Connectgold_Interstitial');
-    });
-  });
-</script>
 
   <script>
   function showRewardedAd() {
@@ -499,6 +483,35 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
     });
   }
 </script>
+
+<!-- Ad container -->
+<div id="div-gpt-ad-interstitial" style="display: none;"></div>
+  
+  
+<!-- GPT Library -->
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
+<script>
+  window.googletag = window.googletag || {cmd: []};
+
+  // Define interstitial ad unit
+  googletag.cmd.push(function() {
+    // Out-of-page slot is used for interstitials
+    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Interstitial', 'div-gpt-ad-interstitial')
+      .addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+
+  // Automatically display interstitial on page load
+  window.addEventListener('load', function () {
+    googletag.cmd.push(function () {
+      googletag.display('div-gpt-ad-interstitial');
+    });
+  });
+</script>
+
 
   <footer>  
     <div class="footer-content">
