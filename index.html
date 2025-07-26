@@ -5,7 +5,7 @@
   window.googletag = window.googletag || {cmd: []};
 
     // Rewarded slot
-    googletag.defineOutOfPageSlot('/23311036616/Connectgold_Reward', googletag.enums.OutOfPageFormat.REWARDED)
+    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Reward', googletag.enums.OutOfPageFormat.REWARDED)
       .addService(googletag.pubads());
 
     googletag.pubads().enableSingleRequest();
@@ -17,7 +17,7 @@
 <script>
   window.googletag = window.googletag || {cmd: []};
   googletag.cmd.push(function() {
-    googletag.defineSlot('/23311036616/Connectgold_preroll', [[168, 28], [200, 200], [250, 250], [300, 250], [320, 50], [300, 100], [336, 280], [320, 480], [216, 54], [300, 75], [468, 60], [240, 400], [480, 320]], 'div-gpt-ad-1753419567589-0').addService(googletag.pubads());
+    googletag.defineSlot('/23311640042/Connectgold_preroll', [[168, 28], [200, 200], [250, 250], [300, 250], [320, 50], [300, 100], [336, 280], [320, 480], [216, 54], [300, 75], [468, 60], [240, 400], [480, 320]], 'div-gpt-ad-1753419567589-0').addService(googletag.pubads());
     googletag.pubads().enableSingleRequest();
     googletag.enableServices();
   });
@@ -214,70 +214,7 @@
      style="display:inline-block; background:#ffa41c; color:#000; padding:10px 20px; font-weight:bold; border-radius:6px; text-decoration:none;">
     🛍️ Browse Outlet Deals
   </a>
-</div>
-
-<di<!-- ✅ Google IMA Video Ad Player -->
-<div id="ima_ad_section" style="max-width: 640px; margin: auto; position: relative;">
-  <video id="content_video" width="100%" height="360" controls preload="auto">
-    <source src="https://storage.googleapis.com/interactive-media-ads/media/bbb.mp4" type="video/mp4">
-  </video>
-  <div id="ad_container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-</div>
-
-<!-- ✅ IMA SDK -->
-<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-<script>
-  const adTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?iu=/23311036616/Connectgold_preroll&description_url=https%3A%2F%2Fconnectgold.sbs&env=vp&impl=s&output=vast";
-
-  const videoElement = document.getElementById('content_video');
-  const adContainer = document.getElementById('ad_container');
-  const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoElement);
-  const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-
-  function initAd() {
-    videoElement.load();
-    adDisplayContainer.initialize();
-
-    const adsRequest = new google.ima.AdsRequest();
-    adsRequest.adTagUrl = adTagUrl;
-    adsRequest.linearAdSlotWidth = 640;
-    adsRequest.linearAdSlotHeight = 360;
-    adsRequest.nonLinearAdSlotWidth = 640;
-    adsRequest.nonLinearAdSlotHeight = 150;
-
-    adsLoader.requestAds(adsRequest);
-  }
-
-  adsLoader.addEventListener(
-    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-    (event) => {
-      try {
-        const adsManager = event.getAdsManager(videoElement);
-        adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-        adsManager.start();
-      } catch (e) {
-        console.warn("❌ Error playing IMA ad. Showing fallback.");
-        showExoclickFallback();
-      }
-    }
-  );
-
-  adsLoader.addEventListener(
-    google.ima.AdErrorEvent.Type.AD_ERROR,
-    (event) => {
-      console.warn("❌ IMA Ad error:", event.getError());
-      showExoclickFallback();
-    }
-  );
-
-  // 🔁 Fallback: Show ExoClick Outstream
-  function showExoclickFallback() {
-    adContainer.innerHTML = `
-      <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-      <ins class="eas6a97888e37" data-zoneid="5674120" data-sub="123450000"></ins>
-      <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-    
-</script>
+  </div>
   
   <div style="text-align:center; max-width:728px; margin:auto; padding:10px; border:1px solid #ddd; background:#f9f9f9;">
   <a href="https://www.travelstart.com.ng/?affid=219336&utm_source=affiliate&utm_medium=219336" target="_blank" rel="noopener noreferrer">
@@ -330,7 +267,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
   
-<!-- /23311036616/Connectgold_preroll -->
+<!-- /23311640042/Connectgold_preroll -->
 <div id='div-gpt-ad-1753419567589-0' style='min-width: 168px; min-height: 28px;'>
   <script>
     googletag.cmd.push(function() { googletag.display('div-gpt-ad-1753419567589-0'); });
@@ -389,7 +326,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   <script>
   function showRewardedAd() {
     googletag.cmd.push(function () {
-      googletag.display('/23311036616/Connectgold_Reward');
+      googletag.display('/23311640042/Connectgold_Reward');
     });
   }
 </script>
@@ -462,36 +399,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
       map.geoObjects.add(placemark);
     });
   }
-</script>
-
-<!-- Ad container -->
-<div id="div-gpt-ad-interstitial" style="display: none;"></div>
-  
-  
-<!-- GPT Library -->
-<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-
-<script>
-  window.googletag = window.googletag || {cmd: []};
-
-  // Define interstitial ad unit
-  googletag.cmd.push(function() {
-    // Out-of-page slot is used for interstitials
-    googletag.defineOutOfPageSlot('/23311640042/Connectgold_Interstitial', 'div-gpt-ad-interstitial')
-      .addService(googletag.pubads());
-
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-  });
-
-  // Automatically display interstitial on page load
-  window.addEventListener('load', function () {
-    googletag.cmd.push(function () {
-      googletag.display('div-gpt-ad-interstitial');
-    });
-  });
-</script>
-
+  </script>
 
   <footer>  
     <div class="footer-content">
