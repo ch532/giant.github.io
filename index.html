@@ -1,5 +1,32 @@
 <!DOCTYPE html><html lang="en">
 <head>
+<!-- GPT Library -->
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
+<script>
+  window.googletag = window.googletag || {cmd: []};
+
+  // Define out-of-page (Interstitial) slot
+  googletag.cmd.push(function() {
+    var interstitialSlot = googletag.defineOutOfPageSlot(
+      '/23311640042/Connectgold_preroll',
+      'div-gpt-ad-interstitial'
+    ).addService(googletag.pubads());
+
+    // Enable services
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+
+    // Display the interstitial ad
+    if (interstitialSlot) {
+      googletag.display('div-gpt-ad-interstitial');
+    }
+  });
+</script>
+
+<!-- Out-of-Page Interstitial Div -->
+<div id="div-gpt-ad-interstitial" style="height:0px; width:0px;"></div>
+  
   <script src="https://api-maps.yandex.ru/2.1/?apikey=128d9a3e-ecd0-4651-8008-069f089206f4&lang=en_US" type="text/javascript"></script>
   <title>Connect Gold – Read News & Discover More</title>
 <meta name="description" content="Welcome to Connect Gold – Nigeria’s hub for mobile apps, news, tools, affiliate deals, and smart downloads. Safe and fast access to trusted content.">
@@ -339,46 +366,6 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   </script>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ConnectGold Interstitial Ad</title>
-  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-  <script>
-    window.googletag = window.googletag || { cmd: [] };
-
-    googletag.cmd.push(function () {
-      // Use correct ad unit path here
-      googletag.defineOutOfPageSlot('/23311640042/Connectgold_preroll', 'div-gpt-ad-connectgold-preroll')
-               .addService(googletag.pubads());
-
-      googletag.pubads().enableSingleRequest();
-      googletag.enableServices();
-    });
-
-    // Show the interstitial after 5 seconds
-    window.onload = function () {
-      setTimeout(function () {
-        googletag.cmd.push(function () {
-          googletag.display('div-gpt-ad-connectgold-preroll');
-        });
-      }, 5000);
-    };
-  </script>
-</head>
-<body>
-
-  <h1>ConnectGold</h1>
-  <p>The interstitial ad will show shortly. Please wait...</p>
-
-  <!-- Interstitial ad container -->
-  <div id="div-gpt-ad-connectgold-preroll" style="width: 1px; height: 1px;"></div>
-
-</body>
-</html>
-
- 
   <footer>  
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
