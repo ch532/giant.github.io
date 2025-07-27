@@ -297,20 +297,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </body>
 </html>
   
-<script>
-  window.googletag = window.googletag || {cmd: []};
 
-  setTimeout(() => {
-    googletag.cmd.push(function() {
-      googletag.defineOutOfPageSlot('/23311640042/Connectgold_preroll', googletag.enums.OutOfPageFormat.INTERSTITIAL)
-               .addService(googletag.pubads());
-
-      googletag.pubads().enableSingleRequest();
-      googletag.enableServices();
-      googletag.display();
-    });
-  }, 5000); // delay in milliseconds
-</script>
   
   <div id="map" style="width: 100%; height: 600px;"></div>
 
@@ -331,7 +318,32 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
       },
       {
         name: "Trip.com HQ, Shanghai",
-        coords: [31.2304, 121.4737],
+        coords: [31.2304, 121.4737<!-- Google Publisher Tag -->
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
+<script>
+  window.googletag = window.googletag || {cmd: []};
+
+  googletag.cmd.push(function() {
+    // Custom Out-of-Page Interstitial slot
+    var interstitialSlot = googletag.defineOutOfPageSlot(
+      '/23311640042/Connectgold_preroll',
+      'div-gpt-ad-interstitial'
+    ).addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+
+<!-- Display call -->
+<div id="div-gpt-ad-interstitial">
+  <script>
+    googletag.cmd.push(function() {
+      googletag.display('div-gpt-ad-interstitial');
+    });
+  </script>
+</div>],
         color: 'blue'
       },
       {
