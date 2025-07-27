@@ -297,19 +297,19 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </body>
 </html>
   
-<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
 <script>
   window.googletag = window.googletag || {cmd: []};
 
-  googletag.cmd.push(function () {
-    googletag.defineOutOfPageSlot('/23311640042/Connectgold_now', googletag.enums.OutOfPageFormat.INTERSTITIAL)
-      .addService(googletag.pubads());
+  setTimeout(() => {
+    googletag.cmd.push(function() {
+      googletag.defineOutOfPageSlot('/23311640042/Connectgold_preroll', googletag.enums.OutOfPageFormat.INTERSTITIAL)
+               .addService(googletag.pubads());
 
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-
-    googletag.display('/23311640042/Connectgold_now');
-  });
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
+      googletag.display();
+    });
+  }, 5000); // delay in milliseconds
 </script>
   
   <div id="map" style="width: 100%; height: 600px;"></div>
