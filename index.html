@@ -343,58 +343,63 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
                  
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>VAST Interstitial Ad</title>
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <style>
-      html, body, #adContainer {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-        background-color: black;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="adContainer"></div>
+<head>
+  <title>Median.co AdMob Bridge Auto Ads Demo</title>
+  <script>
+    // Initialize AdMob via Median.co bridge
+    median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
 
-    <script>
-      const adContainer = document.getElementById('adContainer');
-      const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
-      const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+    // Load and show banner ad at bottom
+    median.admob.loadBannerAd({
+      adUnitId: "ca-app-pub-1171216593802007/8884489855",
+      position: "bottom",
+      size: "BANNER"
+    });
 
-      adDisplayContainer.initialize();
-
-      const adsRequest = new google.ima.AdsRequest();
-      adsRequest.adTagUrl = 'https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_preroll_2&description_url=https%3A%2F%2Fconnectgold.sbs&env=vp&impl=s&gdfp_req=1&output=vast&unviewed_position_start=1&correlator=' + Date.now();
-
-      adsLoader.addEventListener(
-        google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-        function(event) {
-          const adsManager = event.getAdsManager({ currentTime: 0 }, {});
-
-          adsManager.addEventListener(
-            google.ima.AdErrorEvent.Type.AD_ERROR,
-            function(e) {
-              console.warn('Ad Error:', e.getError());
-              adContainer.style.display = 'none'; // Hide on error
-            }
-          );
-
-          try {
-            adsManager.init(window.innerWidth, window.innerHeight, google.ima.ViewMode.NORMAL);
-            adsManager.start();
-          } catch (adError) {
-            console.error('Ad start error:', adError);
-          }
+    // Function to load and immediately show interstitial
+    function loadAndShowInterstitial() {
+      median.admob.loadInterstitialAd({
+        adUnitId: "ca-app-pub-1171216593802007/4945244849"
+      }, function(success) {
+        if (success) {
+          median.admob.showInterstitialAd();
+        } else {
+          console.log("Failed to load interstitial ad");
         }
-      );
+      });
+    }
 
-      adsLoader.requestAds(adsRequest);
-    </script>
-  </body>
+    // Function to load and immediately show rewarded ad
+    function loadAndShowRewarded() {
+      median.admob.loadRewardedAd({
+        adUnitId: "ca-app-pub-1171216593802007/1435861786"
+      }, function(success) {
+        if (success) {
+          median.admob.showRewardedAd(function(rewarded) {
+            if (rewarded) {
+              console.log("User was rewarded!");
+            } else {
+              console.log("User skipped rewarded ad.");
+            }
+          });
+        } else {
+          console.log("Failed to load rewarded ad");
+        }
+      });
+    }
+
+    // Automatically load and show interstitial and rewarded ads on page load
+    window.onload = function() {
+      loadAndShowInterstitial();
+      // Delay rewarded ad a bit after interstitial to avoid overlapping
+      setTimeout(loadAndShowRewarded, 5000);
+    };
+  </script>
+</head>
+<body>
+  <h1>Median.co AdMob Bridge Auto Ads Demo</h1>
+  <!-- Banner will display automatically -->
+</body>
 </html>
   
   <footer>  
