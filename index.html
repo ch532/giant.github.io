@@ -341,66 +341,48 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   }
   </script>
                  
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Median.co AdMob Bridge Auto Ads Demo</title>
-  <script>
-    // Initialize AdMob via Median.co bridge
-    median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
 
-    // Load and show banner ad at bottom
-    median.admob.loadBannerAd({
+<script>
+  // Initialize AdMob via Median.co bridge
+  median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
+
+  // Load a banner ad
+  median.admob.loadBannerAd({
       adUnitId: "ca-app-pub-1171216593802007/8884489855",
-      position: "bottom",
-      size: "BANNER"
-    });
+      position: "bottom", // or "top"
+      size: "BANNER" // or "LARGE_BANNER", "SMART_BANNER" etc.
+  });
 
-    // Function to load and immediately show interstitial
-    function loadAndShowInterstitial() {
-      median.admob.loadInterstitialAd({
-        adUnitId: "ca-app-pub-1171216593802007/4945244849"
-      }, function(success) {
-        if (success) {
+  // Show an interstitial ad
+  median.admob.loadInterstitialAd({
+      adUnitId: "ca-app-pub-1171216593802007/4945244849"
+  }, function(success) {
+      if (success) {
           median.admob.showInterstitialAd();
-        } else {
-          console.log("Failed to load interstitial ad");
-        }
-      });
-    }
+      } else {
+          console.log("Interstitial ad failed to load.");
+      }
+  });
 
-    // Function to load and immediately show rewarded ad
-    function loadAndShowRewarded() {
-      median.admob.loadRewardedAd({
-        adUnitId: "ca-app-pub-1171216593802007/1435861786"
-      }, function(success) {
-        if (success) {
+  // Load and show a rewarded ad
+  median.admob.loadRewardedAd({
+      adUnitId: "ca-app-pub-1171216593802007/1435861786"
+  }, function(success) {
+      if (success) {
           median.admob.showRewardedAd(function(rewarded) {
-            if (rewarded) {
-              console.log("User was rewarded!");
-            } else {
-              console.log("User skipped rewarded ad.");
-            }
+              if (rewarded) {
+                  console.log("User was rewarded!");
+              } else {
+                  console.log("User did not complete the rewarded ad.");
+              }
           });
-        } else {
-          console.log("Failed to load rewarded ad");
-        }
-      });
-    }
+      } else {
+          console.log("Rewarded ad failed to load.");
+      }
+  });
+</script>
 
-    // Automatically load and show interstitial and rewarded ads on page load
-    window.onload = function() {
-      loadAndShowInterstitial();
-      // Delay rewarded ad a bit after interstitial to avoid overlapping
-      setTimeout(loadAndShowRewarded, 5000);
-    };
-  </script>
-</head>
-<body>
-  <h1>Median.co AdMob Bridge Auto Ads Demo</h1>
-  <!-- Banner will display automatically -->
-</body>
-</html>
+    
   
   <footer>  
     <div class="footer-content">
