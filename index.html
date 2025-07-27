@@ -1,21 +1,5 @@
 <!DOCTYPE html><html lang="en">
 <head>
-<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-<script>
-  window.googletag = window.googletag || {cmd: []};
-
-  setTimeout(() => {
-    googletag.cmd.push(function() {
-      googletag.defineOutOfPageSlot('/23311640042/Connectgold_preroll', googletag.enums.OutOfPageFormat.INTERSTITIAL)
-               .addService(googletag.pubads());
-
-      googletag.pubads().enableSingleRequest();
-      googletag.enableServices();
-      googletag.display();
-    });
-  }, 5000); // 5-second delay
-</script>
-  
   <script src="https://api-maps.yandex.ru/2.1/?apikey=128d9a3e-ecd0-4651-8008-069f089206f4&lang=en_US" type="text/javascript"></script>
   <title>Connect Gold – Read News & Discover More</title>
 <meta name="description" content="Welcome to Connect Gold – Nigeria’s hub for mobile apps, news, tools, affiliate deals, and smart downloads. Safe and fast access to trusted content.">
@@ -285,6 +269,59 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </script>
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>VAST Ad</title>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; background: black; height: 100%; }
+    #adContainer { width: 100%; height: 100%; position: absolute; }
+  </style>
+</head>
+<body>
+  <div id="adContainer"></div>
+  <script>
+    const adContainer = document.getElementById('adContainer');
+    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
+    const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+    adDisplayContainer.initialize();
+
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/23311640042/Connectgold_preroll&env=vp&output=vast&unviewed_position_start=1&cust_params=skylcode%3Dtrue&cmsid=YOUR_CMS_ID&vid=shortcode";
+
+    adsRequest.linearAdSlotWidth = window.innerWidth;
+    adsRequest.linearAdSlotHeight = window.innerHeight;
+    adsRequest.nonLinearAdSlotWidth = window.innerWidth;
+    adsRequest.nonLinearAdSlotHeight = window.innerHeight / 3;
+
+    const adsManagerLoadedCallback = (adsManagerLoadedEvent) => {
+      const adsManager = adsManagerLoadedEvent.getAdsManager({ currentTime: 0 });
+      adsManager.init(window.innerWidth, window.innerHeight, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    };
+
+    adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      adsManagerLoadedCallback,
+      false
+    );
+
+    adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      (adErrorEvent) => {
+        console.error('Ad error:', adErrorEvent.getError());
+      },
+      false
+    );
+
+    adsLoader.requestAds(adsRequest);
+  </script>
+</body>
+</html>
   
   
   <div id="map" style="width: 100%; height: 600px;"></div>
