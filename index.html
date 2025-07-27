@@ -1,31 +1,20 @@
 <!DOCTYPE html><html lang="en">
 <head>
-<!-- GPT Library -->
 <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-
 <script>
   window.googletag = window.googletag || {cmd: []};
 
-  // Define out-of-page (Interstitial) slot
-  googletag.cmd.push(function() {
-    var interstitialSlot = googletag.defineOutOfPageSlot(
-      '/23311640042/Connectgold_preroll',
-      'div-gpt-ad-interstitial'
-    ).addService(googletag.pubads());
+  setTimeout(() => {
+    googletag.cmd.push(function() {
+      googletag.defineOutOfPageSlot('/23311640042/Connectgold_preroll', googletag.enums.OutOfPageFormat.INTERSTITIAL)
+               .addService(googletag.pubads());
 
-    // Enable services
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-
-    // Display the interstitial ad
-    if (interstitialSlot) {
-      googletag.display('div-gpt-ad-interstitial');
-    }
-  });
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
+      googletag.display();
+    });
+  }, 5000); // 5-second delay
 </script>
-
-<!-- Out-of-Page Interstitial Div -->
-<div id="div-gpt-ad-interstitial" style="height:0px; width:0px;"></div>
   
   <script src="https://api-maps.yandex.ru/2.1/?apikey=128d9a3e-ecd0-4651-8008-069f089206f4&lang=en_US" type="text/javascript"></script>
   <title>Connect Gold – Read News & Discover More</title>
@@ -364,8 +353,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
     });
   }
   </script>
-
-
+  
   <footer>  
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
