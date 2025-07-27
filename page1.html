@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>  
+<script>
+  // Automatically show interstitial and rewarded ads via Android interface
+  window.onload = function () {
+    // Wait briefly to ensure the page is loaded before calling bridge
+    setTimeout(() => {
+      try {
+        if (typeof Android !== "undefined") {
+          // Automatically show interstitial ad
+          Android.showAppodealInterstitial();
+
+          // Automatically show rewarded video ad
+          Android.showAppodealRewarded();
+        } else {
+          console.log("Android interface not available.");
+        }
+      } catch (err) {
+        console.log("Appodeal bridge error: " + err);
+      }
+    }, 2000); // Wait 2 seconds before triggering ads
+  };
+</script>
+  
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
 <script>
   window.googletag = window.googletag || {cmd: []};
