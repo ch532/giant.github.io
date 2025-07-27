@@ -270,58 +270,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>VAST Ad</title>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  <style>
-    html, body { margin: 0; padding: 0; background: black; height: 100%; }
-    #adContainer { width: 100%; height: 100%; position: absolute; }
-  </style>
-</head>
-<body>
-  <div id="adContainer"></div>
-  <script>
-    const adContainer = document.getElementById('adContainer');
-    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
-    const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
-    adDisplayContainer.initialize();
-
-    const adsRequest = new google.ima.AdsRequest();
-    adsRequest.adTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/23311640042/Connectgold_preroll&env=vp&output=vast&unviewed_position_start=1&cust_params=skylcode%3Dtrue&cmsid=YOUR_CMS_ID&vid=shortcode";
-
-    adsRequest.linearAdSlotWidth = window.innerWidth;
-    adsRequest.linearAdSlotHeight = window.innerHeight;
-    adsRequest.nonLinearAdSlotWidth = window.innerWidth;
-    adsRequest.nonLinearAdSlotHeight = window.innerHeight / 3;
-
-    const adsManagerLoadedCallback = (adsManagerLoadedEvent) => {
-      const adsManager = adsManagerLoadedEvent.getAdsManager({ currentTime: 0 });
-      adsManager.init(window.innerWidth, window.innerHeight, google.ima.ViewMode.NORMAL);
-      adsManager.start();
-    };
-
-    adsLoader.addEventListener(
-      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-      adsManagerLoadedCallback,
-      false
-    );
-
-    adsLoader.addEventListener(
-      google.ima.AdErrorEvent.Type.AD_ERROR,
-      (adErrorEvent) => {
-        console.error('Ad error:', adErrorEvent.getError());
-      },
-      false
-    );
-
-    adsLoader.requestAds(adsRequest);
-  </script>
-</body>
-</html>
   
   
   <div id="map" style="width: 100%; height: 600px;"></div>
@@ -348,7 +297,8 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
       },
       {
         name: "Fiverr HQ, Tel Aviv",
-        coords: [32.0853, 34.7818],
+        coords: [32.0853
+                 , 34.7818],
         color: 'green'
       },
       {
@@ -390,6 +340,62 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
     });
   }
   </script>
+                 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>VAST Interstitial Ad</title>
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <style>
+      html, body, #adContainer {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="adContainer"></div>
+
+    <script>
+      const adContainer = document.getElementById('adContainer');
+      const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
+      const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+      adDisplayContainer.initialize();
+
+      const adsRequest = new google.ima.AdsRequest();
+      adsRequest.adTagUrl = 'https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_preroll_2&description_url=https%3A%2F%2Fconnectgold.sbs&env=vp&impl=s&gdfp_req=1&output=vast&unviewed_position_start=1&correlator=' + Date.now();
+
+      adsLoader.addEventListener(
+        google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+        function(event) {
+          const adsManager = event.getAdsManager({ currentTime: 0 }, {});
+
+          adsManager.addEventListener(
+            google.ima.AdErrorEvent.Type.AD_ERROR,
+            function(e) {
+              console.warn('Ad Error:', e.getError());
+              adContainer.style.display = 'none'; // Hide on error
+            }
+          );
+
+          try {
+            adsManager.init(window.innerWidth, window.innerHeight, google.ima.ViewMode.NORMAL);
+            adsManager.start();
+          } catch (adError) {
+            console.error('Ad start error:', adError);
+          }
+        }
+      );
+
+      adsLoader.requestAds(adsRequest);
+    </script>
+  </body>
+</html>
   
   <footer>  
     <div class="footer-content">
