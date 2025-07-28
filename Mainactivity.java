@@ -3,77 +3,95 @@ package co.median.android.aaoraq;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import com.appodeal.ads.Appodeal;
-import com.appodeal.ads.BannerView;
 import android.webkit.JavascriptInterface;
-import android.widget.RelativeLayout;
-import android.view.ViewGroup;
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
+import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+import com.tapjoy.TJConnectListener;
+import com.tapjoy.Tapjoy;
+import com.tapjoy.TJPlacement;
+import com.tapjoy.TJPlacementListener;
+import com.tapjoy.TJError;
+
+import java.util.Hashtable;
+
+public class MainActivity extends Activity {
+
     private WebView webView;
-    private final String APP_KEY = "543d15c055aac7e15a71dae4432f7f78befc17eeed095af5";
+    private TJPlacement tjPlacement;
+
+    private final String sdkKey = "diuJjmdIQxiNayNGui2c6wECIOUTDuKT71ktOdaLIhgC708EZWo5Sx5bI9ll";
+    private final String placementName = "Connect Gold";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set up layout with WebView and BannerView
-        RelativeLayout layout = new RelativeLayout(this);
+        // Setup WebView
         webView = new WebView(this);
+        setContentView(webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://connectgold.sbs/");
-        webView.addJavascriptInterface(new JSBridge(), "AndroidApp");
 
-        // Add WebView to layout
-        RelativeLayout.LayoutParams webParams = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-        );
-        layout.addView(webView, webParams);
+        // Add JavaScript interface
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
-        // Add Appodeal banner at bottom
-        BannerView bannerView = new BannerView(this);
-        bannerView.setPlacement("default");
+        // Load your local or remote HTML
+        webView.loadUrl("file:///android_asset/index.html"); // or use a remote URL
 
-        RelativeLayout.LayoutParams bannerParams = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        bannerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layout.addView(bannerView, bannerParams);
+        // Initialize Tapjoy
+        Hashtable<String, Object> flags = new Hashtable<>();
+        Tapjoy.connect(this, sdkKey, flags, new TJConnectListener() {
+            @Override
+            public void onConnectSuccess() {
+                Log.d("Tapjoy", "Connected successfully");
+                tjPlacement = Tapjoy.getPlacement(placementName, new TJPlacementListener() {
+                    @Override
+                    public void onRequestSuccess(TJPlacement placement) {
+                        if (placement.isContentAvailable()) {
+                            placement.showContent();
+                        }
+                    }
 
-        setContentView(layout);
+                    @Override
+                    public void onRequestFailure(TJPlacement placement, TJError error) {
+                        Log.e("Tapjoy", "Request failed: " + error.message);
+                    }
 
-        // Initialize Appodeal with banner, interstitial, and rewarded
-        int adTypes = Appodeal.BANNER | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO;
-        Appodeal.initialize(this, APP_KEY, adTypes);
+                    @Override
+                    public void onContentReady(TJPlacement placement) {
+                        placement.showContent();
+                    }
 
-        // Show all ads automatically after initialization
-        webView.postDelayed(() -> {
-            if (Appodeal.isInitialized(Appodeal.INTERSTITIAL)) {
-                Appodeal.show(this, Appodeal.INTERSTITIAL);
+                    @Override
+                    public void onContentShow(TJPlacement placement) {}
+
+                    @Override
+                    public void onContentDismiss(TJPlacement placement) {}
+
+                    @Override
+                    public void onPurchaseRequest(TJPlacement placement, TJActionRequest request, String productId) {}
+
+                    @Override
+                    public void onRewardRequest(TJPlacement placement, TJActionRequest request, String itemId, int quantity) {}
+                });
+
+                tjPlacement.requestContent(); // Auto-request ad
             }
-            if (Appodeal.isInitialized(Appodeal.REWARDED_VIDEO)) {
-                Appodeal.show(this, Appodeal.REWARDED_VIDEO);
+
+            @Override
+            public void onConnectFailure() {
+                Log.e("Tapjoy", "Tapjoy connection failed");
             }
-        }, 4000); // wait 4 seconds after init to show ads
+        });
     }
 
-    // JavaScript Interface
-    private class JSBridge {
+    // JS Interface if you ever want to trigger from HTML
+    private class WebAppInterface {
         @JavascriptInterface
-        public void showInterstitial() {
-            if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
-                Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
-            }
-        }
-
-        @JavascriptInterface
-        public void showRewarded() {
-            if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
-                Appodeal.show(MainActivity.this, Appodeal.REWARDED_VIDEO);
+        public void showAd() {
+            if (tjPlacement != null && tjPlacement.isContentReady()) {
+                tjPlacement.showContent();
             }
         }
     }
