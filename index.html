@@ -304,7 +304,67 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   </body>
 </html>
 
- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Telegram Web App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f5f5f5;
+    }
+    button {
+      font-size: 18px;
+      padding: 15px 25px;
+      background-color: #0088cc;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #006699;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Connect Gold Telegram App</h1>
+  <p>This is your first Telegram Web App interface.</p>
+  <button id="mainButton">Click Me</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+
+    // Expand the web app view inside Telegram
+    tg.expand();
+
+    const mainButton = document.getElementById('mainButton');
+    mainButton.onclick = () => {
+      // Example: Send data back to Telegram when clicked
+      tg.sendData("User clicked the button!");
+    };
+
+    // You can customize the Telegram Main Button like this:
+    tg.MainButton.setText("Proceed");
+    tg.MainButton.show();
+
+    tg.MainButton.onClick(() => {
+      alert("Main button clicked!");
+      // You can also send data back to bot here
+      tg.sendData("Main button clicked!");
+    });
+  </script>
+
+</body>
+</html>
+     
 <script>
   // Initialize AdMob via Median.co bridge
   median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
