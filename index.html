@@ -204,21 +204,6 @@
 </body>
 </html>
 
-<script>
-  window.onload = function () {
-    if (window.AndroidInterface && AndroidInterface.showBannerAd) {
-      AndroidInterface.showBannerAd();
-    }
-
-    setTimeout(() => {
-      if (AndroidInterface.showInterstitialAd) AndroidInterface.showInterstitialAd();
-    }, 5000);
-
-    setTimeout(() => {
-      if (AndroidInterface.showRewardedAd) AndroidInterface.showRewardedAd();
-    }, 10000);
-  };
-</script>
   
   <div style="text-align:center; margin:20px 0; font-family:sans-serif;">
   <a href="https://amzn.to/3IDSp9r" target="_blank" rel="noopener noreferrer">
@@ -355,7 +340,55 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
     });
   }
   </script>
-                 
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appodeal Ads</title>
+  <script async src="https://web.appodeal.com/sdk/v5/appodeal.js?appKey=543d15c055aac7e15a71dae4432f7f78befc17eeed095af5"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    .ad-section {
+      margin: 10px auto;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner Ad Section -->
+  <div id="banner-ad" class="ad-section"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      Appodeal.initialize({
+        appKey: "543d15c055aac7e15a71dae4432f7f78befc17eeed095af5",
+        adUnits: ["banner", "interstitial", "rewarded_video"],
+        autoShow: {
+          interstitial: true,
+          rewarded_video: true
+        }
+      });
+
+      // Show Banner Ad after init
+      Appodeal.on("banner_loaded", () => {
+        Appodeal.show("banner", {
+          containerId: "banner-ad"
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
   
 <script>
   // Initialize AdMob via Median.co bridge
