@@ -229,7 +229,21 @@
   </a>
 </div>
 
+<script>
+  window.onload = function () {
+    if (window.Android) {
+      Android.showStartAppAd();
 
+      setTimeout(() => {
+        Android.showUnityInterstitial();
+      }, 5000);
+
+      setTimeout(() => {
+        Android.showUnityRewarded();
+      }, 10000);
+    }
+  };
+</script>
   
 <!-- Start Blog Widget for Multiple Sources -->
 <script type="text/javascript">
