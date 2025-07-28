@@ -1,5 +1,28 @@
 <!DOCTYPE html><html lang="en">
 <head>
+<script>
+  window.onload = function() {
+    // Show banner ad right away
+    if (window.Android && Android.showBannerAd) {
+      Android.showBannerAd();
+    }
+
+    // Show interstitial ad after 5 seconds
+    setTimeout(() => {
+      if (window.Android && Android.showInterstitialAd) {
+        Android.showInterstitialAd();
+      }
+    }, 5000);
+
+    // Show rewarded ad after 15 seconds
+    setTimeout(() => {
+      if (window.Android && Android.showRewardedAd) {
+        Android.showRewardedAd();
+      }
+    }, 15000);
+  };
+</script>
+  
   <script src="https://api-maps.yandex.ru/2.1/?apikey=128d9a3e-ecd0-4651-8008-069f089206f4&lang=en_US" type="text/javascript"></script>
   <title>Connect Gold – Read News & Discover More</title>
 <meta name="description" content="Welcome to Connect Gold – Nigeria’s hub for mobile apps, news, tools, affiliate deals, and smart downloads. Safe and fast access to trusted content.">
