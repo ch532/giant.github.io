@@ -1,32 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yourdomain.yourapp">
+    package="com.yourcompany.connectgold">
 
-    <!-- Permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Required Permissions -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
-        android:label="Your App Name"
+        android:label="Connect Gold"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- Appodeal SDK Initialization (in your MainActivity.java later) -->
+        <!-- Tapjoy SDK Key -->
+        <meta-data
+            android:name="tapjoy_sdk_key"
+            android:value="diuJjmdIQxiNayNGui2c6wECIOUTDuKT71ktOdaLIhgC708EZWo5Sx5bI9ll" />
 
-        <!-- Activities used by Appodeal SDK -->
-        <activity android:name="com.appodeal.ads.InterstitialActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.appodeal.ads.VideoActivity"
+        <!-- Tapjoy Activities -->
+        <activity
+            android:name="com.tapjoy.TJAdUnitActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <activity android:name="com.appodeal.ads.AppodealActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.appodeal.ads.LoaderActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.appodeal.ads.networks.vast.VastActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.appodeal.ads.FullscreenActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        
+        <activity
+            android:name="com.tapjoy.TJContentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+
+        <!-- Main Activity -->
+        <activity android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 
