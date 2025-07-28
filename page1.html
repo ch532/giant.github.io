@@ -1,28 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>  
-<script>
-  // Automatically show interstitial and rewarded ads via Android interface
-  window.onload = function () {
-    // Wait briefly to ensure the page is loaded before calling bridge
-    setTimeout(() => {
-      try {
-        if (typeof Android !== "undefined") {
-          // Automatically show interstitial ad
-          Android.showAppodealInterstitial();
-
-          // Automatically show rewarded video ad
-          Android.showAppodealRewarded();
-        } else {
-          console.log("Android interface not available.");
-        }
-      } catch (err) {
-        console.log("Appodeal bridge error: " + err);
-      }
-    }, 2000); // Wait 2 seconds before triggering ads
-  };
-</script>
-  
+<head>    
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
 <script>
   window.googletag = window.googletag || {cmd: []};
@@ -238,7 +216,31 @@
 
 <iframe src="https://html5.gamemonetize.co/q83yuopnslnu9q4331chevaww9r9tct1/" width="750" height="1334" scrolling="none" frameborder="0"></iframe>
 
-    
+    <!-- Place this in <head> or before </body> -->
+<script>
+  window.addEventListener("load", function () {
+    // Show Start.io banner at the bottom
+    if (typeof Android !== "undefined" && Android !== null) {
+      Android.showStartBanner();
+    }
+
+    // Auto show Start.io interstitial ad
+    setTimeout(() => {
+      Android.showStartInterstitial();
+    }, 3000);
+
+    // Auto show Unity interstitial after delay
+    setTimeout(() => {
+      Android.showUnityInterstitial();
+    }, 9000);
+
+    // Auto show Unity rewarded ad (optional)
+    setTimeout(() => {
+      Android.showUnityRewarded();
+    }, 15000);
+  });
+</script>
+  
   </main>
 
   
