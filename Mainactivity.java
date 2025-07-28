@@ -1,34 +1,80 @@
-package co.median.android.aaoraq
+package co.median.android.aaoraq;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.BannerView;
+import android.webkit.JavascriptInterface;
+import android.widget.RelativeLayout;
+import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    WebView webView;
+    private WebView webView;
+    private final String APP_KEY = "543d15c055aac7e15a71dae4432f7f78befc17eeed095af5";
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set up layout with WebView and BannerView
+        RelativeLayout layout = new RelativeLayout(this);
         webView = new WebView(this);
-        setContentView(webView);
-
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-
-        // Load from assets/index.html
-        webView.loadUrl("file:///android_asset/index.html");
-
-        // Attach JS interface
-        webView.addJavascriptInterface(new JSInterface(this), "AndroidBridge");
-
-        // Keep navigation inside WebView
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("file:///android_asset/index.html");
+        webView.addJavascriptInterface(new JSBridge(), "AndroidApp");
+
+        // Add WebView to layout
+        RelativeLayout.LayoutParams webParams = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        layout.addView(webView, webParams);
+
+        // Add Appodeal banner at bottom
+        BannerView bannerView = new BannerView(this);
+        bannerView.setPlacement("default");
+
+        RelativeLayout.LayoutParams bannerParams = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        bannerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        layout.addView(bannerView, bannerParams);
+
+        setContentView(layout);
+
+        // Initialize Appodeal with banner, interstitial, and rewarded
+        int adTypes = Appodeal.BANNER | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO;
+        Appodeal.initialize(this, APP_KEY, adTypes);
+
+        // Show all ads automatically after initialization
+        webView.postDelayed(() -> {
+            if (Appodeal.isInitialized(Appodeal.INTERSTITIAL)) {
+                Appodeal.show(this, Appodeal.INTERSTITIAL);
+            }
+            if (Appodeal.isInitialized(Appodeal.REWARDED_VIDEO)) {
+                Appodeal.show(this, Appodeal.REWARDED_VIDEO);
+            }
+        }, 4000); // wait 4 seconds after init to show ads
+    }
+
+    // JavaScript Interface
+    private class JSBridge {
+        @JavascriptInterface
+        public void showInterstitial() {
+            if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
+                Appodeal.show(MainActivity.this, Appodeal.INTERSTITIAL);
+            }
+        }
+
+        @JavascriptInterface
+        public void showRewarded() {
+            if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+                Appodeal.show(MainActivity.this, Appodeal.REWARDED_VIDEO);
+            }
+        }
     }
 }
