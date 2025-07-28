@@ -209,13 +209,11 @@
         onRewarded: () => {
           alert('User earned reward!');
         },
-        onCl<!-- Banner Ad Container -->
-<div id="banner-ad-container" style="width:100%;text-align:center;margin-bottom:10px;"></div>
-
-<script>
-  median.admob.showBanner({
-    position: "bottom", // options: 'top' or 'bottom'
-    container: "banner-ad-container"
+        onClosed: () => {
+          console.log('Rewarded ad closed');
+        }
+      });
+    }
   });
 </script>
 
