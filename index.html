@@ -249,7 +249,7 @@ rssfeed_scroll_step="6";
 rssfeed_scroll_bar="off";
 rssfeed_target="_blank";
 rssfeed_font_size="14";
-rssfeed_font_face="";
+lrssfeed_font_face="";
 rssfeed_border="on";
 rssfeed_css_url="";
 rssfeed_title="on";
@@ -273,74 +273,6 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
     
-  <div id="map" style="width: 100%; height: 600px;"></div>
-
-  <script>
-  ymaps.ready(init);
-  function init() {
-    var map = new ymaps.Map("map", {
-      center: [20, 0], // Center of the world
-      zoom: 2
-    });
-
-    // Define all your affiliate/business points globally
-    var points = [
-      {
-        name: "Connect Gold, Abuja",
-        coords: [9.0846, 7.4913],
-        color: 'red'
-      },
-      {
-        name: "Trip.com HQ, Shanghai",
-        coords: [31.2304, 121.4737<!
-        color: 'blue'
-      },
-      {
-        name: "Fiverr HQ, Tel Aviv",
-        coords: [32.0853
-                 , 34.7818],
-        color: 'green'
-      },
-      {
-        name: "Konga HQ, Lagos",
-        coords: [6.5244, 3.3792],
-        color: 'purple'
-      },
-      {
-        name: "Ticket Network, USA",
-        coords: [41.6032, -73.0877],
-        color: 'orange'
-      },
-      {
-        name: "Google News, California",
-        coords: [37.422, -122.084],
-        color: 'gray'
-      },
-      {
-        name: "Start.io, New York",
-        coords: [40.7128, -74.006],
-        color: 'brown'
-      },
-      {
-        name: "Adsterra HQ, Cyprus",
-        coords: [35.1856, 33.3823],
-        color: 'black'
-      }
-    ];
-
-    // Add each point to the map
-    points.forEach(p => {
-      var placemark = new ymaps.Placemark(p.coords, {
-        balloonContent: p.name
-      }, {
-        preset: 'islands#dotIcon',
-        iconColor: p.color
-      });
-      map.geoObjects.add(placemark);
-    });
-  }
-  </script>
-
  
   // <!DOCTYPE html>
 <html>
