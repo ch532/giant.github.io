@@ -215,31 +215,6 @@
     <iframe src="https://html5.gamemonetize.co/jp22mjv7m4b283qu7mhzsy599omxbi13/" width="800" height="600" scrolling="none" frameborder="0"></iframe>
 
 <iframe src="https://html5.gamemonetize.co/q83yuopnslnu9q4331chevaww9r9tct1/" width="750" height="1334" scrolling="none" frameborder="0"></iframe>
-
-    <!-- Place this in <head> or before </body> -->
-<script>
-  window.addEventListener("load", function () {
-    // Show Start.io banner at the bottom
-    if (typeof Android !== "undefined" && Android !== null) {
-      Android.showStartBanner();
-    }
-
-    // Auto show Start.io interstitial ad
-    setTimeout(() => {
-      Android.showStartInterstitial();
-    }, 3000);
-
-    // Auto show Unity interstitial after delay
-    setTimeout(() => {
-      Android.showUnityInterstitial();
-    }, 9000);
-
-    // Auto show Unity rewarded ad (optional)
-    setTimeout(() => {
-      Android.showUnityRewarded();
-    }, 15000);
-  });
-</script>
   
   </main>
 
@@ -256,5 +231,28 @@
     </div>
   </footer>
 
+<script>
+  // Trigger banner ad when the page loads
+  window.onload = function () {
+    if (window.AndroidInterface && AndroidInterface.showBannerAd) {
+      AndroidInterface.showBannerAd();
+    }
+
+    // Show interstitial automatically after a delay
+    setTimeout(function () {
+      if (window.AndroidInterface && AndroidInterface.showInterstitialAd) {
+        AndroidInterface.showInterstitialAd();
+      }
+    }, 5000); // delay in ms
+
+    // Show rewarded ad after some event (e.g., button click or another timer)
+    setTimeout(function () {
+      if (window.AndroidInterface && AndroidInterface.showRewardedAd) {
+        AndroidInterface.showRewardedAd();
+      }
+    }, 10000); // 10 sec after load
+  };
+</script>
+  
 </body>
 </html>
