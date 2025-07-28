@@ -1,4 +1,11 @@
+android {
+    ...
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
 dependencies {
-    'implementation 'com.unity3d.ads:unity-ads:4.9.2'
-    'implementation 'com.startapp:inapp-sdk:4.10.11'
+    implementation 'com.appodeal.ads:sdk:3.1.0.+'
 }
