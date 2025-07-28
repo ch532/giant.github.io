@@ -340,20 +340,33 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
     });
   }
   </script>
-  
-  
-<!-- Ad Slot Definition -->
-<div id="div-gpt-ad-Connectgold_shine" style="width: 300px; height: 250px;">
-  <script>
-    window.googletag = window.googletag || { cmd: [] };
-    googletag.cmd.push(function () {
-      googletag.defineSlot('/23311640042/Connectgold_shine', [300, 250], 'div-gpt-ad-Connectgold_shine').addService(googletag.pubads());
-      googletag.enableServices();
-      googletag.display('div-gpt-ad-Connectgold_shine');
-    });
-  </script>
-</div>
-  
+
+ 
+  // <!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+    <script>
+      window.googletag = window.googletag || { cmd: [] };
+      googletag.cmd.push(function () {
+        googletag.defineSlot('/23311640042/Connectgold_shine', [300, 250], 'div-gpt-ad-Connectgold_shine')
+                 .addService(googletag.pubads());
+        googletag.enableServices();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="div-gpt-ad-Connectgold_shine" style="width: 300px; height: 250px; margin: auto;">
+      <script>
+        googletag.cmd.push(function () {
+          googletag.display('div-gpt-ad-Connectgold_shine');
+        });
+      </script>
+    </div>
+  </body>
+</html>
+
 <script>
   // Initialize AdMob via Median.co bridge
   median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
@@ -364,8 +377,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
       position: "bottom", // or "top"
       size: "BANNER" // or "LARGE_BANNER", "SMART_BANNER" etc.
   });
-
-  // Show an interstitial ad
+Show an interstitial ad
   median.admob.loadInterstitialAd({
       adUnitId: "ca-app-pub-1171216593802007/4945244849"
   }, function(success) {
