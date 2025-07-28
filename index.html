@@ -280,47 +280,54 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <!-- End Widget -->
     
 <script>
-  window.median = window.median || {};
-  median.admob = {
-    appId: 'ca-app-pub-1171216593802007~YOUR_APP_ID', // Replace with your real app ID if needed
-    banner: {
-      adUnitId: 'ca-app-pub-1171216593802007/8884489855',
-      position: 'bottom', // or 'top'
-    },
-    interstitial: {
-      adUnitId: 'ca-app-pub-1171216593802007/4945244849',
-    },
-    rewarded: {
-      adUnitId: 'ca-app-pub-1171216593802007/1435861786',
+  document.addEventListener("DOMContentLoaded", () => {
+    if (median && median.admob) {
+      median.admob.showBanner({
+        adUnitId: 'ca-app-pub-1171216593802007/8884489855',
+        position: 'bottom' // or 'top'
+      });
+    } else {
+      console.warn("Median SDK not loaded or admob not available");
     }
-  };
+  });
 </script>
 
      <script>
   document.addEventListener("DOMContentLoaded", () => {
     if (median && median.admob) {
-      median.admob.showBanner();
+      median.admob.showInterstitialIfReady({
+        adUnitId: 'ca-app-pub-1171216593802007/4945244849'
+      });
     }
   });
 </script>
 
      <script>
-  window.addEventListener("load", () => {
+  window.addEventListener("beforeunload", () => {
     if (median && median.admob) {
-      median.admob.showInterstitialIfReady(); // Show now if ready
-      median.admob.showInterstitialOnNextPageLoadIfReady(); // Show on next navigation
+      median.admob.showInterstitialOnNextPageLoadIfReady({
+        adUnitId: 'ca-app-pub-1171216593802007/4945244849'
+      });
     }
   });
 </script>
 
      <script>
-  setTimeout(() => {
+  document.addEventListener("DOMContentLoaded", () => {
     if (median && median.admob) {
-      median.admob.showRewardedAd();
+      median.admob.showRewarded({
+        adUnitId: 'ca-app-pub-1171216593802007/1435861786',
+        onRewarded: () => {
+          alert('User earned reward!');
+        },
+        onClosed: () => {
+          console.log('Rewarded ad closed');
+        }
+      });
     }
-  }, 10000); // Show rewarded ad 10 seconds after page load (adjust as needed)
+  });
 </script>
-    
+     
   
   <footer>  
     <div class="footer-content">
