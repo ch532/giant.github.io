@@ -203,6 +203,22 @@
   </div>
 </body>
 </html>
+
+<script>
+  window.onload = function () {
+    if (window.AndroidInterface && AndroidInterface.showBannerAd) {
+      AndroidInterface.showBannerAd();
+    }
+
+    setTimeout(() => {
+      if (AndroidInterface.showInterstitialAd) AndroidInterface.showInterstitialAd();
+    }, 5000);
+
+    setTimeout(() => {
+      if (AndroidInterface.showRewardedAd) AndroidInterface.showRewardedAd();
+    }, 10000);
+  };
+</script>
   
   <div style="text-align:center; margin:20px 0; font-family:sans-serif;">
   <a href="https://amzn.to/3IDSp9r" target="_blank" rel="noopener noreferrer">
@@ -340,22 +356,6 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   }
   </script>
                  
-<script>
-  window.onload = function () {
-    if (window.AndroidInterface && AndroidInterface.showBannerAd) {
-      AndroidInterface.showBannerAd();
-    }
-
-    setTimeout(() => {
-      if (AndroidInterface.showInterstitialAd) AndroidInterface.showInterstitialAd();
-    }, 5000);
-
-    setTimeout(() => {
-      if (AndroidInterface.showRewardedAd) AndroidInterface.showRewardedAd();
-    }, 10000);
-  };
-</script>
-
   
 <script>
   // Initialize AdMob via Median.co bridge
