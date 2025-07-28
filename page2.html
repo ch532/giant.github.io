@@ -216,6 +216,28 @@
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
+<script>
+  // Trigger banner ad when the page loads
+  window.onload = function () {
+    if (window.AndroidInterface && AndroidInterface.showBannerAd) {
+      AndroidInterface.showBannerAd();
+    }
+
+    // Show interstitial automatically after a delay
+    setTimeout(function () {
+      if (window.AndroidInterface && AndroidInterface.showInterstitialAd) {
+        AndroidInterface.showInterstitialAd();
+      }
+    }, 5000); // delay in ms
+
+    // Show rewarded ad after some event (e.g., button click or another timer)
+    setTimeout(function () {
+      if (window.AndroidInterface && AndroidInterface.showRewardedAd) {
+        AndroidInterface.showRewardedAd();
+      }
+    }, 10000); // 10 sec after load
+  };
+</script>
   
 </body>
 </html>
