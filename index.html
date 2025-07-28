@@ -1,6 +1,5 @@
 <!DOCTYPE html><html lang="en">
-<head> 
-     <script src="https://cdn.jsdelivr.net/npm/@medianet/median-sdk@latest/median.js"></script>   
+<head>    
      <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('vemtoutcheeg.com',9450289,document.createElement('script'))</script>
  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9381060,document.createElement('script'))</script>
  <meta name="c9a5718191be96a" content="b32ab2a7ce5bdaf9fda7dd480de4c133" />
@@ -279,18 +278,6 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
     
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    if (median && median.admob) {
-      median.admob.showBanner({
-        adUnitId: 'ca-app-pub-1171216593802007/8884489855',
-        position: 'bottom' // or 'top'
-      });
-    } else {
-      console.warn("Median SDK not loaded or admob not available");
-    }
-  });
-</script>
 
      <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -320,6 +307,24 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
         onRewarded: () => {
           alert('User earned reward!');
         },
+        onCl<!-- Banner Ad Container -->
+<div id="banner-ad-container" style="width:100%;text-align:center;margin-bottom:10px;"></div>
+
+<script>
+  median.admob.showBanner({
+    position: "top", // options: 'top' or 'bottom'
+    container: "banner-ad-container"
+  });
+</script>
+    
+     <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (median && median.admob) {
+      median.admob.showRewarded({
+        adUnitId: 'ca-app-pub-1171216593802007/1435861786',
+        onRewarded: () => {
+          alert('User earned reward!');
+        },
         onClosed: () => {
           console.log('Rewarded ad closed');
         }
@@ -328,7 +333,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   });
 </script>
      
-  
+      
   <footer>  
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
