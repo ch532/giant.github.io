@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         webView = new WebView(this);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///android_asset/index.html");
+        webView.loadUrl("https://connectgold.sbs/");
         webView.addJavascriptInterface(new JSBridge(), "AndroidApp");
 
         // Add WebView to layout
