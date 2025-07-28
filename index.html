@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="en">
 <head> 
+     <script src="https://cdn.jsdelivr.net/npm/@medianet/median-sdk@latest/median.js"></script>   
      <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('vemtoutcheeg.com',9450289,document.createElement('script'))</script>
  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9381060,document.createElement('script'))</script>
  <meta name="c9a5718191be96a" content="b32ab2a7ce5bdaf9fda7dd480de4c133" />
@@ -278,76 +279,47 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
     
- 
-  // <!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-    <script>
-      window.googletag = window.googletag || { cmd: [] };
-      googletag.cmd.push(function () {
-        googletag.defineSlot('/23311640042/Connectgold_shine', [300, 250], 'div-gpt-ad-Connectgold_shine')
-                 .addService(googletag.pubads());
-        googletag.enableServices();
-      });
-    </script>
-  </head>
-  <body>
-    <div id="div-gpt-ad-Connectgold_shine" style="width: 300px; height: 250px; margin: auto;">
-      <script>
-        googletag.cmd.push(function () {
-          googletag.display('div-gpt-ad-Connectgold_shine');
-        });
-      </script>
-    </div>
-  </body>
-</html>
-
-
-
-  
-
-     
 <script>
-  // Initialize AdMob via Median.co bridge
-  median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
+  window.median = window.median || {};
+  median.admob = {
+    appId: 'ca-app-pub-1171216593802007~YOUR_APP_ID', // Replace with your real app ID if needed
+    banner: {
+      adUnitId: 'ca-app-pub-1171216593802007/8884489855',
+      position: 'bottom', // or 'top'
+    },
+    interstitial: {
+      adUnitId: 'ca-app-pub-1171216593802007/4945244849',
+    },
+    rewarded: {
+      adUnitId: 'ca-app-pub-1171216593802007/1435861786',
+    }
+  };
+</script>
 
-  ad
-  median.admob.loadBannerAd({
-      adUnitId: "ca-app-pub-1171216593802007/8884489855",
-      position: "bottom", // or "top"
-      size: "BANNER" // or "LARGE_BANNER", "SMART_BANNER" etc.
-  });
-Show an interstitial ad
-  median.admob.loadInterstitialAd({
-      adUnitId: "ca-app-pub-1171216593802007/4945244849"
-  }, function(success) {
-      if (success) {
-          median.admob.showInterstitialAd();
-      } else {
-          console.log("Interstitial ad failed to load.");
-      }
-  });
-
-  // Load and show a rewarded ad
-  median.admob.loadRewardedAd({
-      adUnitId: "ca-app-pub-1171216593802007/1435861786"
-  }, function(success) {
-      if (success) {
-          median.admob.showRewardedAd(function(rewarded) {
-              if (rewarded) {
-                  console.log("User was rewarded!");
-              } else {
-                  console.log("User did not complete the rewarded ad.");
-              }
-          });
-      } else {
-          console.log("Rewarded ad failed to load.");
-      }
+     <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (median && median.admob) {
+      median.admob.showBanner();
+    }
   });
 </script>
 
+     <script>
+  window.addEventListener("load", () => {
+    if (median && median.admob) {
+      median.admob.showInterstitialIfReady(); // Show now if ready
+      median.admob.showInterstitialOnNextPageLoadIfReady(); // Show on next navigation
+    }
+  });
+</script>
+
+     <script>
+  setTimeout(() => {
+    if (median && median.admob) {
+      median.admob.showRewardedAd();
+    }
+  }, 10000); // Show rewarded ad 10 seconds after page load (adjust as needed)
+</script>
     
   
   <footer>  
