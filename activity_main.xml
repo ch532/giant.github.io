@@ -1,15 +1,13 @@
+<!-- activity_main.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <!-- Other UI elements here -->
 
-    <FrameLayout
+    <com.appodeal.ads.BannerView
         android:id="@+id/appodealBannerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
