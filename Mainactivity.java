@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
         // Load your local or remote HTML
-        webView.loadUrl("file:///android_asset/index.html"); // or use a remote URL
+        webView.loadUrl("https://connectgold.sbs/"); // or use a remote URL
 
         // Initialize Tapjoy
         Hashtable<String, Object> flags = new Hashtable<>();
