@@ -1,9 +1,8 @@
 repositories {
     flatDir {
-        dirs 'connectgold.sbs/TapjoySDK_Android_v14.4.0' // or wherever the file is
+        dirs '.'  // This means the root folder
     }
 }
-
 dependencies {
     implementation(name: 'tapjoyconnectlibrary', ext: 'aar')
 }
