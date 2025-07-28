@@ -299,6 +299,46 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   </body>
 </html>
 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Connect Gold</title>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+      // Wait for device ready if Cordova or WebView
+      document.addEventListener("deviceready", showTapjoyAd, false);
+    });
+
+    function showTapjoyAd() {
+      if (window.Tapjoy) {
+        Tapjoy.setDebugEnabled(true);
+        Tapjoy.connect(
+          "diuJjmdIQxiNayNGui2c6wECIOUTDuKT71ktOdaLIhgC708EZWo5Sx5bI9ll", // SDK Key
+          {},
+          function success() {
+            console.log("Tapjoy connected successfully");
+            Tapjoy.showPlacement("Connect Gold", function () {
+              console.log("Ad Shown");
+            }, function (err) {
+              console.error("Error showing ad: ", err);
+            });
+          },
+          function error(err) {
+            console.error("Failed to connect Tapjoy: ", err);
+          }
+        );
+      } else {
+        console.log("Tapjoy SDK not available in this context.");
+      }
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>
+
+ 
 <script>
   // Initialize AdMob via Median.co bridge
   median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
