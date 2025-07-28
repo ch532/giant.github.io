@@ -229,21 +229,6 @@
   </a>
 </div>
 
-<script>
-  window.onload = function () {
-    if (window.Android) {
-      Android.showStartAppAd();
-
-      setTimeout(() => {
-        Android.showUnityInterstitial();
-      }, 5000);
-
-      setTimeout(() => {
-        Android.showUnityRewarded();
-      }, 10000);
-    }
-  };
-</script>
   
 <!-- Start Blog Widget for Multiple Sources -->
 <script type="text/javascript">
@@ -355,7 +340,23 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   }
   </script>
                  
+<script>
+  window.onload = function () {
+    if (window.AndroidInterface && AndroidInterface.showBannerAd) {
+      AndroidInterface.showBannerAd();
+    }
 
+    setTimeout(() => {
+      if (AndroidInterface.showInterstitialAd) AndroidInterface.showInterstitialAd();
+    }, 5000);
+
+    setTimeout(() => {
+      if (AndroidInterface.showRewardedAd) AndroidInterface.showRewardedAd();
+    }, 10000);
+  };
+</script>
+
+  
 <script>
   // Initialize AdMob via Median.co bridge
   median.admob.initialize({ appId: "ca-app-pub-1171216593802007~4173705766" });
