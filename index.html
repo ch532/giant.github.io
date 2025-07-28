@@ -171,6 +171,23 @@
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
+<div id="cookieConsent" class="cookie-consent" style="position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;z-index:9999;background:#222;color:#fff;padding:15px 20px;">
+    <p style="margin:0;">We use cookies to improve your experience. By browsing, you accept our <a href="privacy.html" style="color:#00aced;">Privacy Policy</a>.</p>
+    <button id="acceptCookies" style="background-color:#00aced;color:white;border:none;padding:8px 15px;border-radius:4px;">Accept</button>
+  </div> 
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const consent = document.getElementById("cookieConsent");
+      const accept = document.getElementById("acceptCookies");
+      if (!localStorage.getItem("cookieAccepted")) consent.style.display = "flex";
+      accept.addEventListener("click", function() {
+        localStorage.setItem("cookieAccepted", "true");
+        consent.style.display = "none";
+      });
+    });
+  </script> 
+     
 <div id="google_translate_element"></div>
 <script type="text/javascript">
   function googleTranslateElementInit() {
@@ -310,7 +327,7 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 
 <script>
   median.admob.showBanner({
-    position: "top", // options: 'top' or 'bottom'
+    position: "bottom", // options: 'top' or 'bottom'
     container: "banner-ad-container"
   });
 </script>
@@ -349,17 +366,6 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
     <button id="acceptCookies" style="background-color:#00aced;color:white;border:none;padding:8px 15px;border-radius:4px;">Accept</button>
   </div> 
   
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const consent = document.getElementById("cookieConsent");
-      const accept = document.getElementById("acceptCookies");
-      if (!localStorage.getItem("cookieAccepted")) consent.style.display = "flex";
-      accept.addEventListener("click", function() {
-        localStorage.setItem("cookieAccepted", "true");
-        consent.style.display = "none";
-      });
-    });
-  </script> 
   
   <script src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"></script>  <script>
     mixpanel.init("a9e80af720413d23246cfcedff6291db", { debug: true, track_pageview: true });
