@@ -243,36 +243,35 @@ footer {
   </a>
 </div>
 
-<!-- Video Ad Player (ExoClick VAST) -->
-<video id="exoPlayer" width="100%" height="auto" controls autoplay muted playsinline>
-  <source src="https://cdn.glitch.global/placeholder.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+<!-- Video.js CSS -->
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+<!-- Video.js JS -->
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+<!-- VAST/VPAID Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.2.2/dist/videojs-vast-vpaid.min.js"></script>
+
+<!-- Player Container -->
+<video id="myPlayer" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" poster="https://i.imgur.com/SVZB1bl.jpg">
+  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
 </video>
 
+<!-- Player Config -->
 <script>
-  // Basic VAST player integration with VAST tag (non-Google IMA)
-  var vastTag = "https://s.magsrv.com/v1/vast.php?idzone=5688300";
-  var video = document.getElementById('exoPlayer');
+  var player = videojs('myPlayer');
 
-  // Auto load VAST using a lightweight plugin or simple integration
-  // This example is simplified; real implementation should parse XML and insert media
-
-  fetch(vastTag)
-    .then(response => response.text())
-    .then(xmlText => {
-      // Simple VAST video URL extraction
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(xmlText, "text/xml");
-      const mediaFile = xml.querySelector("MediaFile");
-      if (mediaFile) {
-        video.src = mediaFile.textContent.trim();
-        video.load();
-        video.play();
-      }
-    })
-    .catch(err => console.error("VAST load failed", err));
+  player.vastClient({
+    adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688300',
+    playAdAlways: true,
+    verbosity: 4,
+    adCancelTimeout: 5000,
+    adsEnabled: true
+  });
 </script>
 
+
+  
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
 <div id="rss-feed">
   <script type="text/javascript">
@@ -313,45 +312,8 @@ footer {
   </script>
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
-
-
     
-    
-    
-    
-  <script type="text/javascript">
-  var rssfeed_url = "https://rssmix.com/u/5853728/rss.xml";
-
-  var rssfeed_frame_width = "400";
-  var rssfeed_scroll = "on";
-  var rssfeed_scroll_step = "6";
-  var rssfeed_scroll_bar = "off";
-  var rssfeed_target = "_blank";
-  var rssfeed_font_size = "14";
-  var rssfeed_font_face = "";
-  var rssfeed_border = "on";
-  var rssfeed_css_url = "";
-  var rssfeed_title = "on";
-  var rssfeed_title_name = "🔥 Naija News, Entertainment, Tech, Lifestyle, Sports & Music";
-  var rssfeed_title_bgcolor = "#3366ff";
-  var rssfeed_title_color = "#ffffff";
-  var rssfeed_item_title_length = "60";
-  var rssfeed_item_title_color = "#000000";
-  var rssfeed_item_bgcolor = "#ffffff";
-  var rssfeed_item_border_bottom = "on";
-  var rssfeed_item_source_icon = "on";
-  var rssfeed_item_date = "on";
-  var rssfeed_item_description = "on";
-  var rssfeed_item_description_length = "120";
-  var rssfeed_item_description_color = "#333333";
-  var rssfeed_item_description_link_color = "#0066cc";
-  var rssfeed_item_description_tag = "off";
-  var rssfeed_no_items = "10";
-  var rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
-</script>
-<script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
-   
-
+  
      <!-- Banner Ad Container -->
 <div id="banner-ad-container" style="width:100%;text-align:center;margin-bottom:10px;"></div>
 
