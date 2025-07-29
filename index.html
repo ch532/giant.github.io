@@ -82,108 +82,67 @@
     </div>
   </noscript>
 
-  <style>
-    html { touch-action: manipulation; }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-    }
-    header .logo img { max-width: 120px; }
-    .main-nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      padding: 0;
-      margin: 0;
-      flex-wrap: wrap;
-    }
-    .main-nav a {
-      background-color: #333;
-      color: white;
-      padding: 12px 18px;
-      text-decoration: none;
-      display: block;
-    }
-    .main-nav a:hover { background-color: #0077cc; }
-    .news-post {
-      background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 15px 0;
-    }
-    footer {
-      background: #222;
-      color: #eee;
-      padding: 30px 20px;
-      text-align: center;
-      margin-bottom: 90px;
-    }
-    .footer-content a,
-    .social-links a {
-      color: #ccc;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-    #mtn-top-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #ffd700;
-      color: #000;
-      padding: 10px;
-      z-index: 9999;
-    }
-    #newsContainer {
+<style>
+html { touch-action: manipulation; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+header {
+  text-align: center;
+  padding: 20px;
+}
+header .logo img { max-width: 120px; }
+
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  z-index: 10000;
+  position: relative;
+}
+.main-nav a {
+  background-color: #333;
+  color: white;
+  padding: 12px 18px;
+  text-decoration: none;
+  display: block;
+}
+.main-nav a:hover { background-color: #0077cc; }
+
+#mtn-top-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffd700;
+  color: #000;
+  padding: 10px;
+  z-index: 9999;
+  pointer-events: none; /* Important */
+}
+
+#newsContainer {
   display: block !important;
   overflow: visible !important;
   position: relative;
   z-index: 2;
 }
-    <style>
-  #cookieConsent {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #1e1e1e;
-    color: #fff;
-    padding: 16px;
-    font-size: 14px;
-    z-index: 9999;
-    display: none;
-    justify-content: space-between;
-    align-items: center;
-  }
 
-  #cookieConsent a {
-    color: #4fc3f7;
-    text-decoration: underline;
-  }
-
-  #cookieConsent button {
-    background: #4fc3f7;
-    color: #000;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-
-  #cookieConsent.show {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  </style>
-</head>
-
+footer {
+  background: #222;
+  color: #eee;
+  padding: 30px 20px;
+  text-align: center;
+  margin-bottom: 90px;
+}
+</style>
+  
 <body>
   <div id="mtn-top-banner">
     <img src="mtn.jpeg" alt="MTN Logo" style="height: 30px;"> 📱 <strong>MTN Nigeria Special:</strong> Download the official MTN App
