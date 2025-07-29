@@ -248,15 +248,40 @@ footer {
 <head>
   <title>ExoClick VAST Ad Test</title>
   <meta charset="UTF-8">
-  <style>
-    body { background: #000; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-    #video-container { position: relative; width: 80%; max-width: 720px; }
-    video { width: 100%; }
-    #ad-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
-  </style>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+
+ <style>
+  body {
+  background: #000;
+  margin: 0;
+  padding: 20px; /* Add some padding */
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+#video-container {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto 30px; /* center horizontally and add bottom margin */
+}
+
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#ad-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+</style>   
 </head>
-<body>
+
+  <body>
 
 <div id="video-container">
   <video id="content_video" controls preload="auto" poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217">
