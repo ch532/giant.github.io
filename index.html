@@ -247,36 +247,40 @@ footer {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Fluid Player with ExoClick VAST Ads</title>
-  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
+  <title>Video.js with ExoClick VAST</title>
+  <link href="https://vjs.zencdn.net/8.9.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.9.0/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-vast@3.0.0-beta.4/dist/videojs-vast.min.js"></script>
+  <style>
+    body { background: #000; margin: 0; padding: 0; }
+    .video-js { width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <video id="video-id" controls>
+
+  <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
     <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
   </video>
 
-  <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
   <script>
-    fluidPlayer("video-id", {
-      vastOptions: {
-        adList: [
-          {
-            roll: "preRoll",
-            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604"
-          },
-          {
-            roll: "midRoll",
-            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
-            timer: 30  // ad after 30 seconds
-          },
-          {
-            roll: "postRoll",
-            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604"
-          }
-        ]
-      }
+    const player = videojs('my-video');
+    player.ready(function () {
+      this.vast({
+        url: 'https://s.magsrv.com/v1/vast.php?idzone=5688604',
+        playAdAlways: true,
+        adCancelTimeout: 5000,
+        adsEnabled: true,
+        adPlayTiming: {
+          preRoll: true,
+          midRoll: { time: 30 },  // Ad after 30s
+          postRoll: true
+        }
+      });
     });
   </script>
+
 </body>
 </html>
 
