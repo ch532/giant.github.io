@@ -244,63 +244,43 @@ footer {
 </div>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Video with Pre-Roll Ad</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" />
-  <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-  <style>
-    body { max-width: 800px; margin: auto; font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    .section { margin-bottom: 30px; }
-    #my-video { width: 100%; }
-  </style>
+  <title>Fluid Player with ExoClick VAST Ads</title>
+  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
 </head>
 <body>
-
-<h1>Connect Gold Demo</h1>
-
-<div class="section">
-  <h2>Featured Video with Pre-Roll Ad</h2>
-  <video id="my-video">
-    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4" />
+  <video id="video-id" controls>
+    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
   </video>
-</div>
 
-<script>
-  fluidPlayer("my-video", {
-    layoutControls: {
-      primaryColor: "#3366ff",
-      controlBar: { autoHide: true, autoHideTimeout: 3, animated: true },
-      posterImage: ""
-    },
-    vastOptions: {
-      adList: [
-        {
-          roll: "preRoll",
-          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688300",
-          adText: "Advertisement",
-          skipButtonCaption: "Skip ad in [seconds]",
-          skipButtonClickCaption: "Skip Ad"
-        }
-      ],
-      skipOffset: 5,
-      adCTAText: "Visit Now",
-      adCTATextPosition: "bottom right"
-    }
-  });
-</script>
-
-<div class="section">
-  <h2>Page Content</h2>
-  <p>Here you can add your other site content—articles, RSS feed widget, music links, sports, and more.</p>
-</div>
-
+  <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+  <script>
+    fluidPlayer("video-id", {
+      vastOptions: {
+        adList: [
+          {
+            roll: "preRoll",
+            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688300"
+          },
+          {
+            roll: "midRoll",
+            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688300",
+            timer: 30  // ad after 30 seconds
+          },
+          {
+            roll: "postRoll",
+            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688300"
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
 
-  
+ 
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
 <div id="rss-feed">
   <script type="text/javascript">
