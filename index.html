@@ -243,141 +243,148 @@ footer {
   </a>
 </div>
 
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ExoClick VAST Ad Test</title>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connect Gold - Watch & Read</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-color: #f2f2f2;
+    }
 
- <style>
-  body {
-  background: #000;
-  margin: 0;
-  padding: 20px; /* Add some padding */
-  font-family: Arial, sans-serif;
-  color: white;
-}
+    .content {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 10px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
-#video-container {
-  position: relative;
-  max-width: 720px;
-  margin: 0 auto 30px; /* center horizontally and add bottom margin */
-}
+    #video-section {
+      position: relative;
+    }
 
-video {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+    #ad-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+    }
 
-#ad-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-}
-   #ad-container {
-  pointer-events: auto; /* allow clicks when ad is active */
-}
+    #content_video {
+      width: 100%;
+      height: auto;
+    }
 
-/* When no ad is displayed, disable pointer events */
-#ad-container.ad-hidden {
-  pointer-events: none;
-  display: none; /* also hide it */
-}
-   #ad-container {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 10;
-  pointer-events: auto;
-}
-
-#ad-container.ad-hidden {
-  pointer-events: none;
-  display: none;
-}
-</style>   
+    h2 {
+      color: #333;
+    }
+  </style>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
+<body>
+  <div class="content">
+    <h2>Top News & Entertainment</h2>
+    <p>Breaking headlines from around the world and Nigeria. Catch up on celebrity news, music videos, and the latest sports drama.</p>
+    
+    <div id="video-section">
+      <video id="content_video" controls preload="auto" poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217">
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+      <div id="ad-container"></div>
+    </div>
 
-  <body>
+    <h3>Live Sports</h3>
+    <iframe width="100%" height="300" src="https://player.streann.com/live/601f9059a8e44e001f4e1d8d" frameborder="0" allowfullscreen></iframe>
 
-<div id="video-container">
-  <video id="content_video" controls preload="auto" poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217">
-    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-  </video>
-  <div id="ad-container"></div>
-</div>
+    <h3>Entertainment</h3>
+    <p>Watch Nollywood trailers, music video highlights, and red carpet recaps.</p>
 
+    <h3>Music</h3>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="100%" height="300" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
-  
-<!-- Start Blog Widget for Multiple Sources -->
-<script type="text/javascript">
-rssfeed_url = [];
-rssfeed_url[0]="https://naijablogdaily.com/feed"; 
-rssfeed_url[2]="https://www.aboutamazon.com/news/rss"; 
-rssfeed_url[3]="https://https://www.skysports.com/rss/news"; 
-rssfeed_url[4]="https://www.theamericanconservative.com/feed/";
+    <h3>Trending Now</h3>
+    <ul>
+      <li>🔥 Davido drops new video</li>
+      <li>⚽ AFCON 2025 fixtures out</li>
+      <li>🎬 New blockbuster coming to cinemas</li>
+    </ul>
+  </div>
 
-rssfeed_frame_width="100%";
-rssfeed_frame_heigvar videoContent = document.getElementById('content_video');
-var adContainer = document.getElementById('ad-container');
-var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-var adsManager;
+  <script>
+    const videoContent = document.getElementById('content_video');
+    const adContainer = document.getElementById('ad-container');
+    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+    const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+    let adsManager;
 
-var adsRequest = new google.ima.AdsRequest();
-adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688300";
-adsRequest.linearAdSlotWidth = videoContent.clientWidth;
-adsRequest.linearAdSlotHeight = videoContent.clientHeight;
-adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
-adsRequest.nonLinearAdSlotHeight = videoContent.clientHeight / 3;
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688300";
+    adsRequest.linearAdSlotWidth = videoContent.clientWidth;
+    adsRequest.linearAdSlotHeight = videoContent.clientHeight;
+    adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
+    adsRequest.nonLinearAdSlotHeight = videoContent.clientHeight / 3;
 
-adsLoader.addEventListener(
-  google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-  function(event) {
-    adsManager = event.getAdsManager(videoContent);
+    adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      (event) => {
+        adsManager = event.getAdsManager(videoContent);
 
-    adsManager.addEventListener(
-      google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
-      function() {
-        adContainer.classList.remove('ad-hidden');
-        videoContent.pause();
+        adsManager.addEventListener(
+          google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
+          () => {
+            adContainer.style.display = 'block';
+            videoContent.pause();
+          }
+        );
+
+        adsManager.addEventListener(
+          google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
+          () => {
+            adContainer.style.display = 'none';
+            videoContent.play();
+          }
+        );
+
+        adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
+        adsManager.start();
       }
     );
 
-    adsManager.addEventListener(
-      google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
-      function() {
-        adContainer.classList.add('ad-hidden');
+    adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      (error) => {
+        console.warn("Ad error: ", error.getError());
+        adContainer.style.display = 'none';
         videoContent.play();
       }
     );
 
-    adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
-    adsManager.start();
-  }
-);
+    function initAds() {
+      adDisplayContainer.initialize();
+      adsLoader.requestAds(adsRequest);
+      document.body.removeEventListener('click', initAds);
+    }
 
-adsLoader.addEventListener(
-  google.ima.AdErrorEvent.Type.AD_ERROR,
-  function(error) {
-    console.log("Ad error: ", error.getError());
-    adContainer.classList.add('ad-hidden');
-    videoContent.play();
-  }
-);
+    document.body.addEventListener('click', initAds);
+  </script>
+</body>
+</html>
 
-function initAds() {
-  adDisplayContainer.initialize();
-  adsLoader.requestAds(adsRequest);
-  document.body.removeEventListener('click', initAds);
-}
-
-document.body.addEventListener('click', initAds);
   
+
+
+    
   <script type="text/javascript">
   var rssfeed_url = "https://rssmix.com/u/5853728/rss.xml";
 
