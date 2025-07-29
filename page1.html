@@ -229,6 +229,21 @@
   });
 </script>
 
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (median && median.admob) {
+      median.admob.showRewarded({
+        adUnitId: 'ca-app-pub-1171216593802007/1435861786',
+        onRewarded: () => {
+          alert('User earned reward!');
+        },
+        onClosed: () => {
+          console.log('Rewarded ad closed');
+        }
+      });
+    }
+  });
+</script>
   
   <footer class="footer">
     <div class="footer-content">
