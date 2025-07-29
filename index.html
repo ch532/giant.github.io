@@ -243,147 +243,81 @@ footer {
   </a>
 </div>
 
+<!-- Video Ad Player (ExoClick VAST) -->
+<video id="exoPlayer" width="100%" height="auto" controls autoplay muted playsinline>
+  <source src="https://cdn.glitch.global/placeholder.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Connect Gold - Watch & Read</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      background-color: #f2f2f2;
-    }
+<script>
+  // Basic VAST player integration with VAST tag (non-Google IMA)
+  var vastTag = "https://s.magsrv.com/v1/vast.php?idzone=5688300";
+  var video = document.getElementById('exoPlayer');
 
-    .content {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 10px;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+  // Auto load VAST using a lightweight plugin or simple integration
+  // This example is simplified; real implementation should parse XML and insert media
 
-    #video-section {
-      position: relative;
-    }
-
-    #ad-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      background-color: rgba(0,0,0,0.5);
-      display: none;
-    }
-
-    #content_video {
-      width: 100%;
-      height: auto;
-    }
-
-    h2 {
-      color: #333;
-    }
-  </style>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-</head>
-<body>
-  <div class="content">
-    <h2>Top News & Entertainment</h2>
-    <p>Breaking headlines from around the world and Nigeria. Catch up on celebrity news, music videos, and the latest sports drama.</p>
-    
-    <div id="video-section">
-      <video id="content_video" controls preload="auto" poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217">
-        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
-      </video>
-      <div id="ad-container"></div>
-    </div>
-
-    <h3>Live Sports</h3>
-    <iframe width="100%" height="300" src="https://player.streann.com/live/601f9059a8e44e001f4e1d8d" frameborder="0" allowfullscreen></iframe>
-
-    <h3>Entertainment</h3>
-    <p>Watch Nollywood trailers, music video highlights, and red carpet recaps.</p>
-
-    <h3>Music</h3>
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="100%" height="300" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-    <h3>Trending Now</h3>
-    <ul>
-      <li>🔥 Davido drops new video</li>
-      <li>⚽ AFCON 2025 fixtures out</li>
-      <li>🎬 New blockbuster coming to cinemas</li>
-    </ul>
-  </div>
-
-  <script>
-    const videoContent = document.getElementById('content_video');
-    const adContainer = document.getElementById('ad-container');
-    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-    const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-    let adsManager;
-
-    const adsRequest = new google.ima.AdsRequest();
-    adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688300";
-    adsRequest.linearAdSlotWidth = videoContent.clientWidth;
-    adsRequest.linearAdSlotHeight = videoContent.clientHeight;
-    adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
-    adsRequest.nonLinearAdSlotHeight = videoContent.clientHeight / 3;
-
-    adsLoader.addEventListener(
-      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-      (event) => {
-        adsManager = event.getAdsManager(videoContent);
-
-        adsManager.addEventListener(
-          google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
-          () => {
-            adContainer.style.display = 'block';
-            videoContent.pause();
-          }
-        );
-
-        adsManager.addEventListener(
-          google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
-          () => {
-            adContainer.style.display = 'none';
-            videoContent.play();
-          }
-        );
-
-        adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
-        adsManager.start();
+  fetch(vastTag)
+    .then(response => response.text())
+    .then(xmlText => {
+      // Simple VAST video URL extraction
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(xmlText, "text/xml");
+      const mediaFile = xml.querySelector("MediaFile");
+      if (mediaFile) {
+        video.src = mediaFile.textContent.trim();
+        video.load();
+        video.play();
       }
-    );
+    })
+    .catch(err => console.error("VAST load failed", err));
+</script>
 
-    adsLoader.addEventListener(
-      google.ima.AdErrorEvent.Type.AD_ERROR,
-      (error) => {
-        console.warn("Ad error: ", error.getError());
-        adContainer.style.display = 'none';
-        videoContent.play();
-      }
-    );
-
-    function initAds() {
-      adDisplayContainer.initialize();
-      adsLoader.requestAds(adsRequest);
-      document.body.removeEventListener('click', initAds);
-    }
-
-    document.body.addEventListener('click', initAds);
+<!-- RSS Feed (Latest News, Entertainment, Music) -->
+<div id="rss-feed">
+  <script type="text/javascript">
+    rssfeed_url = [
+      "https://www.lindaikejisblog.com/rss.xml",  // General Nigerian entertainment
+      "https://www.pulse.ng/news/rss",            // Naija news
+      "https://www.pulse.ng/entertainment/rss",   // Entertainment
+      "https://thenet.ng/feed",                   // Music & culture
+      "https://www.goal.com/en-ng/feeds/news?fmt=rss" // Sports (football)
+    ];
+    rssfeed_frame_width = "100%";
+    rssfeed_frame_height = "400";
+    rssfeed_scroll = "on";
+    rssfeed_scroll_step = "6";
+    rssfeed_scroll_bar = "off";
+    rssfeed_target = "_blank";
+    rssfeed_font_size = "14";
+    rssfeed_font_face = "";
+    rssfeed_border = "on";
+    rssfeed_css_url = "";
+    rssfeed_title = "on";
+    rssfeed_title_name = "🔥 Latest News, Entertainment, Sports & Music";
+    rssfeed_title_bgcolor = "#3366ff";
+    rssfeed_title_color = "#ffffff";
+    rssfeed_item_title_length = "60";
+    rssfeed_item_title_color = "#000000";
+    rssfeed_item_bgcolor = "#ffffff";
+    rssfeed_item_border_bottom = "on";
+    rssfeed_item_source_icon = "on";
+    rssfeed_item_date = "on";
+    rssfeed_item_description = "on";
+    rssfeed_item_description_length = "120";
+    rssfeed_item_description_color = "#333333";
+    rssfeed_item_description_link_color = "#0066cc";
+    rssfeed_item_description_tag = "off";
+    rssfeed_no_items = "0";
+    rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   </script>
-</body>
-</html>
-
-  
+  <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
+</div>
 
 
+    
+    
+    
     
   <script type="text/javascript">
   var rssfeed_url = "https://rssmix.com/u/5853728/rss.xml";
