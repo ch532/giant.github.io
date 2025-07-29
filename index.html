@@ -326,6 +326,28 @@ footer {
   });
 </script>
 
+<script>
+  window.addEventListener("load", () => {
+    if (typeof median !== "undefined" && median.admob && median.admob.showRewarded) {
+      median.admob.showRewarded({
+        adUnitId: 'ca-app-pub-1171216593802007/1435861786',
+        onRewarded: () => {
+          alert('🎉 User earned reward!');
+        },
+        onClosed: () => {
+          console.log('✅ Rewarded ad was closed.');
+        },
+        onError: (error) => {
+          console.error('❌ Error showing rewarded ad:', error);
+        }
+      });
+    } else {
+      console.warn("Median or AdMob rewarded API not available yet.");
+    }
+  });
+</script>
+
+  
      <script>
   document.addEventListener("DOMContentLoaded", () => {
     if (median && median.admob) {
