@@ -190,9 +190,46 @@
     });
   </script> 
 
-<video id="contentElement" width="100%" height="300" controls autoplay muted playsinline></video>
-<div id="adContainer" style="position: absolute; width: 100%; height: 300px; z-index: 2;"></div>
-     
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InMobi VAST Test</title>
+  <style>
+    #vastPlayer {
+      width: 100%;
+      max-width: 640px;
+      height: 360px;
+      margin: 50px auto;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="vastPlayer"></div>
+
+  <script>
+    window.inmobi_video_ad_config = {
+      placementId: "10000417606",
+      containerId: "vastPlayer",
+      onAdLoadSuccess: function() {
+        console.log("✅ VAST Ad Loaded");
+      },
+      onAdLoadFail: function(error) {
+        console.error("❌ Ad Load Failed:", error);
+      },
+      onAdComplete: function() {
+        console.log("🎬 Ad Completed");
+      }
+    };
+  </script>
+
+  <script src="https://cdn.inmobi.com/sdk/html5/vast/2.0/videoAd.min.js" async></script>
+
+</body>
+</html>
+
 <div id="google_translate_element"></div>
 <script type="text/javascript">
   function googleTranslateElementInit() {
