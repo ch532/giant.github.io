@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="en">
 <head>
+     <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
      <meta name="mnd-ver" content="5pbsi1rocm6qsjvfm1dea" />
      <meta name="c9a5718191be96a" content="b32ab2a7ce5bdaf9fda7dd480de4c133" />
 <script type="text/javascript"> adroll_adv_id = "LOE52MQXE5AEBPSK5ZV4M4"; adroll_pix_id = "B77TVX5QXJFWVB3BWKYCO5"; adroll_version = "2.0";  (function(w, d, e, o, a) { w.__adroll_loaded = true; w.adroll = w.adroll || []; w.adroll.f = [ 'setProperties', 'identify', 'track', 'identify_email', 'get_cookie' ]; var roundtripUrl = "https://s.adroll.com/j/" + adroll_adv_id + "/roundtrip.js"; for (a = 0; a < w.adroll.f.length; a++) { w.adroll[w.adroll.f[a]] = w.adroll[w.adroll.f[a]] || (function(n) { return function() { w.adroll.push([ n, arguments ]) } })(w.adroll.f[a]) }  e = d.createElement('script'); o = d.getElementsByTagName('script')[0]; e.async = 1; e.src = roundtripUrl; o.parentNode.insertBefore(e, o); })(window, document); adroll.track("pageView"); </script> 
@@ -188,6 +189,9 @@
       });
     });
   </script> 
+
+<video id="contentElement" width="100%" height="300" controls autoplay muted playsinline></video>
+<div id="adContainer" style="position: absolute; width: 100%; height: 300px; z-index: 2;"></div>
      
 <div id="google_translate_element"></div>
 <script type="text/javascript">
@@ -293,7 +297,35 @@ rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </script>
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 <!-- End Widget -->
-    
+
+     <script>
+  const vastTag = "https://cdn.inmobi.com/vast/10000417606.xml"; // Replace with actual VAST tag if different
+
+  const videoContent = document.getElementById('contentElement');
+  const adContainer = document.getElementById('adContainer');
+  const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+  const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+  const adsRequest = new google.ima.AdsRequest();
+  adsRequest.adTagUrl = vastTag;
+  adsRequest.linearAdSlotWidth = window.innerWidth;
+  adsRequest.linearAdSlotHeight = 300;
+  adsRequest.nonLinearAdSlotWidth = window.innerWidth;
+  adsRequest.nonLinearAdSlotHeight = 150;
+
+  adsLoader.addEventListener(
+    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+    (adsManagerLoadedEvent) => {
+      const adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+      adsManager.init(window.innerWidth, 300, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    },
+    false
+  );
+
+  adDisplayContainer.initialize();
+  adsLoader.requestAds(adsRequest);
+</script>
 
      <script>
   document.addEventListener("DOMContentLoaded", () => {
