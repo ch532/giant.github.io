@@ -278,6 +278,27 @@ video {
   height: 100%;
   z-index: 10;
 }
+   #ad-container {
+  pointer-events: auto; /* allow clicks when ad is active */
+}
+
+/* When no ad is displayed, disable pointer events */
+#ad-container.ad-hidden {
+  pointer-events: none;
+  display: none; /* also hide it */
+}
+   #ad-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+#ad-container.ad-hidden {
+  pointer-events: none;
+  display: none;
+}
 </style>   
 </head>
 
@@ -290,47 +311,7 @@ video {
   <div id="ad-container"></div>
 </div>
 
-<script>
-  var videoContent = document.getElementById('content_video');
-  var adContainer = document.getElementById('ad-container');
-  var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-  var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-  var adsManager;
-  
-  var adsRequest = new google.ima.AdsRequest();
-  adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688300"; // ✅ Your ExoClick VAST Tag
-  adsRequest.linearAdSlotWidth = videoContent.clientWidth;
-  adsRequest.linearAdSlotHeight = videoContent.clientHeight;
-  adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
-  adsRequest.nonLinearAdSlotHeight = videoContent.clientHeight / 3;
 
-  adDisplayContainer.initialize();
-  
-  adsLoader.addEventListener(
-    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-    function(event) {
-      adsManager = event.getAdsManager(videoContent);
-      adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
-      adsManager.start();
-    }
-  );
-
-  adsLoader.addEventListener(
-    google.ima.AdErrorEvent.Type.AD_ERROR,
-    function(error) {
-      console.log("Ad error: ", error.getError());
-      videoContent.play(); // fallback to content
-    }
-  );
-
-  videoContent.addEventListener('play', function() {
-    videoContent.pause(); // pause content until ad is done
-    adsLoader.requestAds(adsRequest);
-  }, { once: true });
-</script>
-
-</body>
-</html>
   
 <!-- Start Blog Widget for Multiple Sources -->
 <script type="text/javascript">
@@ -341,35 +322,93 @@ rssfeed_url[3]="https://https://www.skysports.com/rss/news";
 rssfeed_url[4]="https://www.theamericanconservative.com/feed/";
 
 rssfeed_frame_width="100%";
-rssfeed_frame_height="400";
-rssfeed_scroll="on";
-rssfeed_scroll_step="6";
-rssfeed_scroll_bar="off";
-rssfeed_target="_blank";
-rssfeed_font_size="14";
-lrssfeed_font_face="";
-rssfeed_border="on";
-rssfeed_css_url="";
-rssfeed_title="on";
-rssfeed_title_name="🔥 Latest from Naija, World Events & More";
-rssfeed_title_bgcolor="#3366ff";
-rssfeed_title_color="#ffffff";
-rssfeed_item_title_length="60";
-rssfeed_item_title_color="#000000";
-rssfeed_item_bgcolor="#ffffff";
-rssfeed_item_border_bottom="on";
-rssfeed_item_source_icon="on";
-rssfeed_item_date="on";
-rssfeed_item_description="on";
-rssfeed_item_description_length="120";
-rssfeed_item_description_color="#333333";
-rssfeed_item_description_link_color="#0066cc";
-rssfeed_item_description_tag="off";
-rssfeed_no_items="0";
-rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
+rssfeed_frame_heigvar videoContent = document.getElementById('content_video');
+var adContainer = document.getElementById('ad-container');
+var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+var adsManager;
+
+var adsRequest = new google.ima.AdsRequest();
+adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688300";
+adsRequest.linearAdSlotWidth = videoContent.clientWidth;
+adsRequest.linearAdSlotHeight = videoContent.clientHeight;
+adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
+adsRequest.nonLinearAdSlotHeight = videoContent.clientHeight / 3;
+
+adsLoader.addEventListener(
+  google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+  function(event) {
+    adsManager = event.getAdsManager(videoContent);
+
+    adsManager.addEventListener(
+      google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
+      function() {
+        adContainer.classList.remove('ad-hidden');
+        videoContent.pause();
+      }
+    );
+
+    adsManager.addEventListener(
+      google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
+      function() {
+        adContainer.classList.add('ad-hidden');
+        videoContent.play();
+      }
+    );
+
+    adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
+    adsManager.start();
+  }
+);
+
+adsLoader.addEventListener(
+  google.ima.AdErrorEvent.Type.AD_ERROR,
+  function(error) {
+    console.log("Ad error: ", error.getError());
+    adContainer.classList.add('ad-hidden');
+    videoContent.play();
+  }
+);
+
+function initAds() {
+  adDisplayContainer.initialize();
+  adsLoader.requestAds(adsRequest);
+  document.body.removeEventListener('click', initAds);
+}
+
+document.body.addEventListener('click', initAds);
+  
+  <script type="text/javascript">
+  var rssfeed_url = "https://rssmix.com/u/5853728/rss.xml";
+
+  var rssfeed_frame_width = "400";
+  var rssfeed_scroll = "on";
+  var rssfeed_scroll_step = "6";
+  var rssfeed_scroll_bar = "off";
+  var rssfeed_target = "_blank";
+  var rssfeed_font_size = "14";
+  var rssfeed_font_face = "";
+  var rssfeed_border = "on";
+  var rssfeed_css_url = "";
+  var rssfeed_title = "on";
+  var rssfeed_title_name = "🔥 Naija News, Entertainment, Tech, Lifestyle, Sports & Music";
+  var rssfeed_title_bgcolor = "#3366ff";
+  var rssfeed_title_color = "#ffffff";
+  var rssfeed_item_title_length = "60";
+  var rssfeed_item_title_color = "#000000";
+  var rssfeed_item_bgcolor = "#ffffff";
+  var rssfeed_item_border_bottom = "on";
+  var rssfeed_item_source_icon = "on";
+  var rssfeed_item_date = "on";
+  var rssfeed_item_description = "on";
+  var rssfeed_item_description_length = "120";
+  var rssfeed_item_description_color = "#333333";
+  var rssfeed_item_description_link_color = "#0066cc";
+  var rssfeed_item_description_tag = "off";
+  var rssfeed_no_items = "10";
+  var rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
 </script>
 <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
-<!-- End Widget -->
    
 
      <!-- Banner Ad Container -->
