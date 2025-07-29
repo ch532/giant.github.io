@@ -243,33 +243,62 @@ footer {
   </a>
 </div>
 
-<!-- Video.js CSS -->
-<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video with Pre-Roll Ad</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" />
+  <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+  <style>
+    body { max-width: 800px; margin: auto; font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    .section { margin-bottom: 30px; }
+    #my-video { width: 100%; }
+  </style>
+</head>
+<body>
 
-<!-- Video.js JS -->
-<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+<h1>Connect Gold Demo</h1>
 
-<!-- VAST/VPAID Plugin -->
-<script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.2.2/dist/videojs-vast-vpaid.min.js"></script>
+<div class="section">
+  <h2>Featured Video with Pre-Roll Ad</h2>
+  <video id="my-video">
+    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4" />
+  </video>
+</div>
 
-<!-- Player Container -->
-<video id="myPlayer" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" poster="https://i.imgur.com/SVZB1bl.jpg">
-  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-</video>
-
-<!-- Player Config -->
 <script>
-  var player = videojs('myPlayer');
-
-  player.vastClient({
-    adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688300',
-    playAdAlways: true,
-    verbosity: 4,
-    adCancelTimeout: 5000,
-    adsEnabled: true
+  fluidPlayer("my-video", {
+    layoutControls: {
+      primaryColor: "#3366ff",
+      controlBar: { autoHide: true, autoHideTimeout: 3, animated: true },
+      posterImage: ""
+    },
+    vastOptions: {
+      adList: [
+        {
+          roll: "preRoll",
+          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688300",
+          adText: "Advertisement",
+          skipButtonCaption: "Skip ad in [seconds]",
+          skipButtonClickCaption: "Skip Ad"
+        }
+      ],
+      skipOffset: 5,
+      adCTAText: "Visit Now",
+      adCTATextPosition: "bottom right"
+    }
   });
 </script>
 
+<div class="section">
+  <h2>Page Content</h2>
+  <p>Here you can add your other site content—articles, RSS feed widget, music links, sports, and more.</p>
+</div>
+
+</body>
+</html>
 
   
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
