@@ -175,85 +175,70 @@ footer {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ExoClick VAST Ad then YouTube Live</title>
-  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.0/dist/videojs.ima.min.js"></script>
+  <title>ExoClick VAST Ad Test</title>
+  <meta charset="UTF-8">
   <style>
-    #playerContainer {
-      width: 640px;
-      height: 360px;
-      position: relative;
-      background: black;
-    }
-    #youtubeContainer {
-      display: none;
-      width: 640px;
-      height: 360px;
-    }
+    body { background: #000; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+    #video-container { position: relative; width: 80%; max-width: 720px; }
+    video { width: 100%; }
+    #ad-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
   </style>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
 <body>
 
-  <h2>Ad then YouTube Live Demo</h2>
+<div id="video-container">
+  <video id="content_video" controls preload="auto" poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217">
+    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+  </video>
+  <div id="ad-container"></div>
+</div>
 
-  <div id="playerContainer">
-    <video
-      id="content_video"
-      class="video-js vjs-default-skin"
-      controls
-      width="640"
-      height="360"
-      preload="auto"
-      data-setup='{}'>
-    </video>
-  </div>
+<script>
+  var videoContent = document.getElementById('content_video');
+  var adContainer = document.getElementById('ad-container');
+  var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+  var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+  var adsManager;
+  
+  var adsRequest = new google.ima.AdsRequest();
+  adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688300"; // ✅ Your ExoClick VAST Tag
+  adsRequest.linearAdSlotWidth = videoContent.clientWidth;
+  adsRequest.linearAdSlotHeight = videoContent.clientHeight;
+  adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
+  adsRequest.nonLinearAdSlotHeight = videoContent.clientHeight / 3;
 
-  <div id="youtubeContainer">
-    <!-- YouTube iframe will be inserted here -->
-  </div>
+  adDisplayContainer.initialize();
+  
+  adsLoader.addEventListener(
+    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+    function(event) {
+      adsManager = event.getAdsManager(videoContent);
+      adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    }
+  );
 
-  <script>
-    var player = videojs('content_video');
+  adsLoader.addEventListener(
+    google.ima.AdErrorEvent.Type.AD_ERROR,
+    function(error) {
+      console.log("Ad error: ", error.getError());
+      videoContent.play(); // fallback to content
+    }
+  );
 
-    player.ima({
-      adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688300'
-    });
-
-    player.on('adsready', function() {
-      player.play();
-    });
-
-    player.on('adend', function() {
-      // Hide video.js player after ad ends
-      document.getElementById('playerContainer').style.display = 'none';
-
-      // Show YouTube container
-      var ytContainer = document.getElementById('youtubeContainer');
-      ytContainer.style.display = 'block';
-
-      // Insert YouTube live iframe
-      ytContainer.innerHTML = `<iframe width="640" height="360"
-        src="https://www.youtube.com/embed/srJg6ZIPmvU?autoplay=1&mute=1"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>`;
-    });
-
-    // Start ad request on user interaction (required by many browsers)
-    document.body.addEventListener('click', function startAds() {
-      player.ima.initializeAdDisplayContainer();
-      player.ima.requestAds();
-      document.body.removeEventListener('click', startAds);
-    });
-  </script>
-
-  <p>Click anywhere on the page to start the ad and stream.</p>
+  videoContent.addEventListener('play', function() {
+    videoContent.pause(); // pause content until ad is done
+    adsLoader.requestAds(adsRequest);
+  }, { once: true });
+</script>
 
 </body>
 </html>
+
   
+    
+ 
 
      
 <div id="google_translate_element"></div>
