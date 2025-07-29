@@ -172,59 +172,88 @@ footer {
   </header>  
 
 
-<div data-mndbanid="adf90fb2-a4a6-40b0-879d-da1644cd26a5"></div>
-  
-<video id="content_video" width="640" height="360" controls>
-  <source src="https://www.youtube.com/live/srJg6ZIPmvU?si=zK35jy4gyeRscCJo" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-<div id="adContainer" style="position: absolute; width: 640px; height: 360px;"></div>
-
-<script>
-  var adTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=10000417606&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1";
-
-  var videoContent = document.getElementById('content_video');
-  var adContainer = document.getElementById('adContainer');
-
-  var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-  adDisplayContainer.initialize();
-
-  var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-  adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.ENABLED);
-
-  var adsRequest = new google.ima.AdsRequest();
-  adsRequest.adTagUrl = adTagUrl;
-
-  adsRequest.linearAdSlotWidth = 640;
-  adsRequest.linearAdSlotHeight = 360;
-  adsRequest.nonLinearAdSlotWidth = 640;
-  adsRequest.nonLinearAdSlotHeight = 150;
-
-  var adsManager;
-
-  adsLoader.addEventListener(
-    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-    function(adsManagerLoadedEvent) {
-      adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
-      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-      adsManager.start();
-    },
-    false
-  );
-
-  adsLoader.addEventListener(
-    google.ima.AdErrorEvent.Type.AD_ERROR,
-    function(adErrorEvent) {
-      console.log('Ad error: ' + adErrorEvent.getError().toString());
-      videoContent.play();
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ExoClick VAST Ad then YouTube Live</title>
+  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.0/dist/videojs.ima.min.js"></script>
+  <style>
+    #playerContainer {
+      width: 640px;
+      height: 360px;
+      position: relative;
+      background: black;
     }
-  );
+    #youtubeContainer {
+      display: none;
+      width: 640px;
+      height: 360px;
+    }
+  </style>
+</head>
+<body>
 
-  videoContent.onplay = function() {
-    adsLoader.requestAds(adsRequest);
-  };
-</script>
+  <h2>Ad then YouTube Live Demo</h2>
+
+  <div id="playerContainer">
+    <video
+      id="content_video"
+      class="video-js vjs-default-skin"
+      controls
+      width="640"
+      height="360"
+      preload="auto"
+      data-setup='{}'>
+    </video>
+  </div>
+
+  <div id="youtubeContainer">
+    <!-- YouTube iframe will be inserted here -->
+  </div>
+
+  <script>
+    var player = videojs('content_video');
+
+    player.ima({
+      adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688300'
+    });
+
+    player.on('adsready', function() {
+      player.play();
+    });
+
+    player.on('adend', function() {
+      // Hide video.js player after ad ends
+      document.getElementById('playerContainer').style.display = 'none';
+
+      // Show YouTube container
+      var ytContainer = document.getElementById('youtubeContainer');
+      ytContainer.style.display = 'block';
+
+      // Insert YouTube live iframe
+      ytContainer.innerHTML = `<iframe width="640" height="360"
+        src="https://www.youtube.com/embed/srJg6ZIPmvU?autoplay=1&mute=1"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>`;
+    });
+
+    // Start ad request on user interaction (required by many browsers)
+    document.body.addEventListener('click', function startAds() {
+      player.ima.initializeAdDisplayContainer();
+      player.ima.requestAds();
+      document.body.removeEventListener('click', startAds);
+    });
+  </script>
+
+  <p>Click anywhere on the page to start the ad and stream.</p>
+
+</body>
+</html>
+  
 
      
 <div id="google_translate_element"></div>
