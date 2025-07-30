@@ -267,6 +267,65 @@ footer {
  <ins class="eas6a97888e37" data-zoneid="5674120"></ins> 
  <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
 
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google IMA VAST Test</title>
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <style>
+      html, body, #adContainer {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="adContainer"></div>
+
+    <script>
+      const vastUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
+
+      const adContainer = document.getElementById('adContainer');
+      const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
+      const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+      adDisplayContainer.initialize();
+
+      const adsRequest = new google.ima.AdsRequest();
+      adsRequest.adTagUrl = vastUrl;
+      adsRequest.linearAdSlotWidth = window.innerWidth;
+      adsRequest.linearAdSlotHeight = window.innerHeight;
+      adsRequest.nonLinearAdSlotWidth = window.innerWidth;
+      adsRequest.nonLinearAdSlotHeight = window.innerHeight / 3;
+
+      adsLoader.addEventListener(
+        google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+        (adsManagerLoadedEvent) => {
+          const adsManager = adsManagerLoadedEvent.getAdsManager();
+          adsManager.init(window.innerWidth, window.innerHeight, google.ima.ViewMode.NORMAL);
+          adsManager.start();
+        },
+        false
+      );
+
+      adsLoader.addEventListener(
+        google.ima.AdErrorEvent.Type.AD_ERROR,
+        (adErrorEvent) => {
+          console.error("AdError:", adErrorEvent.getError());
+        },
+        false
+      );
+
+      adsLoader.requestAds(adsRequest);
+    </script>
+  </body>
+</html>
+
+
   
  
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
