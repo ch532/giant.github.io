@@ -1,39 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Video.js with Google IMA SDK</title>
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.1/dist/videojs.ima.min.js"></script>
-  <style>
-    body { background: #000; margin: 0; padding: 0; }
-    .video-js { width: 100%; height: 100vh; }
-  </style>
-</head>
-<body>
+<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+ <ins class="eas6a97888e37" data-zoneid="5674120"></ins> 
+ <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
 
-<video id="content_video" class="video-js vjs-default-skin" controls preload="auto"
-  poster="https://via.placeholder.com/640x360.png?text=Live+Stream"
-  data-setup='{}'>
-  <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="application/x-mpegURL">
-</video>
-
-<script>
-  var player = videojs('content_video');
-  var vastTag = "https://pubads.g.doubleclick.net/gampad/live/ads?iu=/23311640042/Vast&description_url=https%3A%2F%2Fwww.youtube.com%2Flive%2FsrJg6ZIPmvU%3Fsi%3DbJnpf4Gsakuk48YQ&tfcd=0&npa=0&sz=640x480&min_ad_duration=50000&max_ad_duration=300000&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=";
-
-  player.ima({
-    adTagUrl: vastTag,
-    debug: true
-  });
-
-  player.ready(function () {
-    player.ima.initializeAdDisplayContainer();
-    player.ima.requestAds();
-    player.play();
-  });
-</script>
-
-</body>
-</html>
