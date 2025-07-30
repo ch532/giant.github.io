@@ -30,19 +30,54 @@
   </video>
 
   <script>
-    const player = videojs('content_video');
+  let retryCount = 0;
 
-    player.ima({
-      adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688604',
-      debug: true
-    });
+  function loadVAST() {
+    if (retryCount > 2) {
+      console.warn("No ads after 3 attempts.");
+      document.getElementById("adContainer").innerHTML = "<p>No ad available</p>";
+      return;
+    }
 
-    player.ready(() => {
-      player.ima.initializeAdDisplayContainer();
-      player.ima.requestAds();
-      player.play();
-    });
-  </script>
+    const player = document.createElement("video");
+    player.setAttribute("id", "vastPlayer");
+    player.setAttribute("width", "100%");
+    player.setAttribute("height", "auto");
+    player.setAttribute("autoplay", "");
+    player.setAttribute("controls", "");
+
+    const vastTag = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
+
+    const ima = new google.ima.AdsLoader(new google.ima.AdDisplayContainer(document.getElementById("adContainer")));
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = vastTag;
+
+    ima.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      function () {
+        retryCount++;
+        loadVAST(); // retry
+      },
+      false
+    );
+
+    ima.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      function (event) {
+        const adsManager = event.getAdsManager(player);
+        adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+        adsManager.start();
+      },
+      false
+    );
+
+    ima.requestAds(adsRequest);
+  }
+
+  window.addEventListener("load", loadVAST);
+</script>
+
+<div id="adContainer"></div>
 
 </body>
 </html>
