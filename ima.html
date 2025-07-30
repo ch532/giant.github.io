@@ -1,96 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Autoplay VAST Ad</title>
-  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.8.0/dist/videojs-contrib-ads.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
-  <style>
-    body {
-      background: #000;
-      margin: 0;
-      padding: 20px;
-    }
-    .video-js {
-      width: 100%;
-      max-width: 640px;
-      height: 360px;
-      margin: auto;
-      display: block;
-    }
-  </style>
-</head>
-<body>
+<html>
+  <head>
+    <title>IMA Ads with video.js</title>
+    <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet" />
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.1/dist/videojs.ima.min.js"></script>
 
-  <video id="content_video" class="video-js vjs-default-skin" controls autoplay muted playsinline>
-    <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
-  </video>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+      }
+      .video-js {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <video
+      id="my-video"
+      class="video-js vjs-default-skin"
+      controls
+      preload="auto"
+      data-setup='{}'
+    >
+      <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+    </video>
 
-  <script>
-  var adDisplayContainer = new google.ima.AdDisplayContainer(
-  document.getElementById('adContainer'), videoContent
-);
-adDisplayContainer.initialize();
+    <script>
+      const player = videojs('my-video');
 
-var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+      player.ima({
+        adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688604',
+        adsRenderingSettings: {
+          enablePreloading: true
+        },
+        adLabel: 'Advertisement',
+        debug: true
+      });
 
-adsLoader.addEventListener(
-  google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-  onAdsManagerLoaded,
-  false
-);
+      player.ready(function () {
+        player.ima.requestAds();
 
-adsLoader.addEventListener(
-  google.ima.AdErrorEvent.Type.AD_ERROR,
-  function (adErrorEvent) {
-    console.log('Ad error:', adErrorEvent.getError());
-    adsManager && adsManager.destroy();
-  },
-  false
-);
+        // Pre-roll
+        player.on('readyforpreroll', function () {
+          player.ima.initializeAdDisplayContainer();
+          player.ima.start();
+        });
 
-// Request the ad
-var adsRequest = new google.ima.AdsRequest();
-adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
+        // Mid-roll at 10 seconds
+        player.on('timeupdate', function () {
+          const currentTime = player.currentTime();
+          if (!player.hasMidRollPlayed && currentTime > 10) {
+            player.hasMidRollPlayed = true;
+            player.ima.requestAds();
+            player.ima.initializeAdDisplayContainer();
+            player.ima.start();
+          }
+        });
 
-// Enable pre-roll, mid-roll at 15s, and post-roll
-adsRequest.linearAdSlotWidth = 640;
-adsRequest.linearAdSlotHeight = 360;
-adsRequest.nonLinearAdSlotWidth = 640;
-adsRequest.nonLinearAdSlotHeight = 150;
-
-adsRequest.setAdWillAutoPlay(true);
-adsRequest.setAdWillPlayMuted(false);
-
-adsLoader.requestAds(adsRequest);
-
-var adsManager;
-
-function onAdsManagerLoaded(adsManagerLoadedEvent) {
-  adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
-  
-  adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-  adsManager.start();
-
-  videoContent.onplaying = () => {
-    setTimeout(() => {
-      console.log('Triggering mid-roll');
-      adsManager.pause();
-      adsManager.start();
-    }, 15000); // 15 seconds for mid-roll
-  };
-
-  videoContent.onended = () => {
-    console.log('Triggering post-roll');
-    adsManager.start();
-  };
-}
-</script>
-
-<div id="adContainer"></div>
-
-</body>
+        // Post-roll when video ends
+        player.on('ended', function () {
+          player.ima.requestAds();
+          player.ima.initializeAdDisplayContainer();
+          player.ima.start();
+        });
+      });
+    </script>
+  </body>
 </html>
