@@ -315,7 +315,55 @@ footer {
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
-  
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Video.js with IMA SDK</title>
+  <link href="https://vjs.zencdn.net/8.9.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.9.0/video.min.js"></script>
+
+  <!-- IMA SDK -->
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+
+  <!-- Video.js IMA Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.1/dist/videojs.ima.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+    }
+    .video-js {
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<video id="content_video" class="video-js vjs-default-skin" controls preload="auto"
+  poster="https://connectgold.sbs/poster.jpg"
+  data-setup='{}'>
+  <source src="https://connectgold.sbs/madonna-4-minutes_258958.mp4" type="video/mp4">
+</video>
+
+<script>
+  var player = videojs('content_video');
+
+  player.ima({
+    id: 'content_video',
+    adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_overlay&description_url=https%3A%2F%2Fmp4-music-dl.xyz%2Fmadonna%2Fclip%2F4-minutes_ljklbh5r.html%23getmp4&tfcd=0&npa=0&sz=640x480&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator='
+  });
+
+  player.ready(function () {
+    player.ima.initializeAdDisplayContainer();
+    player.play();
+  });
+</script>
+
+</body>
+</html>
 
   
   
