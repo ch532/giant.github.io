@@ -1,47 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Video Ad Test</title>
-  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" />
+  <title>IMA SDK with VAST Ad</title>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
   <style>
-    body {
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    video {
+    #video-container {
       width: 640px;
       height: 360px;
+      position: relative;
+      background-color: black;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    #ad-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
 
-<video id="my-video" controls>
-  <source src="https://cdn.fluidplayer.com/videos/valerian-clip.mp4" type="video/mp4">
-  Your browser does not support HTML5 video.
-</video>
+<div id="video-container">
+  <video id="contentElement" controls preload="auto" poster="">
+    <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+  </video>
+  <div id="ad-container"></div>
+</div>
 
-<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 <script>
-  fluidPlayer('my-video', {
-    layoutControls: {
-      fillToContainer: true
-    },
-    vastOptions: {
-      adList: [
-        {
-          roll: "preRoll",
-          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604"
-        }
-      ],
-      skipButtonCaption: "Skip ad in [seconds]",
-      skipButtonClickCaption: "Skip",
+  const vastTag = "https://pubads.g.doubleclick.net/gampad/live/ads?iu=/23311640042/Vast&description_url=https%3A%2F%2Fwww.youtube.com%2Flive%2FsrJg6ZIPmvU%3Fsi%3DbJnpf4Gsakuk48YQ&tfcd=0&npa=0&sz=640x480&min_ad_duration=50000&max_ad_duration=300000&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=";
+
+  const videoContent = document.getElementById('contentElement');
+  const adContainer = document.getElementById('ad-container');
+  let adsLoader, adsManager;
+
+  function initIMA() {
+    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+    adDisplayContainer.initialize();
+
+    adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+    adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      onAdsManagerLoaded,
+      false
+    );
+    adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      onAdError,
+      false
+    );
+
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = vastTag;
+    adsRequest.linearAdSlotWidth = 640;
+    adsRequest.linearAdSlotHeight = 360;
+    adsRequest.nonLinearAdSlotWidth = 640;
+    adsRequest.nonLinearAdSlotHeight = 150;
+
+    adsLoader.requestAds(adsRequest);
+  }
+
+  function onAdsManagerLoaded(adsManagerLoadedEvent) {
+    adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+
+    try {
+      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    } catch (e) {
+      console.log('AdsManager could not be started');
+      videoContent.play();
     }
-  });
+  }
+
+  function onAdError(adErrorEvent) {
+    console.log('Ad error:', adErrorEvent.getError());
+    if (adsManager) adsManager.destroy();
+    videoContent.play();
+  }
+
+  videoContent.addEventListener('play', function () {
+    initIMA();
+  }, { once: true });
 </script>
 
 </body>
