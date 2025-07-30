@@ -31,6 +31,8 @@
       <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
     </video>
 
+<video autoplay muted playsinline></video>
+    
     <script>
       const player = videojs('my-video');
 
@@ -70,6 +72,15 @@
           player.ima.start();
         });
       });
+      adPlayer.on('adError', function () {
+  // Fallback to content if ad fails
+  mainPlayer.play();
+});
+      setTimeout(function () {
+  if (!adStarted) {
+    mainPlayer.play(); // fallback to main content
+  }
+}, 3000);
     </script>
   </body>
 </html>
