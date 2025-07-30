@@ -1,55 +1,57 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>IMA VAST Test</title>
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <style>
-      #adContainer {
-        width: 640px;
-        height: 360px;
-        background: black;
-        position: relative;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="adContainer"></div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video.js with IMA Ad</title>
 
-    <script>
-      const adContainer = document.getElementById("adContainer");
-      const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
-      const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
 
-      adContainer.addEventListener("click", function () {
-        adDisplayContainer.initialize();
+  <!-- Google IMA SDK -->
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 
-        const adsRequest = new google.ima.AdsRequest();
-        adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
+  <!-- Video.js -->
+  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
 
-        adsRequest.linearAdSlotWidth = 640;
-        adsRequest.linearAdSlotHeight = 360;
+  <!-- Video.js IMA Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.10.0/dist/videojs-contrib-ads.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
 
-        const adsManagerLoadedCallback = function (adsManagerLoadedEvent) {
-          const adsManager = adsManagerLoadedEvent.getAdsManager();
-          adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-          adsManager.start();
-        };
+  <style>
+    body {
+      background: #000;
+      padding: 20px;
+      text-align: center;
+    }
+    .video-js {
+      width: 640px;
+      height: 360px;
+      margin: auto;
+    }
+  </style>
+</head>
 
-        adsLoader.addEventListener(
-          google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-          adsManagerLoadedCallback
-        );
+<body>
+  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto"
+    poster="https://vjs.zencdn.net/v/oceans.png" data-setup='{}'>
+    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+  </video>
 
-        adsLoader.addEventListener(
-          google.ima.AdErrorEvent.Type.AD_ERROR,
-          function (adErrorEvent) {
-            console.log("Ad Error:", adErrorEvent.getError());
-          }
-        );
+  <script>
+    var player = videojs('content_video');
 
-        adsLoader.requestAds(adsRequest);
-      });
-    </script>
-  </body>
+    player.ima({
+      adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688604',
+      debug: true,
+      timeout: 5000,
+      prerollTimeout: 5000
+    });
+
+    player.ready(function () {
+      player.ima.initializeAdDisplayContainer();
+      player.ima.requestAds();
+      player.play();
+    });
+  </script>
+</body>
 </html>
