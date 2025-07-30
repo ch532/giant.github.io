@@ -1,34 +1,61 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <title>Video.js + IMA SDK Ad Example</title>
   <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .video-js { width: 640px; height: 360px; }
+  </style>
+</head>
+<body>
+
+  <h2>Video.js Player with IMA Video Ads</h2>
+
+  <video
+    id="content_video"
+    class="video-js vjs-default-skin"
+    controls
+    preload="auto"
+    width="640"
+    height="360"
+    poster="https://vjs.zencdn.net/v/oceans.png"
+  >
+    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+    <!-- This is your main content video. -->
+  </video>
+
   <script src="https://unpkg.com/video.js/dist/video.js"></script>
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.0/dist/videojs.ima.min.js"></script>
-</head>
-<body>
-  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"></video>
-  
+
   <script>
+    // Initialize video.js player
     var player = videojs('content_video');
 
+    // Configure IMA plugin with your VAST ad tag URL
     player.ima({
-      adTagUrl: 'https://essentialmost.com/d_mLF.zQdgGpNHvtZsGOUm/reSm/9bulZrUOlIkrP_TpYM1MNGT/AYxdNzDNc/txN/jrUO1EMgDnEJ0-OZCyZns/aUWk1apJd/Dg0bxU',
+      adTagUrl: 'https://essentialmost.com/d_mLF.zQdgGpNHvtZsGOUm/reSm/9bulZrUOlIkrP_TpYM1MNGT/AYxdNzDNc/txN/jrUO1EMgDnEJ0-OZCyZns/aUWk1apJd/Dg0bxU', // Replace with your HilltopAds or any VAST tag URL
       debug: true,
-      timeout: 5000
+      timeout: 5000,
+      // Optional: adsRenderingSettings can be added here if needed
     });
 
-    // Start ads when user clicks play
+    // Trigger ad request and play after first user interaction (play button)
     player.ready(function() {
       player.one('play', function() {
+        // Request ads, then play content
         player.ima.requestAds();
         player.play();
       });
     });
 
-    // Error listener to catch ad issues
+    // Listen for ad errors
     player.ima.on('aderror', function(event) {
       console.error('IMA Ad error:', event);
     });
   </script>
+
 </body>
 </html>
