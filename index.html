@@ -313,53 +313,79 @@ footer {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IMA Ad Test</title>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <title>Google IMA VAST Test</title>
   <style>
-    #video-container { width: 640px; height: 360px; background: #000; position: relative; }
-    video { width: 100%; height: 100%; }
+    #videoContainer {
+      position: relative;
+      width: 640px;
+      height: 360px;
+      margin: auto;
+      background-color: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    #adContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
   </style>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
 <body>
+  <h3 style="text-align: center;">Google IMA + VAST Ad Test</h3>
+  <div id="videoContainer">
+    <video id="contentElement" controls preload="auto" playsinline>
+      <source src="https://storage.googleapis.com/gvabox/media/samples/stock.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+    <div id="adContainer"></div>
+  </div>
 
-<button onclick="initAd()">Play Ad</button>
+  <script>
+    const videoContent = document.getElementById('contentElement');
+    const adContainer = document.getElementById('adContainer');
+    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+    const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
-<div id="video-container">
-  <video id="content-video" playsinline></video>
-</div>
-
-<script>
-  let adDisplayContainer, adsLoader, adsManager;
-
-  function initAd() {
-    const videoContent = document.getElementById('content-video');
-
-    adDisplayContainer = new google.ima.AdDisplayContainer(
-      document.getElementById('video-container'), videoContent
-    );
-    adDisplayContainer.initialize();
-
-    const adsRequest = new google.ima.AdsRequest();
-    adsRequest.adTagUrl = 'https://s.magsrv.com/v1/vast.php?idzone=5688604';
-
-    adsLoader = new google.ima.AdsLoader(adDisplayContainer);
     adsLoader.addEventListener(
       google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-      (e) => {
-        adsManager = e.getAdsManager(videoContent);
+      (adsManagerLoadedEvent) => {
+        const adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
         adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
         adsManager.start();
-      }
+      },
+      false
     );
+
     adsLoader.addEventListener(
       google.ima.AdErrorEvent.Type.AD_ERROR,
-      (e) => console.error('Ad error:', e.getError())
+      (adErrorEvent) => {
+        console.error('Ad error:', adErrorEvent.getError());
+        videoContent.play(); // fallback to video
+      }
     );
 
-    adsLoader.requestAds(adsRequest);
-  }
-</script>
+    function requestAds() {
+      const adsRequest = new google.ima.AdsRequest();
+      adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
+      adsRequest.linearAdSlotWidth = 640;
+      adsRequest.linearAdSlotHeight = 360;
+      adsRequest.nonLinearAdSlotWidth = 640;
+      adsRequest.nonLinearAdSlotHeight = 150;
+      adsLoader.requestAds(adsRequest);
+    }
 
+    videoContent.addEventListener('play', function() {
+      adDisplayContainer.initialize();
+      requestAds();
+    }, { once: true });
+  </script>
 </body>
 </html>
 
