@@ -316,51 +316,75 @@ footer {
  </script> 
  
   <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Video.js with IMA SDK</title>
-  <link href="https://vjs.zencdn.net/8.9.0/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/8.9.0/video.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>Video.js + IMA SDK Overlay Example</title>
 
-  <!-- IMA SDK -->
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
 
-  <!-- Video.js IMA Plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.1/dist/videojs.ima.min.js"></script>
+  <!-- Video.js IMA CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.1/dist/videojs.ima.css" rel="stylesheet" />
 
   <style>
-    body {
-      margin: 0;
-      background: #000;
+    /* Position the overlay container */
+    #adContainer {
+      position: absolute;
+      bottom: 50px; /* Adjust based on your player control height */
+      left: 10px;
+      width: 300px;
+      height: 60px;
+      z-index: 9999;
+      pointer-events: auto;
+      background: transparent;
     }
-    .video-js {
-      width: 100%;
-      height: 100vh;
+    .video-container {
+      position: relative;
+      width: 640px;
+      margin: auto;
     }
   </style>
 </head>
 <body>
 
-<video id="content_video" class="video-js vjs-default-skin" controls preload="auto"
-  poster="https://connectgold.sbs/poster.jpg"
-  data-setup='{}'>
-  <source src="https://connectgold.sbs/madonna-4-minutes_258958.mp4" type="video/mp4">
-</video>
+  <div class="video-container">
+    <video
+      id="content_video"
+      class="video-js vjs-default-skin"
+      controls
+      preload="auto"
+      width="640"
+      height="360"
+      poster="https://connectgold.sbs/poster.jpg"
+      data-setup="{}"
+    >
+      <source src="https://connectgold.sbs/madonna-4-minutes_258958.mp4" type="video/mp4" />
+      <p class="vjs-no-js">Please enable JavaScript to watch the video.</p>
+    </video>
 
-<script>
-  var player = videojs('content_video');
+    <div id="adContainer"></div>
+  </div>
 
-  player.ima({
-    id: 'content_video',
-    adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_overlay&description_url=https%3A%2F%2Fmp4-music-dl.xyz%2Fmadonna%2Fclip%2F4-minutes_ljklbh5r.html%23getmp4&tfcd=0&npa=0&sz=640x480&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator='
-  });
+  <!-- Scripts -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.1/dist/videojs.ima.min.js"></script>
 
-  player.ready(function () {
-    player.ima.initializeAdDisplayContainer();
-    player.play();
-  });
-</script>
+  <script>
+    const player = videojs('content_video');
+
+    player.ima({
+      id: 'content_video',
+      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_overlay&description_url=http%3A%2F%2Fconnectgold.sbs&tfcd=0&npa=0&sz=640x480&min_ad_duration=30000&max_ad_duration=358000&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=',
+      adsContainer: document.getElementById('adContainer')
+    });
+
+    player.ready(() => {
+      player.ima.initializeAdDisplayContainer();
+      player.play();
+    });
+  </script>
 
 </body>
 </html>
