@@ -1,51 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Fluid Player with ExoClick VAST Ad</title>
-  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" />
 </head>
 <body>
 
-  <video id="my-video" width="640" height="360" controls muted autoplay></video>
+<video id="my-video" width="640" height="360" controls>
+  <!-- Replace this with your actual video file -->
+  <source src="https://cdn.fluidplayer.com/videos/valerian-clip.mp4" type="video/mp4" />
+</video>
 
-  <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-  <script>
-    fluidPlayer("my-video", {
-      layoutControls: {
-        primaryColor: "#00bcd4",
-        allowDownload: false,
-        playbackRateEnabled: true,
-        autoPlay: true,
-        mute: true
-      },
-      vastOptions: {
-        adList: [
-          {
-            roll: "preRoll",
-            vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
-            adText: "Ad - Your content will resume shortly",
-            adClickable: true
-          }
-        ],
-        skipButtonCaption: "Skip ad in [seconds]",
-        skipButtonClickCaption: "Skip",
-        adCTAText: "Learn more",
-        showProgressbarMarkers: true
-      }
-    });
-  </script>
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+<script>
+  var player = fluidPlayer('my-video', {
+    layoutControls: {
+      fillToContainer: true,
+    },
+    vastOptions: {
+      adList: [
+        {
+          roll: "preRoll",
+          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
+          fallbackVastTags: [],
+        },
+        {
+          roll: "midRoll",
+          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
+          fallbackVastTags: [],
+          timer: 10 // Mid-roll at 10s
+        },
+        {
+          roll: "postRoll",
+          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
+          fallbackVastTags: [],
+        }
+      ],
+      skipButtonCaption: "Skip ad in [seconds]",
+      skipButtonClickCaption: "Skip",
+    }
+  });
+</script>
 
 </body>
 </html>
