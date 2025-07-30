@@ -315,33 +315,91 @@ footer {
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
-  <!DOCTYPE html>
+ 
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Video.js + IMA SDK Overlay Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video with Rotating Ads</title>
+  <style>
+    #ad-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 5px;
+      display: none;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    #ad-slot {
+      margin-bottom: 5px;
+    }
+    #close-btn {
+      cursor: pointer;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video.js with Rotating Ads</title>
 
   <!-- Video.js CSS -->
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
 
-  <!-- Video.js IMA CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.1/dist/videojs.ima.css" rel="stylesheet" />
-
   <style>
-    /* Position the overlay container */
-    #adContainer {
-      position: absolute;
-      bottom: 50px; /* Adjust based on your player control height */
-      left: 10px;
-      width: 300px;
-      height: 60px;
-      z-index: 9999;
-      pointer-events: auto;
-      background: transparent;
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 20px;
     }
+
+    #ad-container {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      padding: 10px;
+    }
+
+    #ad-slot iframe {
+      border: none;
+    }
+
+    #close-ad-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
     .video-container {
       position: relative;
-      width: 640px;
+      max-width: 640px;
       margin: auto;
     }
   </style>
@@ -349,47 +407,102 @@ footer {
 <body>
 
   <div class="video-container">
-    <video
-      id="content_video"
-      class="video-js vjs-default-skin"
-      controls
-      preload="auto"
-      width="640"
-      height="360"
-      poster="https://connectgold.sbs/poster.jpg"
-      data-setup="{}"
-    >
-      <source src="https://connectgold.sbs/madonna-4-minutes_258958.mp4" type="video/mp4" />
-      <p class="vjs-no-js">Please enable JavaScript to watch the video.</p>
-    </video>
+    <!-- Ad Overlay -->
+    <div id="ad-container">
+      <button id="close-ad-btn" onclick="closeAd()">X</button>
+      <div id="ad-slot"></div>
+    </div>
 
-    <div id="adContainer"></div>
+    <!-- Video.js Player -->
+    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+      <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
   </div>
 
-  <!-- Scripts -->
+  <!-- Video.js Script -->
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.1/dist/videojs.ima.min.js"></script>
 
   <script>
-    const player = videojs('content_video');
+    const ads = [
+      // Monetag Interstitial
+      `(function(d,z,s){
+        s.src='https://'+d+'/401/'+z;
+        try{(document.body||document.documentElement).appendChild(s)}
+        catch(e){}
+      })('groleegni.net',9381060,document.createElement('script'));`,
 
-    player.ima({
-      id: 'content_video',
-      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/23311640042/Connectgold_overlay&description_url=http%3A%2F%2Fconnectgold.sbs&tfcd=0&npa=0&sz=640x480&min_ad_duration=30000&max_ad_duration=358000&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=',
-      adsContainer: document.getElementById('adContainer')
-    });
+      // Adsterra Banner
+      `atOptions = {
+        'key' : '3a61eeaaf59e665f414dccca2067e354',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+      var adstScript = document.createElement('script');
+      adstScript.src = '//www.highperformanceformat.com/3a61eeaaf59e665f414dccca2067e354/invoke.js';
+      document.getElementById('ad-slot').appendChild(adstScript);`,
+
+      // ExoClick Banner
+      `(function(){
+        var exoScript = document.createElement("script");
+        exoScript.async = true;
+        exoScript.type = "application/javascript";
+        exoScript.src = "https://a.magsrv.com/ad-provider.js";
+        document.getElementById("ad-slot").appendChild(exoScript);
+
+        var ins = document.createElement("ins");
+        ins.className = "eas6a97888e2";
+        ins.setAttribute("data-zoneid", "5674184");
+        document.getElementById("ad-slot").appendChild(ins);
+
+        (AdProvider = window.AdProvider || []).push({"serve": {}});
+      })();`
+    ];
+
+    let adIndex = 0;
+
+    function rotateAd() {
+      const adContainer = document.getElementById("ad-container");
+      const adSlot = document.getElementById("ad-slot");
+
+      adSlot.innerHTML = ""; // Clear previous ad
+
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.innerHTML = ads[adIndex];
+
+      adSlot.appendChild(script);
+      adContainer.style.display = "flex";
+
+      adIndex = (adIndex + 1) % ads.length;
+    }
+
+    function closeAd() {
+      document.getElementById("ad-container").style.display = "none";
+    }
+
+    const player = videojs('my-video');
 
     player.ready(() => {
-      player.ima.initializeAdDisplayContainer();
-      player.play();
+      rotateAd(); // Show ad before video starts
+
+      player.on('play', () => {
+        closeAd(); // Close ad when video starts
+      });
+
+      player.on('ended', () => {
+        setTimeout(() => {
+          rotateAd(); // Show ad after video ends
+        }, 500);
+      });
     });
   </script>
-
 </body>
 </html>
+                                                               let adIndex = 0;
 
-  
   
 <script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script> 
  <ins class="eas6a97888e33" data-zoneid="5688722"></ins> 
@@ -414,8 +527,7 @@ footer {
         adUnitId: 'ca-app-pub-1171216593802007/1435861786',
         onRewarded: () => {
           alert('🎉 User earned reward!');
-        },
-        onClosed: () => {
+        },ñ       onClosed: () => {
           console.log('✅ Rewarded ad was closed.');
         },
         onError: (error) => {
