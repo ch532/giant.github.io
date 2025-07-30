@@ -1,38 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Video Ad Test</title>
   <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" />
+  <style>
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    video {
+      width: 640px;
+      height: 360px;
+    }
+  </style>
 </head>
 <body>
 
-<video id="my-video" width="640" height="360" controls>
-  <!-- Replace this with your actual video file -->
-  <source src="https://cdn.fluidplayer.com/videos/valerian-clip.mp4" type="video/mp4" />
+<video id="my-video" controls>
+  <source src="https://cdn.fluidplayer.com/videos/valerian-clip.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
 </video>
 
 <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 <script>
-  var player = fluidPlayer('my-video', {
+  fluidPlayer('my-video', {
     layoutControls: {
-      fillToContainer: true,
+      fillToContainer: true
     },
     vastOptions: {
       adList: [
         {
           roll: "preRoll",
-          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
-          fallbackVastTags: [],
-        },
-        {
-          roll: "midRoll",
-          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
-          fallbackVastTags: [],
-          timer: 10 // Mid-roll at 10s
-        },
-        {
-          roll: "postRoll",
-          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
-          fallbackVastTags: [],
+          vastTag: "https://s.magsrv.com/v1/vast.php?idzone=5688604"
         }
       ],
       skipButtonCaption: "Skip ad in [seconds]",
