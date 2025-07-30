@@ -1,40 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Video.js with IMA Ad</title>
-
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
-
-  <!-- Google IMA SDK -->
+  <title>Video.js with Google IMA + ExoClick VAST</title>
+  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-
-  <!-- Video.js -->
-  <script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
-
-  <!-- Video.js IMA Plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.10.0/dist/videojs-contrib-ads.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
+  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.8.0/dist/videojs-contrib-ads.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
 
   <style>
-    body {
-      background: #000;
-      padding: 20px;
-      text-align: center;
-    }
     .video-js {
-      width: 640px;
-      height: 360px;
+      width: 100%;
+      height: auto;
+      max-width: 640px;
       margin: auto;
     }
   </style>
 </head>
-
 <body>
-  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto"
-    poster="https://vjs.zencdn.net/v/oceans.png" data-setup='{}'>
-    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+
+  <video id="content_video" class="video-js vjs-default-skin" controls autoplay muted playsinline>
+    <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
   </video>
 
   <script>
@@ -43,8 +29,8 @@
     player.ima({
       adTagUrl: 'https://s.magsrv.com/v1/vast.php?idzone=5688604',
       debug: true,
-      timeout: 5000,
-      prerollTimeout: 5000
+      autoplay: true,
+      preloadAds: true
     });
 
     player.ready(function () {
@@ -53,5 +39,6 @@
       player.play();
     });
   </script>
+
 </body>
 </html>
