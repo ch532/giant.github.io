@@ -30,51 +30,64 @@
   </video>
 
   <script>
-  let retryCount = 0;
+  var adDisplayContainer = new google.ima.AdDisplayContainer(
+  document.getElementById('adContainer'), videoContent
+);
+adDisplayContainer.initialize();
 
-  function loadVAST() {
-    if (retryCount > 2) {
-      console.warn("No ads after 3 attempts.");
-      document.getElementById("adContainer").innerHTML = "<p>No ad available</p>";
-      return;
-    }
+var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
-    const player = document.createElement("video");
-    player.setAttribute("id", "vastPlayer");
-    player.setAttribute("width", "100%");
-    player.setAttribute("height", "auto");
-    player.setAttribute("autoplay", "");
-    player.setAttribute("controls", "");
+adsLoader.addEventListener(
+  google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+  onAdsManagerLoaded,
+  false
+);
 
-    const vastTag = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
+adsLoader.addEventListener(
+  google.ima.AdErrorEvent.Type.AD_ERROR,
+  function (adErrorEvent) {
+    console.log('Ad error:', adErrorEvent.getError());
+    adsManager && adsManager.destroy();
+  },
+  false
+);
 
-    const ima = new google.ima.AdsLoader(new google.ima.AdDisplayContainer(document.getElementById("adContainer")));
-    const adsRequest = new google.ima.AdsRequest();
-    adsRequest.adTagUrl = vastTag;
+// Request the ad
+var adsRequest = new google.ima.AdsRequest();
+adsRequest.adTagUrl = "https://s.magsrv.com/v1/vast.php?idzone=5688604";
 
-    ima.addEventListener(
-      google.ima.AdErrorEvent.Type.AD_ERROR,
-      function () {
-        retryCount++;
-        loadVAST(); // retry
-      },
-      false
-    );
+// Enable pre-roll, mid-roll at 15s, and post-roll
+adsRequest.linearAdSlotWidth = 640;
+adsRequest.linearAdSlotHeight = 360;
+adsRequest.nonLinearAdSlotWidth = 640;
+adsRequest.nonLinearAdSlotHeight = 150;
 
-    ima.addEventListener(
-      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-      function (event) {
-        const adsManager = event.getAdsManager(player);
-        adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-        adsManager.start();
-      },
-      false
-    );
+adsRequest.setAdWillAutoPlay(true);
+adsRequest.setAdWillPlayMuted(false);
 
-    ima.requestAds(adsRequest);
-  }
+adsLoader.requestAds(adsRequest);
 
-  window.addEventListener("load", loadVAST);
+var adsManager;
+
+function onAdsManagerLoaded(adsManagerLoadedEvent) {
+  adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+  
+  adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+  adsManager.start();
+
+  videoContent.onplaying = () => {
+    setTimeout(() => {
+      console.log('Triggering mid-roll');
+      adsManager.pause();
+      adsManager.start();
+    }, 15000); // 15 seconds for mid-roll
+  };
+
+  videoContent.onended = () => {
+    console.log('Triggering post-roll');
+    adsManager.start();
+  };
+}
 </script>
 
 <div id="adContainer"></div>
