@@ -3,6 +3,8 @@
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">
 <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9381060,document.createElement('script'))</script>
+<script type="text/javascript" src="https://ridefiles.net/script_include.php?id=1831350"></script>
+<script type="text/javascript" src="https://playabledownload.com/script_include.php?id=1831354"></script>
   
   <script src="https://jsc.adskeeper.com/site/1037886.js" async> 
  </script> 
@@ -360,6 +362,21 @@ footer {
 </body>
 </html>
   
+
+<div id="offerFeed"></div>
+
+<script>
+  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0")
+    .then(res => res.json())
+    .then(data => {
+      let output = "<ul>";
+      data.items.forEach(item => {
+        output += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
+      });
+      output += "</ul>";
+      document.getElementById("offerFeed").innerHTML = output;
+    });
+</script>
   
   
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
