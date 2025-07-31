@@ -14,7 +14,7 @@
   <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
     <vmap:AdSource id="ad-midroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
+        <![CDATA[https://essentialmost.com/dJm-F/z.diGVNTvOZNGbUv/QexmS9NuLZ/U/lskqP/TqYk1GNkT/Ed4ZN/TKgQtJNHj/Un1dM/TZgm1CONSMZws/aOWY1zpXdiDy0Axu]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
@@ -23,7 +23,7 @@
   <vmap:AdBreak timeOffset="end" breakType="linear">
     <vmap:AdSource id="ad-postroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
+        <![CDATA[https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
