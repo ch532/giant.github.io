@@ -176,7 +176,10 @@ footer {
   background: transparent;
   z-index: 9998;
   pointer-events: none; /* So it doesn't block interactions */
-}
+  }
+  body {
+    background-color: white;
+  }
 </style>
 
   
@@ -259,6 +262,23 @@ footer {
 <div style="display: inline-block; background: #ffe58a; color: #333; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px;">
   Sponsored
 </div>
+
+<div id="offerFeed"></div>
+
+<script>
+  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0")
+    .then(res => res.json())
+    .then(data => {
+      let output = "<ul>";
+      data.items.forEach(item => {
+        output += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
+      });
+      output += "</ul>";
+      document.getElementById("offerFeed").innerHTML = output;
+    });
+</script>
+  
+
   
   <div style="text-align:center; margin:20px 0; font-family:sans-serif;">
   <a href="https://amzn.to/3IDSp9r" target="_blank" rel="noopener noreferrer">
@@ -362,21 +382,6 @@ footer {
 </body>
 </html>
   
-
-<div id="offerFeed"></div>
-
-<script>
-  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0")
-    .then(res => res.json())
-    .then(data => {
-      let output = "<ul>";
-      data.items.forEach(item => {
-        output += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
-      });
-      output += "</ul>";
-      document.getElementById("offerFeed").innerHTML = output;
-    });
-</script>
   
   
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
