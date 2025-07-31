@@ -3,7 +3,7 @@
 
   <!-- Pre-roll -->
   <vmap:AdBreak timeOffset="start" breakType="linear">
-    <vmap:AdSource id="1" allowMultipleAds="false" followRedirects="true">
+    <vmap:AdSource id="ad-preroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
         <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
       </vmap:AdTagURI>
@@ -11,8 +11,8 @@
   </vmap:AdBreak>
 
   <!-- Mid-roll at 30 seconds -->
-  <vmap:AdBreak timeOffset="00:00:30" breakType="linear">
-    <vmap:AdSource id="2" allowMultipleAds="false" followRedirects="true">
+  <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
+    <vmap:AdSource id="ad-midroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
         <![CDATA[https://s.magsrv.com/v1/vast.php?idzone=5688604]]>
       </vmap:AdTagURI>
@@ -21,7 +21,7 @@
 
   <!-- Post-roll -->
   <vmap:AdBreak timeOffset="end" breakType="linear">
-    <vmap:AdSource id="3" allowMultipleAds="false" followRedirects="true">
+    <vmap:AdSource id="ad-postroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
         <![CDATA[https://s.magsrv.com/v1/vast.php?idzone=5688604]]>
       </vmap:AdTagURI>
