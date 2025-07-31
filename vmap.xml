@@ -3,29 +3,32 @@
 
   <!-- Pre-roll -->
   <vmap:AdBreak timeOffset="start" breakType="linear">
-    <vmap:AdSource id="ad-preroll" allowMultipleAds="false" followRedirects="true">
-      <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://s.magsrv.com/splash.php?idzone=5690154]]>
-      </vmap:AdTagURI>
-    </vmap:AdSource>
-  </vmap:AdBreak>
-
-  <!-- Mid-roll at 30 seconds -->
-  <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
-    <vmap:AdSource id="ad-midroll" allowMultipleAds="false" followRedirects="true">
-      <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://essentialmost.com/dJm-F/z.diGVNTvOZNGbUv/QexmS9NuLZ/U/lskqP/TqYk1GNkT/Ed4ZN/TKgQtJNHj/Un1dM/TZgm1CONSMZws/aOWY1zpXdiDy0Axu]]>
-      </vmap:AdTagURI>
-    </vmap:AdSource>
-  </vmap:AdBreak>
-
-  <!-- Post-roll -->
-  <vmap:AdBreak timeOffset="end" breakType="linear">
-    <vmap:AdSource id="ad-postroll" allowMultipleAds="false" followRedirects="true">
+    <vmap:AdSource id="ad-preroll" allowMultipleAds="true" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
         <![CDATA[https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
 
+  <!-- Mid-roll at 30 seconds -->
+  <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
+    <vmap:AdSource id="ad-midroll" allowMultipleAds="true" followRedirects="true">
+      <vmap:AdTagURI templateType="vast3">
+        <![CDATA[https://s.magsrv.com/splash.php?idzone=5690154]]>
+      </vmap:AdTagURI>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
+  <!-- Post-roll -->
+  <vmap:AdBreak timeOffset="end" breakType="linear">
+    <vmap:AdSource id="ad-postroll" allowMultipleAds="true" followRedirects="true">
+      <vmap:AdTagURI templateType="vast3">
+        <![CDATA[https://essentialmost.com/dJm-F/z.diGVNTvOZNGbUv/QexmS9NuLZ/U/lskqP/TqYk1GNkT/Ed4ZN/TKgQtJNHj/Un1dM/TZgm1CONSMZws/aOWY1zpXdiDy0Axu]]>
+      </vmap:AdTagURI>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
 </vmap:VMAP>
+
+
+
