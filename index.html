@@ -316,140 +316,69 @@ footer {
  </script> 
  
 
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Video with VMAP Ads</title>
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <style>
-      #adContainer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 2;
+<head>
+  <title>VMAP Ad Example</title>
+  <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
+  <style>
+    body {
+      background-color: #000;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .video-js {
+      width: 100%;
+      max-width: 720px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <video
+    id="content_video"
+    class="video-js vjs-default-skin"
+    controls
+    preload="auto"
+    poster="gold-2.png"
+    data-setup='{}'
+  >
+    <source src="videoplayback-1.mp4" type="video/mp4" />
+  </video>
+
+  <script>
+    const player = videojs('content_video');
+
+    player.ima({
+      id: 'content_video',
+      adTagUrl: 'https://connectgold.sbs/vmap.xml',
+      adsRenderingSettings: {
+        enablePreloading: true
       }
-      video {
-        width: 640px;
-        height: 360px;
-        background: #000;
-      }
-    </style>
-  </head>
-  <body>
-    <div style="position:relative; display:inline-block;">
-      <video id="contentElement" playsinline controls></video>
-      <div id="adContainer"></div>
-    </div>
-
-    <button id="playButton">▶️ Start Watching</button>
-
-    <script>
-  let adDisplayContainer;
-  let adsLoader;
-  let adsManager;
-  let adsRequested = false;
-
-  const videoContent = document.getElementById('contentElement');
-  const adContainer = document.getElementById('adContainer');
-  const playButton = document.getElementById('playButton');
-  const videoSrc = "videoplayback-1.mp4"; // Your main video file
-
-  // Set the video source early to ensure it's available after ads
-  videoContent.src = videoSrc;
-
-  function createAdDisplayContainer() {
-    adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-  }
-
-  function requestAds() {
-    const adsRequest = new google.ima.AdsRequest();
-    adsRequest.adTagUrl = "https://connectgold.sbs/vmap.xml"; // Replace with your VMAP URL
-
-    adsRequest.linearAdSlotWidth = 640;
-    adsRequest.linearAdSlotHeight = 360;
-    adsRequest.nonLinearAdSlotWidth = 640;
-    adsRequest.nonLinearAdSlotHeight = 150;
-
-    adsLoader.requestAds(adsRequest);
-  }
-
-  function initAds() {
-    createAdDisplayContainer();
-    videoContent.load(); // prepare video
-    adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-
-    adsLoader.addEventListener(
-      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-      onAdsManagerLoaded,
-      false
-    );
-    adsLoader.addEventListener(
-      google.ima.AdErrorEvent.Type.AD_ERROR,
-      onAdError,
-      false
-    );
-  }
-
-  function onAdsManagerLoaded(adsManagerLoadedEvent) {
-    const adsRenderingSettings = new google.ima.AdsRenderingSettings();
-    adsManager = adsManagerLoadedEvent.getAdsManager(videoContent, adsRenderingSettings);
-
-    adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
-    adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, () => {
-      // Ensure source is set before playing
-      if (!videoContent.src) {
-        videoContent.src = videoSrc;
-      }
-      videoContent.load();
-      videoContent.play();
     });
 
-    try {
-      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-      adsManager.start();
-    } catch (adError) {
-      console.error("AdsManager could not be started:", adError);
-      videoContent.src = videoSrc;
-      videoContent.load();
-      videoContent.play();
-    }
-  }
+    player.ready(function () {
+      player.ima.initializeAdDisplayContainer();
+      player.ima.requestAds();
+      player.play();
+    });
+  </script>
 
-  function onAdError(adErrorEvent) {
-    console.warn("Ad Error:", adErrorEvent.getError());
-    if (adsManager) adsManager.destroy();
-    videoContent.src = videoSrc;
-    videoContent.load();
-    videoContent.play();
-  }
-
-  playButton.addEventListener("click", () => {
-    playButton.style.display = "none";
-
-    if (!adsRequested) {
-      initAds();
-      adDisplayContainer.initialize();
-      requestAds();
-      adsRequested = true;
-    } else {
-      videoContent.play();
-    }
-  });
-</script>    
 </body>
 </html>
-
+  
+  
   
         
       
       
-      
-          
-
-  
     
 <script>
   window.addEventListener("load", () => {
