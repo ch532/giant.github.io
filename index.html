@@ -315,11 +315,12 @@ footer {
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>IMA SDK Ad Player</title>
+  <title>IMA SDK Pre/Mid/Post Roll Ad Player</title>
   <style>
     body {
       background: #000;
@@ -328,18 +329,23 @@ footer {
       text-align: center;
       padding-top: 40px;
     }
+
     video {
       width: 90%;
       max-width: 640px;
       height: auto;
       background: #000;
+      display: block;
+      margin: 0 auto;
     }
+
     #playButton {
       padding: 10px 20px;
       font-size: 16px;
       margin-top: 15px;
       cursor: pointer;
     }
+
     #adContainer {
       position: absolute;
       top: 40px;
@@ -352,23 +358,37 @@ footer {
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
 <body>
-  <h2>Video Ad Player with IMA SDK</h2>
+
+  <h2>Video Player with Pre/Mid/Post Roll Ads</h2>
 
   <div style="position:relative; display:inline-block;">
-    <video id="contentElement" playsinline></video>
+    <video id="contentElement" playsinline controls></video>
     <div id="adContainer"></div>
   </div>
 
-  <button id="playButton">▶️ Watch & Unlock</button>
+  <button id="playButton">▶️ Start Watching</button>
 
   <script>
     const videoContent = document.getElementById('contentElement');
     const adContainer = document.getElementById('adContainer');
     const playButton = document.getElementById('playButton');
 
-    let adDisplayContainer, adsLoader, adsManager;
+    // Your video file
+    const videoSrc = "BigBuckBunny.mp4";
 
-    function initAdSDK() {
+    // VAST ad tags for pre-roll, mid-roll, post-roll
+    const adsTags = {
+      preroll: "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu",
+      midroll: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
+      postroll: "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu"
+    };
+
+    let adDisplayContainer, adsLoader, adsManager;
+    let adsRequested = false;
+    let midrollPlayed = false;
+
+    // Initialize IMA SDK
+    function initIMA() {
       adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
       adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
@@ -385,9 +405,10 @@ footer {
       );
     }
 
-    function requestAds() {
+    // Request ads by type: preroll, midroll, postroll
+    function requestAds(adTagUrl) {
       const adsRequest = new google.ima.AdsRequest();
-      adsRequest.adTagUrl = "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu";
+      adsRequest.adTagUrl = adTagUrl;
 
       adsRequest.linearAdSlotWidth = videoContent.clientWidth;
       adsRequest.linearAdSlotHeight = videoContent.clientHeight;
@@ -397,55 +418,86 @@ footer {
       adsLoader.requestAds(adsRequest);
     }
 
+    // Handle ads manager loaded event
     function onAdsManagerLoaded(adsManagerLoadedEvent) {
       adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
 
       adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
       adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, onContentPauseRequested);
       adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, onContentResumeRequested);
+      adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, onAllAdsCompleted);
 
       try {
         adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
         adsManager.start();
       } catch (e) {
-        console.log("Ad playback error: " + e.message);
-        playContentVideo();
+        console.error("AdsManager could not start: " + e.message);
+        videoContent.play();
       }
     }
 
+    // Handle ad errors
     function onAdError(adErrorEvent) {
-      console.error("Ad error:", adErrorEvent.getError());
+      console.error("Ad error: ", adErrorEvent.getError());
       if (adsManager) {
         adsManager.destroy();
       }
-      playContentVideo();
+      videoContent.play();
     }
 
+    // Pause content for ad
     function onContentPauseRequested() {
-      // Ad started, pause content (if any)
       videoContent.pause();
     }
 
+    // Resume content after ad
     function onContentResumeRequested() {
-      // Ad finished, play content automatically
-      playContentVideo();
+      videoContent.play();
     }
 
-    function playContentVideo() {
-      videoContent.src = "videoplayback.mp4";
+    // All ads completed callback
+    function onAllAdsCompleted() {
+      // Nothing needed here, ads are done
+    }
+
+    // Play the main video source
+    function playVideo() {
+      videoContent.src = videoSrc;
+      videoContent.load();
       videoContent.play();
+    }
+
+    // Event to trigger midroll at 50% video time
+    function onTimeUpdate() {
+      if (!midrollPlayed && videoContent.currentTime >= videoContent.duration / 2) {
+        midrollPlayed = true;
+        adsLoader.contentComplete(); // Inform IMA content is interrupted
+        requestAds(adsTags.midroll);
+      }
     }
 
     playButton.addEventListener('click', () => {
       playButton.style.display = 'none';
-      initAdSDK();
+      initIMA();
       adDisplayContainer.initialize();
-      requestAds();
+
+      // Request pre-roll ads first
+      requestAds(adsTags.preroll);
+
+      // After ads, video will play automatically via onContentResumeRequested
+
+      // Listen for mid-roll trigger during playback
+      videoContent.addEventListener('timeupdate', onTimeUpdate);
+
+      // Set main video source but don’t play it yet, ads will play first
+      videoContent.src = videoSrc;
+      videoContent.load();
     });
   </script>
+
 </body>
 </html>
-
+      
       
           
 
