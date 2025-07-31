@@ -354,6 +354,16 @@ footer {
       height: 100%;
       z-index: 10;
     }
+    video {
+    z-index: 10;
+    pointer-events: auto !important;
+  }
+
+  #adContainer {
+    z-index: 20;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
   </style>
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
@@ -493,7 +503,39 @@ footer {
       videoContent.src = videoSrc;
       videoContent.load();
     });
-  </script>
+    
+  // When the ad is done or skipped
+  function enableVideoControls() {
+    const video = document.getElementById('mainVideo');
+    video.style.pointerEvents = 'auto';
+    video.controls = true;
+  }
+
+  // Call this when ad finishes or is skipped
+  enableVideoControls();
+  
+  function onAdCompleteOrSkipped() {
+    const adContainer = document.getElementById('adContainer');
+    const video = document.getElementById('contentElement'); // make sure this matches your <video> ID
+
+    // Hide ad container
+    adContainer.style.display = 'none';
+
+    // Re-enable interaction with the video
+    video.style.pointerEvents = 'auto';
+    video.controls = true; // show video controls (like pause, seek, etc.)
+  }
+
+  // Optional: Call this if needed when initializing
+  function enableVideoControls() {
+    const video = document.getElementById('contentElement');
+    video.style.pointerEvents = 'auto';
+    video.controls = true;
+  }
+
+  // Example: Simulate ad finished after 5 seconds
+  // setTimeout(onAdCompleteOrSkipped, 5000)
+</script>
 
 </body>
 </html>
