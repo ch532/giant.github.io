@@ -14,7 +14,7 @@
   <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
     <vmap:AdSource id="ad-midroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://s.magsrv.com/v1/vast.php?idzone=5688604]]>
+        <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
@@ -23,7 +23,7 @@
   <vmap:AdBreak timeOffset="end" breakType="linear">
     <vmap:AdSource id="ad-postroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://s.magsrv.com/v1/vast.php?idzone=5688604]]>
+        <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
