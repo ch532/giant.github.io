@@ -315,28 +315,25 @@ footer {
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
- 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
-  <head>
-    <title>IMA SDK Example</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  </head>
-  <body>
-    <div id="mainContainer">
-      <video id="contentElement" controls preload="auto" width="640" height="360" poster="">
-        <source src="Big_Buck_Bunny_360_10s_1MB.mp4" type="video/mp4" />
-      </video>
+<head>
+  <title>IMA SDK Example</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+</head>
+<body>
+  <div class="video-container">
+    <video id="content_video" controls preload="auto" width="640" height="360">
+      <source src="Big_Buck_Bunny_360_10s_1MB.mp4" type="video/mp4" />
+    </video>
+    <div id="ad_container"></div>
+    <button id="play_button">Play with Ad</button>
+  </div>
 
-      <div id="adContainer"></div>
-      <button id="playButton">▶️ Play with Ad</button>
-    </div>
-
-    <script src="ads.js"></script>
-  </body>
+  <script src="ads.js"></script>
+</body>
 </html>
-
 
 
                                                                let adIndex 
