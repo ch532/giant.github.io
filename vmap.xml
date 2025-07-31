@@ -5,7 +5,7 @@
   <vmap:AdBreak timeOffset="start" breakType="linear">
     <vmap:AdSource id="ad-preroll" allowMultipleAds="false" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
+        <![CDATA[https://s.magsrv.com/splash.php?idzone=5690154]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
