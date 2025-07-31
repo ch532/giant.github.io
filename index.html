@@ -292,42 +292,30 @@ footer {
   });
 </script>
 
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Rewarded Ad Example</title>
-  <script src="https://cdn.litoffmonetize.com/script.js"></script>
-</head>
-<body>
-
-  <button onclick="showRewardedAd()">🎁 Watch Ad to Unlock</button>
-
   <script>
-    function showRewardedAd() {
-      if (window.litoff && litoff.rewarded) {
-        litoff.rewarded.show({
-          placementId: "SCALE-3637379",
-          onComplete: () => {
-            alert("✅ Ad completed! You earned the reward.");
-            // Unlock content here (e.g., show download link)
-          },
-          onSkip: () => {
-            alert("⛔ You skipped the ad. No reward.");
-          },
-          onError: (err) => {
-            console.error("❌ Ad failed:", err);
-            alert("Ad failed to load.");
-          }
-        });
-      } else {
-        console.log("Litoff SDK not ready");
-      }
-    }
-  </script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const rewardedId = "SCALE-3637379";
 
-</body>
-</html>
+    // Wait until the SDK is fully loaded
+    if (window.litoff) {
+      litoff.rewarded.show({
+        placementId: rewardedId,
+        onComplete: function () {
+          console.log("User watched the ad. Grant reward.");
+          // You can add reward logic here
+        },
+        onClose: function () {
+          console.log("Ad closed without completion.");
+        },
+        onError: function (e) {
+          console.error("Rewarded ad error:", e);
+        }
+      });
+    } else {
+      console.warn("Litoff SDK not available yet.");
+    }
+  });
+</script>
   
 
 <div data-type="_mgwidget" data-widget-id="1821485"> 
