@@ -147,7 +147,7 @@ footer {
   color: #eee;
   padding: 30px 20px;
   text-align: center;
-  margin-bottom: 90px;
+  margin-bottom: 120px;
 }
   <style>
   footer {
@@ -163,6 +163,16 @@ footer {
     background-color: #000; /* optional: dark background for contrast */
     padding: 20px;
   }
+  #fixed-bottom-ad {
+  height: 90px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+  z-index: 9998;
+  pointer-events: none; /* So it doesn't block interactions */
+}
 </style>
 </style>
   
@@ -439,7 +449,8 @@ footer {
     }
   });
 </script>
-      
+
+  <div id="fixed-bottom-ad"></div>
   <footer>  
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
