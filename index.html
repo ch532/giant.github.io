@@ -347,89 +347,99 @@ footer {
     <button id="playButton">▶️ Start Watching</button>
 
     <script>
-      let adDisplayContainer;
-      let adsLoader;
-      let adsManager;
-      let adsRequested = false;
+  let adDisplayContainer;
+  let adsLoader;
+  let adsManager;
+  let adsRequested = false;
 
-      const videoContent = document.getElementById('contentElement');
-      const adContainer = document.getElementById('adContainer');
-      const playButton = document.getElementById('playButton');
-      const videoSrc = "videoplayback-1.mp4"; // Your main video file
+  const videoContent = document.getElementById('contentElement');
+  const adContainer = document.getElementById('adContainer');
+  const playButton = document.getElementById('playButton');
+  const videoSrc = "videoplayback-1.mp4"; // Your main video file
 
-      function createAdDisplayContainer() {
-        adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-      }
+  // Set the video source early to ensure it's available after ads
+  videoContent.src = videoSrc;
 
-      function requestAds() {
-        const adsRequest = new google.ima.AdsRequest();
-        adsRequest.adTagUrl = "https://connectgold.sbs/vmap.xml"; // Replace with your VMAP URL
+  function createAdDisplayContainer() {
+    adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+  }
 
-        adsRequest.linearAdSlotWidth = 640;
-        adsRequest.linearAdSlotHeight = 360;
-        adsRequest.nonLinearAdSlotWidth = 640;
-        adsRequest.nonLinearAdSlotHeight = 150;
+  function requestAds() {
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = "https://connectgold.sbs/vmap.xml"; // Replace with your VMAP URL
 
-        adsLoader.requestAds(adsRequest);
-      }
+    adsRequest.linearAdSlotWidth = 640;
+    adsRequest.linearAdSlotHeight = 360;
+    adsRequest.nonLinearAdSlotWidth = 640;
+    adsRequest.nonLinearAdSlotHeight = 150;
 
-      function initAds() {
-        createAdDisplayContainer();
-        videoContent.load(); // prepare video
-        adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+    adsLoader.requestAds(adsRequest);
+  }
 
-        adsLoader.addEventListener(
-          google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-          onAdsManagerLoaded,
-          false
-        );
-        adsLoader.addEventListener(
-          google.ima.AdErrorEvent.Type.AD_ERROR,
-          onAdError,
-          false
-        );
-      }
+  function initAds() {
+    createAdDisplayContainer();
+    videoContent.load(); // prepare video
+    adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
-      function onAdsManagerLoaded(adsManagerLoadedEvent) {
-        const adsRenderingSettings = new google.ima.AdsRenderingSettings();
-        adsManager = adsManagerLoadedEvent.getAdsManager(videoContent, adsRenderingSettings);
+    adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      onAdsManagerLoaded,
+      false
+    );
+    adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      onAdError,
+      false
+    );
+  }
 
-        adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
-        adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, () => {
-          videoContent.play();
-        });
+  function onAdsManagerLoaded(adsManagerLoadedEvent) {
+    const adsRenderingSettings = new google.ima.AdsRenderingSettings();
+    adsManager = adsManagerLoadedEvent.getAdsManager(videoContent, adsRenderingSettings);
 
-        try {
-          adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-          adsManager.start();
-        } catch (adError) {
-          console.error("AdsManager could not be started:", adError);
-          videoContent.src = videoSrc;
-          videoContent.play();
-        }
-      }
-
-      function onAdError(adErrorEvent) {
-        console.warn("Ad Error:", adErrorEvent.getError());
-        if (adsManager) adsManager.destroy();
+    adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
+    adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, () => {
+      // Ensure source is set before playing
+      if (!videoContent.src) {
         videoContent.src = videoSrc;
-        videoContent.play();
       }
+      videoContent.load();
+      videoContent.play();
+    });
 
-      playButton.addEventListener("click", () => {
-        playButton.style.display = "none";
+    try {
+      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    } catch (adError) {
+      console.error("AdsManager could not be started:", adError);
+      videoContent.src = videoSrc;
+      videoContent.load();
+      videoContent.play();
+    }
+  }
 
-        if (!adsRequested) {
-          initAds();
-          adDisplayContainer.initialize();
-          requestAds();
-          adsRequested = true;
-        } else {
-          videoContent.play();
-        }
-      });
-    </script>
-  </body>
+  function onAdError(adErrorEvent) {
+    console.warn("Ad Error:", adErrorEvent.getError());
+    if (adsManager) adsManager.destroy();
+    videoContent.src = videoSrc;
+    videoContent.load();
+    videoContent.play();
+  }
+
+  playButton.addEventListener("click", () => {
+    playButton.style.display = "none";
+
+    if (!adsRequested) {
+      initAds();
+      adDisplayContainer.initialize();
+      requestAds();
+      adsRequested = true;
+    } else {
+      videoContent.play();
+    }
+  });
+</script>    
+</body>
 </html>
 
   
