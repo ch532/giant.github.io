@@ -2,51 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Video.js with videojs-vast-vpaid</title>
-  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet" />
+  <title>IMA SDK with HilltopAds VAST</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .video-js { width: 640px; height: 360px; }
+    #videoContainer {
+      position: relative;
+      width: 640px;
+      height: 360px;
+      background-color: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    #adContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
   </style>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
 <body>
-
-  <h2>Video.js with VAST Ad (videojs-vast-vpaid plugin)</h2>
-
-  <video
-    id="content_video"
-    class="video-js vjs-default-skin"
-    controls
-    preload="auto"
-    width="640"
-    height="360"
-    poster="https://vjs.zencdn.net/v/oceans.png"
-  >
-    <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
-  </video>
-
-  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-  <script src="https://unpkg.com/videojs-vast-vpaid/dist/videojs-vast-vpaid.min.js"></script>
+  <div id="videoContainer">
+    <video id="contentVideo" controls playsinline preload="auto">
+      <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/Big_Buck_Bunny_360_10s_1MB.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div id="adContainer"></div>
+  </div>
 
   <script>
-    var player = videojs('content_video');
+    const videoContent = document.getElementById('contentVideo');
+    const adContainer = document.getElementById('adContainer');
 
-    player.vastClient({
-      adTagUrl: 'https://essentialmost.com/d.m-FXzodOGWNDvBZMGZUV/xeemu9iuvZaUdlfkJPTTAYK1wNPTHADxeNwDVcIt-NRjoUI1bMgDwEX0/OKAK',
-      playAdAlways: true,
-      adCancelTimeout: 5000,
-      adsEnabled: true,
-    });
+    const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+    const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+    const adsRequest = new google.ima.AdsRequest();
 
-    player.ready(function() {
-      player.on('vast.adStart', function() {
-        console.log('VAST ad started');
-      });
-      player.on('vast.adEnd', function() {
-        console.log('VAST ad ended');
-      });
-    });
+    // Replace this with your actual IMA SDK-compatible HilltopAds VAST tag
+    adsRequest.adTagUrl = "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu";
+
+    adsRequest.linearAdSlotWidth = 640;
+    adsRequest.linearAdSlotHeight = 360;
+    adsRequest.nonLinearAdSlotWidth = 640;
+    adsRequest.nonLinearAdSlotHeight = 150;
+
+    adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      (adsManagerLoadedEvent) => {
+        const adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+
+        adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+        adsManager.start();
+
+        videoContent.onended = () => {
+          adsManager.destroy();
+        };
+      }
+    );
+
+    adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      (adErrorEvent) => {
+        console.warn('Ad error:', adErrorEvent.getError());
+        videoContent.play();
+      }
+    );
+
+    // Start ads on user interaction
+    videoContent.addEventListener('click', () => {
+      videoContent.load();
+      adDisplayContainer.initialize();
+      adsLoader.requestAds(adsRequest);
+    }, { once: true });
   </script>
-
 </body>
 </html>
