@@ -317,226 +317,124 @@ footer {
  
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>IMA SDK Pre/Mid/Post Roll Ad Player</title>
-  <style>
-    body {
-      background: #000;
-      color: #fff;
-      font-family: sans-serif;
-      text-align: center;
-      padding-top: 40px;
-    }
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video with VMAP Ads</title>
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <style>
+      #adContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+      video {
+        width: 640px;
+        height: 360px;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position:relative; display:inline-block;">
+      <video id="contentElement" playsinline controls></video>
+      <div id="adContainer"></div>
+    </div>
 
-    video {
-      width: 90%;
-      max-width: 640px;
-      height: auto;
-      background: #000;
-      display: block;
-      margin: 0 auto;
-    }
+    <button id="playButton">▶️ Start Watching</button>
 
-    #playButton {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
+    <script>
+      let adDisplayContainer;
+      let adsLoader;
+      let adsManager;
+      let adsRequested = false;
 
-    #adContainer {
-      position: absolute;
-      top: 40px;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-    }
-    video {
-    z-index: 10;
-    pointer-events: auto !important;
-  }
+      const videoContent = document.getElementById('contentElement');
+      const adContainer = document.getElementById('adContainer');
+      const playButton = document.getElementById('playButton');
+      const videoSrc = "videoplayback-1.mp4"; // Your main video file
 
-  #adContainer {
-    z-index: 20;
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-  }
-  </style>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-</head>
-<body>
+      function createAdDisplayContainer() {
+        adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+      }
 
-  <div style="position:relative; display:inline-block;">
-    <video id="contentElement" playsinline controls></video>
-    <div id="adContainer"></div>
-  </div>
+      function requestAds() {
+        const adsRequest = new google.ima.AdsRequest();
+        adsRequest.adTagUrl = "https://connectgold.sbs/vmap.xml"; // Replace with your VMAP URL
 
-  <button id="playButton">▶️ Start Watching</button>
+        adsRequest.linearAdSlotWidth = 640;
+        adsRequest.linearAdSlotHeight = 360;
+        adsRequest.nonLinearAdSlotWidth = 640;
+        adsRequest.nonLinearAdSlotHeight = 150;
 
-  <script>
-    const videoContent = document.getElementById('contentElement');
-    const adContainer = document.getElementById('adContainer');
-    const playButton = document.getElementById('playButton');
+        adsLoader.requestAds(adsRequest);
+      }
 
-    // Your video file
-    const videoSrc = "videoplayback-1.mp4";
+      function initAds() {
+        createAdDisplayContainer();
+        videoContent.load(); // prepare video
+        adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
-    // VAST ad tags for pre-roll, mid-roll, post-roll
-    const adsTags = {
-      preroll: "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu",
-      midroll: "https://s.magsrv.com/v1/vast.php?idzone=5688604",
-      postroll: "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu"
-    };
+        adsLoader.addEventListener(
+          google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+          onAdsManagerLoaded,
+          false
+        );
+        adsLoader.addEventListener(
+          google.ima.AdErrorEvent.Type.AD_ERROR,
+          onAdError,
+          false
+        );
+      }
 
-    let adDisplayContainer, adsLoader, adsManager;
-    let adsRequested = false;
-    let midrollPlayed = false;
+      function onAdsManagerLoaded(adsManagerLoadedEvent) {
+        const adsRenderingSettings = new google.ima.AdsRenderingSettings();
+        adsManager = adsManagerLoadedEvent.getAdsManager(videoContent, adsRenderingSettings);
 
-    // Initialize IMA SDK
-    function initIMA() {
-      adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-      adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+        adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
+        adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, () => {
+          videoContent.play();
+        });
 
-      adsLoader.addEventListener(
-        google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-        onAdsManagerLoaded,
-        false
-      );
+        try {
+          adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+          adsManager.start();
+        } catch (adError) {
+          console.error("AdsManager could not be started:", adError);
+          videoContent.src = videoSrc;
+          videoContent.play();
+        }
+      }
 
-      adsLoader.addEventListener(
-        google.ima.AdErrorEvent.Type.AD_ERROR,
-        onAdError,
-        false
-      );
-    }
-
-    // Request ads by type: preroll, midroll, postroll
-    function requestAds(adTagUrl) {
-      const adsRequest = new google.ima.AdsRequest();
-      adsRequest.adTagUrl = adTagUrl;
-
-      adsRequest.linearAdSlotWidth = videoContent.clientWidth;
-      adsRequest.linearAdSlotHeight = videoContent.clientHeight;
-      adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
-      adsRequest.nonLinearAdSlotHeight = 150;
-
-      adsLoader.requestAds(adsRequest);
-    }
-
-    // Handle ads manager loaded event
-    function onAdsManagerLoaded(adsManagerLoadedEvent) {
-      adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
-
-      adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
-      adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, onContentPauseRequested);
-      adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, onContentResumeRequested);
-      adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, onAllAdsCompleted);
-
-      try {
-        adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
-        adsManager.start();
-      } catch (e) {
-        console.error("AdsManager could not start: " + e.message);
+      function onAdError(adErrorEvent) {
+        console.warn("Ad Error:", adErrorEvent.getError());
+        if (adsManager) adsManager.destroy();
+        videoContent.src = videoSrc;
         videoContent.play();
       }
-    }
 
-    // Handle ad errors
-    function onAdError(adErrorEvent) {
-      console.error("Ad error: ", adErrorEvent.getError());
-      if (adsManager) {
-        adsManager.destroy();
-      }
-      videoContent.play();
-    }
+      playButton.addEventListener("click", () => {
+        playButton.style.display = "none";
 
-    // Pause content for ad
-    function onContentPauseRequested() {
-      videoContent.pause();
-    }
-
-    // Resume content after ad
-    function onContentResumeRequested() {
-      videoContent.play();
-    }
-
-    // All ads completed callback
-    function onAllAdsCompleted() {
-      // Nothing needed here, ads are done
-    }
-
-    // Play the main video source
-    function playVideo() {
-      videoContent.src = videoSrc;
-      videoContent.load();
-      videoContent.play();
-    }
-
-    // Event to trigger midroll at 50% video time
-    function onTimeUpdate() {
-      if (!midrollPlayed && videoContent.currentTime >= videoContent.duration / 2) {
-        midrollPlayed = true;
-        adsLoader.contentComplete(); // Inform IMA content is interrupted
-        requestAds(adsTags.midroll);
-      }
-    }
-
-    playButton.addEventListener('click', () => {
-      playButton.style.display = 'none';
-      initIMA();
-      adDisplayContainer.initialize();
-
-      // Request pre-roll ads first
-      requestAds(adsTags.preroll);
-
-      // After ads, video will play automatically via onContentResumeRequested
-
-      // Listen for mid-roll trigger during playback
-      videoContent.addEventListener('timeupdate', onTimeUpdate);
-
-      // Set main video source but don’t play it yet, ads will play first
-      videoContent.src = videoSrc;
-      videoContent.load();
-    });
-    
-  // When the ad is done or skipped
-  function enableVideoControls() {
-    const video = document.getElementById('mainVideo');
-    video.style.pointerEvents = 'auto';
-    video.controls = true;
-  }
-
-  // Call this when ad finishes or is skipped
-  enableVideoControls();
-  
-  function onAdCompleteOrSkipped() {
-    const adContainer = document.getElementById('adContainer');
-    const video = document.getElementById('contentElement'); // make sure this matches your <video> ID
-
-    // Hide ad container
-    adContainer.style.display = 'none';
-
-    // Re-enable interaction with the video
-    video.style.pointerEvents = 'auto';
-    video.controls = true; // show video controls (like pause, seek, etc.)
-  }
-
-  // Optional: Call this if needed when initializing
-  function enableVideoControls() {
-    const video = document.getElementById('contentElement');
-    video.style.pointerEvents = 'auto';
-    video.controls = true;
-  }
-
-  // Example: Simulate ad finished after 5 seconds
-  // setTimeout(onAdCompleteOrSkipped, 5000)
-</script>
-
-</body>
+        if (!adsRequested) {
+          initAds();
+          adDisplayContainer.initialize();
+          requestAds();
+          adsRequested = true;
+        } else {
+          videoContent.play();
+        }
+      });
+    </script>
+  </body>
 </html>
+
+  
+        
+      
       
       
           
