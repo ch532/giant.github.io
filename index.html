@@ -317,110 +317,118 @@ footer {
  
 
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>IMA HTML5 Simple Demo</title>
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: #000;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      #contentElement {
-        width: 640px;
-        height: 360px;
-        background-color: black;
-      }
-      #playButton {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Watch Ad to Play Video</h2>
-    <video id="contentElement" playsinline controls>
-      <source src="Big_Buck_Bunny_360_10s_1MB.mp4" type="video/mp4">
-    </video>
-    <button id="playButton">Play with Ad</button>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IMA SDK Ad Player - Auto Play</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 40px;
+    }
 
-    <script>
-      var videoContent = document.getElementById("contentElement");
-      var playButton = document.getElementById("playButton");
+    video {
+      width: 90%;
+      max-width: 640px;
+      height: auto;
+      background: #000;
+    }
 
-      var adDisplayContainer = new google.ima.AdDisplayContainer(
-        document.createElement("div"),
-        videoContent
-      );
-      document.body.appendChild(adDisplayContainer.getContainerElement());
+    #adContainer {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+  </style>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+</head>
+<body>
 
-      var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-      var adsManager;
+  <h2>Video Ad Player with IMA SDK (Auto Play)</h2>
+
+  <div style="position:relative; display:inline-block;">
+    <video id="contentElement" playsinline></video>
+    <div id="adContainer"></div>
+  </div>
+
+  <script>
+    const videoContent = document.getElementById('contentElement');
+    const adContainer = document.getElementById('adContainer');
+
+    let adDisplayContainer, adsLoader, adsManager;
+
+    function initAdSDK() {
+      adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+      adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
       adsLoader.addEventListener(
         google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-        function (adsManagerLoadedEvent) {
-          adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
-          adsManager.addEventListener(
-            google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
-            function () {
-              // Resume video after ad completes
-              videoContent.src = "Big_Buck_Bunny_360_10s_1MB.mp4";
-              videoContent.load();
-              videoContent.play();
-            }
-          );
-
-          try {
-            adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-            adsManager.start();
-          } catch (adError) {
-            // If ad fails, play video
-            videoContent.src = "Big_Buck_Bunny_360_10s_1MB.mp4";
-            videoContent.load();
-            videoContent.play();
-          }
-        },
+        onAdsManagerLoaded,
         false
       );
 
       adsLoader.addEventListener(
         google.ima.AdErrorEvent.Type.AD_ERROR,
-        function (adErrorEvent) {
-          // Play video if ad has error
-          videoContent.src = "Big_Buck_Bunny_360_10s_1MB.mp4";
-          videoContent.load();
-          videoContent.play();
-        },
+        onAdError,
         false
       );
+    }
 
-      playButton.addEventListener("click", function () {
-        adDisplayContainer.initialize();
-        var adsRequest = new google.ima.AdsRequest();
-        adsRequest.adTagUrl =
-          "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=";
+    function requestAds() {
+      const adsRequest = new google.ima.AdsRequest();
+      adsRequest.adTagUrl = "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu";
 
-        adsLoader.requestAds(adsRequest);
-      });
-    </script>
-  </body>
+      adsRequest.linearAdSlotWidth = videoContent.clientWidth;
+      adsRequest.linearAdSlotHeight = videoContent.clientHeight;
+      adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
+      adsRequest.nonLinearAdSlotHeight = 150;
+
+      adsLoader.requestAds(adsRequest);
+    }
+
+    function onAdsManagerLoaded(adsManagerLoadedEvent) {
+      adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+
+      adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
+
+      try {
+        adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
+        adsManager.start();
+      } catch (e) {
+        console.log("Ad playback error: " + e.message);
+        videoContent.src = "videoplayback.mp4"; // fallback video file
+        videoContent.play();
+      }
+    }
+
+    function onAdError(adErrorEvent) {
+      console.error("Ad error:", adErrorEvent.getError());
+      if (adsManager) {
+        adsManager.destroy();
+      }
+      videoContent.src = "videoplayback.mp4";
+      videoContent.play();
+    }
+
+    window.addEventListener('load', () => {
+      initAdSDK();
+      adDisplayContainer.initialize();
+      requestAds();
+    });
+  </script>
+
+</body>
 </html>
+          
 
   
     
-
-
-
-
 <script>
   window.addEventListener("load", () => {
     if (typeof medan !== "undefined" && median.admob && median.admob.showRewarded) {
