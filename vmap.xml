@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0">
+
+  <!-- Pre-roll -->
+  <vmap:AdBreak timeOffset="start" breakType="linear">
+    <vmap:AdSource id="1" allowMultipleAds="false" followRedirects="true">
+      <vmap:AdTagURI templateType="vast3">
+        <![CDATA[https://essentialmost.com/dCm.FezbdNGZNavCZyGIU_/Xejmn9uuzZgUClWkBPuTyYl1qNCTuABxPN/D/cFtPNBjNUS1XM/DbEL0/OiCiZasqaLWC1ipLdLDT0-xs]]>
+      </vmap:AdTagURI>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
+  <!-- Mid-roll at 30 seconds -->
+  <vmap:AdBreak timeOffset="00:00:30" breakType="linear">
+    <vmap:AdSource id="2" allowMultipleAds="false" followRedirects="true">
+      <vmap:AdTagURI templateType="vast3">
+        <![CDATA[https://s.magsrv.com/v1/vast.php?idzone=5688604]]>
+      </vmap:AdTagURI>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
+  <!-- Post-roll -->
+  <vmap:AdBreak timeOffset="end" breakType="linear">
+    <vmap:AdSource id="3" allowMultipleAds="false" followRedirects="true">
+      <vmap:AdTagURI templateType="vast3">
+        <![CDATA[https://s.magsrv.com/v1/vast.php?idzone=5688604]]>
+      </vmap:AdTagURI>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
+</vmap:VMAP>
