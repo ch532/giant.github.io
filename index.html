@@ -315,12 +315,11 @@ footer {
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>IMA SDK Ad Player - Auto Play</title>
+  <title>IMA SDK Ad Player</title>
   <style>
     body {
       background: #000;
@@ -329,14 +328,18 @@ footer {
       text-align: center;
       padding-top: 40px;
     }
-
     video {
       width: 90%;
       max-width: 640px;
       height: auto;
       background: #000;
     }
-
+    #playButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
     #adContainer {
       position: absolute;
       top: 40px;
@@ -349,17 +352,19 @@ footer {
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
 <body>
-
-  <h2>Video Ad Player with IMA SDK (Auto Play)</h2>
+  <h2>Video Ad Player with IMA SDK</h2>
 
   <div style="position:relative; display:inline-block;">
     <video id="contentElement" playsinline></video>
     <div id="adContainer"></div>
   </div>
 
+  <button id="playButton">▶️ Watch & Unlock</button>
+
   <script>
     const videoContent = document.getElementById('contentElement');
     const adContainer = document.getElementById('adContainer');
+    const playButton = document.getElementById('playButton');
 
     let adDisplayContainer, adsLoader, adsManager;
 
@@ -396,14 +401,15 @@ footer {
       adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
 
       adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
+      adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, onContentPauseRequested);
+      adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, onContentResumeRequested);
 
       try {
         adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
         adsManager.start();
       } catch (e) {
         console.log("Ad playback error: " + e.message);
-        videoContent.src = "videoplayback.mp4"; // fallback video file
-        videoContent.play();
+        playContentVideo();
       }
     }
 
@@ -412,19 +418,35 @@ footer {
       if (adsManager) {
         adsManager.destroy();
       }
+      playContentVideo();
+    }
+
+    function onContentPauseRequested() {
+      // Ad started, pause content (if any)
+      videoContent.pause();
+    }
+
+    function onContentResumeRequested() {
+      // Ad finished, play content automatically
+      playContentVideo();
+    }
+
+    function playContentVideo() {
       videoContent.src = "videoplayback.mp4";
       videoContent.play();
     }
 
-    window.addEventListener('load', () => {
+    playButton.addEventListener('click', () => {
+      playButton.style.display = 'none';
       initAdSDK();
       adDisplayContainer.initialize();
       requestAds();
     });
   </script>
-
 </body>
 </html>
+
+      
           
 
   
