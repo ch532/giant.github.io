@@ -282,9 +282,23 @@ footer {
 </div>
 
 
-<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
- <ins class="eas6a97888e2" data-zoneid="5674184"></ins> 
- <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+<div id="inmobi-ad-slot"></div>
+
+<script type="text/javascript">
+  var inmobi_conf = {
+    siteid: "10000074211",       // Your website key
+    slot: "10000417605",         // Your placement ID
+    test: false,                 // Set to true only when testing
+    onError: function(code) {
+      if (code === "nfr") {
+        // No fill — hide ad slot or load fallback ad
+        document.getElementById("inmobi-ad-slot").style.display = "none";
+      }
+    }
+  };
+</script>
+
+<script type="text/javascript" async src="https://cf.cdn.inmobi.com/ad/inmobi.js"></script>  
 <div style="display: inline-block; background: #ffe58a; color: #333; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px;">
   Sponsored
 </div>
