@@ -315,25 +315,128 @@ footer {
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
  
- <!DOCTYPE html>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>IMA SDK Example</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>IMA SDK Ad Player</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 40px;
+    }
+
+    video {
+      width: 90%;
+      max-width: 640px;
+      height: auto;
+      background: #000;
+    }
+
+    #playButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    #adContainer {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+  </style>
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head>
 <body>
-  <div class="video-container">
-    <video id="content_video" controls preload="auto" width="640" height="360">
-      <source src="Big_Buck_Bunny_360_10s_1MB.mp4" type="video/mp4" />
-    </video>
-    <div id="ad_container"></div>
-    <button id="play_button">Play with Ad</button>
+
+  <h2>Video Ad Player with IMA SDK</h2>
+
+  <div style="position:relative; display:inline-block;">
+    <video id="contentElement" playsinline></video>
+    <div id="adContainer"></div>
   </div>
 
-  <script src="ads.js"></script>
+  <button id="playButton">▶️ Play with Ad</button>
+
+  <script>
+    const videoContent = document.getElementById('contentElement');
+    const adContainer = document.getElementById('adContainer');
+    const playButton = document.getElementById('playButton');
+
+    let adDisplayContainer, adsLoader, adsManager;
+
+    function initAdSDK() {
+      adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+      adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+      adsLoader.addEventListener(
+        google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+        onAdsManagerLoaded,
+        false
+      );
+
+      adsLoader.addEventListener(
+        google.ima.AdErrorEvent.Type.AD_ERROR,
+        onAdError,
+        false
+      );
+    }
+
+    function requestAds() {
+      const adsRequest = new google.ima.AdsRequest();
+      adsRequest.adTagUrl = "https://essentialmost.com/d/mmF/z.d/GpNpvxZnGTUU/Weomv9RuQZpUNlkk/PATxY/1tNkTWAsxbNuDUcjtQN/jcUo1ZMlDnE/0WOQCTZLsoa/Wl1-pTdrDt0/xu";
+
+      adsRequest.linearAdSlotWidth = videoContent.clientWidth;
+      adsRequest.linearAdSlotHeight = videoContent.clientHeight;
+      adsRequest.nonLinearAdSlotWidth = videoContent.clientWidth;
+      adsRequest.nonLinearAdSlotHeight = 150;
+
+      adsLoader.requestAds(adsRequest);
+    }
+
+    function onAdsManagerLoaded(adsManagerLoadedEvent) {
+      adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+
+      adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, onAdError);
+
+      try {
+        adsManager.init(videoContent.clientWidth, videoContent.clientHeight, google.ima.ViewMode.NORMAL);
+        adsManager.start();
+      } catch (e) {
+        console.log("Ad playback error: " + e.message);
+        videoContent.src = "Big_Buck_Bunny_360_10s_1MB.mp4"; // fallback content
+        videoContent.play();
+      }
+    }
+
+    function onAdError(adErrorEvent) {
+      console.error("Ad error:", adErrorEvent.getError());
+      if (adsManager) {
+        adsManager.destroy();
+      }
+      videoContent.src = "Big_Buck_Bunny_360_10s_1MB.mp4";
+      videoContent.play();
+    }
+
+    playButton.addEventListener('click', () => {
+      playButton.style.display = 'none';
+      initAdSDK();
+      adDisplayContainer.initialize();
+      requestAds();
+    });
+  </script>
+
 </body>
 </html>
+
 
 
                                                                let adIndex 
@@ -355,7 +458,7 @@ footer {
 
 <script>
   window.addEventListener("load", () => {
-    if (typeof median !== "undefined" && median.admob && median.admob.showRewarded) {
+    if (typeof medan !== "undefined" && median.admob && median.admob.showRewarded) {
       median.admob.showRewarded({
         adUnitId: 'ca-app-pub-1171216593802007/1435861786',
         onRewarded: () => {
