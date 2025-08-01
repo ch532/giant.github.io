@@ -329,6 +329,99 @@ footer {
 <!DOCTYPE html>
 <html>
 <head>
+  <title>CPAgrip Offers</title>
+  <meta charset="UTF-8">
+  <style>
+    #offer-feed {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 1em;
+    }
+
+    .offer-item {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .offer-item h3 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .offer-item a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .offer-item a:hover {
+      text-decoration: underline;
+    }
+
+    .offer-desc {
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div id="offer-feed"></div>
+
+<script>
+  const feedUrl = "https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0&ip=&tracking_id=";
+  const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(feedUrl);
+  const container = document.getElementById("offer-feed");
+
+  function loadOffers() {
+    fetch(proxy)
+      .then(response => response.json())
+      .then(data => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, "application/xml");
+        const items = xml.querySelectorAll("item");
+
+        container.innerHTML = ""; // Clear old content
+
+        items.forEach(item => {
+          const title = item.querySelector("title")?.textContent;
+          const link = item.querySelector("link")?.textContent;
+          const description = item.querySelector("description")?.textContent;
+
+          const offerEl = document.createElement("div");
+          offerEl.classList.add("offer-item");
+
+          offerEl.innerHTML = `
+            <h3><a href="${link}" target="_blank">${title}</a></h3>
+            <div class="offer-desc">${description}</div>
+          `;
+
+          container.appendChild(offerEl);
+        });
+      })
+      .catch(error => {
+        container.innerHTML = "<p style='color:red;'>Failed to load offers. Please try again later.</p>";
+        console.error("Error fetching offers:", error);
+      });
+  }
+
+  // Initial load
+  loadOffers();
+
+  // Auto-refresh every 5 minutes
+  setInterval(loadOffers, 300000);
+</script>
+
+</body>
+</html>
+  
+<!DOCTYPE html>
+<html>
+<head>
   <title>VMAP Ad Example</title>
   <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet" />
   <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
