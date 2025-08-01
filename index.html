@@ -266,23 +266,10 @@ p {
   Sponsored
 </div>
 
-     <form id='form' role='search'>
-<input type='search' id='query' name='q'
-placeholder='Search...'
-aria-label='Search through site content' required>
-<button>Search</button>
+     <form method="get" action="offers.php">
+  <input type="text" name="kw" placeholder="Search offers..." />
+  <button type="submit">Search</button>
 </form>
-<script>
-const f = document.getElementById('form');
-const q = document.getElementById('query');
-function submitted(event) {
-event.preventDefault();
-const url = 'https://xml.qualiclicks.com/redirect?feed=850339&auth=PcHz&query=' + q.value + '&url=https://connectgold.sbs';
-const win = window.open(url, '_blank');
-win.focus();
-}
-f.addEventListener('submit', submitted);
-</script>
 
                                 
 <!DOCTYPE html>
