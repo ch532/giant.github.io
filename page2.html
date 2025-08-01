@@ -202,7 +202,18 @@
     position: "bottom" // or "top"
   });
 </script>
-  
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    median?.admob?.showInterstitialIfReady();
+  });
+</script>
+
+      <script>
+  median?.admob?.showInterstitialOnNextPageLoadIfReady();
+  window.location.href = "page3.html"; // 🔁 Replace with your actual page URL
+</script>
+      
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Connect Gold. All rights reserved.</p>
