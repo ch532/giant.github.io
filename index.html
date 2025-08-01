@@ -424,116 +424,21 @@ p {
 
   <div id="median-banner"></div>
 
+<!-- Adsterra Native Ad -->
+<script async="async" data-cfasync="false" src="//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js"></script> 
+<div id="container-6b146feeb2e06720c49ac1f500e25aee"></div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Connect Gold — News + Ads</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f7f9fb;
-    }
-    .section {
-      margin-bottom: 50px;
-    }
-    h2 {
-      font-size: 1.6em;
-      margin-bottom: 15px;
-      color: #333;
-    }
-    .news-list {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    .news-list li {
-      background: #fff;
-      margin-bottom: 10px;
-      padding: 10px 15px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.06);
-    }
-    .news-list a {
-      color: #1a0dab;
-      text-decoration: none;
-    }
-    .news-list a:hover {
-      text-decoration: underline;
-    }
-    .ad-box {
-      margin: 30px 0;
-      padding: 15px;
-      background: #e9ecef;
-      border-radius: 6px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
 
-  <!-- 🌍 World News Section -->
-  <div class="section">
-    <h2>🌍 World News</h2>
-    <ul id="worldNews" class="news-list">Loading...</ul>
-  </div>
+  <!-- ExoClick Native Ad -->
+<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+<ins class="eas6a97888e20" data-zoneid="5691032"></ins> 
+<script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
 
-  <!-- 🧲 Native Ads Section -->
-  <div class="section">
-    
 
-    <div class="ad-box">
-      <!-- Mondiad -->
-      <div data-mndazid="9ace8e30-e476-4558-9ee6-a48a897493fd"></div>
-    </div>
 
-    <div class="ad-box">
-      <!-- ExoClick -->
-      <ins class="eas6a97888e20" data-zoneid="5691032"></ins>
-      <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-      <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-    </div>
 
-    <div class="ad-box">
-      <!-- Adsterra -->
-      <script async data-cfasync="false" src="//pl26742068.profitableratecpm.com/6b146feeb2e06720c49ac1f500e25aee/invoke.js"></script>
-      <div id="container-6b146feeb2e06720c49ac1f500e25aee"></div>
-    </div>
-  </div>
 
-  <!-- 🇳🇬 Nigeria News Section -->
-  <div class="section">
-    <h2>🇳🇬 Nigeria News</h2>
-    <ul id="nigeriaNews" class="news-list">Loading...</ul>
-  </div>
-
-  <!-- Mondiad Script (bottom load) -->
-  <script async type="text/javascript" src="https://cdn.mondiad.com/js/mondiad.js"></script>
-
-  <script>
-    function loadFeed(rssUrl, containerId) {
-      fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`)
-        .then(res => res.json())
-        .then(data => {
-          let output = '';
-          data.items.slice(0, 10).forEach(item => {
-            output += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
-          });
-          document.getElementById(containerId).innerHTML = output;
-        })
-        .catch(() => {
-          document.getElementById(containerId).innerHTML = '<li>❌ Failed to load feed.</li>';
-        });
-    }
-
-    // Load both feeds
-    loadFeed("https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en", "worldNews");
-    loadFeed("https://news.google.com/rss/search?q=Nigeria&hl=en-US&gl=US&ceid=US:en", "nigeriaNews");
-  </script>
-
-</body>
-</html>
+  
 
 
 
