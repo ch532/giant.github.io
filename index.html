@@ -348,100 +348,7 @@ f.addEventListener('submit', submitted);
     <img src="mtn.jpeg" alt="MTN Logo" style="height: 30px;"> 📱 <strong>MTN Nigeria Special:</strong> Download the official MTN App
     <a href="https://www.gravelroat.info/click?offer_id=33442&pub_id=272732&pub_click_id=MTN_app&site=connectgold.sbs" target="_blank">Get Started</a>
   </div>
- 
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>CPAgrip Offers</title>
-  <meta charset="UTF-8">
-  <style>
-    #offer-feed {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: auto;
-      padding: 1em;
-    }
-
-    .offer-item {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      background-color: #f9f9f9;
-    }
-
-    .offer-item h3 {
-      margin-top: 0;
-      font-size: 18px;
-      color: #333;
-    }
-
-    .offer-item a {
-      color: #007BFF;
-      text-decoration: none;
-    }
-
-    .offer-item a:hover {
-      text-decoration: underline;
-    }
-
-    .offer-desc {
-      margin-top: 10px;
-      color: #555;
-    }
-  </style>
-</head>
-<body>
-
-<div id="offer-feed"></div>
-
-<script>
-  const feedUrl = "https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0&ip=&tracking_id=";
-  const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(feedUrl);
-  const container = document.getElementById("offer-feed");
-
-  function loadOffers() {
-    fetch(proxy)
-      .then(response => response.json())
-      .then(data => {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, "application/xml");
-        const items = xml.querySelectorAll("item");
-
-        container.innerHTML = ""; // Clear old content
-
-        items.forEach(item => {
-          const title = item.querySelector("title")?.textContent;
-          const link = item.querySelector("link")?.textContent;
-          const description = item.querySelector("description")?.textContent;
-
-          const offerEl = document.createElement("div");
-          offerEl.classList.add("offer-item");
-
-          offerEl.innerHTML = `
-            <h3><a href="${link}" target="_blank">${title}</a></h3>
-            <div class="offer-desc">${description}</div>
-          `;
-
-          container.appendChild(offerEl);
-        });
-      })
-      .catch(error => {
-        container.innerHTML = "<p style='color:red;'>Failed to load offers. Please try again later.</p>";
-        console.error("Error fetching offers:", error);
-      });
-  }
-
-  // Initial load
-  loadOffers();
-
-  // Auto-refresh every 5 minutes
-  setInterval(loadOffers, 300000);
-</script>
-
-</body>
-</html>
 
   
   
@@ -465,6 +372,7 @@ f.addEventListener('submit', submitted);
       width: 100%;
       max-width: 720px;
       margin: auto;
+      margin-top: 120px;
       margin-bottom: 120px;
     }
   </style>
@@ -558,46 +466,6 @@ f.addEventListener('submit', submitted);
   window.location.href = "page1.html"; // 🔁 Replace with your actual page URL
 </script>
 
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Rewarded Ad</title>
-  <script src="https://median.co/bridge.js"></script> <!-- Median SDK -->
-</head>
-<body>
-
-  <button id="watchAdBtn">🎁 Watch Ad to Unlock</button>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Preload the ad early
-      if (median && median.admob && median.admob.loadRewardedInterstitial) {
-        median.admob.loadRewardedInterstitial();
-        console.log("Rewarded interstitial ad loading...");
-      }
-
-      document.getElementById("watchAdBtn").addEventListener("click", function () {
-        if (median && median.admob && median.admob.isReady("rewardedInterstitial")) {
-          median.admob.showRewardedInterstitial()
-            .then(() => {
-              alert("✅ Reward granted!");
-              // Show download or unlock logic here
-            })
-            .catch(err => {
-              console.error("❌ Ad failed:", err);
-              alert("Ad not available right now.");
-            });
-        } else {
-          alert("⏳ Ad still loading. Please try again in a few seconds.");
-          console.warn("Ad not ready yet");
-        }
-      });
-    });
-  </script>
-
-</body>
-</html>
   
 <script>
   median?.admob?.showBanner?.({
