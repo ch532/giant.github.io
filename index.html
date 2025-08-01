@@ -272,8 +272,12 @@ p {
 
 <div id="offerFeed"></div>
 
+<div id="offerFeed"></div>
+
 <script>
-  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0")
+  const rssURL = encodeURIComponent("https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0");
+
+  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssURL}`)
     .then(res => res.json())
     .then(data => {
       let output = "<ul>";
@@ -282,10 +286,13 @@ p {
       });
       output += "</ul>";
       document.getElementById("offerFeed").innerHTML = output;
+    })
+    .catch(err => {
+      document.getElementById("offerFeed").innerHTML = "❌ Failed to load offers.";
+      console.error(err);
     });
 </script>
   
-
   
   <div style="text-align:center; margin:20px 0; font-family:sans-serif;">
   <a href="https://amzn.to/3IDSp9r" target="_blank" rel="noopener noreferrer">
