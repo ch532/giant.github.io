@@ -414,6 +414,74 @@ footer {
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Watch Ad to Continue</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background-color: #f2f2f2;
+    }
+    #fallback {
+      display: none;
+      color: red;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎶 Unlock Boomplay Playlist</h2>
+  <p>Please watch a short video ad to continue.</p>
+
+  <div id="fallback">
+    ⚠️ Ad failed to load or was skipped. Please try again later.
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let redirectURL = "https://www.boomplay.com/share/playlist/30019697?srModel=COPYLINK&srList=ANDROIDB";
+      let timeout = setTimeout(() => {
+        document.getElementById("fallback").style.display = "block";
+      }, 10000);
+
+      if (typeof median !== "undefined" && median.admob) {
+        median.admob.showRewarded({
+          adUnitId: "ca-app-pub-1171216593802007/1435861786",
+
+          onRewarded: function () {
+            clearTimeout(timeout);
+            window.location.href = redirectURL;
+          },
+
+          onDismissed: function () {
+            clearTimeout(timeout);
+            document.getElementById("fallback").textContent = "Ad was skipped. Please try again.";
+            document.getElementById("fallback").style.display = "block";
+          },
+
+          onFailed: function (error) {
+            clearTimeout(timeout);
+            document.getElementById("fallback").textContent = "Ad failed to load: " + error;
+            document.getElementById("fallback").style.display = "block";
+          }
+        });
+      } else {
+        clearTimeout(timeout);
+        document.getElementById("fallback").textContent = "Median bridge not available. Please open this in the app.";
+        document.getElementById("fallback").style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>
+
   
 <!DOCTYPE html>
 <html>
@@ -547,22 +615,6 @@ footer {
   });
 </script>
 
-  
-     <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    if (median && median.admob) {
-      median.admob.showRewarded({
-        adUnitId: 'ca-app-pub-1171216593802007/1435861786',
-        onRewarded: () => {
-          alert('User earned reward!');
-        },
-        onClosed: () => {
-          console.log('Rewarded ad closed');
-        }
-      });
-    }
-  });
-</script>
 
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
