@@ -269,30 +269,14 @@ p {
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
+<iframe 
+  src="https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0" 
+  width="100%" 
+  height="600" 
+  style="border: none; overflow: auto;" 
+  scrolling="yes">
+</iframe>
 
-<div id="offerFeed"></div>
-
-<div id="offerFeed"></div>
-
-<script>
-  const rssURL = encodeURIComponent("https://www.cpagrip.com/common/offer_feed_rss.php?user_id=2410602&key=09d05f6413bec0a39584b6029a51c0f0");
-
-  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssURL}`)
-    .then(res => res.json())
-    .then(data => {
-      let output = "<ul>";
-      data.items.forEach(item => {
-        output += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
-      });
-      output += "</ul>";
-      document.getElementById("offerFeed").innerHTML = output;
-    })
-    .catch(err => {
-      document.getElementById("offerFeed").innerHTML = "❌ Failed to load offers.";
-      console.error(err);
-    });
-</script>
-  
   
   <div style="text-align:center; margin:20px 0; font-family:sans-serif;">
   <a href="https://amzn.to/3IDSp9r" target="_blank" rel="noopener noreferrer">
@@ -551,6 +535,26 @@ p {
   window.location.href = "page1.html"; // 🔁 Replace with your actual page URL
 </script>
 
+<button onclick="unlockWithAd()">Watch Ad to Unlock</button>
+
+<script>
+  function unlockWithAd() {
+    if (median && median.admob && median.admob.isReady("rewardedInterstitial")) {
+      median.admob.showRewardedInterstitial()
+        .then(() => {
+          alert("Reward unlocked!");
+          // Redirect, unlock, or show download link here
+        })
+        .catch((err) => {
+          console.error("No ad:", err);
+          alert("Ad not available right now.");
+        });
+    } else {
+      alert("Loading ad, please wait...");
+    }
+  }
+</script>
+  
 <script>
   median?.admob?.showBanner?.({
     container: "#median-banner",
