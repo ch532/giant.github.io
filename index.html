@@ -454,73 +454,101 @@ p {
 </body>
 </html>
 
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Watch Ad to Continue</title>
+  <title>Interstitial Ad Loader</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       text-align: center;
       padding-top: 100px;
-      background-color: #f2f2f2;
+      background-color: #fafafa;
     }
-    #fallback {
-      display: none;
-      color: red;
-      font-weight: bold;
-      margin-top: 30px;
+    #status {
+      margin-top: 20px;
+      color: #555;
     }
   </style>
 </head>
 <body>
 
-  <h2>🎶 Unlock Boomplay Playlist</h2>
-  <p>Please watch a short video ad to continue.</p>
-
-  <div id="fallback">
-    ⚠️ Ad failed to load or was skipped. Please try again later.
-  </div>
+  <h2>🚀 Please wait, loading...</h2>
+  <p id="status">Loading interstitial ad...</p>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      let redirectURL = "https://www.boomplay.com/share/playlist/30019697?srModel=COPYLINK&srList=ANDROIDB";
-      let timeout = setTimeout(() => {
-        document.getElementById("fallback").style.display = "block";
-      }, 10000);
+      const retryLimit = 10;
+      let attempts = 0;
 
-      if (typeof median !== "undefined" && median.admob) {
-        median.admob.showRewarded({
-          adUnitId: "ca-app-pub-1171216593802007/1435861786",
+      function tryShowInterstitial() {
+        if (typeof median !== "undefined" && median.admob && median.admob.showInterstitial) {
+          median.admob.showInterstitial({
+            adUnitId: "ca-app-pub-1171216593802007/2413034141", // ✅ Replace with your Interstitial Ad Unit ID
 
-          onRewarded: function () {
-            clearTimeout(timeout);
-            window.location.href = redirectURL;
-          },
+            onClosed: function () {
+              document.getElementById("status").textContent = "✅ Interstitial ad was closed.";
+            },
 
-          onDismissed: function () {
-            clearTimeout(timeout);
-            document.getElementById("fallback").textContent = "Ad was skipped. Please try again.";
-            document.getElementById("fallback").style.display = "block";
-          },
-
-          onFailed: function (error) {
-            clearTimeout(timeout);
-            document.getElementById("fallback").textContent = "Ad failed to load: " + error;
-            document.getElementById("fallback").style.display = "block";
+            onFailed: function (error) {
+              document.getElementById("status").textContent = "❌ Interstitial ad failed: " + error;
+            }
+          });
+        } else {
+          attempts++;
+          if (attempts < retryLimit) {
+            setTimeout(tryShowInterstitial, 500); // Retry every 500ms
+          } else {
+            document.getElementById("status").textContent = "⚠️ Median bridge not available. Please open in the app.";
           }
-        });
-      } else {
-        clearTimeout(timeout);
-        document.getElementById("fallback").textContent = "Median bridge not available. Please open this in the app.";
-        document.getElementById("fallback").style.display = "block";
+        }
       }
+
+      tryShowInterstitial();
     });
   </script>
 
 </body>
 </html>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const retryLimit = 10;
+    let attempts = 0;
+
+    function tryShowRewarded() {
+      if (typeof median !== "undefined" && median.admob) {
+        median.admob.showRewarded({
+          adUnitId: "ca-app-pub-1171216593802007/1435861786",
+
+          onRewarded: function () {
+            window.location.href = "https://www.boomplay.com/share/playlist/30019697?srModel=COPYLINK&srList=ANDROIDB";
+          },
+
+          onDismissed: function () {
+            alert("You skipped the ad. Please try again.");
+          },
+
+          onFailed: function (error) {
+            alert("Ad failed to load: " + error);
+          }
+        });
+      } else {
+        attempts++;
+        if (attempts < retryLimit) {
+          setTimeout(tryShowRewarded, 500); // Retry every 500ms
+        } else {
+          alert("⚠️ Median bridge failed to load after several tries. Please reopen the app.");
+        }
+      }
+    }
+
+    tryShowRewarded(); // Start attempt loop
+  });
+</script>
+  
   
 <!DOCTYPE html>
 <html>
@@ -631,27 +659,6 @@ p {
         extid: "{extid}",
         countClicks: 0
    });
-</script>
-  
-     
-<script>
-  window.addEventListener("load", () => {
-    if (typeof medan !== "undefined" && median.admob && median.admob.showRewarded) {
-      median.admob.showRewarded({
-        adUnitId: 'ca-app-pub-1171216593802007/1435861786',
-        onRewarded: () => {
-          alert('🎉 User earned reward!');
-        },ñ       onClosed: () => {
-          console.log('✅ Rewarded ad was closed.');
-        },
-        onError: (error) => {
-          console.error('❌ Error showing rewarded ad:', error);
-        }
-      });
-    } else {
-      console.warn("Median or AdMob rewarded API not available yet.");
-    }
-  });
 </script>
 
 
