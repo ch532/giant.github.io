@@ -270,35 +270,7 @@ p {
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>300x250 Ad Example</title>
-  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-  <script>
-    window.googletag = window.googletag || { cmd: [] };
-    googletag.cmd.push(function() {
-      googletag.defineSlot('/23311640042/Connectgold_now', [300, 250], 'div-gpt-ad-300x250')
-               .addService(googletag.pubads());
-      googletag.pubads().enableSingleRequest();
-      googletag.enableServices();
-    });
-  </script>
-</head>
-<body>
-  <div id="div-gpt-ad-300x250" style="width:300px; height:250px;">
-    <script>
-      googletag.cmd.push(function() {
-        googletag.display('div-gpt-ad-300x250');
-      });
-    </script>
-  </div>
-</body>
-</html>
-<div style="display: inline-block; background: #ffe58a; color: #333; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px;">
-  Sponsored
-</div>
+
 
 <div id="offerFeed"></div>
 
@@ -454,100 +426,6 @@ p {
 </body>
 </html>
 
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Interstitial Ad Loader</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 100px;
-      background-color: #fafafa;
-    }
-    #status {
-      margin-top: 20px;
-      color: #555;
-    }
-  </style>
-</head>
-<body>
-
-  <h2>🚀 Please wait, loading...</h2>
-  <p id="status">Loading interstitial ad...</p>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const retryLimit = 10;
-      let attempts = 0;
-
-      function tryShowInterstitial() {
-        if (typeof median !== "undefined" && median.admob && median.admob.showInterstitial) {
-          median.admob.showInterstitial({
-            adUnitId: "ca-app-pub-1171216593802007/2413034141", // ✅ Replace with your Interstitial Ad Unit ID
-
-            onClosed: function () {
-              document.getElementById("status").textContent = "✅ Interstitial ad was closed.";
-            },
-
-            onFailed: function (error) {
-              document.getElementById("status").textContent = "❌ Interstitial ad failed: " + error;
-            }
-          });
-        } else {
-          attempts++;
-          if (attempts < retryLimit) {
-            setTimeout(tryShowInterstitial, 500); // Retry every 500ms
-          } else {
-            document.getElementById("status").textContent = "⚠️ Median bridge not available. Please open in the app.";
-          }
-        }
-      }
-
-      tryShowInterstitial();
-    });
-  </script>
-
-</body>
-</html>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const retryLimit = 10;
-    let attempts = 0;
-
-    function tryShowRewarded() {
-      if (typeof median !== "undefined" && median.admob) {
-        median.admob.showRewarded({
-          adUnitId: "ca-app-pub-1171216593802007/1435861786",
-
-          onRewarded: function () {
-            window.location.href = "https://www.boomplay.com/share/playlist/30019697?srModel=COPYLINK&srList=ANDROIDB";
-          },
-
-          onDismissed: function () {
-            alert("You skipped the ad. Please try again.");
-          },
-
-          onFailed: function (error) {
-            alert("Ad failed to load: " + error);
-          }
-        });
-      } else {
-        attempts++;
-        if (attempts < retryLimit) {
-          setTimeout(tryShowRewarded, 500); // Retry every 500ms
-        } else {
-          alert("⚠️ Median bridge failed to load after several tries. Please reopen the app.");
-        }
-      }
-    }
-
-    tryShowRewarded(); // Start attempt loop
-  });
-</script>
   
   
 <!DOCTYPE html>
@@ -651,6 +529,24 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    median?.admob?.showInterstitialIfReady();
+  });
+</script>
+
+  <script>
+  median?.admob?.showInterstitialOnNextPageLoadIfReady();
+  window.location.href = "nextpage.html"; // 🔁 Replace with your actual page URL
+</script>
+
+<script>
+  median?.admob?.showBanner?.({
+    container: "#median-banner",
+    position: "bottom" // or "top"
+  });
+</script>
+  
 <link rel="stylesheet" href="//cdn.runative-syndicate.com/sdk/v1/interstitial.ts.css" />
 <script src="//cdn.runative-syndicate.com/sdk/v1/interstitial.ts.js"></script>
 <script>
