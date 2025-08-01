@@ -255,18 +255,25 @@ p {
   Sponsored
 </div>
 
-     
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en',
-      includedLanguages: 'en,fr,de,es,pt,ro,zh,ru,ar,hi',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  }
+     <form id='form' role='search'>
+<input type='search' id='query' name='q'
+placeholder='Search...'
+aria-label='Search through site content' required>
+<button>Search</button>
+</form>
+<script>
+const f = document.getElementById('form');
+const q = document.getElementById('query');
+function submitted(event) {
+event.preventDefault();
+const url = 'https://xml.qualiclicks.com/redirect?feed=850339&auth=PcHz&query=' + q.value + '&url=https://connectgold.sbs';
+const win = window.open(url, '_blank');
+win.focus();
+}
+f.addEventListener('submit', submitted);
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+                                
 
 
 <div id="offerFeed"></div>
