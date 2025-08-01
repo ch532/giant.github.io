@@ -274,33 +274,11 @@ f.addEventListener('submit', submitted);
 </script>
 
                                 
+<div class="offers-box">
+  <?php include 'offers.php'; ?>
+</div>
 
 
-<div id="offerFeed"></div>
-
-<script>
-  fetch("https://connectgold.sbs/cpagrip-feed.php")
-    .then(res => res.json())
-    .then(data => {
-      if (!Array.isArray(data)) throw new Error("Invalid feed");
-
-      let html = "<ul>";
-      data.forEach(item => {
-        html += `<li>
-          <a href="${item.link}" target="_blank">${item.title}</a><br>
-          <small>${item.description}</small>
-        </li>`;
-      });
-      html += "</ul>";
-      document.getElementById("offerFeed").innerHTML = html;
-    })
-    .catch(err => {
-      document.getElementById("offerFeed").innerHTML = "❌ Failed to load offers.";
-      console.error("Feed error:", err);
-    });
-</script>
-
-  
   <div style="text-align:center; margin:20px 0; font-family:sans-serif;">
   <a href="https://amzn.to/3IDSp9r" target="_blank" rel="noopener noreferrer">
     <img src="16_Redline_Available_at_Amazon_Stack_Clearspace._TTW_.png" 
@@ -350,7 +328,6 @@ f.addEventListener('submit', submitted);
   </div>
 
 
-  
   
 <!DOCTYPE html>
 <html>
