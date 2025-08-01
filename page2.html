@@ -201,24 +201,6 @@
 <div id="median-banner"></div>
 
 <button onclick="unlockWithAd()">Watch Ad to Unlock</button>
-
-<script>
-  function unlockWithAd() {
-    if (median && median.admob && median.admob.isReady("rewardedInterstitial")) {
-      median.admob.showRewardedInterstitial()
-        .then(() => {
-          alert("Reward unlocked!");
-          // Redirect, unlock, or show download link here
-        })
-        .catch((err) => {
-          console.error("No ad:", err);
-          alert("Ad not available right now.");
-        });
-    } else {
-      alert("Loading ad, please wait...");
-    }
-  }
-</script>
       
 <script>
   median?.admob?.showBanner?.({
