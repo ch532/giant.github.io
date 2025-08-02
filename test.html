@@ -1,6 +1,13 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    console.log("median:", typeof median);
-    console.log("median.admob:", typeof median?.admob);
+    if (typeof median !== "undefined" && median.admob) {
+      console.log("✅ Median AdMob is available.");
+    } else {
+      console.warn("❌ Median AdMob is not available.");
+    }
   });
 </script>
+
+<button onclick="median.admob.showInterstitial()">Show Interstitial</button>
+
+<button onclick="median.admob.showRewarded(() => alert('User watched ad!'))">Show Rewarded</button>
