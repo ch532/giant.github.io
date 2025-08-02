@@ -14,7 +14,7 @@
   <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
     <vmap:AdSource id="ad-midroll" allowMultipleAds="true" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://srv.aso1.net/vast?z=152419]]>
+        <![CDATA[https://essentialmost.com/dGmMF.z-d/G/NlvAZ/GtUr/je/mI9AuoZCUAlDkRPYTWY/1oNoT_Y/4IMTz/Y/tcNSjQUz1sNpjJgGzmNAyIZcsFaZWP1zpddtDB0/xm]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
