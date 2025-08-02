@@ -14,7 +14,7 @@
   <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
     <vmap:AdSource id="ad-midroll" allowMultipleAds="true" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://s.magsrv.com/splash.php?idzone=5690154]]>
+        <![CDATA[https://srv.aso1.net/vast?z=152419]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
