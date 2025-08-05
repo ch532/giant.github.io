@@ -2,7 +2,7 @@
   "name": "Connect Gold",
   "short_name": "ConnectGold",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "orientation": "portrait",
@@ -17,5 +17,23 @@
       "sizes": "512x512",
       "type": "gold2-png"
     }
-  ]
+  ],
+  "categories": [
+    "business",
+    "news",
+    "productivity",
+    "travel",
+    "utilities",
+    "weather"
+  ],
+  "share_target": {
+    "method": "POST",
+    "action": "\"action\": \"/share\"",
+    "enctype": "\"enctype\": \"multipart/form-data\"",
+    "params": {
+      "title": "\"title\": \"title\"",
+      "text": "\"text\": \"text\"",
+      "url": "\"url\": \"url\""
+    }
+  }
 }
