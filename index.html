@@ -602,8 +602,27 @@ p {
       .then(() => console.log('✅ Service Worker registered'))
       .catch((error) => console.log('❌ Service Worker registration failed:', error));
   }
+  navigator.serviceWorker.ready.then(async (reg) => {
+  const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+
+  if (status.state === 'granted') {
+    try {
+      await reg.periodicSync.register('refresh-ads', {
+        minInterval: 24 * 60 * 60 * 1000 // Once every 24 hours
+      });
+      console.log('✅ Periodic sync registered');
+    } catch (e) {
+      console.error('❌ Periodic sync registration failed:', e);
+    }
+  }
+});
+  Notification.requestPermission().then((permission) => {
+  if (permission === "granted") {
+    console.log("🔔 Notifications granted");
+  }
+});
 </script>
-  
+
 </body>
 </html>
 
