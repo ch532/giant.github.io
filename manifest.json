@@ -34,6 +34,13 @@
       "title": "\"title\": \"title\"",
       "text": "\"text\": \"text\"",
       "url": "\"url\": \"url\""
+      "file_handlers": [
+  {
+    "action": "/open",
+    "accept": {
+      "text/plain": [".txt"],
+      "application/json": [".json"],
+      "image/*": [".png", ".jpg", ".jpeg"]
     }
   }
 }
