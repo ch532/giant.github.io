@@ -10,12 +10,12 @@
     {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "connectgold-1.png"
+      "type": "image/png"
     },
     {
       "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "gold2-png"
+      "type": "image/png"
     }
   ],
   "categories": [
@@ -27,20 +27,23 @@
     "weather"
   ],
   "share_target": {
+    "action": "/share",
     "method": "POST",
-    "action": "\"action\": \"/share\"",
-    "enctype": "\"enctype\": \"multipart/form-data\"",
+    "enctype": "multipart/form-data",
     "params": {
-      "title": "\"title\": \"title\"",
-      "text": "\"text\": \"text\"",
-      "url": "\"url\": \"url\""
-      "file_handlers": [
-  {
-    "action": "/open",
-    "accept": {
-      "text/plain": [".txt"],
-      "application/json": [".json"],
-      "image/*": [".png", ".jpg", ".jpeg"]
+      "title": "title",
+      "text": "text",
+      "url": "url"
     }
-  }
+  },
+  "file_handlers": [
+    {
+      "action": "/open",
+      "accept": {
+        "text/plain": [".txt"],
+        "application/json": [".json"],
+        "image/*": [".png", ".jpg", ".jpeg"]
+      }
+    }
+  ]
 }
