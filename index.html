@@ -509,20 +509,13 @@ p {
 </div>
 
 <script>
-if (window.Appodeal) {
-  Appodeal.initialize("543d15c055aac7e15a71dae4432f7f78befc17eeed095af5", ["banner", "interstitial", "rewarded"]);
-
-  Appodeal.show("interstitial"); // or "banner", "rewardedVideo"
-}
+  median?.admob?.showBanner?.({
+    container: "#median-banner",
+    position: "bottom" // or "top"
+  });
 </script>
-
- <script>
-if (window.unityads) {
-  unityads.showAd("Rewarded_Android"); // Or your placement ID
-}
- </script>
     
-</script>
+
 
 
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
@@ -576,32 +569,7 @@ if (window.unityads) {
   const analytics = getAnalytics(app);
 </script>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(() => console.log('✅ Service Worker registered'))
-      .catch((error) => console.log('❌ Service Worker registration failed:', error));
-  }
-  navigator.serviceWorker.ready.then(async (reg) => {
-  const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
 
-  if (status.state === 'granted') {
-    try {
-      await reg.periodicSync.register('refresh-ads', {
-        minInterval: 24 * 60 * 60 * 1000 // Once every 24 hours
-      });
-      console.log('✅ Periodic sync registered');
-    } catch (e) {
-      console.error('❌ Periodic sync registration failed:', e);
-    }
-  }
-});
-  Notification.requestPermission().then((permission) => {
-  if (permission === "granted") {
-    console.log("🔔 Notifications granted");
-  }
-});
-</script>
 
 </body>
 </html>
