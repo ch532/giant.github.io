@@ -509,15 +509,21 @@ p {
 </div>
 
 <script>
-  median?.admob?.showBanner?.({
-    container: "#median-banner",
-    position: "bottom" // or "top"
-  });
-</script>
-    
-<script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Show AdMob Banner Ad
+    median?.admob?.showBanner();
+
+    // Show Interstitial Ad if ready
     median?.admob?.showInterstitialIfReady();
+
+    // Show Rewarded Ad if ready
+    median?.admob?.showRewardedIfReady();
+  });
+
+  // Optional: Add event listeners for ad events (if supported)
+  document.addEventListener('medianAdEvent', function(event) {
+    console.log('Median Ad Event:', event.detail);
+    // event.detail can have info like {type: 'interstitial', status: 'loaded'|'failed'|'closed' }
   });
 </script>
 
