@@ -242,24 +242,23 @@
       
 <div id="median-banner"></div>
 
-<button onclick="unlockWithAd()">Watch Ad to Unlock</button>
-      
-<script>
-  median?.admob?.showBanner?.({
-    container: "#median-banner",
-    position: "bottom" // or "top"
-  });
-</script>
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    median?.admob?.showInterstitialIfReady();
-  });
-</script>
+    // Show AdMob Banner Ad
+    median?.admob?.showBanner();
 
-      <script>
-  median?.admob?.showInterstitialOnNextPageLoadIfReady();
-  window.location.href = "page3.html"; // 🔁 Replace with your actual page URL
+    // Show Interstitial Ad if ready
+    median?.admob?.showInterstitialIfReady();
+
+    // Show Rewarded Ad if ready
+    median?.admob?.showRewardedIfReady();
+  });
+
+  // Optional: Add event listeners for ad events (if supported)
+  document.addEventListener('medianAdEvent', function(event) {
+    console.log('Median Ad Event:', event.detail);
+    // event.detail can have info like {type: 'interstitial', status: 'loaded'|'failed'|'closed' }
+  });
 </script>
       
   <footer class="footer">
