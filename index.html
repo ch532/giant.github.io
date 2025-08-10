@@ -494,41 +494,34 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<div id="median-banner"></div>
+<script>  
+median.admob.banner.enable();   // Show banner
+median.admob.banner.disable();  // Hide banner
+</script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    median?.admob?.showBanner({
-      containerId: "median-banner",
-      position: "bottom" // or "top"
-    });
-  });
+  median.admob.showInterstitialIfReady();
+  median.admob.showInterstitialOnNextPageLoadIfReady();
 </script>
 
   <script>
-  function showInterstitialThenNavigate(nextPageUrl) {
-    if (!median?.admob) {
-      window.location.href = nextPageUrl;
-      return;
-    }
+    // Callback method
+median.admob.request.consent({ callback: consentCallback });
 
-    median.admob.loadInterstitial()
-      .then(() => {
-        median.admob.showInterstitial();
-        median.admob.onInterstitialClosed = () => {
-          window.location.href = nextPageUrl;
-        };
-      })
-      .catch(() => {
-        window.location.href = nextPageUrl;
-      });
+function consentCallback(result) {
+  if (result.success === true) {
+    alert('Thank you for enabling personalized ads');
   }
-</script>
+}
 
-<!-- Use it like: -->
-<!-- <button onclick="showInterstitialThenNavigate('nextpage.html')">Go Next</button> -->
-
-
+// Promise method
+median.admob.request.consent().then(function(result) {
+  if (result.success === true) {
+    alert('Thank you for enabling personalized ads');
+  }
+});
+  </script>
+  
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
     <span>We use cookies to personalize content and analyze traffic. By continuing, you accept our use of cookies.</span>
