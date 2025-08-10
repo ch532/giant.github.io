@@ -244,22 +244,37 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Show AdMob Banner Ad
-    median?.admob?.showBanner();
-
-    // Show Interstitial Ad if ready
-    median?.admob?.showInterstitialIfReady();
-
-    // Show Rewarded Ad if ready
-    median?.admob?.showRewardedIfReady();
-  });
-
-  // Optional: Add event listeners for ad events (if supported)
-  document.addEventListener('medianAdEvent', function(event) {
-    console.log('Median Ad Event:', event.detail);
-    // event.detail can have info like {type: 'interstitial', status: 'loaded'|'failed'|'closed' }
+    median?.admob?.showBanner({
+      containerId: "median-banner",
+      position: "bottom" // or "top"
+    });
   });
 </script>
+
+      <script>
+  function showInterstitialThenNavigate(nextPageUrl) {
+    if (!median?.admob) {
+      window.location.href = nextPageUrl;
+      return;
+    }
+
+    median.admob.loadInterstitial()
+      .then(() => {
+        median.admob.showInterstitial();
+        median.admob.onInterstitialClosed = () => {
+          window.location.href = nextPageUrl;
+        };
+      })
+      .catch(() => {
+        window.location.href = nextPageUrl;
+      });
+  }
+</script>
+
+<!-- Use it like: -->
+<!-- <button onclick="showInterstitialThenNavigate('nextpage.html')">Go Next</button> -->
+
+
       
   <footer class="footer">
     <div class="footer-content">
