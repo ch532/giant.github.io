@@ -240,40 +240,33 @@
 }
 </style>
       
-<div id="median-banner"></div>
+<script>  
+median.admob.banner.enable();   // Show banner
+median.admob.banner.disable();  // Hide banner
+</script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    median?.admob?.showBanner({
-      containerId: "median-banner",
-      position: "bottom" // or "top"
-    });
-  });
+  median.admob.showInterstitialIfReady();
+  median.admob.showInterstitialOnNextPageLoadIfReady();
 </script>
 
-      <script>
-  function showInterstitialThenNavigate(nextPageUrl) {
-    if (!median?.admob) {
-      window.location.href = nextPageUrl;
-      return;
-    }
+  <script>
+    // Callback method
+median.admob.request.consent({ callback: consentCallback });
 
-    median.admob.loadInterstitial()
-      .then(() => {
-        median.admob.showInterstitial();
-        median.admob.onInterstitialClosed = () => {
-          window.location.href = nextPageUrl;
-        };
-      })
-      .catch(() => {
-        window.location.href = nextPageUrl;
-      });
+function consentCallback(result) {
+  if (result.success === true) {
+    alert('Thank you for enabling personalized ads');
   }
-</script>
+}
 
-<!-- Use it like: -->
-<!-- <button onclick="showInterstitialThenNavigate('nextpage.html')">Go Next</button> -->
-
+// Promise method
+median.admob.request.consent().then(function(result) {
+  if (result.success === true) {
+    alert('Thank you for enabling personalized ads');
+  }
+});
+  </script>
 
       
   <footer class="footer">
@@ -285,7 +278,7 @@
         <a href="contact.html">Contact</a>
       </nav>
       <p>
-        Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a><br>
+        Contact us: <a href="mailto:chykedegreat33@gmail.com">chykedegreat33@gmail.com</a>< br>
         Phone: +2349125007235, +2347061740924
       </p>
       <div class="social-links">
