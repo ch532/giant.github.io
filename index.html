@@ -495,25 +495,38 @@ p {
 </div>
 
 <div id="median-banner"></div>
-  
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Show AdMob Banner Ad
-    median?.admob?.showBanner();
-
-    // Show Interstitial Ad if ready
-    median?.admob?.showInterstitialIfReady();
-
-    // Show Rewarded Ad if ready
-    median?.admob?.showRewardedIfReady();
-  });
-
-  // Optional: Add event listeners for ad events (if supported)
-  document.addEventListener('medianAdEvent', function(event) {
-    console.log('Median Ad Event:', event.detail);
-    // event.detail can have info like {type: 'interstitial', status: 'loaded'|'failed'|'closed' }
+    median?.admob?.showBanner({
+      containerId: "median-banner",
+      position: "bottom" // or "top"
+    });
   });
 </script>
+
+  <script>
+  function showInterstitialThenNavigate(nextPageUrl) {
+    if (!median?.admob) {
+      window.location.href = nextPageUrl;
+      return;
+    }
+
+    median.admob.loadInterstitial()
+      .then(() => {
+        median.admob.showInterstitial();
+        median.admob.onInterstitialClosed = () => {
+          window.location.href = nextPageUrl;
+        };
+      })
+      .catch(() => {
+        window.location.href = nextPageUrl;
+      });
+  }
+</script>
+
+<!-- Use it like: -->
+<!-- <button onclick="showInterstitialThenNavigate('nextpage.html')">Go Next</button> -->
 
 
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
