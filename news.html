@@ -1,20 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Google News Feed</title>
+<style>
+body{font-family:Arial, sans-serif; margin:20px;}
+h2{margin-top:0;}
+ul{list-style:none; padding:0;}
+li{margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #ccc;}
+a{text-decoration:none; color:#0066cc;}
+a:hover{text-decoration:underline;}
+small{color:#666;}
+</style>
+</head>
+<body>
+<h2>Latest News</h2>
+<ul id="feed"></ul>
+
 <script>
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dnigeria%2BOR%2Bworld%26hl%3Den%26gl%3DNG%26ceid%3DNG%3Aen')
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('newsList');
-    data.items.forEach(item => {
-      const div = document.createElement('div');
-      div.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><p>${item.pubDate}</p>`;
-      container.appendChild(div);
-    });
+async function loadFeed(topic = 'entertainment') {
+  const res = await fetch(`rss.php?topic=${encodeURIComponent(topic)}`);
+  const xmlText = await res.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, 'application/xml');
+  
+  const items = doc.querySelectorAll('item');
+  const feed = document.getElementById('feed');
+  feed.innerHTML = '';
+  
+  items.forEach((item, i) => {
+    if (i >= 20) return; // Limit to 20
+    const title = item.querySelector('title').textContent;
+    const link = item.querySelector('link').textContent;
+    const date = item.querySelector('pubDate').textContent;
+    feed.innerHTML += `<li><a href="${link}" target="_blank">${title}</a><br><small>${date}</small></li>`;
   });
+}
+
+loadFeed();
 </script>
-
-<div id="newsList">Loading news...</div>
-
-<nav>
-  <a href="index.html">🏠 Home</a> |
-  <a href="index.amp.html">⚡ AMP News</a> |
-  <a href="news.html">📄 Full News</a>
-</nav>
+</body>
+</html>
