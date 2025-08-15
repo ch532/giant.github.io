@@ -1,48 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>Latest News</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px; }
-        h1 { text-align: center; }
-        .news-item { border-bottom: 1px solid #ddd; padding: 10px 0; }
-        .news-item a { text-decoration: none; color: #007BFF; }
-        .news-item a:hover { text-decoration: underline; }
-        .pubdate { font-size: 0.9em; color: gray; }
-    </style>
-</head>
-<body>
-    <h1>Latest Google News</h1>
-    <div id="news-container">Loading news...</div>
+    <title>Connect Gold Google News</title>
+    <link>https://connectgold.sbs</link>
+    <description>Latest Google News for Connect Gold via RSSHub</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 Aug 2025 12:00:00 GMT</lastBuildDate>
 
-    <script>
-        async function loadNews() {
-            const proxy = "https://api.allorigins.win/get?url=";
-            const rssUrl = encodeURIComponent("https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en");
-            const response = await fetch(proxy + rssUrl);
-            const data = await response.json();
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(data.contents, "application/xml");
-            const items = xml.querySelectorAll("item");
-            let html = "";
+    <item>
+      <title>Google News Top Headlines</title>
+      <link>https://rsshub.app/google/news/headlines/US</link>
+      <description>Top news headlines from Google News (via RSSHub)</description>
+      <pubDate>Thu, 15 Aug 2025 12:00:00 GMT</pubDate>
+    </item>
 
-            items.forEach((item, index) => {
-                if (index >= 10) return; // limit to 10 articles
-                const title = item.querySelector("title").textContent;
-                const link = item.querySelector("link").textContent;
-                const pubDate = item.querySelector("pubDate").textContent;
-                html += `
-                    <div class="news-item">
-                        <a href="${link}" target="_blank">${title}</a>
-                        <div class="pubdate">${pubDate}</div>
-                    </div>
-                `;
-            });
-
-            document.getElementById("news-container").innerHTML = html;
-        }
-
-        loadNews();
-    </script>
-</body>
-</html>
+  </channel>
+</rss>
