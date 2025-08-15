@@ -1,17 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>Connect Gold Google News</title>
+    <title>Connect Gold News</title>
     <link>https://connectgold.sbs</link>
-    <description>Latest Google News for Connect Gold via RSSHub</description>
+    <description>Latest posts from Connect Gold</description>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Aug 2025 12:00:00 GMT</lastBuildDate>
 
     <item>
-      <title>Google News Top Headlines</title>
-      <link>https://rsshub.app/google/news/headlines/US</link>
-      <description>Top news headlines from Google News (via RSSHub)</description>
+      <title>Exciting New App Released</title>
+      <link>https://connectgold.sbs/posts/new-app-release.html</link>
+      <description>Connect Gold shares an exciting new app launch with amazing features for users.</description>
+      <pubDate>Thu, 15 Aug 2025 10:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Top 5 Tips for Productivity</title>
+      <link>https://connectgold.sbs/posts/productivity-tips.html</link>
+      <description>Boost your efficiency with these top 5 productivity tips from Connect Gold.</description>
+      <pubDate>Thu, 15 Aug 2025 11:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Travel Destinations You Must See</title>
+      <link>https://connectgold.sbs/posts/travel-destinations.html</link>
+      <description>Explore the most beautiful travel destinations around the world with Connect Gold.</description>
       <pubDate>Thu, 15 Aug 2025 12:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>How to Stay Healthy While Working Remotely</title>
+      <link>https://connectgold.sbs/posts/remote-health-tips.html</link>
+      <description>Practical tips to maintain your health and wellness while working from home.</description>
+      <pubDate>Thu, 15 Aug 2025 13:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Top 10 Mobile Games This Month</title>
+      <link>https://connectgold.sbs/posts/top-mobile-games.html</link>
+      <description>Check out the most popular mobile games of the month, handpicked by Connect Gold.</description>
+      <pubDate>Thu, 15 Aug 2025 14:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Latest Tech Gadgets Review</title>
+      <link>https://connectgold.sbs/posts/tech-gadgets-review.html</link>
+      <description>Reviewing the latest tech gadgets and innovations for tech enthusiasts.</description>
+      <pubDate>Thu, 15 Aug 2025 15:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Guide to Smart Home Devices</title>
+      <link>https://connectgold.sbs/posts/smart-home-guide.html</link>
+      <description>Learn how to set up and use smart home devices to make life easier.</description>
+      <pubDate>Thu, 15 Aug 2025 16:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Financial Tips for Young Adults</title>
+      <link>https://connectgold.sbs/posts/financial-tips.html</link>
+      <description>Practical financial advice to help young adults manage money effectively.</description>
+      <pubDate>Thu, 15 Aug 2025 17:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Top 5 Travel Apps to Download</title>
+      <link>https://connectgold.sbs/posts/top-travel-apps.html</link>
+      <description>Discover the best travel apps to make your journeys smoother and more enjoyable.</description>
+      <pubDate>Thu, 15 Aug 2025 18:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>How AI is Changing Daily Life</title>
+      <link>https://connectgold.sbs/posts/ai-daily-life.html</link>
+      <description>Exploring the ways artificial intelligence is transforming everyday experiences.</description>
+      <pubDate>Thu, 15 Aug 2025 19:00:00 GMT</pubDate>
     </item>
 
   </channel>
