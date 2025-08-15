@@ -1,15 +1,30 @@
 <?php
-header("Content-Type: application/xml; charset=UTF-8");
+header("Content-Type: application/rss+xml; charset=UTF-8");
 
-$topic = isset($_GET['topic']) ? urlencode($_GET['topic']) : 'entertainment';
-$url = "https://news.google.com/rss/search?q={$topic}&hl=en-NG&gl=NG&ceid=NG:en";
+// List of topics you want to show
+$topics = [
+    "entertainment",
+    "sports",
+    "technology",
+    "business",
+    "health",
+    "science",
+    "world news"
+];
 
-// Fetch RSS from Google
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-$data = curl_exec($ch);
-curl_close($ch);
+// Pick a random topic each time
+$topic = $topics[array_rand($topics)];
 
-echo $data;
+// Build the Google News RSS feed URL for that topic
+$rss_url = "https://news.google.com/rss/search?q=" . urlencode($topic) . "&hl=en&gl=US&ceid=US:en";
+
+// Get the feed contents
+$rss = @file_get_contents($rss_url);
+
+// If it worked, output it; otherwise show error
+if ($rss !== false) {
+    echo $rss;
+} else {
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss><channel><title>Error</title><description>Unable to fetch feed</description></channel></rss>";
+}
+?>
