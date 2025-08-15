@@ -14,7 +14,7 @@
   <vmap:AdBreak timeOffset="00:00:30.000" breakType="linear">
     <vmap:AdSource id="ad-midroll" allowMultipleAds="true" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://bid.onclckstr.com/vast?spot_id=6084799]]>
+        <![CDATA[https://go.easrv.cl/vast.go?spaceid=8179648]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
