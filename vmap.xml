@@ -6,6 +6,7 @@
     <vmap:AdSource id="ad-preroll" allowMultipleAds="true" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
         <![CDATA[https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA]]>
+        <![CDATA[https://go.easrv.cl/lineair.go?spaceid=8179603]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
