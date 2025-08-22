@@ -466,33 +466,7 @@ provided by <a style="color:#000000" href="https://www.freethesaurus.com/" rel="
 </div></div>
 <!--end of Match Up-->
 
-<script>  
-median.admob.banner.enable();   // Show banner
-median.admob.banner.disable();  // Hide banner
-</script>
 
-<script>
-  median.admob.showInterstitialIfReady();
-  median.admob.showInterstitialOnNextPageLoadIfReady();
-</script>
-
-  <script>
-    // Callback method
-median.admob.request.consent({ callback: consentCallback });
-
-function consentCallback(result) {
-  if (result.success === true) {
-    alert('Thank you for enabling personalized ads');
-  }
-}
-
-// Promise method
-median.admob.request.consent().then(function(result) {
-  if (result.success === true) {
-    alert('Thank you for enabling personalized ads');
-  }
-});
-  </script>
         
   <footer class="footer">
     <div class="footer-content">
