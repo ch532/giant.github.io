@@ -254,9 +254,6 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1171216593802007"
-     crossorigin="anonymous"></script>
-  
     <div data-mndbanid="adf90fb2-a4a6-40b0-879d-da1644cd26a5"></div>
  <div style="display: inline-block; background: #ffe58a; color: #333; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px;">
   Sponsored
@@ -270,62 +267,7 @@ p {
 	<div data-banner-id="6086756"></div>
 
 <div id="foremediaads-c1"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/c1"></script>
 
-<div id="foremediaads-c2"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/c2"></script>
-
-<div id="foremediaads-c3"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/c3"></script>
-
-<div id="foremediaads-c4"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/c4"></script>
-
-<div id="foremediaads-c5"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/c5"></script>
-
-<div id="foremediaads-e1"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/e1"></script>
-
-<div id="foremediaads-footer"></div>
-<script type="text/javascript" async src="https://platform.foremedia.net/code/59993/footer"></script>
-	
-<!-- PixFuture Display Ad Tag -->
-<div id="62107x300x250x10347x_ADSLOT1" clickTrack="%%CLICK_URL_ESC%%"></div>
-<script async type="text/javascript" src="https://served-by.pixfuture.com/www/delivery/headerbid.js" slot_id="62107x300x250x10347x_ADSLOT1"></script>
-
-<!-- PixFuture GoStory Player tag START -->
-<script async pixId="10347x3438" src="https://cdn.pixfuture.com/cw/load-widget.js" init="pxft-main"></script>
-<!-- PixFuture GoStory Player tag END -->
-
-
-<script type="text/javascript">
-   var ts_site      = "68691";
-   var ts_channel   = "5704";
-   var ts_dimension = "56";
-   var ts_width     = "100%";
-   var ts_height    = "auto";
-   var ts_palette   = "1";
-   var ts_user      = "38289";
-   var ts_adaptive  = "1";
-</script>
-<script type="text/javascript" src="//1ts21.top/show.php" charset="UTF-8"></script>
-
-<script src="https://cdn.oxystc.com/scripts/popunder/68a0ad9b98a1d7a6050270d1.js"></script>
-
-<script data-tox-sub-id="123456" src="https://cdn.oxystc.com/scripts/popunder/68a0ad9b98a1d7a6050270d1.js"></script>
-
-<script src="https://cdn.oxystc.com/sticker/scripts/68a0ad9c98a1d7a6050270d7.js"></script>
-
-<script data-tox-sub-id="123456" src="https://cdn.oxystc.com/sticker/scripts/68a0ad9c98a1d7a6050270d7.js"></script>
-	
-<script id="adn-4797596" type="text/javascript" class="" style="">
-    (function (node) {
-        var adn = document.createElement("script");
-        adn.type = "text/javascript", adn.async = true, adn.src = "//a.medfoodsafety.com/oauth2?id=4797596&r=" + Math.floor(Math.random() * 99999) + "&bs=1";
-        node.appendChild(adn);
-    })(document.getElementsByTagName("script")[document.getElementsByTagName("script").length - 1].parentNode)
-</script>
 	
 <!DOCTYPE html>
 <html lang="en">
@@ -367,112 +309,6 @@ p {
 </body>
 </html>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Adfpoint Demo</title>
-</head>
-<body>
-  <div id="ad-container"></div>
-
-  <script>
-    async function fetchAd() {
-      // Replace placeholders with actual values
-      const ua = encodeURIComponent(navigator.userAgent);
-      const ip = "USER_IP"; // optional, server may detect it
-      const referral = encodeURIComponent(window.location.hostname || "myapp");
-      const keywords = encodeURIComponent("gaming");
-
-      const url = `http://adfpoint.com/api/v1/spx?authkey=LmIZ6MGYbPQlDW&subid=6cb811c3c37f8466e2bc75bac&fmt=xml&ua=${ua}&ip=${ip}&pagedomain=${referral}&keywords=${keywords}`;
-
-      try {
-        const response = await fetch(url);
-        const text = await response.text();
-
-        // Parse XML
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(text, "application/xml");
-
-        // Example: get first ad URL and image (depends on API structure)
-        const adLink = xmlDoc.querySelector("url")?.textContent || "#";
-        const adImage = xmlDoc.querySelector("image")?.textContent || "";
-
-        // Render ad
-        const container = document.getElementById("ad-container");
-        container.innerHTML = `<a href="${adLink}" target="_blank">
-                                  <img src="${adImage}" style="width:300px;height:auto;" />
-                               </a>`;
-
-      } catch (err) {
-        console.error("Error fetching ad:", err);
-      }
-    }
-
-    // Load ad on startup
-    fetchAd();
-  </script>
-</body>
-</html>
-
-
-<!--
-The div tag below is used to insert the advertisement, the id value match with param "display" in the Javascript code
-In case you use the code multiple times then be sure that every id is unique!
--->
-<div id="sp_11802501_node">&nbsp;</div>
-
-<script type="text/javascript"  charset="utf-8">
-if (typeof goCtrl =="undefined"){ 
-	var goCtrlRecs=[];
-	var goCtrl = {add:function(ag){goCtrlRecs.push(ag)}};
-	var js = document.createElement('script');
-	js.setAttribute("src","//go1.trakit24.com/loadeactrl.go?pid=48817&spaceid=11802501&ctrlid=16579");
-	document.head.appendChild(js);
-}
-
-goCtrl.add({"display":"sp_11802501_node","sid":11802501,"plugin":"banner"});
-</script>
-
-
-<script charset="utf-8">
-if (typeof eaCtrl =="undefined"){ 
-	var eaCtrlRecs=[];
-	var eaCtrl = {add:function(ag){eaCtrlRecs.push(ag)}};
-	var js = document.createElement('script');
-	js.setAttribute("src","//go.easrv.cl/loadeactrl.go?pid=152827&spaceid=8179645&ctrlid=798634");
-	document.head.appendChild(js);
-}
-
-eaCtrl.add({"plugin":"im","sid":8179645});
-</script>
-
-	
-<script charset="utf-8">
-if (typeof eaCtrl =="undefined"){ 
-	var eaCtrlRecs=[];
-	var eaCtrl = {add:function(ag){eaCtrlRecs.push(ag)}};
-	var js = document.createElement('script');
-	js.setAttribute("src","//go.easrv.cl/loadeactrl.go?pid=152827&spaceid=8179648&ctrlid=798634");
-	document.head.appendChild(js);
-}
-
-eaCtrl.add({"plugin":"videoslider","sid":8179648,"advertise":"Advertisement"});
-</script>
-
-<!--You can optional change or empty the value of property "advertise" in order to not display or display another text-->
-
-
-<script charset="utf-8">
-if (typeof eaCtrl =="undefined"){ 
-	var eaCtrlRecs=[];
-	var eaCtrl = {add:function(ag){eaCtrlRecs.push(ag)}};
-	var js = document.createElement('script');
-	js.setAttribute("src","//go.easrv.cl/loadeactrl.go?pid=152827&spaceid=8179654&ctrlid=798634");
-	document.head.appendChild(js);
-}
-
-eaCtrl.add({"plugin":"native_bar","sid":8179654});
-</script>
 
   
   <div class="amazon-banner">
@@ -548,21 +384,6 @@ eaCtrl.add({"plugin":"native_bar","sid":8179654});
 
 
   
-<div data-type="_mgwidget" data-widget-id="1821485"> 
- </div> 
- <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
- </script> 
- 
-
-<div id="banner-container"></div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (typeof litoff !== 'undefined') {
-      litoff.loadBanner('DAY-0206211', 'banner-container');
-    }
-  });
-</script>
 
 <div id="mtn-top-banner">
     <img src="mtn.jpeg" alt="MTN Logo" style="height: 30px;"> 📱 <strong>MTN Nigeria Special:</strong> Download the official MTN App
@@ -672,33 +493,7 @@ eaCtrl.add({"plugin":"native_bar","sid":8179654});
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<script>  
-median.admob.banner.enable();   // Show banner
-median.admob.banner.disable();  // Hide banner
-</script>
 
-<script>
-  median.admob.showInterstitialIfReady();
-  median.admob.showInterstitialOnNextPageLoadIfReady();
-</script>
-
-  <script>
-    // Callback method
-median.admob.request.consent({ callback: consentCallback });
-
-function consentCallback(result) {
-  if (result.success === true) {
-    alert('Thank you for enabling personalized ads');
-  }
-}
-
-// Promise method
-median.admob.request.consent().then(function(result) {
-  if (result.success === true) {
-    alert('Thank you for enabling personalized ads');
-  }
-});
-  </script>
   
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
