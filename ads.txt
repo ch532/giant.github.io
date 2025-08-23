@@ -1628,3 +1628,9 @@ indexexchange.com, 191730, RESELLER, 50b1c356f2c5c8fc
 sharethrough.com, AXS5NfBr, DIRECT, d53b998a7bd4ecd2
 loopme.com, 11712, RESELLER, 6c8d5f95897a5a3b
 #pixfuture END updated Apr-16-2025
+
+#Google#
+
+google.com, pub-1912561085588771, DIRECT, f08c47fec0942fa0
+google.com, pub-4537341636281998, DIRECT, f08c47fec0942fa0
+google.com, pub-1912561085588771, RESELLER, f08c47fec0942fa0
