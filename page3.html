@@ -5,6 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Page 3 - Connect Gold</title>
   <link rel="stylesheet" href="style.css" />
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){
+  if(f.fbq)return;
+  n=f.fbq=function(){
+    n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+  };
+  if(!f._fbq) f._fbq=n;
+  n.push=n; n.loaded=!0; n.version='2.0';
+  n.queue=[];
+  t=b.createElement(e); t.async=!0;
+  t.src=v;
+  s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)
+}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '726094249761649');  
+fbq('track', 'PageView');   // Page view event
+
+// Custom impression event
+fbq('trackCustom', 'Impression');
+fbq('trackCustom', 'adImpression',{ad: adName});
+}
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=726094249761649&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+  
   <script type="text/javascript" src="https://playabledownload.com/script_include.php?id=1831354"></script>
   
 <script async src="https://ss.mrmnd.com/banner.js"></script>
