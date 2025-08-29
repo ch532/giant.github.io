@@ -636,28 +636,25 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Connect Gold AI Chat</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; }
-  .user { color: blue; }
-  .ai { color: green; }
-</style>
-</head>
-<body>
-
-<h2>AI Chat</h2>
-<div id="chat"></div>
-<input type="text" id="promptInput" placeholder="Type your question here..." style="width:80%;">
-<button id="sendBtn">Send</button>
+<!-- Chat container, placed before the footer -->
+<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; width: 300px; border: 1px solid #ccc; border-radius: 8px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  
+  <!-- Header with collapsible toggle -->
+  <div id="ai-chat-header" style="padding: 10px; background-color: #007bff; color: #fff; cursor: pointer; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+    Chat with AI
+  </div>
+  
+  <!-- Chat content, hidden initially -->
+  <div id="ai-chat-content" style="display: none; padding: 10px; max-height: 400px; overflow-y: auto;">
+    <div id="ai-messages" style="margin-bottom: 10px;"></div>
+    <input type="text" id="ai-input" placeholder="Type a message..." style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    <button id="ai-send" style="margin-top: 5px; padding: 5px 10px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;">Send</button>
+  </div>
+</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
-  import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-ai.js";
+  import { initializeApp } from "firebase/app";
+  import { getAI, getGenerativeModel, GoogleAIBackend } from "firebase/ai";
 
   // Firebase configuration
   const firebaseConfig = {
@@ -673,107 +670,55 @@ p {
   // Initialize Firebase
   const firebaseApp = initializeApp(firebaseConfig);
 
-  // Initialize Gemini AI
+  // Initialize AI
   const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
   const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
 
-  const chatDiv = document.getElementById("chat");
-  const promptInput = document.getElementById("promptInput");
-  const sendBtn = document.getElementById("sendBtn");
+  // DOM elements
+  const chatHeader = document.getElementById("ai-chat-header");
+  const chatContent = document.getElementById("ai-chat-content");
+  const messagesDiv = document.getElementById("ai-messages");
+  const input = document.getElementById("ai-input");
+  const sendBtn = document.getElementById("ai-send");
 
-  sendBtn.addEventListener("click", async () => {
-    const prompt = promptInput.value.trim();
-    if (!prompt) return;
-
-    // Show user's message
-    const userMsg = document.createElement("div");
-    userMsg.className = "user";
-    userMsg.textContent = "You: " + prompt;
-    chatDiv.appendChild(userMsg);
-    chatDiv.scrollTop = chatDiv.scrollHeight;
-
-    promptInput.value = "";
-
-    // Generate AI response
-    const result = await model.generateContent(prompt);
-    const aiText = result.response.text();
-
-    const aiMsg = document.createElement("div");
-    aiMsg.className = "ai";
-    aiMsg.textContent = "AI: " + aiText;
-    chatDiv.appendChild(aiMsg);
-    chatDiv.scrollTop = chatDiv.scrollHeight;
+  // Toggle chat
+  chatHeader.addEventListener("click", () => {
+    chatContent.style.display = chatContent.style.display === "none" ? "block" : "none";
   });
-</script>
 
-	<!-- AI Chat Container -->
-<div id="ai-chat-container" style="position: relative; width: 100%; max-width: 400px; margin: 20px auto; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  
-  <!-- Header (clickable to collapse/expand) -->
-  <div id="ai-chat-header" style="background-color: #007bff; color: white; padding: 12px; cursor: pointer; font-weight: bold; text-align: center;">
-    Chat with AI ⬇
-  </div>
-  
-  <!-- Chat Body -->
-  <div id="ai-chat-body" style="display: none; background-color: #f9f9f9; padding: 10px; max-height: 300px; overflow-y: auto;">
-    <!-- Messages will appear here -->
-    <div id="ai-messages" style="margin-bottom: 10px;"></div>
-    
-    <!-- Input Area -->
-    <input id="ai-input" type="text" placeholder="Type your question..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;"/>
-    <button id="ai-send" style="margin-top: 5px; width: 100%; padding: 8px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Send</button>
-  </div>
-</div>
+  // Send message
+  sendBtn.addEventListener("click", async () => {
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
 
-<script>
-  // Collapsible functionality
-  const header = document.getElementById('ai-chat-header');
-  const body = document.getElementById('ai-chat-body');
+    // Display user message
+    const userDiv = document.createElement("div");
+    userDiv.textContent = `You: ${userMessage}`;
+    userDiv.style.fontWeight = "bold";
+    messagesDiv.appendChild(userDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    input.value = "";
 
-  header.addEventListener('click', () => {
-    if(body.style.display === 'none') {
-      body.style.display = 'block';
-      header.textContent = 'Chat with AI ⬆';
-    } else {
-      body.style.display = 'none';
-      header.textContent = 'Chat with AI ⬇';
+    try {
+      // Get AI response
+      const result = await model.generateContent(userMessage);
+      const aiResponse = result.response.text();
+
+      const aiDiv = document.createElement("div");
+      aiDiv.textContent = `AI: ${aiResponse}`;
+      aiDiv.style.marginTop = "5px";
+      messagesDiv.appendChild(aiDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    } catch (err) {
+      console.error("Error getting AI response:", err);
     }
   });
 
-  // Simple JS for sending messages (replace with your Firebase AI code)
-  const sendButton = document.getElementById('ai-send');
-  const input = document.getElementById('ai-input');
-  const messages = document.getElementById('ai-messages');
-
-  sendButton.addEventListener('click', async () => {
-    const userMsg = input.value.trim();
-    if(!userMsg) return;
-
-    // Show user message
-    const userDiv = document.createElement('div');
-    userDiv.textContent = "You: " + userMsg;
-    userDiv.style.fontWeight = 'bold';
-    messages.appendChild(userDiv);
-
-    input.value = '';
-
-    // Call Firebase AI and get response (pseudo-code)
-    // const aiResponse = await model.generateContent(userMsg);
-    // const aiText = aiResponse.response.text();
-
-    // For demo, we use placeholder response
-    const aiDiv = document.createElement('div');
-    aiDiv.textContent = "AI: This is a placeholder response.";
-    aiDiv.style.marginBottom = '10px';
-    messages.appendChild(aiDiv);
-
-    // Scroll to bottom
-    body.scrollTop = body.scrollHeight;
+  // Optional: send on Enter key
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendBtn.click();
   });
 </script>
-
-</body>
-</html>
 	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
