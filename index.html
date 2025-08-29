@@ -636,12 +636,31 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<script type="module">
-import { initializeApp } from "firebase/app";
-import { getAI, getGenerativeModel, GoogleAIBackend } from "firebase/ai";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Connect Gold AI Chat</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; }
+  .user { color: blue; }
+  .ai { color: green; }
+</style>
+</head>
+<body>
 
-// Your Firebase configuration (you already have this)
-const firebaseConfig = {
+<h2>AI Chat</h2>
+<div id="chat"></div>
+<input type="text" id="promptInput" placeholder="Type your question here..." style="width:80%;">
+<button id="sendBtn">Send</button>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+  import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-ai.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
     apiKey: "AIzaSyBuk5L7MH8E85-3BCsMuZNSL_QDqB8aZqk",
     authDomain: "skyl101.firebaseapp.com",
     projectId: "skyl101",
@@ -649,20 +668,46 @@ const firebaseConfig = {
     messagingSenderId: "932306097400",
     appId: "1:932306097400:web:9be1ed152b27aea3d5570d",
     measurementId: "G-V67YGDMDXR"
-};
+  };
 
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+  // Initialize Firebase
+  const firebaseApp = initializeApp(firebaseConfig);
 
-// Initialize Gemini AI backend
-const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
+  // Initialize Gemini AI
+  const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
+  const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
 
-// Create a GenerativeModel instance
-const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
+  const chatDiv = document.getElementById("chat");
+  const promptInput = document.getElementById("promptInput");
+  const sendBtn = document.getElementById("sendBtn");
 
-// Example usage
-// model.generate({ prompt: "Hello, AI!" }).then(response => console.log(response));
+  sendBtn.addEventListener("click", async () => {
+    const prompt = promptInput.value.trim();
+    if (!prompt) return;
+
+    // Show user's message
+    const userMsg = document.createElement("div");
+    userMsg.className = "user";
+    userMsg.textContent = "You: " + prompt;
+    chatDiv.appendChild(userMsg);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+
+    promptInput.value = "";
+
+    // Generate AI response
+    const result = await model.generateContent(prompt);
+    const aiText = result.response.text();
+
+    const aiMsg = document.createElement("div");
+    aiMsg.className = "ai";
+    aiMsg.textContent = "AI: " + aiText;
+    chatDiv.appendChild(aiMsg);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  });
 </script>
+
+</body>
+</html>
 	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
