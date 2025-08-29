@@ -636,8 +636,34 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
+<script type="module">
+import { initializeApp } from "firebase/app";
+import { getAI, getGenerativeModel, GoogleAIBackend } from "firebase/ai";
 
-  
+// Your Firebase configuration (you already have this)
+const firebaseConfig = {
+    apiKey: "AIzaSyBuk5L7MH8E85-3BCsMuZNSL_QDqB8aZqk",
+    authDomain: "skyl101.firebaseapp.com",
+    projectId: "skyl101",
+    storageBucket: "skyl101.firebasestorage.app",
+    messagingSenderId: "932306097400",
+    appId: "1:932306097400:web:9be1ed152b27aea3d5570d",
+    measurementId: "G-V67YGDMDXR"
+};
+
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+
+// Initialize Gemini AI backend
+const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
+
+// Create a GenerativeModel instance
+const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
+
+// Example usage
+// model.generate({ prompt: "Hello, AI!" }).then(response => console.log(response));
+</script>
+	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
     <span>We use cookies to personalize content and analyze traffic. By continuing, you accept our use of cookies.</span>
