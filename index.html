@@ -645,77 +645,55 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Google-Maps-Like World Map</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Map container -->
+<div id="map" style="width: 100%; height: 500px; margin: 20px 0; border: 1px solid #ccc;"></div>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-sA+e2tzv1ldoT8qP2yNnH+P0y6O9hVJ0nU9fOkQm+3s=" crossorigin=""/>
-    
-    <!-- Leaflet Control Geocoder CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Map container */
-        #map {
-            width: 100%;
-            height: 100vh; /* full viewport height */
-            position: relative;
-        }
-
-        /* Center search box inside the map div */
-        .leaflet-control-geocoder {
-            width: 50% !important;
-            margin: 10px auto;
-        }
-    </style>
-</head>
-<body>
-
-<!-- Map container div -->
-<div id="map"></div>
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-o9N1j8rBq7WtK1uH1F9ZK4y+6c8pHQs0F1TnGm2A8S0=" crossorigin=""></script>
-
-<!-- Leaflet Control Geocoder JS -->
-<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<!-- MapTiler JS -->
+<script src="https://cdn.maptiler.com/maplibre-gl-js/v4.1.0/maplibre-gl.js"></script>
 
 <script>
-    // Initialize map in the div
-    var map = L.map('map').setView([20, 0], 2); // world view
+    const API_KEY = 'c7mcIDrue1F8v9qGtlXH'; // Your API key
 
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    // Map styles
+    const styles = {
+        streets: `https://api.maptiler.com/maps/streets/style.json?key=${API_KEY}`,
+        satellite: `https://api.maptiler.com/maps/hybrid/style.json?key=${API_KEY}`,
+        hybrid: `https://api.maptiler.com/maps/hybrid/style.json?key=${API_KEY}` // satellite + labels
+    };
 
-    // Add draggable marker
-    var marker = L.marker([20, 0], {draggable:true}).addTo(map)
-        .bindPopup('Drag me anywhere in the world!')
-        .openPopup();
+    // Initialize map inside the div, world view
+    const map = new maplibregl.Map({
+        container: 'map',
+        style: styles.streets,
+        center: [0, 0], // longitude, latitude at the center of the world
+        zoom: 1.5 // zoomed out enough to show the entire world
+    });
 
-    // Add search box inside the map div
-    L.Control.geocoder({
-        defaultMarkGeocode: true
-    }).addTo(map);
+    // Add navigation controls (zoom buttons)
+    map.addControl(new maplibregl.NavigationControl());
+
+    // Add draggable marker at the center
+    const marker = new maplibregl.Marker({draggable: true})
+        .setLngLat([0, 0])
+        .setPopup(new maplibregl.Popup().setText("Drag me anywhere!"))
+        .addTo(map)
+        .togglePopup();
+
+    // Function to switch map style
+    function switchStyle(styleName) {
+        map.setStyle(styles[styleName]);
+        map.once('styledata', () => {
+            marker.addTo(map);
+        });
+    }
 </script>
 
-</body>
-</html>
+<!-- Example buttons to switch map style -->
+<div style="margin-top:10px;">
+    <button onclick="switchStyle('streets')">Street</button>
+    <button onclick="switchStyle('satellite')">Satellite</button>
+    <button onclick="switchStyle('hybrid')">Hybrid</button>
+</div>
 	
 	<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
