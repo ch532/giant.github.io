@@ -585,55 +585,7 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<!-- Map container -->
-<div id="map" style="width: 100%; height: 500px; margin: 20px 0; border: 1px solid #ccc;"></div>
 
-<!-- MapTiler JS -->
-<script src="https://cdn.maptiler.com/maplibre-gl-js/v4.1.0/maplibre-gl.js"></script>
-
-<script>
-    const API_KEY = 'c7mcIDrue1F8v9qGtlXH'; // Your API key
-
-    // Map styles
-    const styles = {
-        streets: `https://api.maptiler.com/maps/streets/style.json?key=${API_KEY}`,
-        satellite: `https://api.maptiler.com/maps/hybrid/style.json?key=${API_KEY}`,
-        hybrid: `https://api.maptiler.com/maps/hybrid/style.json?key=${API_KEY}` // satellite + labels
-    };
-
-    // Initialize map inside the div, world view
-    const map = new maplibregl.Map({
-        container: 'map',
-        style: styles.streets,
-        center: [0, 0], // longitude, latitude at the center of the world
-        zoom: 1.5 // zoomed out enough to show the entire world
-    });
-
-    // Add navigation controls (zoom buttons)
-    map.addControl(new maplibregl.NavigationControl());
-
-    // Add draggable marker at the center
-    const marker = new maplibregl.Marker({draggable: true})
-        .setLngLat([0, 0])
-        .setPopup(new maplibregl.Popup().setText("Drag me anywhere!"))
-        .addTo(map)
-        .togglePopup();
-
-    // Function to switch map style
-    function switchStyle(styleName) {
-        map.setStyle(styles[styleName]);
-        map.once('styledata', () => {
-            marker.addTo(map);
-        });
-    }
-</script>
-
-<!-- Example buttons to switch map style -->
-<div style="margin-top:10px;">
-    <button onclick="switchStyle('streets')">Street</button>
-    <button onclick="switchStyle('satellite')">Satellite</button>
-    <button onclick="switchStyle('hybrid')">Hybrid</button>
-</div>
 	
 	<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
