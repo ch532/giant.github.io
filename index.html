@@ -260,14 +260,9 @@ p {
     margin: 20px 10px;
   }
 
-  h1, h2 {
+  h1, h2 
     font-size: 1.3em;
   }
-	  button, .your-button-class {
-  position: relative;
-  z-index: 9999;
-  pointer-events: auto;
- }
 }
 </style>
 
@@ -640,69 +635,6 @@ p {
   </script>
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
-
-
-  <div id="chat-container">
-    <div id="chat-messages"></div>
-    <div id="chat-input">
-      <input type="text" id="message-input" placeholder="Type your message..." />
-      <button id="send-btn">Send</button>
-    </div>
-  </div>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
-
-  <script>
-    // ✅ Your Firebase config values
-    const firebaseConfig = {
-      apiKey: "AIzaSyD65jH2-DG9Rkzx_jx4AB2H7DqNwWmLJhA",
-      authDomain: "connectgold-chat.firebaseapp.com",
-      databaseURL: "https://connectgold-chat-default-rtdb.firebaseio.com",
-      projectId: "connectgold-chat",
-      storageBucket: "connectgold-chat.appspot.com",
-      messagingSenderId: "102938475610",
-      appId: "1:102938475610:web:abcdef1234567890"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database(app);
-
-    const messagesRef = db.ref("messages");
-
-    const chatMessages = document.getElementById("chat-messages");
-    const messageInput = document.getElementById("message-input");
-    const sendBtn = document.getElementById("send-btn");
-
-    // Send message
-    sendBtn.addEventListener("click", () => {
-      const message = messageInput.value.trim();
-      if (message) {
-        messagesRef.push({
-          text: message,
-          sender: "User",
-          timestamp: Date.now()
-        });
-        messageInput.value = "";
-      }
-    });
-
-    // Receive messages in real-time
-    messagesRef.on("child_added", (snapshot) => {
-      const msg = snapshot.val();
-      const msgDiv = document.createElement("div");
-      msgDiv.classList.add("message");
-      msgDiv.classList.add(msg.sender === "User" ? "sent" : "received");
-      msgDiv.textContent = msg.text;
-      chatMessages.appendChild(msgDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    });
-  </script>
-
-</body>
-</html>
 	
 	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
