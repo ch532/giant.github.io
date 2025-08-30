@@ -636,27 +636,13 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
-<!-- Chat container, placed before the footer -->
-<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; width: 300px; border: 1px solid #ccc; border-radius: 8px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-  
-  <!-- Header with collapsible toggle -->
-  <div id="ai-chat-header" style="padding: 10px; background-color: #007bff; color: #fff; cursor: pointer; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-    Chat with AI
-  </div>
-  
-  <!-- Chat content, hidden initially -->
-  <div id="ai-chat-content" style="display: none; padding: 10px; max-height: 400px; overflow-y: auto;">
-    <div id="ai-messages" style="margin-bottom: 10px;"></div>
-    <input type="text" id="ai-input" placeholder="Type a message..." style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
-    <button id="ai-send" style="margin-top: 5px; padding: 5px 10px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;">Send</button>
-  </div>
-</div>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-ai.js"></script>
 
-<script type="module">
-  import { initializeApp } from "firebase/app";
-  import { getAI, getGenerativeModel, GoogleAIBackend } from "firebase/ai";
-
-  // Firebase configuration
+<script>
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyBuk5L7MH8E85-3BCsMuZNSL_QDqB8aZqk",
     authDomain: "skyl101.firebaseapp.com",
@@ -667,14 +653,12 @@ p {
     measurementId: "G-V67YGDMDXR"
   };
 
-  // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
+  // Initialize
+  const app = firebase.initializeApp(firebaseConfig);
+  const ai = firebase.getAI(app, { backend: new firebase.GoogleAIBackend() });
+  const model = firebase.getGenerativeModel(ai, { model: "gemini-2.5-flash" });
 
-  // Initialize AI
-  const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
-  const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
-
-  // DOM elements
+  // DOM
   const chatHeader = document.getElementById("ai-chat-header");
   const chatContent = document.getElementById("ai-chat-content");
   const messagesDiv = document.getElementById("ai-messages");
@@ -686,12 +670,12 @@ p {
     chatContent.style.display = chatContent.style.display === "none" ? "block" : "none";
   });
 
-  // Send message
+  // Send
   sendBtn.addEventListener("click", async () => {
     const userMessage = input.value.trim();
     if (!userMessage) return;
 
-    // Display user message
+    // User message
     const userDiv = document.createElement("div");
     userDiv.textContent = `You: ${userMessage}`;
     userDiv.style.fontWeight = "bold";
@@ -700,7 +684,7 @@ p {
     input.value = "";
 
     try {
-      // Get AI response
+      // AI response
       const result = await model.generateContent(userMessage);
       const aiResponse = result.response.text();
 
@@ -710,17 +694,15 @@ p {
       messagesDiv.appendChild(aiDiv);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     } catch (err) {
-      console.error("Error getting AI response:", err);
+      console.error("AI error:", err);
     }
   });
 
-  // Optional: send on Enter key
+  // Enter key
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendBtn.click();
   });
 </script>
-
-
 	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
