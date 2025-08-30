@@ -1,29 +1,23 @@
 import express from "express";
+import cors from "cors";
 import { gemini15Flash, googleAI } from "@genkit-ai/googleai";
 import { genkit } from "genkit";
 
-const app = express();
-const port = 3000;
-
-// configure Genkit instance
 const ai = genkit({
   plugins: [googleAI()],
   model: gemini15Flash,
 });
 
-// define AI flow
-const helloFlow = ai.defineFlow("helloFlow", async (name) => {
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// API endpoint for AI
+app.post("/ask", async (req, res) => {
+  const { name } = req.body;
   const { text } = await ai.generate(`Hello Gemini, my name is ${name}`);
-  return text;
+  res.json({ reply: text });
 });
 
-// route for frontend
-app.get("/hello", async (req, res) => {
-  const name = req.query.name || "Guest";
-  const reply = await helloFlow(name);
-  res.json({ reply });
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
