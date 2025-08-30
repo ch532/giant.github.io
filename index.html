@@ -303,6 +303,10 @@ p {
    onclick="fbq('trackCustom', 'AppDownload');">
    Download Connect Gold app
 </a>
+
+<!-- Elfsight Search | Untitled Search -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-1804be62-4ed3-4850-ad9b-8c7cc2a0d79e" data-elfsight-app-lazy></div>
 	
      <form method="get" action="offers.php">
   <input type="text" name="kw" placeholder="Search offers..." />
@@ -641,11 +645,57 @@ p {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>World Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Map container using div tag */
+      #map {
+        height: 500px;  /* You can adjust height */
+        width: 100%;    /* Full width */
+      }
+    </style>
+  </head>
+  <body>
+    <h3>World Map</h3>
+    <!-- This div displays the Google Map -->
+    <div id="map"></div>
+
+    <script>
+      function initMap() {
+        // Center of the map (0,0) with zoom level to show the whole world
+        const worldCenter = { lat: 0, lng: 0 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 2,
+          center: worldCenter
+        });
+      }
+    </script>
+
+    <!-- Load Google Maps API using your API key -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHEbfvQRrfBusxieWANTAzvsccvga9QP8&callback=initMap"
+      async
+      defer
+    ></script>
+  </body>
+</html>
+	
 	<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-4efd91e2-0101-4eda-bfb9-519879b6ddd8" data-elfsight-app-lazy></div>
 	
+<!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-4e65250b-86c2-4602-ae06-c7ffcdf07f80" data-elfsight-app-lazy></div>
 
+	<!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-ef81ff8a-ac88-4deb-b994-e545ef269b7a" data-elfsight-app-lazy></div>
+  
   
   <div id="fixed-bottom-ad"></div>
   <footer>  
@@ -660,13 +710,7 @@ p {
     </div>
   </footer>  
 
-<!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-4e65250b-86c2-4602-ae06-c7ffcdf07f80" data-elfsight-app-lazy></div>
-	
-  <!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-ef81ff8a-ac88-4deb-b994-e545ef269b7a" data-elfsight-app-lazy></div>
+
   
   <script src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"></script>  <script>
     mixpanel.init("a9e80af720413d23246cfcedff6291db", { debug: true, track_pageview: true });
