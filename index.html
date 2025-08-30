@@ -411,6 +411,41 @@ p {
     })
 </script>
 
+	<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muvi Player Product</title>
+    <link rel="stylesheet" href="https://player-sdk.muvi.com/player/latest/muvi-player-bundle.css" />
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="my-player"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://player-sdk.muvi.com/player/latest/muvi-player-bundle.js"></script>
+    <script>
+        var config = {
+            playerLicense: '<License key>',
+            loadPlugins: true, //load internal plugins
+            container: '#my-player', //id of the div
+            playerType: 'mp4',
+            videoSource: 'https://d20cxgtjhucgfc.cloudfront.net/SampleVideos/big_buck_bunny_720p_5mb.mp4'
+        }
+        var player = $.fn.playerPlugin(config);
+    </script>
+</body>
+
+</html>
+
 	
 <!DOCTYPE html>
 <html lang="en">
