@@ -640,79 +640,6 @@ p {
   </script>
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-ai.js"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", async () => {
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBuk5L7MH8E85-3BCsMuZNSL_QDqB8aZqk",
-      authDomain: "skyl101.firebaseapp.com",
-      projectId: "skyl101",
-      storageBucket: "skyl101.firebasestorage.app",
-      messagingSenderId: "932306097400",
-      appId: "1:932306097400:web:9be1ed152b27aea3d5570d",
-      measurementId: "G-V67YGDMDXR"
-    };
-
-    // ✅ Use v9+ style (modular API)
-    const app = firebase.initializeApp(firebaseConfig);
-    const analytics = firebase.analytics(app);
-
-    const ai = firebase.ai.getAI(app, { backend: new firebase.ai.GoogleAIBackend() });
-    const model = firebase.ai.getGenerativeModel(ai, { model: "gemini-2.5-flash" });
-
-    // DOM
-    const chatHeader = document.getElementById("ai-chat-header");
-    const chatContent = document.getElementById("ai-chat-content");
-    const messagesDiv = document.getElementById("ai-messages");
-    const input = document.getElementById("ai-input");
-    const sendBtn = document.getElementById("ai-send");
-
-    // Toggle chat
-    chatHeader.addEventListener("click", () => {
-      chatContent.style.display =
-        chatContent.style.display === "none" ? "block" : "none";
-    });
-
-    // Send
-    sendBtn.addEventListener("click", async () => {
-      const userMessage = input.value.trim();
-      if (!userMessage) return;
-
-      // Show user message
-      const userDiv = document.createElement("div");
-      userDiv.textContent = `You: ${userMessage}`;
-      userDiv.style.fontWeight = "bold";
-      messagesDiv.appendChild(userDiv);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      input.value = "";
-
-      try {
-        // Ask AI
-        const result = await model.generateContent(userMessage);
-        const aiResponse = result.response.text();
-
-        const aiDiv = document.createElement("div");
-        aiDiv.textContent = `AI: ${aiResponse}`;
-        aiDiv.style.marginTop = "5px";
-        messagesDiv.appendChild(aiDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      } catch (err) {
-        console.error("AI error:", err);
-      }
-    });
-
-    // Enter key = send
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendBtn.click();
-    });
-  });
-</script>
 	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -741,13 +668,151 @@ p {
     mixpanel.track("Page View", { source: "WebView", version: "1.0.0" });
   </script>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect Gold Chatbox</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #chat-container {
+      width: 400px;
+      height: 600px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 75%;
+      clear: both;
+    }
+    .sent {
+      background: #0078ff;
+      color: white;
+      margin-left: auto;
+      text-align: right;
+    }
+    .received {
+      background: #e4e6eb;
+      color: black;
+      margin-right: auto;
+      text-align: left;
+    }
+    #chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    #message-input {
+      flex: 1;
+      border: none;
+      padding: 15px;
+      font-size: 16px;
+    }
+    #send-btn {
+      background: #0078ff;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #send-btn:hover {
+      background: #005fcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chat-container">
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+      <input type="text" id="message-input" placeholder="Type your message..." />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
+
+  <script>
+    // ✅ Your Firebase config values
+    const firebaseConfig = {
+      apiKey: "AIzaSyD65jH2-DG9Rkzx_jx4AB2H7DqNwWmLJhA",
+      authDomain: "connectgold-chat.firebaseapp.com",
+      databaseURL: "https://connectgold-chat-default-rtdb.firebaseio.com",
+      projectId: "connectgold-chat",
+      storageBucket: "connectgold-chat.appspot.com",
+      messagingSenderId: "102938475610",
+      appId: "1:102938475610:web:abcdef1234567890"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database(app);
+
+    const messagesRef = db.ref("messages");
+
+    const chatMessages = document.getElementById("chat-messages");
+    const messageInput = document.getElementById("message-input");
+    const sendBtn = document.getElementById("send-btn");
+
+    // Send message
+    sendBtn.addEventListener("click", () => {
+      const message = messageInput.value.trim();
+      if (message) {
+        messagesRef.push({
+          text: message,
+          sender: "User",
+          timestamp: Date.now()
+        });
+        messageInput.value = "";
+      }
+    });
+
+    // Receive messages in real-time
+    messagesRef.on("child_added", (snapshot) => {
+      const msg = snapshot.val();
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message");
+      msgDiv.classList.add(msg.sender === "User" ? "sent" : "received");
+      msgDiv.textContent = msg.text;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+  </script>
+
+</body>
+</html>
+	
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
-
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
