@@ -724,19 +724,22 @@ p {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Genkit AI Example</title>
+  <title>Genkit Demo</title>
 </head>
 <body>
-  <h2>Talk to Genkit</h2>
-  <input type="text" id="nameInput" placeholder="Enter your name">
-  <button onclick="sayHello()">Send</button>
-  
+  <h1>Genkit + Gemini Test</h1>
+  <input id="name" placeholder="Enter your name" />
+  <button onclick="askGemini()">Say Hello</button>
   <p id="response"></p>
 
   <script>
-    async function sayHello() {
-      const name = document.getElementById("nameInput").value;
-      const res = await fetch("http://localhost:3000/hello?name=" + name);
+    async function askGemini() {
+      const name = document.getElementById("name").value;
+      const res = await fetch("http://localhost:3000/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+      });
       const data = await res.json();
       document.getElementById("response").innerText = data.reply;
     }
