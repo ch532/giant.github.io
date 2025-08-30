@@ -719,6 +719,30 @@ p {
     if (e.key === "Enter") sendBtn.click();
   });
 </script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genkit AI Example</title>
+</head>
+<body>
+  <h2>Talk to Genkit</h2>
+  <input type="text" id="nameInput" placeholder="Enter your name">
+  <button onclick="sayHello()">Send</button>
+  
+  <p id="response"></p>
+
+  <script>
+    async function sayHello() {
+      const name = document.getElementById("nameInput").value;
+      const res = await fetch("http://localhost:3000/hello?name=" + name);
+      const data = await res.json();
+      document.getElementById("response").innerText = data.reply;
+    }
+  </script>
+</body>
+</html>
 	
 <div id="cookie-banner" style="position: fixed; z-index: 9999; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; display: none;">
   <div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
