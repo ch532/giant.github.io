@@ -543,67 +543,7 @@ p {
   </div>
 
 <!-- start feedwind code --> <script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="173745/"></script> <!-- end feedwind code -->
-
-  
-<!DOCTYPE html>
-<html>
-<head>
-  <title>VMAP Ad Example</title>
-  <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
-  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
-  <style>
-    body {
-      background-color: #000;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    .video-js {
-      width: 100%;
-      max-width: 720px;
-      margin: auto;
-      margin-top: 120px;
-      margin-bottom: 120px;
-    }
-  </style>
-</head>
-<body>
-
-  <video
-    id="content_video"
-    class="video-js vjs-default-skin"
-    controls
-    preload="auto"
-    poster="gold-2.png"
-    data-setup='{}'
-  >
-    <source src="videoplayback-1.mp4" type="video/mp4" />
-  </video>
-
-  <script>
-    const player = videojs('content_video');
-
-    player.ima({
-      id: 'content_video',
-      adTagUrl: 'https://connectgold.sbs/vmap.xml',
-      adsRenderingSettings: {
-        enablePreloading: true
-      }
-    });
-
-    player.ready(function () {
-      player.ima.initializeAdDisplayContainer();
-      player.ima.requestAds();
-      player.play();
-    });
-  </script>
-
-</body>
-</html>
-  
+ 
   
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
 <div id="rss-feed">
