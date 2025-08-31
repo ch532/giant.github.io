@@ -433,77 +433,12 @@ if (window.location.hostname === "www.yourwebsite.com") {
     })
 </script>
 
-		<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-4efd91e2-0101-4eda-bfb9-519879b6ddd8" data-elfsight-app-lazy></div>
-	
-
+		 
 <!-- Elfsight AI Chatbot | Untitled AI Chatbot -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
 
-<!-- Video.js CSS -->
-<link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
-
-<div class="video-container" style="width: 800px; margin: auto;">
-  <video
-    id="my-video"
-    class="video-js vjs-default-skin"
-    width="800"
-    height="450"
-    controls
-    preload="auto"
-  >
-    <source src="https://connectgold.sbs/videoplayback-1.mp4" type="video/mp4" />
-  </video>
-</div>
-
-<!-- Video.js JS -->
-<script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
-
-<!-- Video.js IMA SDK plugin -->
-<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.0/dist/videojs.ima.min.js"></script>
-
-<script>
-  var player = videojs('my-video');
-
-  player.ready(function() {
-    // Initialize IMA SDK plugin
-    player.ima({
-      adTagUrl: 'https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt', // Pre-roll
-      debug: true
-    });
-
-    // Request pre-roll on first play
-    player.on('play', function() {
-      if (!player.ima.isAdsActive()) {
-        player.ima.requestAds();
-      }
-    });
-
-    // Mid-roll at 30 seconds
-    player.on('timeupdate', function() {
-      if (!player.midRollPlayed && player.currentTime() >= 30) {
-        player.midRollPlayed = true;
-        player.ima.setAdTag('https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA');
-        player.ima.requestAds();
-        player.pause(); // Pause content while mid-roll plays
-      }
-    });
-
-    // Post-roll at video end
-    player.on('ended', function() {
-      if (!player.postRollPlayed) {
-        player.postRollPlayed = true;
-        player.ima.setAdTag('https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv');
-        player.ima.requestAds();
-      }
-    });
-  });
-</script>
-
-https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt
-	
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
