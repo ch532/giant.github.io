@@ -442,30 +442,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
 
-<!-- Video.js CSS -->
-<link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
-
-<style>
-  .banner-space {
-    width: 100%;
-    height: 120px; /* Change height as needed */
-    background: #f0f0f0;
-    text-align: center;
-    line-height: 120px;
-    font-size: 20px;
-    color: #333;
-    margin-top: 20px;
-  }
-
-  .video-container {
-    width: 80%;
-    max-width: 800px;
-    margin: 20px auto;
-  }
-</style>
-
 <div class="video-container">
-  <!-- Video.js Player -->
   <video
     id="my-video"
     class="video-js vjs-default-skin"
@@ -476,41 +453,46 @@ if (window.location.hostname === "www.yourwebsite.com") {
   >
     <source src="https://connectgold.sbs/videoplayback-1.mp4" type="video/mp4" />
   </video>
+</div>
 
-<!-- Scripts -->
 <script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6/dist/videojs-contrib-ads.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@3/dist/videojs-vast-vpaid.min.js"></script>
 
 <script>
-  var player = videojs('my-video');
+var player = videojs('my-video');
 
-  player.ready(function() {
-    this.ads(); // Initialize ads plugin
+player.ready(function() {
+  this.ads(); // Initialize contrib-ads
 
-    // Pre-roll ad
-    this.vastClient({
-      adTagUrl: 'https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA',
-      playAdAlways: true
-    });
-
-    // Mid-roll ad at 30 seconds
-    this.on('timeupdate', function() {
-      if (this.currentTime() >= 30 && !this.midRollPlayed) {
-        this.vastClient({
-          adTagUrl: 'https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt'
-        });
-        this.midRollPlayed = true;
-      }
-    });
-
-    // Post-roll ad at the end
-    this.on('ended', function() {
-      this.vastClient({
-        adTagUrl: 'https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv'
-      });
-    });
+  // Pre-roll
+  this.vastClient({
+    adTagUrl: 'https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA',
+    playAdAlways: true
   });
+
+  // Mid-roll at 30s
+  this.on('timeupdate', function() {
+    if (this.currentTime() >= 30 && !this.midRollPlayed && !this.vastClientAdPlaying) {
+      this.vastClientAdPlaying = true;
+      this.vastClient({
+        adTagUrl: 'https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt',
+        playAdAlways: true
+      });
+      this.midRollPlayed = true;
+    }
+  });
+
+  // Post-roll
+  this.on('ended', function() {
+    setTimeout(() => {
+      this.vastClient({
+        adTagUrl: 'https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv',
+        playAdAlways: true
+      });
+    }, 500);
+  });
+});
 </script>
 	
 <!DOCTYPE html>
