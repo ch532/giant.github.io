@@ -433,10 +433,6 @@ if (window.location.hostname === "www.yourwebsite.com") {
     })
 </script>
 
-
-	
-
-
 		<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-4efd91e2-0101-4eda-bfb9-519879b6ddd8" data-elfsight-app-lazy></div>
@@ -445,6 +441,83 @@ if (window.location.hostname === "www.yourwebsite.com") {
 <!-- Elfsight AI Chatbot | Untitled AI Chatbot -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
+
+<!-- Video.js CSS -->
+<link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
+
+<style>
+  .banner-space {
+    width: 100%;
+    height: 120px; /* Change height as needed */
+    background: #f0f0f0;
+    text-align: center;
+    line-height: 120px;
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+  }
+
+  .video-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+  }
+</style>
+
+<div class="video-container">
+  <!-- Video.js Player -->
+  <video
+    id="my-video"
+    class="video-js vjs-default-skin"
+    width="100%"
+    height="450"
+    controls
+    preload="auto"
+  >
+    <source src="video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Banner space under the video -->
+  <div class="banner-space">
+    Your Banner Space Here
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6/dist/videojs-contrib-ads.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@3/dist/videojs-vast-vpaid.min.js"></script>
+
+<script>
+  var player = videojs('my-video');
+
+  player.ready(function() {
+    this.ads(); // Initialize ads plugin
+
+    // Pre-roll ad
+    this.vastClient({
+      adTagUrl: 'https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA',
+      playAdAlways: true
+    });
+
+    // Mid-roll ad at 30 seconds
+    this.on('timeupdate', function() {
+      if (this.currentTime() >= 30 && !this.midRollPlayed) {
+        this.vastClient({
+          adTagUrl: 'https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt'
+        });
+        this.midRollPlayed = true;
+      }
+    });
+
+    // Post-roll ad at the end
+    this.on('ended', function() {
+      this.vastClient({
+        adTagUrl: 'https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv'
+      });
+    });
+  });
+</script>
 	
 <!DOCTYPE html>
 <html lang="en">
@@ -608,63 +681,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
     rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
   </script>
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
-</div>
-
-
-	<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-<video id="video-id"><source src="video.mp4" type="video/mp4" />
-<script>
-    var myFP = fluidPlayer(
-        'video-id',	{
-	"layoutControls": {
-		"controlBar": {
-			"autoHideTimeout": 3,
-			"animated": true,
-			"autoHide": true
-		},
-		"htmlOnPauseBlock": {
-			"html": null,
-			"height": null,
-			"width": null
-		},
-		"autoPlay": false,
-		"mute": true,
-		"allowTheatre": true,
-		"playPauseAnimation": true,
-		"playbackRateEnabled": true,
-		"allowDownload": false,
-		"playButtonShowing": true,
-		"fillToContainer": false,
-		"posterImage": ""
-	},
-	"vastOptions": {
-		"adList": [
-			{
-				"roll": "preRoll",
-				"vastTag": "https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA",
-				"adText": ""
-			},
-			{
-				"roll": "midRoll",
-				"vastTag": "https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt",
-				"adText": ""
-			},
-			{
-				"roll": "postRoll",
-				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv",
-				"adText": ""
-			},
-			{
-				"roll": "onPauseRoll",
-				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuw",
-				"adText": ""
-			}
-		],
-		"adCTAText": "Learn more ",
-		"adCTATextPosition": "bottom left"
-	}
-});
-</script>
+</div>	
 
 <!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
@@ -674,60 +691,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-ef81ff8a-ac88-4deb-b994-e545ef269b7a" data-elfsight-app-lazy></div>
 
-	<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-<video id="video-id"><source src="video.mp4" type="video/mp4" />
-<script>
-    var myFP = fluidPlayer(
-        'video-id',	{
-	"layoutControls": {
-		"controlBar": {
-			"autoHideTimeout": 3,
-			"animated": true,
-			"autoHide": true
-		},
-		"htmlOnPauseBlock": {
-			"html": null,
-			"height": null,
-			"width": null
-		},
-		"autoPlay": false,
-		"mute": true,
-		"allowTheatre": true,
-		"playPauseAnimation": true,
-		"playbackRateEnabled": true,
-		"allowDownload": false,
-		"playButtonShowing": true,
-		"fillToContainer": false,
-		"posterImage": ""
-	},
-	"vastOptions": {
-		"adList": [
-			{
-				"roll": "preRoll",
-				"vastTag": "https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA",
-				"adText": ""
-			},
-			{
-				"roll": "midRoll",
-				"vastTag": "https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt",
-				"adText": ""
-			},
-			{
-				"roll": "postRoll",
-				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv",
-				"adText": ""
-			},
-			{
-				"roll": "onPauseRoll",
-				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuw",
-				"adText": ""
-			}
-		],
-		"adCTAText": "Learn more ",
-		"adCTATextPosition": "bottom left"
-	}
-});
-</script>
+	
   
   <div id="fixed-bottom-ad"></div>
   <footer>  
@@ -742,63 +706,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
     </div>
   </footer>  
 
-<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-<video id="video-id"><source src="video.mp4" type="video/mp4" />
-<script>
-    var myFP = fluidPlayer(
-        'video-id',	{
-	"layoutControls": {
-		"controlBar": {
-			"autoHideTimeout": 3,
-			"animated": true,
-			"autoHide": true
-		},
-		"htmlOnPauseBlock": {
-			"html": null,
-			"height": null,
-			"width": null
-		},
-		"autoPlay": false,
-		"mute": true,
-		"allowTheatre": true,
-		"playPauseAnimation": true,
-		"playbackRateEnabled": true,
-		"allowDownload": false,
-		"playButtonShowing": true,
-		"fillToContainer": true,
-		"posterImage": ""
-	},
-	"vastOptions": {
-		"adList": [
-			{
-				"roll": "preRoll",
-				"vastTag": "https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA",
-				"adText": ""
-			},
-			{
-				"roll": "midRoll",
-				"vastTag": "https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt",
-				"adText": ""
-			},
-			{
-				"roll": "postRoll",
-				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv",
-				"adText": ""
-			},
-			{
-				"roll": "onPauseRoll",
-				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuw",
-				"adText": ""
-			}
-		],
-		"adCTAText": "Learn more ",
-		"adCTATextPosition": "bottom left"
-	}
-});
-</script>
 
-<div id="banner-space">
-	
   <script src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"></script>  <script>
     mixpanel.init("a9e80af720413d23246cfcedff6291db", { debug: true, track_pageview: true });
     mixpanel.track("Page View", { source: "WebView", version: "1.0.0" });
