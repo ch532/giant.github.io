@@ -442,57 +442,86 @@ if (window.location.hostname === "www.yourwebsite.com") {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
 
-<div class="video-container">
-  <video
-    id="my-video"
-    class="video-js vjs-default-skin"
-    width="100%"
-    height="450"
-    controls
-    preload="auto"
-  >
-    <source src="https://connectgold.sbs/videoplayback-1.mp4" type="video/mp4" />
+<div style="position: relative; width: 800px; height: 450px;">
+  <video id="content-video" width="800" height="450" controls preload="auto">
+    <source src="https://connectgold.sbs/videoplayback-1.mp4" type="video/mp4">
   </video>
+  <div id="ad-container" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 10;"></div>
 </div>
 
-<script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6/dist/videojs-contrib-ads.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@3/dist/videojs-vast-vpaid.min.js"></script>
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 
 <script>
-var player = videojs('my-video');
+  var contentVideo = document.getElementById('content-video');
+  var adContainer = document.getElementById('ad-container');
 
-player.ready(function() {
-  this.ads(); // Initialize contrib-ads
+  var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, contentVideo);
+  var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+  var adsManager = null;
 
-  // Pre-roll
-  this.vastClient({
-    adTagUrl: 'https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA',
-    playAdAlways: true
+  // Flags to track mid/post-roll
+  var midRollPlayed = false;
+  var postRollPlayed = false;
+
+  // Initialize IMA when user interacts (required by browser autoplay)
+  contentVideo.addEventListener('play', function initAds() {
+    contentVideo.removeEventListener('play', initAds);
+    adDisplayContainer.initialize();
+    requestAd('https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA'); // Pre-roll
   });
 
-  // Mid-roll at 30s
-  this.on('timeupdate', function() {
-    if (this.currentTime() >= 30 && !this.midRollPlayed && !this.vastClientAdPlaying) {
-      this.vastClientAdPlaying = true;
-      this.vastClient({
-        adTagUrl: 'https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt',
-        playAdAlways: true
+  function requestAd(adTagUrl) {
+    var adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = adTagUrl;
+    adsRequest.linearAdSlotWidth = contentVideo.width;
+    adsRequest.linearAdSlotHeight = contentVideo.height;
+    adsRequest.nonLinearAdSlotWidth = contentVideo.width;
+    adsRequest.nonLinearAdSlotHeight = 100;
+
+    adsLoader.requestAds(adsRequest);
+  }
+
+  adsLoader.addEventListener(
+    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+    function(e) {
+      adsManager = e.getAdsManager(contentVideo);
+
+      adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, function() {
+        adsManager.destroy();
       });
-      this.midRollPlayed = true;
+
+      adsManager.init(contentVideo.width, contentVideo.height, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    },
+    false
+  );
+
+  adsLoader.addEventListener(
+    google.ima.AdErrorEvent.Type.AD_ERROR,
+    function(e) {
+      console.log('Ad error: ', e.getError());
+      if (adsManager) adsManager.destroy();
+      contentVideo.play();
+    },
+    false
+  );
+
+  // Mid-roll at 30 seconds
+  contentVideo.addEventListener('timeupdate', function() {
+    if (!midRollPlayed && contentVideo.currentTime >= 30) {
+      midRollPlayed = true;
+      requestAd('https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt');
+      contentVideo.pause(); // Pause content while ad plays
     }
   });
 
-  // Post-roll
-  this.on('ended', function() {
-    setTimeout(() => {
-      this.vastClient({
-        adTagUrl: 'https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv',
-        playAdAlways: true
-      });
-    }, 500);
+  // Post-roll at the end
+  contentVideo.addEventListener('ended', function() {
+    if (!postRollPlayed) {
+      postRollPlayed = true;
+      requestAd('https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv');
+    }
   });
-});
 </script>
 	
 <!DOCTYPE html>
