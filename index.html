@@ -420,58 +420,67 @@ if (window.location.hostname === "www.yourwebsite.com") {
     })
 </script>
 
-<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-<video id="video-id">
-    <source src="videoplayback-1.mp4" type="video/mp4" />
-</video>
 
+	
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+<video id="video-id"><source src="video.mp4" type="video/mp4" />
 <script>
-var myFP = fluidPlayer(
-    'video-id', {
-    "layoutControls": {
-        "controlBar": {
-            "autoHideTimeout": 3,
-            "animated": true,
-            "autoHide": true
-        },
-        "htmlOnPauseBlock": {
-            "html": null,
-            "height": null,
-            "width": null
-        },
-        "autoPlay": false,
-        "mute": true,
-        "allowTheatre": true,
-        "playPauseAnimation": true,
-        "playbackRateEnabled": true,
-        "allowDownload": false,
-        "playButtonShowing": true,
-        "fillToContainer": false,
-        "posterImage": "https://connectgold.sbs/gold-2.png"
-    },
-    "vastOptions": {
-        "adList": [
-            {
-                "roll": "preRoll",
-                "vastTag": "https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA"
-            },
-            {
-                "roll": "midRoll",
-                "vastTag": "https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt",
-                "timeOffset": 30
-            },
-            {
-                "roll": "postRoll",
-                "vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv"
-            }
-        ],
-        "adCTAText": true,
-        "adCTATextPosition": "bottom-center"
-    }
+    var myFP = fluidPlayer(
+        'video-id',	{
+	"layoutControls": {
+		"controlBar": {
+			"autoHideTimeout": 3,
+			"animated": true,
+			"autoHide": true
+		},
+		"htmlOnPauseBlock": {
+			"html": null,
+			"height": null,
+			"width": null
+		},
+		"autoPlay": false,
+		"mute": true,
+		"allowTheatre": true,
+		"playPauseAnimation": true,
+		"playbackRateEnabled": true,
+		"allowDownload": false,
+		"playButtonShowing": true,
+		"fillToContainer": true,
+		"posterImage": ""
+	},
+	"vastOptions": {
+		"adList": [
+			{
+				"roll": "preRoll",
+				"vastTag": "https://essentialmost.com/d.mAFFzRdwGoNpvgZYGuUu/Je/mp9HuFZLUIl-kDP/TDYz1lNbTBEY4WNCjSAQtuNbjGU-1jMJTfgj2NMbSwZ/sfaZW/1QpPdRD/0/xA",
+				"adText": ""
+			},
+			{
+				"roll": "midRoll",
+				"vastTag": "https://satisfiedbad.com/d.mhF-zrdUGANlvUZDGsUi/zeZmj9/u/Z/Uilfk/P/TqYx1/N/TKYO4bMNz/YptWNPjmU/1WNYj/gmzrNcwt",
+				"adText": ""
+			},
+			{
+				"roll": "postRoll",
+				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuv",
+				"adText": ""
+			},
+			{
+				"roll": "onPauseRoll",
+				"vastTag": "https://yandex.ru/ads/adfox/12491672/getCode?pp=g&ps=kutk&p2=hiuw",
+				"adText": ""
+			}
+		],
+		"adCTAText": "Learn more ",
+		"adCTATextPosition": "bottom left"
+	}
 });
 </script>
-	
 
+		<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-4efd91e2-0101-4eda-bfb9-519879b6ddd8" data-elfsight-app-lazy></div>
+	
 
 <!-- Elfsight AI Chatbot | Untitled AI Chatbot -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
@@ -643,10 +652,7 @@ var myFP = fluidPlayer(
 
 
 	
-	<!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-4efd91e2-0101-4eda-bfb9-519879b6ddd8" data-elfsight-app-lazy></div>
-	
+
 <!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-4e65250b-86c2-4602-ae06-c7ffcdf07f80" data-elfsight-app-lazy></div>
