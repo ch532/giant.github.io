@@ -327,63 +327,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
 }
 </script>
 
-<div id="video_wrapper">
-    <video id="content_video" width="640" height="360" controls>
-      <source src="https://connectgold.sbs/videoplayback-1.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div id="ad_container"></div>
-  </div>
-
-	<script>
-    var videoContent = document.getElementById('content_video');
-    var adContainer = document.getElementById('ad_container');
-
-    var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
-    var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
-
-    adsLoader.addEventListener(
-      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
-      onAdsManagerLoaded,
-      false
-    );
-
-    adsLoader.addEventListener(
-      google.ima.AdErrorEvent.Type.AD_ERROR,
-      function(event) { console.log(event.getError()); },
-      false
-    );
-
-    function requestAds(vastUrl) {
-      var adsRequest = new google.ima.AdsRequest();
-      adsRequest.adTagUrl = vastUrl;
-      adsRequest.linearAdSlotWidth = 640;
-      adsRequest.linearAdSlotHeight = 360;
-      adsRequest.nonLinearAdSlotWidth = 640;
-      adsRequest.nonLinearAdSlotHeight = 150;
-      adsLoader.requestAds(adsRequest);
-    }
-
-    var adsManager;
-
-    function onAdsManagerLoaded(adsManagerLoadedEvent) {
-      adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
-      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
-      adsManager.start();
-    }
-
-    videoContent.addEventListener('play', function() {
-      adDisplayContainer.initialize();
-
-      // Pre-roll
-      requestAds('https://satisfiedbad.com/dLmCFTz.dXGINbv/ZoG/Uf/teVmS9vufZNUslRkkPFTyYz1eNMT/AOxaNrD/cQtqNhj/Uf1VM/DvEa0vOBCxZXsMaVWw1Jp/dODp0-xq');
-
-      // Mid-roll after 10s
-      setTimeout(function() {
-        requestAds('https://srv.aso1.net/vast?z=152419');
-      }, 10000);
-    });
-  </script>
+<iframe src="video.html" width="800" height="450" frameborder="0" scrolling="no"></iframe>
 	
 <script async src="https://cse.google.com/cse.js?cx=16d7e34da328d40ae">
 </script>
