@@ -1,0 +1,64 @@
+<div id="videoContainer" style="position: relative; width: 800px; height: 450px; background: #000;">
+  <video id="contentVideo" controls style="width:100%; height:100%;">
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+  </video>
+  <div id="adContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+  <button id="playButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+          padding:10px 20px; font-size:18px; cursor:pointer; z-index:10;">Play Video</button>
+</div>
+
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script>
+  const video = document.getElementById('contentVideo');
+  const adContainer = document.getElementById('adContainer');
+  const playButton = document.getElementById('playButton');
+
+  const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, video);
+  const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+  adsLoader.addEventListener(
+    google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+    (adsManagerLoadedEvent) => {
+      const adsManager = adsManagerLoadedEvent.getAdsManager(video);
+      adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, () => video.pause());
+      adsManager.addEventListener(google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED, () => video.play());
+      adsManager.init(800, 450, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    },
+    false
+  );
+
+  adsLoader.addEventListener(
+    google.ima.AdErrorEvent.Type.AD_ERROR,
+    (adErrorEvent) => { console.error(adErrorEvent.getError()); video.play(); },
+    false
+  );
+
+  playButton.addEventListener('click', () => {
+    playButton.style.display = 'none';
+    adDisplayContainer.initialize();
+
+    const adsRequest = new google.ima.AdsRequest();
+    adsRequest.adTagUrl = "https://satisfiedbad.com/d.mzF/zodsGlN/vvZaGgUU/Aevmb9/ulZBUBl_kRPGTJYm1/N/TbEy4HNyTbghtzN/jWUE1kMxTigE1pOpSWZ/s/alWs1CpSdoDl0axJ";
+    adsRequest.linearAdSlotWidth = 800;
+    adsRequest.linearAdSlotHeight = 450;
+    adsRequest.nonLinearAdSlotWidth = 800;
+    adsRequest.nonLinearAdSlotHeight = 100;
+
+    adsLoader.requestAds(adsRequest);
+  });
+
+  // Mid-roll after 10 seconds (example)
+  video.addEventListener('timeupdate', () => {
+    if(video.currentTime >= 10 && !video.midRollPlayed){
+      video.midRollPlayed = true;
+      const midAdsRequest = new google.ima.AdsRequest();
+      midAdsRequest.adTagUrl = "https://srv.aso1.net/vast?z=152419";
+      midAdsRequest.linearAdSlotWidth = 800;
+      midAdsRequest.linearAdSlotHeight = 450;
+      midAdsRequest.nonLinearAdSlotWidth = 800;
+      midAdsRequest.nonLinearAdSlotHeight = 100;
+      adsLoader.requestAds(midAdsRequest);
+    }
+  });
+</script>
