@@ -11,6 +11,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="styles.css" />
+	<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <style>
+    #ad_container { position:absolute; top:0; left:0; width:640px; height:360px; }
+    #video_wrapper { position:relative; width:640px; height:360px; margin:0 auto; }
+  </style>
 	<meta name="google-adsense-account" content="ca-pub-7728035806961877">
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7728035806961877"
      crossorigin="anonymous"></script>
@@ -322,6 +327,64 @@ if (window.location.hostname === "www.yourwebsite.com") {
 }
 </script>
 
+<div id="video_wrapper">
+    <video id="content_video" width="640" height="360" controls>
+      <source src="videoplayback-1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="ad_container"></div>
+  </div>
+
+	<script>
+    var videoContent = document.getElementById('content_video');
+    var adContainer = document.getElementById('ad_container');
+
+    var adDisplayContainer = new google.ima.AdDisplayContainer(adContainer, videoContent);
+    var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+
+    adsLoader.addEventListener(
+      google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+      onAdsManagerLoaded,
+      false
+    );
+
+    adsLoader.addEventListener(
+      google.ima.AdErrorEvent.Type.AD_ERROR,
+      function(event) { console.log(event.getError()); },
+      false
+    );
+
+    function requestAds(vastUrl) {
+      var adsRequest = new google.ima.AdsRequest();
+      adsRequest.adTagUrl = vastUrl;
+      adsRequest.linearAdSlotWidth = 640;
+      adsRequest.linearAdSlotHeight = 360;
+      adsRequest.nonLinearAdSlotWidth = 640;
+      adsRequest.nonLinearAdSlotHeight = 150;
+      adsLoader.requestAds(adsRequest);
+    }
+
+    var adsManager;
+
+    function onAdsManagerLoaded(adsManagerLoadedEvent) {
+      adsManager = adsManagerLoadedEvent.getAdsManager(videoContent);
+      adsManager.init(640, 360, google.ima.ViewMode.NORMAL);
+      adsManager.start();
+    }
+
+    videoContent.addEventListener('play', function() {
+      adDisplayContainer.initialize();
+
+      // Pre-roll
+      requestAds('https://satisfiedbad.com/dLmCFTz.dXGINbv/ZoG/Uf/teVmS9vufZNUslRkkPFTyYz1eNMT/AOxaNrD/cQtqNhj/Uf1VM/DvEa0vOBCxZXsMaVWw1Jp/dODp0-xq');
+
+      // Mid-roll after 10s
+      setTimeout(function() {
+        requestAds('https://srv.aso1.net/vast?z=152419');
+      }, 10000);
+    });
+  </script>
+	
 <script async src="https://cse.google.com/cse.js?cx=16d7e34da328d40ae">
 </script>
 <div class="gcse-search"></div>
