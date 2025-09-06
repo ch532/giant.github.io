@@ -23,7 +23,7 @@
   <vmap:AdBreak timeOffset="end" breakType="linear">
     <vmap:AdSource id="ad-postroll" allowMultipleAds="true" followRedirects="true">
       <vmap:AdTagURI templateType="vast3">
-        <![CDATA[https://go.easrv.cl/lineair.go?spaceid=8179603]]>
+        <![CDATA[https://bid.onclckstr.com/vast?spot_id=6084799]]>
       </vmap:AdTagURI>
     </vmap:AdSource>
   </vmap:AdBreak>
