@@ -51,5 +51,34 @@
     <p>Your reward is now available.</p>
     <a href="https://connectgold.sbs/videoplayback-1.mp4" class="btn">Continue</a>
   </div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    // Telegram user info
+    const user = tg.initDataUnsafe.user;
+
+    if (user) {
+        const userId = user.id; // this is the numeric Telegram user ID
+        console.log("User ID:", userId);
+
+        // Example: build Reward URL
+        const rewardUrl = "https://connectgold.sbs/reward.html?userid=" + userId;
+        console.log("Reward URL:", rewardUrl);
+    }
+</script>
+
+  <script>
+  // Function to get query parameters
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  const userId = getQueryParam("userid");
+  document.write("🎉 Reward unlocked for user ID: " + userId);
+</script>
+  
 </body>
 </html>
