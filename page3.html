@@ -218,6 +218,28 @@ fbq('trackCustom', 'adImpression',{ad: adName});
         <img src="https://www.qhoster.com/banners/728x90.gif" style="height:90px;width:728px;" border="0" alt="Web Hosting">
       </a>
 
+      
+<script>
+  // Detect Telegram WebView (optional)
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes("telegram")) {
+    // Auto-show Monetag in-app interstitial ad
+    window.addEventListener('load', () => {
+      show_9503469({
+        type: 'inApp',
+        inAppSettings: {
+          frequency: 2,       // Show 2 ads automatically
+          capping: 0.1,       // Within 0.1 hours (6 minutes)
+          interval: 30,       // 30-second interval between ads
+          timeout: 5,         // 5-second delay before first ad
+          everyPage: false    // Session saved when navigating pages
+        }
+      }).catch((err) => {
+        console.error(err);
+      });
+    });
+  }
+</script>
 
   <footer class="footer">
     <div class="footer-content">
