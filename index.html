@@ -325,6 +325,25 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
+    <script>
+  // Detect Telegram WebView (optional)
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes("telegram")) {
+    // Auto-show Monetag rewarded-interstitial ad
+    window.addEventListener('load', () => {
+      show_9503469()
+        .then(() => {
+          // User finished watching the ad
+          alert('You have seen an ad!');
+          // Place your reward logic here (coins, points, etc.)
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
+</script>
+	
     <div data-mndbanid="adf90fb2-a4a6-40b0-879d-da1644cd26a5"></div>
  <div style="display: inline-block; background: #ffe58a; color: #333; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px;">
   Sponsored
