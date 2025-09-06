@@ -329,15 +329,6 @@ p {
  <div style="display: inline-block; background: #ffe58a; color: #333; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px;">
   Sponsored
 </div>
-
-<head>
-  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-  <script>
-    const AdController = window.Adsgram.init({
-      blockId: "14637"
-    });
-  </script>
-</head>
 	
 <script>
 if (window.location.hostname === "www.yourwebsite.com") {
@@ -361,35 +352,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
 
-	<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Test app</title>
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
-        <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    </head>
-    <body>
-        <button id="ad">Show ad</button>
-        <script>
-            // insert your block id
-            const AdController = window.Adsgram.init({ blockId: "14637" });
-            const button = document.getElementById('ad');
-            button.addEventListener('click', () => {
-                AdController.show().then((result) => {
-                    // user watch ad till the end or close it in interstitial format
-                    // your code to reward user for rewarded format
-                    alert('Reward');
-                }).catch((result) => {
-                    // user get error during playing ad
-                    // do nothing or whatever you want
-                    alert(JSON.stringify(result, null, 4));
-                })
-            })
-        </script>
-    </body>
-</html>
+	
     
 <!DOCTYPE html>
 <html lang="en">
@@ -555,6 +518,36 @@ if (window.location.hostname === "www.yourwebsite.com") {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>	
 
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test app</title>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    </head>
+    <body>
+        <button id="ad">Show ad</button>
+        <script>
+            // insert your block id
+            const AdController = window.Adsgram.init({ blockId: "14637" });
+            const button = document.getElementById('ad');
+            button.addEventListener('click', () => {
+                AdController.show().then((result) => {
+                    // user watch ad till the end or close it in interstitial format
+                    // your code to reward user for rewarded format
+                    alert('Reward');
+                }).catch((result) => {
+                    // user get error during playing ad
+                    // do nothing or whatever you want
+                    alert(JSON.stringify(result, null, 4));
+                })
+            })
+        </script>
+    </body>
+</html>
+	
 <script>
   // Detect Telegram WebView
   const ua = navigator.userAgent.toLowerCase();
