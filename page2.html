@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Page 2 - Connect Gold</title>
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <!--В <head> сайта один раз добавьте код загрузчика-->
 <script>window.yaContextCb = window.yaContextCb || []</script>
 <script src="https://yandex.ru/ads/system/context.js" async></script>
@@ -203,6 +204,19 @@ fbq('trackCustom', 'adImpression',{ad: adName});
   Sponsored
 </div>
 
+      import React from "react";
+import { ShowAdButton } from "./components/ShowAdButton";
+
+function App() {
+  return (
+    <div>
+      <h1>Adsgram Demo</h1>
+      <ShowAdButton />
+    </div>
+  );
+}
+
+export default App;
       
       <!-- Event Tracker -->
       <script>
