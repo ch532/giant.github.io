@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="styles.css" />
 	<!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+	  <!-- Centralized setup script -->
+  <script src="/path/to/telegram-setup.js"></script>
 	<script src='//libtl.com/sdk.js' data-zone='9503469' data-sdk='show_9503469'></script>
 	
           <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
@@ -163,6 +165,10 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
+}
+	/* Enable pinch/gesture zoom in Telegram WebView */
+  touch-action: pinch-zoom;
+  overflow: auto; /* allow scrolling if needed */
 }
 header {
   text-align: center;
