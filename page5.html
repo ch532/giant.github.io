@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes" />
   <title>Page 5 - Connect Gold</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
   
   <meta name="google-adsense-account" content="ca-pub-7728035806961877">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7728035806961877"
@@ -177,7 +178,21 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script
-      
+
+import React from "react";
+import { ShowAdButton } from "./components/ShowAdButton";
+
+function App() {
+  return (
+    <div>
+      <h1>Adsgram Demo</h1>
+      <ShowAdButton />
+    </div>
+  );
+}
+
+export default App;
+  
       <!-- Banner Ad -->
       <script type="text/javascript">
         atOptions = {
