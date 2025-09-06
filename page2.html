@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Page 2 - Connect Gold</title>
-  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  
 <!--В <head> сайта один раз добавьте код загрузчика-->
 <script>window.yaContextCb = window.yaContextCb || []</script>
 <script src="https://yandex.ru/ads/system/context.js" async></script>
@@ -204,19 +204,35 @@ fbq('trackCustom', 'adImpression',{ad: adName});
   Sponsored
 </div>
 
-      import React from "react";
-import { ShowAdButton } from "./components/ShowAdButton";
-
-function App() {
-  return (
-    <div>
-      <h1>Adsgram Demo</h1>
-      <ShowAdButton />
-    </div>
-  );
-}
-
-export default App;
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test app</title>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    </head>
+    <body>
+        <button id="ad">Show ad</button>
+        <script>
+            // insert your block id
+            const AdController = window.Adsgram.init({ blockId: "int-14639" });
+            const button = document.getElementById('ad');
+            button.addEventListener('click', () => {
+                AdController.show().then((result) => {
+                    // user watch ad till the end or close it in interstitial format
+                    // your code to reward user for rewarded format
+                    alert('Reward');
+                }).catch((result) => {
+                    // user get error during playing ad
+                    // do nothing or whatever you want
+                    alert(JSON.stringify(result, null, 4));
+                })
+            })
+        </script>
+    </body>
+</html>
       
       <!-- Event Tracker -->
       <script>
