@@ -509,6 +509,31 @@ if (window.location.hostname === "www.yourwebsite.com") {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>	
 
+<script>
+  // Detect Telegram WebView
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes("telegram")) {
+    document.body.classList.add("in-telegram");
+  }
+</script>
+
+<style>
+  /* Hide zoom buttons by default */
+  .zoom-btn {
+    display: none;
+  }
+
+  /* Show only if Telegram is detected */
+  body.in-telegram .zoom-btn {
+    display: inline-block;
+  }
+</style>
+
+	<div>
+  <button class="zoom-btn" onclick="zoomIn()">➕ Zoom In</button>
+  <button class="zoom-btn" onclick="zoomOut()">➖ Zoom Out</button>
+</div>
+	
 <!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-4e65250b-86c2-4602-ae06-c7ffcdf07f80" data-elfsight-app-lazy></div>
