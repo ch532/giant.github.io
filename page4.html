@@ -15,6 +15,7 @@
               appId: "3624",
             });
           </script>
+    <script src='//libtl.com/sdk.js' data-zone='9503469' data-sdk='show_9503469'></script>
     <meta name="google-adsense-account" content="ca-pub-7728035806961877">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7728035806961877"
      crossorigin="anonymous"></script>
@@ -508,7 +509,27 @@ provided by <a style="color:#000000" href="https://www.freethesaurus.com/" rel="
 </div></div>
 <!--end of Match Up-->
 
-
+<script>
+  // Detect Telegram WebView (optional)
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes("telegram")) {
+    // Auto-show Monetag in-app interstitial ad
+    window.addEventListener('load', () => {
+      show_9503469({
+        type: 'inApp',
+        inAppSettings: {
+          frequency: 2,       // Show 2 ads automatically
+          capping: 0.1,       // Within 0.1 hours (6 minutes)
+          interval: 30,       // 30-second interval between ads
+          timeout: 5,         // 5-second delay before first ad
+          everyPage: false    // Session saved when navigating pages
+        }
+      }).catch((err) => {
+        console.error(err);
+      });
+    });
+  }
+</script>
         
   <footer class="footer">
     <div class="footer-content">
