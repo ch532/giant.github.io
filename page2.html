@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Page 2 - Connect Gold</title>
+  <script src="https://w.tads.me/widget.js"></script>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   
@@ -198,6 +199,8 @@ fbq('trackCustom', 'adImpression',{ad: adName});
     <section>
       <h1>Welcome to Page 2</h1>
 
+      <div id="tads-container-#751"></div>
+      
 <script>
   // Detect Telegram WebView (optional)
   const ua = navigator.userAgent.toLowerCase();
@@ -331,7 +334,33 @@ fbq('trackCustom', 'adImpression',{ad: adName});
  </div> 
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
- 
+
+      <script>
+    const adsNotFoundCallback = () => {
+        console.log('No ads found to show');
+        // Write your code here in case we couldn't display ad
+    };
+
+    // Callback for REWARDED format
+    const onClickRewardCallback = (adId) => {
+        console.log('Clicked ad:', adId);
+    };
+
+    const adController = window.tads.init({
+        widgetId: YOUR_WIDGET_ID,
+        type: 'static',
+        debug: false, // Use 'true' for development and 'false' for production
+        onClickReward: onClickRewardCallback,
+        onAdsNotFound: adsNotFoundCallback
+    });
+
+    adController.loadAd()
+        .then(() => adController.showAd())
+        .catch((err) => {
+            console.log(err);
+            adsNotFoundCallback();
+        });
+</script>
       
   <footer class="footer">
     <div class="footer-content">
