@@ -11,7 +11,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="styles.css" />
-	<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 	
 	<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
   <style>
@@ -354,19 +353,35 @@ if (window.location.hostname === "www.yourwebsite.com") {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
 
-	import React from "react";
-import { ShowAdButton } from "./components/ShowAdButton";
-
-function App() {
-  return (
-    <div>
-      <h1>Adsgram Demo</h1>
-      <ShowAdButton />
-    </div>
-  );
-}
-
-export default App;
+	<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test app</title>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    </head>
+    <body>
+        <button id="ad">Show ad</button>
+        <script>
+            // insert your block id
+            const AdController = window.Adsgram.init({ blockId: "14637" });
+            const button = document.getElementById('ad');
+            button.addEventListener('click', () => {
+                AdController.show().then((result) => {
+                    // user watch ad till the end or close it in interstitial format
+                    // your code to reward user for rewarded format
+                    alert('Reward');
+                }).catch((result) => {
+                    // user get error during playing ad
+                    // do nothing or whatever you want
+                    alert(JSON.stringify(result, null, 4));
+                })
+            })
+        </script>
+    </body>
+</html>
     
 <!DOCTYPE html>
 <html lang="en">
