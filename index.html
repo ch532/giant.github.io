@@ -334,6 +334,72 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
+<script>
+    const adsNotFoundCallback = () => {
+        console.log('No ads found to show');
+        // Write your code here in case we couldn't display ad
+    };
+
+    // Callback for REWARDED format
+    const onClickRewardCallback = (adId) => {
+        console.log('Clicked ad:', adId);
+    };
+
+    const adController = window.tads.init({
+        widgetId: #751,
+        type: 'static',
+        debug: false, // Use 'true' for development and 'false' for production
+        onClickReward: onClickRewardCallback,
+        onAdsNotFound: adsNotFoundCallback
+    });
+
+    adController.loadAd()
+        .then(() => adController.showAd())
+        .catch((err) => {
+            console.log(err);
+            adsNotFoundCallback();
+        });
+</script>
+	
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const WIDGET_ID = "your_widget_id";
+
+        // Use 'true' for development and 'false' for production
+        const IS_DEBUG = true;
+        
+        // The HTML element ID that triggers the display of ads on click.
+        const btnIdSelector = "your_clickable_selector";  
+        
+        // Callback for REWARDED format.
+        const onShowRewardCallback = (result) => {
+            console.log('Show ads, reward user:', result);
+        };
+
+        // Callback for no ads response
+        const onAdsNotFound = () => {
+            console.log('Callback which calls if no ads found to show',);
+        }
+
+        const adController = window.tads.init({
+          widgetId: #752,
+          type: 'fullscreen',
+          debug: IS_DEBUG,
+          onShowReward: onShowRewardCallback,
+          onAdsNotFound: onAdsNotFound,
+        });
+        
+        // Use your button or link HTML selector for getElementById
+        document.getElementById(btnSelector).addEventListener('click', () => {
+          adController
+            .then(() => adController.showAd())
+            .catch((result) => {
+              console.log(result);
+            });
+        });
+    });
+</script>
+	
 <div id="tads-container-#751"></div>
 
 	<div id="tads-container-#752"></div>
@@ -552,71 +618,8 @@ if (window.location.hostname === "www.yourwebsite.com") {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>	
 
-<script>
-    const adsNotFoundCallback = () => {
-        console.log('No ads found to show');
-        // Write your code here in case we couldn't display ad
-    };
 
-    // Callback for REWARDED format
-    const onClickRewardCallback = (adId) => {
-        console.log('Clicked ad:', adId);
-    };
 
-    const adController = window.tads.init({
-        widgetId: #751,
-        type: 'static',
-        debug: false, // Use 'true' for development and 'false' for production
-        onClickReward: onClickRewardCallback,
-        onAdsNotFound: adsNotFoundCallback
-    });
-
-    adController.loadAd()
-        .then(() => adController.showAd())
-        .catch((err) => {
-            console.log(err);
-            adsNotFoundCallback();
-        });
-</script>
-	
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const WIDGET_ID = "your_widget_id";
-
-        // Use 'true' for development and 'false' for production
-        const IS_DEBUG = true;
-        
-        // The HTML element ID that triggers the display of ads on click.
-        const btnIdSelector = "your_clickable_selector";  
-        
-        // Callback for REWARDED format.
-        const onShowRewardCallback = (result) => {
-            console.log('Show ads, reward user:', result);
-        };
-
-        // Callback for no ads response
-        const onAdsNotFound = () => {
-            console.log('Callback which calls if no ads found to show',);
-        }
-
-        const adController = window.tads.init({
-          widgetId: #752,
-          type: 'fullscreen',
-          debug: IS_DEBUG,
-          onShowReward: onShowRewardCallback,
-          onAdsNotFound: onAdsNotFound,
-        });
-        
-        // Use your button or link HTML selector for getElementById
-        document.getElementById(btnSelector).addEventListener('click', () => {
-          adController
-            .then(() => adController.showAd())
-            .catch((result) => {
-              console.log(result);
-            });
-        });
-    });
-</script>
 	
 <!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
