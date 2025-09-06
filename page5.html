@@ -188,25 +188,6 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script
-
-<script>
-  // Detect Telegram WebView (optional)
-  const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("telegram")) {
-    // Auto-show Monetag rewarded-interstitial ad
-    window.addEventListener('load', () => {
-      show_9503469()
-        .then(() => {
-          // User finished watching the ad
-          alert('You have seen an ad!');
-          // Place your reward logic here (coins, points, etc.)
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    });
-  }
-</script>
   
   
       <!-- Banner Ad -->
