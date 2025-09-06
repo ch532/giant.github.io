@@ -528,7 +528,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
         <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     </head>
     <body>
-        <button id="ad">Show ad</button>
+        <button id="ad">Click to get reward</button>
         <script>
             // insert your block id
             const AdController = window.Adsgram.init({ blockId: "14637" });
@@ -548,30 +548,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
     </body>
 </html>
 	
-<script>
-  // Detect Telegram WebView
-  const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("telegram")) {
-    document.body.classList.add("in-telegram");
-  }
-</script>
 
-<style>
-  /* Hide zoom buttons by default */
-  .zoom-btn {
-    display: none;
-  }
-
-  /* Show only if Telegram is detected */
-  body.in-telegram .zoom-btn {
-    display: inline-block;
-  }
-</style>
-
-	<div>
-  <button class="zoom-btn" onclick="zoomIn()">➕ Zoom In</button>
-  <button class="zoom-btn" onclick="zoomOut()">➖ Zoom Out</button>
-</div>
 	
 <!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
