@@ -571,13 +571,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
     userInput.value = "";
 
     const featureList = features.map(f => `${f.feature}: ${f.description}`).join("\n");
-    const prompt = `
-You are a chatbot for my app. Here are the app features:
-${featureList}
-
-Answer the user's question clearly and only about the app.
-User question: ${question}
-`;
+    
 
     try {
       const response = await fetch("https://api-inference.huggingface.co/models/gpt2", {
@@ -593,7 +587,16 @@ User question: ${question}
       let answer = "";
       if (data && data[0] && data[0].generated_text) {
         answer = data[0].generated_text.replace(prompt, "").trim();
-      } else {
+      } else
+		  const prompt = `
+You are a helpful AI chatbot for my app. Here are the app features:
+${featureList}
+
+Answer the user's question clearly. 
+If the question is about the app, use the features to explain.
+If it is a general question, answer it as best as you can.
+User question: ${question}
+`; {
         answer = "Sorry, I could not answer that.";
       }
 
