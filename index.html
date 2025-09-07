@@ -577,7 +577,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
       const response = await fetch("https://api-inference.huggingface.co/models/gpt2", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${hfApiKey}`,
+          "Authorization": `Bearer fffdcc2e-bb6d-4411-83c1-76f2bb94d810", ${hfApiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ inputs: prompt })
