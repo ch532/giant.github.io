@@ -632,7 +632,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
       width: 100%;
       max-width: 100%;
       height: 0;
-      padding-bottom: 56%; /* 16:9 aspect ratio */
+      padding-bottom: 80%; /* 16:9 aspect ratio */
       position: relative;
       margin: 20px 0;
       border: 2px solid #ccc;
@@ -678,6 +678,15 @@ if (window.location.hostname === "www.yourwebsite.com") {
       terrain: Cesium.Terrain.fromWorldTerrain()
   });
 
+  // Enable full camera controls
+  viewer.scene.screenSpaceCameraController.enableZoom = true;
+  viewer.scene.screenSpaceCameraController.enableRotate = true;
+  viewer.scene.screenSpaceCameraController.enableTilt = true;
+  viewer.scene.screenSpaceCameraController.enableLook = true;
+  viewer.scene.screenSpaceCameraController.inertiaSpin = 0.9;
+  viewer.scene.screenSpaceCameraController.inertiaTranslate = 0.9;
+  viewer.scene.screenSpaceCameraController.inertiaZoom = 0.9;
+
   (async () => {
     viewer.imageryLayers.addImageryProvider(await Cesium.IonImageryProvider.fromAssetId(4));
     viewer.imageryLayers.addImageryProvider(await Cesium.IonImageryProvider.fromAssetId(3));
@@ -692,7 +701,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
     const latitude = 8.9951;
 
     viewer.camera.flyTo({
-      destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, 12000)
+      destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, 5500) // lower altitude for better zoom
     });
 
     viewer.entities.add({
