@@ -1,0 +1,18 @@
+[
+  {
+    "feature": "AI Chatbot",
+    "description": "Answers user queries intelligently and keeps learning from new updates."
+  },
+  {
+    "feature": "3D Map",
+    "description": "Interactive map with pins, satellite view, street view, and road directions."
+  },
+  {
+    "feature": "Video Streaming",
+    "description": "Play videos directly inside the app."
+  },
+  {
+    "feature": "Comment Section",
+    "description": "Users can post comments on app content and interact with others."
+  }
+]
