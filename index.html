@@ -618,7 +618,105 @@ if (window.location.hostname === "www.yourwebsite.com") {
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>	
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Map Section</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 
+  <style>
+    /* Responsive globe container */
+    #cesiumContainer {
+      width: 100%;
+      max-width: 100%;
+      height: 0;
+      padding-bottom: 56%; /* 16:9 aspect ratio */
+      position: relative;
+      margin: 20px 0;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* Make the viewer fill the container */
+    #cesiumContainer .cesium-viewer,
+    #cesiumContainer canvas,
+    #cesiumContainer .cesium-widget {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Optional: adjust heading and text for mobile */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Website</h1>
+  <p>This is my introduction text. Below is the interactive 3D map of my location:</p>
+
+  <!-- Globe only takes part of the page -->
+  <div id="cesiumContainer"></div>
+
+  <p>More content continues below the map...</p>
+
+  <script>
+  Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4MjJiODc1Yy0wZTdmLTRjOTUtYjFmYi1mZmMyMDRmNDk3OGUiLCJpZCI6MzM5MDc0LCJpYXQiOjE3NTcyMjEzNTB9.2dn6oGUbn3KV8KIVBKvjHtRaN8BZcr9ajocAYAj6nqQ";
+
+  const viewer = new Cesium.Viewer("cesiumContainer", {
+      terrain: Cesium.Terrain.fromWorldTerrain()
+  });
+
+  (async () => {
+    viewer.imageryLayers.addImageryProvider(await Cesium.IonImageryProvider.fromAssetId(4));
+    viewer.imageryLayers.addImageryProvider(await Cesium.IonImageryProvider.fromAssetId(3));
+    viewer.imageryLayers.addImageryProvider(await Cesium.IonImageryProvider.fromAssetId(2));
+    viewer.imageryLayers.addImageryProvider(await Cesium.IonImageryProvider.fromAssetId(3813));
+
+    viewer.scene.primitives.add(await Cesium.Cesium3DTileset.fromIonAssetId(2275207));
+    viewer.scene.primitives.add(await Cesium.Cesium3DTileset.fromIonAssetId(96188));
+
+    // Kurudu, Abuja
+    const longitude = 7.6122;
+    const latitude = 8.9951;
+
+    viewer.camera.flyTo({
+      destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, 12000)
+    });
+
+    viewer.entities.add({
+      name : "My Location",
+      position : Cesium.Cartesian3.fromDegrees(longitude, latitude),
+      point : {
+        pixelSize : 14,
+        color : Cesium.Color.RED,
+        outlineColor : Cesium.Color.WHITE,
+        outlineWidth : 2
+      },
+      label : {
+        text : "Near Beulah International School, Kurudu",
+        font : "16px sans-serif",
+        fillColor : Cesium.Color.YELLOW,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        outlineWidth: 2,
+        pixelOffset: new Cesium.Cartesian2(0, -25)
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
 
 	
 <!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
