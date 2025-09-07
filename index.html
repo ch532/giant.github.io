@@ -447,10 +447,15 @@ if (window.location.hostname === "www.yourwebsite.com") {
   <button type="submit">Search</button>
 </form>
 
-		 
-<!-- Elfsight AI Chatbot | Untitled AI Chatbot -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-82ca9813-b334-4cd1-9b57-52dea3c15013" data-elfsight-app-lazy></div>
+		 <script>
+  fetch("https://connectgold.sbs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question: "Tell me about the 3D Map feature" })
+  })
+  .then(res => res.json())
+  .then(data => console.log(data.answer));
+</script>
 
 	
     
