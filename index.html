@@ -621,8 +621,20 @@ User question: ${question}
 
 </body>
 </html>
+
+<script>
+async function askQuestion(question) {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question })
+  });
+
+  const data = await res.json();
+  console.log(data.answer); // Display this in your chatbot box
+}
+</script>
 	
-    
 <!DOCTYPE html>
 <html lang="en">
 <head>
