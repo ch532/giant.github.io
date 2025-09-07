@@ -4,6 +4,10 @@
     "description": "Answers user queries intelligently and keeps learning from new updates."
   },
   {
+    "feature": "General stuffs",
+    "description": "Handles queries on general things about my website"
+  },
+  {
     "feature": "3D Map",
     "description": "Interactive map with pins, satellite view, street view, and road directions."
   },
