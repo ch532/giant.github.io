@@ -438,9 +438,15 @@ if (window.location.hostname === "www.yourwebsite.com") {
 
 <iframe src="video.html" width="800" height="450" frameborder="0" scrolling="no"></iframe>
 
-<!-- Elfsight Website Translator | Untitled Website Translator -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-f2441df0-64c7-4bdd-96bb-58e59ea7ce51" data-elfsight-app-lazy></div>
+<div id="google_translate_element"></div>
+	
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 	
 <script async src="https://cse.google.com/cse.js?cx=16d7e34da328d40ae">
 </script>
