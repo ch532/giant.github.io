@@ -357,11 +357,11 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-<!-- Zoom Notification - Manual Position -->
+<!-- Zoom Notification -->
 <div id="zoom-notification" style="
-    position: relative; /* Change to absolute/fixed if you want floating */
-    margin: 20px auto;  /* Adjust spacing from top/bottom */
-    width: fit-content;  /* Shrinks to content width */
+    position: relative; /* Can change to fixed/absolute if needed */
+    margin: 20px auto;
+    width: fit-content;
     background: #f1c40f;
     color: #000;
     padding: 10px 15px;
@@ -371,8 +371,15 @@ p {
     border-radius: 5px;
     z-index: 1000;
 ">
-All pages can be zoomed except page 3 for better readability!
+All pages can be zoomed for better readability!
 </div>
+
+<script>
+  // Hide notification on Page 3
+  if(window.location.pathname.includes('page3.html')) { 
+      document.getElementById('zoom-notification').style.display = 'none';
+  }
+</script>
 	
 <script>
     const adsNotFoundCallback = () => {
