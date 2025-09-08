@@ -354,25 +354,24 @@ p {
       </ul>
     </nav>
     
-    <h1>Welcome to Connect Gold</h1>
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-<!-- Zoom Notification at Top -->
+<!-- Zoom Notification - Manual Position -->
 <div id="zoom-notification" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    position: relative; /* Change to absolute/fixed if you want floating */
+    margin: 20px auto;  /* Adjust spacing from top/bottom */
+    width: fit-content;  /* Shrinks to content width */
     background: #f1c40f;
     color: #000;
-    padding: 12px 0;
+    padding: 10px 15px;
     font-weight: bold;
     font-size: 14px;
     text-align: center;
+    border-radius: 5px;
     z-index: 1000;
 ">
- All pages can be zoomed except page 3 for better readability!
+All pages can be zoomed except page 3 for better readability!
 </div>
 	
 <script>
