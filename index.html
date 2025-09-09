@@ -796,14 +796,47 @@ map.on('click', async function(e){
     Enjoying the app? Share it with friends using the social buttons below!
 </div>
 	
-<!-- Elfsight Social Share Buttons | Untitled Social Share Buttons -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-4e65250b-86c2-4602-ae06-c7ffcdf07f80" data-elfsight-app-lazy></div>
+<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=68c016654b35338d90983b4b&product=sticky-share-buttons' async='async'></script>
+	
+<!-- Cookie Consent Banner -->
+<div id="cookie-consent" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #333;
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 14px;
+    text-align: center;
+    z-index: 10000;
+">
+    This website uses cookies to ensure you get the best experience. 
+    <button id="accept-cookies" style="
+        margin-left: 10px;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        background: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    ">Accept</button>
+</div>
 
-	<!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-ef81ff8a-ac88-4deb-b994-e545ef269b7a" data-elfsight-app-lazy></div>
+<script>
+    document.getElementById('accept-cookies').addEventListener('click', function() {
+        document.getElementById('cookie-consent').style.display = 'none';
+        localStorage.setItem('cookiesAccepted', 'true');
+    });
 
+    // Check if already accepted
+    if(localStorage.getItem('cookiesAccepted') === 'true') {
+        document.getElementById('cookie-consent').style.display = 'none';
+    }
+</script>
+	
 <script> window.chtlConfig = { chatbotId: "5363446743" } </script>
 <script async data-id="5363446743" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 	
