@@ -380,24 +380,22 @@ This page can be zoomed for better readability!
   }
 </script>
 
-<!-- App Download Section (visible by default, hidden only inside your app) -->
+<!-- App Download Section -->
 <div id="app-download" style="text-align:center; margin:30px 0;">
   <h2>📲 Download Our App</h2>
   <p>Get the official Connect Gold app directly from our website for better experience, faster access and smooth navigation.</p>
+  
   <a href="https://connectgold.sbs/downloads/ConnectGold.apk" 
      download 
      style="background:#007bff; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:18px;">
     Download App (APK)
   </a>
+  
+  <p style="color:red; font-size:14px; margin-top:10px;">
+    ⚠️ Already downloaded from our website? No need to download again inside the app.
+  </p>
 </div>
 
-<script>
-  // Check query parameter
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("inapp") === "true") {
-    document.getElementById("app-download").style.display = "none";
-  }
-</script>
 	
 <script>	
 //Import Mixpanel SDK
