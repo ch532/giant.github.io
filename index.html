@@ -380,6 +380,32 @@ This page can be zoomed for better readability!
   }
 </script>
 
+<!-- App Download Section (only visible on website) -->
+<div id="app-download" style="text-align:center; margin:30px 0;">
+  <h2>📲 Download Our App</h2>
+  <p>Get the official Connect Gold app directly from our website.</p>
+  <a href="https://connectgold.sbs/downloads/ConnectGold.apk" 
+     download 
+     style="background:#007bff; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:18px;">
+    Download App (APK)
+  </a>
+</div>
+
+<script>
+  // Check if user is inside a browser (not inside an app WebView)
+  function isWebBrowser() {
+    let ua = navigator.userAgent || navigator.vendor || window.opera;
+    return !/FBAN|FBAV|Instagram|Line|WhatsApp|Messenger/i.test(ua);
+  }
+
+  // Show the download section only if browser
+  window.onload = function() {
+    if (!isWebBrowser()) {
+      document.getElementById("app-download").style.display = "none";
+    }
+  }
+</script>
+	
 <script>	
 //Import Mixpanel SDK
 import mixpanel from "mixpanel-browser";
