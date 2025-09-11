@@ -380,8 +380,8 @@ This page can be zoomed for better readability!
   }
 </script>
 
-<!-- App Download Section (only visible on real browsers) -->
-<div id="app-download" style="text-align:center; margin:30px 0; display:none;">
+<!-- App Download Section (visible by default, hidden only inside your app) -->
+<div id="app-download" style="text-align:center; margin:30px 0;">
   <h2>📲 Download Our App</h2>
   <p>Get the official Connect Gold app directly from our website for better experience, faster access and smooth navigation.</p>
   <a href="https://connectgold.sbs/downloads/ConnectGold.apk" 
@@ -392,16 +392,9 @@ This page can be zoomed for better readability!
 </div>
 
 <script>
-  function isInApp() {
-    return new URLSearchParams(window.location.search).get("inapp") === "true";
-  }
-
-  window.onload = function() {
-    if (isInApp()) {
-      document.getElementById("app-download").style.display = "none";
-    } else {
-      document.getElementById("app-download").style.display = "block";
-    }
+  // Hide download section only if app sets a flag (example using localStorage)
+  if (localStorage.getItem("inApp") === "true") {
+    document.getElementById("app-download").style.display = "none";
   }
 </script>
 	
