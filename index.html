@@ -392,8 +392,9 @@ This page can be zoomed for better readability!
 </div>
 
 <script>
-  // Hide download section only if app sets a flag (example using localStorage)
-  if (localStorage.getItem("inApp") === "true") {
+  // Check query parameter
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("inapp") === "true") {
     document.getElementById("app-download").style.display = "none";
   }
 </script>
