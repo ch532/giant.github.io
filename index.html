@@ -392,13 +392,12 @@ This page can be zoomed for better readability!
 </div>
 
 <script>
-  function isInAppBrowser() {
-    let ua = navigator.userAgent || navigator.vendor || window.opera;
-    return /FBAN|FBAV|Instagram|Line|WhatsApp|Messenger|TikTok/i.test(ua);
+  function isInApp() {
+    return new URLSearchParams(window.location.search).get("inapp") === "true";
   }
 
   window.onload = function() {
-    if (isInAppBrowser()) {
+    if (isInApp()) {
       document.getElementById("app-download").style.display = "none";
     } else {
       document.getElementById("app-download").style.display = "block";
