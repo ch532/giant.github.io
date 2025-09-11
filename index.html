@@ -392,17 +392,15 @@ This page can be zoomed for better readability!
 </div>
 
 <script>
-  function isRealBrowser() {
-    let ua = navigator.userAgent || "";
-    // Detect generic webviews (Android WebView, Huawei WebView, iOS UIWebView, etc.)
-    if (/wv|WebView|; wv\)|Version\/\d+\.\d+ Mobile Safari/.test(ua)) {
-      return false; // It's a WebView (in-app browser)
-    }
-    return true; // It's a real browser like Chrome, Firefox, Safari
+  function isInAppBrowser() {
+    let ua = navigator.userAgent || navigator.vendor || window.opera;
+    return /FBAN|FBAV|Instagram|Line|WhatsApp|Messenger|TikTok/i.test(ua);
   }
 
   window.onload = function() {
-    if (isRealBrowser()) {
+    if (isInAppBrowser()) {
+      document.getElementById("app-download").style.display = "none";
+    } else {
       document.getElementById("app-download").style.display = "block";
     }
   }
