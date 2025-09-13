@@ -36,6 +36,20 @@ themediagrid.com, B8N9YH, RESELLER, 35d5010d7789b49d
 video.unrulymedia.com, 188404962, RESELLER
 contextweb.com, 558638, RESELLER, 89ff185a4c4e857c
 
+#Ads.txt connectgold.sbs
+#Ads.txt managed by AdsTxtManager.com - the free ads.txt management tool for publishers
+ownerdomain=connectgold.sbs
+contact=directsales@ezoic.com
+managerdomain=ezoic.ai
+
+ezoic.ai, 89d8879f7e48a2abd419e8978550dfd6, DIRECT
+# 35
+themediagrid.com, Q19AKF, DIRECT, 35d5010d7789b49d
+sonobi.com, 192ecdea01, RESELLER, d1a215d9eb5aee9e
+google.com, pub-6644558441501035, DIRECT, f08c47fec0942fa0
+google.com, pub-1175987143200523, RESELLER, f08c47fec0942fa0
+risecodes.com, 608fee2f84a3a300011acd3f, DIRECT
+
 ### ForeMedia START ###
 google.com, pub-1444749628606253, DIRECT, f08c47fec0942fa0
 google.com, pub-7011958834410891, DIRECT, f08c47fec0942fa0
