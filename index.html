@@ -389,6 +389,28 @@ This page can be zoomed for better readability!
   }
 </script>
 
+<script>
+// Initialize Ezoic Rewarded Ads
+window.ezRewardedAds = window.ezRewardedAds || {};
+window.ezRewardedAds.cmd = window.ezRewardedAds.cmd || [];
+
+// Example: Request a rewarded ad with overlay
+window.ezRewardedAds.cmd.push(function () {
+    window.ezRewardedAds.requestWithOverlay(function (result) {
+        if (result.status) {
+            console.log("Ad loaded successfully");
+            if (result.reward) {
+                // User completed the ad and earned reward
+                console.log("User earned reward!");
+                // Add your reward logic here
+            }
+        } else {
+            console.log("Ad failed to load:", result.msg);
+        }
+    });
+});
+</script>
+	
 <!-- App Download Section -->
 <div id="app-download" style="text-align:center; margin:30px 0;">
   <h2>📲 Download Our App</h2>
