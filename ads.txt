@@ -1,6 +1,8 @@
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 
+rubiconproject.com, 22884, DIRECT, 0bfd66d529a55807
+
 onetag.com, 9496e8c0856a83a, DIRECT
 onetag.com, 9496e8c0856a83a-OB, DIRECT
 appnexus.com, 13099, RESELLER
