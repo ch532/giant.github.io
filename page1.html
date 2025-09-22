@@ -277,11 +277,25 @@ This page can be zoomed for better readability!
 <iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/cerkio/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
 
 <iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/gelatino/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe><iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/gelatino/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
+
+    <div id="games-container"></div>
+<script>
+  fetch("https://gamemonetize.com/feed.php?format=0&num=20&page=1")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('games-container');
+      data.forEach(game => {
+        const gameDiv = document.createElement('div');
+        gameDiv.innerHTML = `
+          <h3>${game.title}</h3>
+          <iframe src="${game.url}" width="300" height="400"></iframe>
+        `;
+        container.appendChild(gameDiv);
+      });
+    })
+    .catch(err => console.log("Failed to load games", err));
+</script>
     
-    <iframe src="https://html5.gamemonetize.co/jp22mjv7m4b283qu7mhzsy599omxbi13/" width="800" height="600" scrolling="none" frameborder="0"></iframe>
-
-<iframe src="https://html5.gamemonetize.co/q83yuopnslnu9q4331chevaww9r9tct1/" width="750" height="1334" scrolling="none" frameborder="0"></iframe>
-
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
 </script>
