@@ -599,56 +599,23 @@ function googleTranslateElementInit() {
 
 <!-- start feedwind code --> <script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="173745/"></script> <!-- end feedwind code -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Feed Display</title>
-<style>
-  body { font-family: Arial, sans-serif; }
-  .game-grid { display: flex; flex-wrap: wrap; gap: 16px; }
-  .game-card { border: 1px solid #ccc; padding: 10px; width: 200px; text-align: center; }
-  .game-card img { width: 100%; height: auto; }
-  .game-card a { display: inline-block; margin-top: 8px; padding: 6px 12px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
-</style>
-</head>
-<body>
-
-<h1>Playable Games</h1>
-<div id="gameContainer" class="game-grid"></div>
-
+<div id="games-container"></div>
 <script>
-// Your GameMonetize feed URL
-const feedUrl = 'https://gamemonetize.com/feed.php?format=0&num=50&page=1';
-
-async function loadGames() {
-  try {
-    const response = await fetch(feedUrl);
-    const data = await response.json(); // The feed is JSON
-    const container = document.getElementById('gameContainer');
-
-    data.games.forEach(game => {
-      const card = document.createElement('div');
-      card.className = 'game-card';
-      card.innerHTML = `
-        <img src="${game.thumbnail}" alt="${game.title}">
-        <h3>${game.title}</h3>
-        <a href="${game.url}" target="_blank">Play Now</a>
-      `;
-      container.appendChild(card);
-    });
-  } catch (error) {
-    console.error('Error loading games:', error);
-    document.getElementById('gameContainer').innerHTML = 'Failed to load games.';
-  }
-}
-
-loadGames();
+  fetch("https://gamemonetize.com/feed.php?format=0&num=50&page=1")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('games-container');
+      data.forEach(game => {
+        const gameDiv = document.createElement('div');
+        gameDiv.innerHTML = `
+          <h3>${game.title}</h3>
+          <iframe src="${game.url}" width="300" height="400"></iframe>
+        `;
+        container.appendChild(gameDiv);
+      });
+    })
+    .catch(err => console.log("Failed to load games", err));
 </script>
-
-</body>
-</html>
 	
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
 <div id="rss-feed">
