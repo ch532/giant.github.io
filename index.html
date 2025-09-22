@@ -599,23 +599,6 @@ function googleTranslateElementInit() {
 
 <!-- start feedwind code --> <script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="173745/"></script> <!-- end feedwind code -->
 
-<div id="games-container"></div>
-<script>
-  fetch("https://gamemonetize.com/feed.php?format=0&num=50&page=1")
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('games-container');
-      data.forEach(game => {
-        const gameDiv = document.createElement('div');
-        gameDiv.innerHTML = `
-          <h3>${game.title}</h3>
-          <iframe src="${game.url}" width="300" height="400"></iframe>
-        `;
-        container.appendChild(gameDiv);
-      });
-    })
-    .catch(err => console.log("Failed to load games", err));
-</script>
 	
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
 <div id="rss-feed">
