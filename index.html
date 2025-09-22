@@ -456,16 +456,7 @@ if (window.location.hostname === "www.yourwebsite.com") {
 }
 </script>
 
-<div id="cincopa_A4HAcLOLOO68AENDmC_DyC-f" class="cincopa-fadein" >
-            <div style='width: 100%; height: auto; max-width: 100%; display:flex;'>
-            	<img src="https://connectgold.sbs/gold-2.png" 
-            	style="filter:blur(5px); object-fit:contain; width:100%; padding: 0; margin: 0; aspect-ratio: 1.78; padding: 0; margin: 0;" onload="this.parentNode ? this.parentNode.style.opacity=1 : '';" />
-            </div>
-</div>
-<script src="//rtcdn.cincopa.com/meta_json.aspx?fid=A4HAcLOLOO68!AENDmC_DyC-f&ver=v2&id=cincopa_A4HAcLOLOO68AENDmC_DyC-f" type="text/javascript"></script>
-            
-<script src="//rtcdn.cincopa.com/libasync.js" type="text/javascript"></script>
-	
+
 	<script data-ezscrex="false" data-cfasync="false">(window.humixPlayers = window.humixPlayers || []).push({target: document.currentScript});</script><script async data-ezscrex="false" data-cfasync="false" src="https://www.humix.com/video.js"></script>
 
 <div id="google_translate_element"></div>
@@ -608,45 +599,56 @@ function googleTranslateElementInit() {
 
 <!-- start feedwind code --> <script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="173745/"></script> <!-- end feedwind code -->
 
-	<div id="games-container"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Feed Display</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .game-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+  .game-card { border: 1px solid #ccc; padding: 10px; width: 200px; text-align: center; }
+  .game-card img { width: 100%; height: auto; }
+  .game-card a { display: inline-block; margin-top: 8px; padding: 6px 12px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<h1>Playable Games</h1>
+<div id="gameContainer" class="game-grid"></div>
 
 <script>
-fetch('https://gamemonetize.com/feed.php?format=1&num=50&page=1')
-.then(response => response.json())
-.then(data => {
-    const container = document.getElementById('games-container');
-    data.forEach(game => {
-        const gameDiv = document.createElement('div');
-        gameDiv.innerHTML = `
-            <h3>${game.title}</h3>
-            <img src="${game.thumbnail}" alt="${game.title}" />
-            <a href="${game.url}" target="_blank">Play Now</a>
-        `;
-        container.appendChild(gameDiv);
+// Your GameMonetize feed URL
+const feedUrl = 'https://gamemonetize.com/feed.php?format=0&num=50&page=1';
+
+async function loadGames() {
+  try {
+    const response = await fetch(feedUrl);
+    const data = await response.json(); // The feed is JSON
+    const container = document.getElementById('gameContainer');
+
+    data.games.forEach(game => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      card.innerHTML = `
+        <img src="${game.thumbnail}" alt="${game.title}">
+        <h3>${game.title}</h3>
+        <a href="${game.url}" target="_blank">Play Now</a>
+      `;
+      container.appendChild(card);
     });
-})
-.catch(error => console.error('Error loading games:', error));
+  } catch (error) {
+    console.error('Error loading games:', error);
+    document.getElementById('gameContainer').innerHTML = 'Failed to load games.';
+  }
+}
+
+loadGames();
 </script>
 
-<div id="games-container"></div>
-
-<script>
-fetch('https://gamemonetize.com/feed.php?format=1&num=50&page=2')
-.then(response => response.json())
-.then(data => {
-    const container = document.getElementById('games-container');
-    data.forEach(game => {
-        const gameDiv = document.createElement('div');
-        gameDiv.innerHTML = `
-            <h3>${game.title}</h3>
-            <img src="${game.thumbnail}" alt="${game.title}" />
-            <a href="${game.url}" target="_blank">Play Now</a>
-        `;
-        container.appendChild(gameDiv);
-    });
-})
-.catch(error => console.error('Error loading games:', error));
-</script>
+</body>
+</html>
 	
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
 <div id="rss-feed">
