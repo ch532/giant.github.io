@@ -376,7 +376,63 @@ This page can be zoomed for better readability!
 </div>
 
 
+<!-- Interstitial-like modal ad -->
+<div id="interstitial-ad" style="
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+">
+  <div style="
+    width:320px; 
+    max-width:90%; 
+    background:#fff; 
+    padding:15px; 
+    border-radius:8px; 
+    text-align:center; 
+    position:relative;
+  ">
+    <button id="close-ad" style="
+      position:absolute; 
+      top:5px; 
+      right:5px; 
+      background:#ff5c5c; 
+      border:none; 
+      color:#fff; 
+      font-weight:bold; 
+      border-radius:50%;
+      width:24px; 
+      height:24px;
+      cursor:pointer;
+    ">×</button>
+    <a href="https://appgallery.cloud.huawei.com/ag/n/app/C115178123?locale=en_US&source=appshare&subsource=C115178123&shareTo=com.android" target="_blank">
+      <img src="https://connectgold.sbs/gold-2.png" style="width:100%; border-radius:6px;" alt="Promo App">
+    </a>
+    <p style="margin-top:10px;">Check out our app on AppGallery!</p>
+  </div>
+</div>
 
+<script>
+  const ad = document.getElementById('interstitial-ad');
+  const closeBtn = document.getElementById('close-ad');
+
+  // Show ad after page load
+  window.addEventListener('DOMContentLoaded', () => {
+    ad.style.display = 'flex';
+    
+    // Auto close after 20 seconds
+    setTimeout(() => ad.style.display='none', 20000);
+  });
+
+  // Manual close
+  closeBtn.addEventListener('click', () => {
+    ad.style.display = 'none';
+  });
+</script>
   
 	
 
