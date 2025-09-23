@@ -678,33 +678,52 @@ function googleTranslateElementInit() {
 </head>
 <body>
 
-  <h1>Latest News (Nigeria)</h1>
-  <div id="news-feed"><!-- News + Ads will load here --></div>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News + Ads</title>
+  <style>
+    .news-item {
+      margin: 10px 0;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+    .ad-slot {
+      margin: 15px 0;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px dashed #aaa;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Latest Google News</h2>
+  <div id="news-feed"></div>
 
   <script>
-    // ✅ Google News RSS feeds
     const feedUrls = [
-      "https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNRFZqWjNZU0JXVnVMVWRDS0FBUAE?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNREpxYW5RU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRFp1ZEdvU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en"
+      "https://news.google.com/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNRFZqWjNZU0JXVnVMVWRDS0FBUAE?hl=en-NG&gl=NG&ceid=NG%3Aen"
+
+		"https://news.google.com/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG%3Aen"
+
+	  "https://news.google.com/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx6TVdZU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG%3Aen"
+
+	  "https://news.google.com/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNREpxYW5RU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG%3Aen"
+
+	  "https://news.google.com/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRFp1ZEdvU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG%3Aen"
     ];
-
-    const maxItems   = 15;  // show 15 headlines
-    const adInterval = 2;   // insert ad every 2 items
-
-    // ✅ Ad codes (rotate between them)
+    const maxItems = 15;
+    const adInterval = 2;
     const adCodes = [
-      `<!-- ExoClick -->
-      <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-      <ins class="eas6a97888e20" data-zoneid="5730266"></ins>
-      <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>`,
+      `<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+       <ins class="eas6a97888e20" data-zoneid="5730266"></ins>
+       <script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>`,
 
-      `<!-- Mondiad -->
-      <div data-mndazid="9ace8e30-e476-4558-9ee6-a48a897493fd"></div>`
+      `<div data-mndazid="9ace8e30-e476-4558-9ee6-a48a897493fd"></div>`
     ];
 
-    // Fetch one RSS feed
     async function fetchFeed(rssUrl) {
       const response = await fetch(
         "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rssUrl)
@@ -713,10 +732,8 @@ function googleTranslateElementInit() {
       return json.items || [];
     }
 
-    // Load + render
     async function loadCombinedNews() {
       let allItems = [];
-
       for (const url of feedUrls) {
         try {
           const items = await fetchFeed(url);
@@ -726,31 +743,24 @@ function googleTranslateElementInit() {
         }
       }
 
-      // Sort by date
       allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-      // Keep top 15
       allItems = allItems.slice(0, maxItems);
 
       const feedContainer = document.getElementById("news-feed");
 
       allItems.forEach((item, index) => {
-        // News item
         const newsDiv = document.createElement("div");
         newsDiv.className = "news-item";
         newsDiv.innerHTML = `
-          <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-          <div class="source">${item.pubDate.split(" ")[0]} — ${item.author || ''}</div>
+          <a href="${item.link}" target="_blank">${item.title}</a><br>
+          <small>${item.pubDate.split(" ")[0]} — ${item.author || ""}</small>
         `;
         feedContainer.appendChild(newsDiv);
 
-        // Ad slot after every 2 items
         if ((index + 1) % adInterval === 0) {
           const adDiv = document.createElement("div");
           adDiv.className = "ad-slot";
-          adDiv.innerHTML = `
-            <span class="sponsored-label">Sponsored</span>
-            ${adCodes[((index + 1) / adInterval) % adCodes.length]}
-          `;
+          adDiv.innerHTML = adCodes[((index + 1) / adInterval) % adCodes.length];
           feedContainer.appendChild(adDiv);
         }
       });
@@ -758,9 +768,9 @@ function googleTranslateElementInit() {
 
     window.addEventListener("DOMContentLoaded", loadCombinedNews);
   </script>
-
 </body>
 </html>
+  
 
 	
 <!-- RSS Feed (Latest News, Entertainment, Music) -->
