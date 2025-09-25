@@ -295,6 +295,45 @@ This page can be zoomed for better readability!
     })
     .catch(err => console.log("Failed to load games", err));
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.banner.enable();
+      }
+  });
+</script>
+
+	<script>
+  function showInterstitial() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.showInterstitialOnNextPageLoadIfReady();
+      }
+  }
+
+  // Example: Show interstitial after button click or navigation
+  document.getElementById("showAdBtn").addEventListener("click", showInterstitial);
+</script>
+
+	<script>
+  function showRewarded() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.showRewardedVideo();
+      }
+  }
+</script>
+
+	<div id="nativeAdContainer"></div>
+
+<script>
+  function loadNativeAd() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.loadNativeAd("nativeAdContainer");
+      }
+  }
+
+  loadNativeAd();
+</script>
     
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
