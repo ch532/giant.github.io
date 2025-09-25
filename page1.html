@@ -296,45 +296,53 @@ This page can be zoomed for better readability!
     .catch(err => console.log("Failed to load games", err));
 </script>
 
+
+
+<!-- Marfeel SDK Initialization -->
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      if (typeof median !== "undefined" && median.admob) {
-          median.admob.banner.enable();
-      }
-  });
+    // Automatically detect if page is loaded in your in-app WebView
+    function isInAppWebView() {
+        // Example logic: check for user agent strings or custom app flags
+        return /MyAppName/i.test(navigator.userAgent) || window.is_app === true;
+    }
+
+    // Set Marfeel page type
+    var mrfTech = isInAppWebView() ? 3 : 0;
+
+    // Function to dynamically load a script
+    function loadScript(url, isModule = true) {
+        var script = document.createElement("script");
+        script.src = url;
+
+        if (isModule) {
+            script.type = "module";
+        } else {
+            script.async = true;
+            script.type = "text/javascript";
+            script.setAttribute("nomodule", "");
+        }
+
+        var firstScript = document.getElementsByTagName("script")[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    }
+
+    // Initialize Marfeel SDK
+    function initMarfeel(windowObj, accountId, config) {
+        if (!windowObj.marfeel) windowObj.marfeel = {};
+        if (!windowObj.marfeel.cmd) windowObj.marfeel.cmd = [];
+
+        windowObj.marfeel.config = config;
+        windowObj.marfeel.config.accountId = accountId;
+
+        var baseUrl = "https://sdk.mrf.io/statics";
+        loadScript(`${baseUrl}/marfeel-sdk.js?id=${accountId}`, true);  // module version
+        loadScript(`${baseUrl}/marfeel-sdk.es5.js?id=${accountId}`, false); // es5 version
+    }
+
+    // Run Marfeel initialization
+    initMarfeel(window, 9796, { pageType: mrfTech });
 </script>
-
-	<script>
-  function showInterstitial() {
-      if (typeof median !== "undefined" && median.admob) {
-          median.admob.showInterstitialOnNextPageLoadIfReady();
-      }
-  }
-
-  // Example: Show interstitial after button click or navigation
-  document.getElementById("showAdBtn").addEventListener("click", showInterstitial);
-</script>
-
-	<script>
-  function showRewarded() {
-      if (typeof median !== "undefined" && median.admob) {
-          median.admob.showRewardedVideo();
-      }
-  }
-</script>
-
-	<div id="nativeAdContainer"></div>
-
-<script>
-  function loadNativeAd() {
-      if (typeof median !== "undefined" && median.admob) {
-          median.admob.loadNativeAd("nativeAdContainer");
-      }
-  }
-
-  loadNativeAd();
-</script>
-    
+	  
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
 </script>
