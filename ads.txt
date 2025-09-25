@@ -1,6 +1,11 @@
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 
+#SENDWEBPUSH
+sendwebpush.com, 68d5179fde52b, DIRECT
+google.com, pub-9597097359230576, RESELLER, f08c47fec0942fa0
+
+
 #ads.txt connectgold.sbs
 
 #updated 09.25.2025
