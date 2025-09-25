@@ -937,7 +937,45 @@ map.on('click', async function(e){
 ">
     Enjoying the app? Share it with friends on social media !
 </div>
-	
+
+	<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.banner.enable();
+      }
+  });
+</script>
+
+	<script>
+  function showInterstitial() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.showInterstitialOnNextPageLoadIfReady();
+      }
+  }
+
+  // Example: Show interstitial after button click or navigation
+  document.getElementById("showAdBtn").addEventListener("click", showInterstitial);
+</script>
+
+	<script>
+  function showRewarded() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.showRewardedVideo();
+      }
+  }
+</script>
+
+	<div id="nativeAdContainer"></div>
+
+<script>
+  function loadNativeAd() {
+      if (typeof median !== "undefined" && median.admob) {
+          median.admob.loadNativeAd("nativeAdContainer");
+      }
+  }
+
+  loadNativeAd();
+</script>
 
 <script>
     document.getElementById('accept-cookies').addEventListener('click', function() {
