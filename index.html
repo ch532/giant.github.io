@@ -707,6 +707,39 @@ function googleTranslateElementInit() {
 </head>
 <body>
 
+<!-- Connectgold media Feed Embed -->
+<div id="skyl-blog-posts" style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+  <h2>Latest Posts from Skyl Blog</h2>
+  <ul id="blog-posts-list" style="list-style: none; padding: 0;"></ul>
+</div>
+
+<script>
+  // Your Blogger RSS feed URL
+  const feedUrl = "https://skyl.name.ng/feeds/posts/default?alt=rss";
+
+  // Fetch the RSS feed and parse it via rss2json
+  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`)
+    .then(response => response.json())
+    .then(data => {
+      const postsList = document.getElementById("blog-posts-list");
+      const posts = data.items.slice(0, 5); // Show latest 5 posts
+
+      posts.forEach(post => {
+        const li = document.createElement("li");
+        li.style.marginBottom = "15px";
+
+        li.innerHTML = `
+          <a href="${post.link}" target="_blank" style="text-decoration:none; color:#1a0dab; font-weight:bold;">
+            ${post.title}
+          </a>
+          <p style="margin:5px 0; color:#555;">${new Date(post.pubDate).toLocaleDateString()}</p>
+        `;
+        postsList.appendChild(li);
+      });
+    })
+    .catch(err => console.error("Error loading Blogger feed:", err));
+</script>
+	
   <h1>Latest Google News</h1>
   <div id="news-feed"></div>
 
