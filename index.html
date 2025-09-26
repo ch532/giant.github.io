@@ -935,7 +935,7 @@ map.on('click', async function(e){
     font-family: Arial, sans-serif;
 ">
     <p style="font-size: 16px; margin-bottom: 10px;">
-        📱 Enjoyed our content? Get the full experience on our app!
+        📱 Enjoyed our content? Get the full experience on our app. If you have already downloaded and installed the app you can use it. You don't need to download it again!
     </p>
     <!-- App Store Button -->
     <a href="https://appgallery.cloud.huawei.com/ag/n/app/C115178123?locale=en_US&source=appshare&subsource=C115178123&shareTo=com.android" 
@@ -1062,50 +1062,7 @@ map.on('click', async function(e){
 }
 </style>
 
-<!-- Marfeel SDK Initialization -->
-<script>
-    // Automatically detect if page is loaded in your in-app WebView
-    function isInAppWebView() {
-        // Example logic: check for user agent strings or custom app flags
-        return /MyAppName/i.test(navigator.userAgent) || window.is_app === true;
-    }
 
-    // Set Marfeel page type
-    var mrfTech = isInAppWebView() ? 3 : 0;
-
-    // Function to dynamically load a script
-    function loadScript(url, isModule = true) {
-        var script = document.createElement("script");
-        script.src = url;
-
-        if (isModule) {
-            script.type = "module";
-        } else {
-            script.async = true;
-            script.type = "text/javascript";
-            script.setAttribute("nomodule", "");
-        }
-
-        var firstScript = document.getElementsByTagName("script")[0];
-        firstScript.parentNode.insertBefore(script, firstScript);
-    }
-
-    // Initialize Marfeel SDK
-    function initMarfeel(windowObj, accountId, config) {
-        if (!windowObj.marfeel) windowObj.marfeel = {};
-        if (!windowObj.marfeel.cmd) windowObj.marfeel.cmd = [];
-
-        windowObj.marfeel.config = config;
-        windowObj.marfeel.config.accountId = accountId;
-
-        var baseUrl = "https://sdk.mrf.io/statics";
-        loadScript(`${baseUrl}/marfeel-sdk.js?id=${accountId}`, true);  // module version
-        loadScript(`${baseUrl}/marfeel-sdk.es5.js?id=${accountId}`, false); // es5 version
-    }
-
-    // Run Marfeel initialization
-    initMarfeel(window, 9796, { pageType: mrfTech });
-</script>
 	
 <footer>
   <!-- Other footer content -->
