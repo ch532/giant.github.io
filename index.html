@@ -707,37 +707,36 @@ function googleTranslateElementInit() {
 </head>
 <body>
 
-<!-- Connectgold media Feed Embed -->
-<div id="skyl-blog-posts" style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-  <h2>Latest Posts from Skyl Blog</h2>
-  <ul id="blog-posts-list" style="list-style: none; padding: 0;"></ul>
-</div>
+<div id="blog-posts"></div>
 
 <script>
-  // Your Blogger RSS feed URL
-  const feedUrl = "https://skyl.name.ng/feeds/posts/default?alt=rss";
+const feedUrl = 'https://skyl.name.ng/feeds/posts/default?alt=json-in-script';
+const container = document.getElementById('blog-posts');
 
-  // Fetch the RSS feed and parse it via rss2json
-  fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`)
-    .then(response => response.json())
+// Function to fetch and display posts
+function loadBloggerPosts() {
+  fetch(feedUrl)
+    .then(response => response.text())
     .then(data => {
-      const postsList = document.getElementById("blog-posts-list");
-      const posts = data.items.slice(0, 5); // Show latest 5 posts
-
-      posts.forEach(post => {
-        const li = document.createElement("li");
-        li.style.marginBottom = "15px";
-
-        li.innerHTML = `
-          <a href="${post.link}" target="_blank" style="text-decoration:none; color:#1a0dab; font-weight:bold;">
-            ${post.title}
-          </a>
-          <p style="margin:5px 0; color:#555;">${new Date(post.pubDate).toLocaleDateString()}</p>
-        `;
-        postsList.appendChild(li);
+      // JSONP cleanup
+      const jsonData = JSON.parse(data.replace(/.*?\((.*)\);?$/, '$1'));
+      const entries = jsonData.feed.entry || [];
+      let html = '';
+      entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === 'alternate').href;
+        html += `<p><a href="${link}" target="_blank">${title}</a></p>`;
       });
+      container.innerHTML = html;
     })
-    .catch(err => console.error("Error loading Blogger feed:", err));
+    .catch(err => console.error('Error loading posts:', err));
+}
+
+// Initial load
+loadBloggerPosts();
+
+// Auto-refresh every 5 minutes (300000 ms)
+setInterval(loadBloggerPosts, 300000);
 </script>
 	
   <h1>Latest Google News</h1>
