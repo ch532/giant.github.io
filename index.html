@@ -976,18 +976,16 @@ map.on('click', async function(e){
 </footer>
 	
   
-  <div id="fixed-bottom-ad"></div>
-  <footer>  
-    <div class="footer-content">
-      <p>&copy; 2025 Connect Gold. All rights reserved.</p>
-      <p>Contact: <a href="mailto:connectgold.sbs@gmail.com">connectgold.sbs@gmail.com</a> | +2349125007235, +2347061740924</p>
-      <div class="social-links">
-        </script>
-        <a href="https://instagram.com/connectgold20" target="_blank">Instagram</a>
-        <a href="https://twitter.com/ConnectGold20" target="_blank">Twitter</a>
-      </div>
-    </div>
-  </footer>  
+  <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading footer:', error));
+</script>
 
 	
 <script type="module">
