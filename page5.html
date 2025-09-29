@@ -287,50 +287,7 @@ This page can be zoomed for better readability!
 
 <h3></h3><!-- Start BawkBox Code--><script data-sil-id="68c01b2ab95a9f001eb3a044">var loadWidget = function() { var d = document, w = window, l = window.location,p = l.protocol == "file:" ? "http://" : "//"; if (!w.WS) w.WS = {}; c = w.WS; var m=function(t, o){ var e = d.getElementsByTagName("script"); e=e[e.length-1]; var n = d.createElement(t); if (t=="script") {n.async=true;} for (k in o) n[k] = o[k]; e.parentNode.insertBefore(n, e)}; m("script", { src: p + "bawkbox.com/widget/feedback/68c01b2ab95a9f001eb3a044?page=" +encodeURIComponent(l+''), type: 'text/javascript' }); c.load_net = m; }; if(window.Squarespace){ document.addEventListener('DOMContentLoaded', loadWidget); setTimeOut(function(){ document.addEventListener('DOMContentLoaded', loadWidget); }, 3000) } else { loadWidget() } </script><div class="sil-widget-feedback sil-widget" id="sil-widget-68c01b2ab95a9f001eb3a044"><a href="//bawkbox.com/install/feedback"></a></div><!-- End BawkBox Code-->
 
-<!-- Marfeel SDK Initialization -->
-<script>
-    // Automatically detect if page is loaded in your in-app WebView
-    function isInAppWebView() {
-        // Example logic: check for user agent strings or custom app flags
-        return /MyAppName/i.test(navigator.userAgent) || window.is_app === true;
-    }
-
-    // Set Marfeel page type
-    var mrfTech = isInAppWebView() ? 3 : 0;
-
-    // Function to dynamically load a script
-    function loadScript(url, isModule = true) {
-        var script = document.createElement("script");
-        script.src = url;
-
-        if (isModule) {
-            script.type = "module";
-        } else {
-            script.async = true;
-            script.type = "text/javascript";
-            script.setAttribute("nomodule", "");
-        }
-
-        var firstScript = document.getElementsByTagName("script")[0];
-        firstScript.parentNode.insertBefore(script, firstScript);
-    }
-
-    // Initialize Marfeel SDK
-    function initMarfeel(windowObj, accountId, config) {
-        if (!windowObj.marfeel) windowObj.marfeel = {};
-        if (!windowObj.marfeel.cmd) windowObj.marfeel.cmd = [];
-
-        windowObj.marfeel.config = config;
-        windowObj.marfeel.config.accountId = accountId;
-
-        var baseUrl = "https://sdk.mrf.io/statics";
-        loadScript(`${baseUrl}/marfeel-sdk.js?id=${accountId}`, true);  // module version
-        loadScript(`${baseUrl}/marfeel-sdk.es5.js?id=${accountId}`, false); // es5 version
-    }
-
-    // Run Marfeel initialization
-    initMarfeel(window, 9796, { pageType: mrfTech });
-</script>
+<script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="68d9f1f5b89f784514a22f91" async></script>
 		
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
