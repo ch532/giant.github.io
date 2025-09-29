@@ -302,35 +302,6 @@ fbq('trackCustom', 'adImpression',{ad: adName});
  </div> 
  <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
  </script> 
-
-      <script>
-    const adsNotFoundCallback = () => {
-        console.log('No ads found to show');
-        // Write your code here in case we couldn't display ad
-    };
-
-    // Callback for REWARDED format
-    const onClickRewardCallback = (adId) => {
-        console.log('Clicked ad:', adId);
-    };
-
-    const adController = window.tads.init({
-        widgetId: YOUR_WIDGET_ID,
-        type: 'static',
-        debug: false, // Use 'true' for development and 'false' for production
-        onClickReward: onClickRewardCallback,
-        onAdsNotFound: adsNotFoundCallback
-    });
-
-    adController.loadAd()
-        .then(() => adController.showAd())
-        .catch((err) => {
-            console.log(err);
-            adsNotFoundCallback();
-        });
-</script>
-
-
       
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
