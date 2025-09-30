@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ProHub - Unity WebGL + GamePix</title>
+  <script src="https://cdn.gamepix.com/sdk/gamepix.js"></script> <!-- GamePix SDK -->
+  <style>
+    body { margin: 0; background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    #unityContainer { width: 960px; height: 600px; background-color: #000; }
+  </style>
+</head>
+<body>
+  <div id="unityContainer">
+    <iframe 
+      id="unityFrame"
+      src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub" 
+      width="960" 
+      height="600" 
+      frameborder="0"
+      allowfullscreen
+      allow="autoplay; fullscreen"
+    ></iframe>
+  </div>
+
+  <script>
+    // Initialize GamePix SDK
+    GamePix.onLoad().then(() => {
+      console.log("GamePix SDK loaded!");
+
+      // Automatically log player language
+      console.log("Player language:", GamePix.lang());
+
+      // Setup iframe message listener
+      window.addEventListener("message", function(event) {
+        const data = event.data;
+
+        // Auto-update score
+        if (data.type === "scoreUpdate" && typeof data.value === "number") {
+          GamePix.updateScore(data.value);
+        }
+
+        // Auto-update level
+        if (data.type === "levelUpdate" && typeof data.value === "number") {
+          GamePix.updateLevel(data.value);
+        }
+
+        // Auto-show reward ad
+        if (data.type === "rewardAd") {
+          GamePix.rewardAd().then(res => {
+            if(res.success) console.log("Reward granted!");
+            else console.log("Reward denied!");
+          }).catch(err => console.error(err));
+        }
+
+        // Auto-trigger happy moment
+        if (data.type === "happyMoment") {
+          GamePix.happyMoment();
+        }
+      });
+
+      // Inject automatic hooks into Unity WebGL
+      const unityFrame = document.getElementById("unityFrame");
+      unityFrame.onload = () => {
+        // Inject JS inside iframe to catch Unity SendMessage calls automatically
+        const script = `
+          const unityGame = window;
+          const originalSendMessage = unityGame.SendMessage;
+          unityGame.SendMessage = function(obj, method, value) {
+            originalSendMessage(obj, method, value);
+            // Convert known methods to GamePix events
+            if(method.toLowerCase().includes("score")) {
+              window.parent.postMessage({type:'scoreUpdate', value:parseInt(value)}, '*');
+            }
+            if(method.toLowerCase().includes("level")) {
+              window.parent.postMessage({type:'levelUpdate', value:parseInt(value)}, '*');
+            }
+            if(method.toLowerCase().includes("reward")) {
+              window.parent.postMessage({type:'rewardAd'}, '*');
+            }
+            if(method.toLowerCase().includes("happy")) {
+              window.parent.postMessage({type:'happyMoment'}, '*');
+            }
+          };
+        `;
+        unityFrame.contentWindow.eval(script);
+      };
+    }).catch(err => console.error("GamePix SDK failed:", err));
+  </script>
+</body>
+</html>
