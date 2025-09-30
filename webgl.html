@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ProHub - Unity WebGL + GamePix</title>
+  <title>ProHub - Struckd WebGL + GamePix</title>
   <script src="https://cdn.gamepix.com/sdk/gamepix.js"></script> <!-- GamePix SDK -->
   <style>
     html, body {
@@ -28,7 +28,7 @@
   <div id="unityContainer">
     <iframe 
       id="unityFrame"
-      src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub" 
+      src="https://zap.struckd.com/games/prohub" 
       allowfullscreen
       allow="autoplay; fullscreen"
     ></iframe>
@@ -70,7 +70,7 @@
         }
       });
 
-      // Inject automatic hooks into Unity WebGL
+      // Inject automatic hooks into Struckd WebGL
       const unityFrame = document.getElementById("unityFrame");
       unityFrame.onload = () => {
         const script = `
