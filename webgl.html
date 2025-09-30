@@ -5,8 +5,23 @@
   <title>ProHub - Unity WebGL + GamePix</title>
   <script src="https://cdn.gamepix.com/sdk/gamepix.js"></script> <!-- GamePix SDK -->
   <style>
-    body { margin: 0; background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    #unityContainer { width: 960px; height: 600px; background-color: #000; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #unityContainer {
+      width: 100vw;
+      height: 100vh;
+    }
+    #unityFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -14,9 +29,6 @@
     <iframe 
       id="unityFrame"
       src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub" 
-      width="960" 
-      height="600" 
-      frameborder="0"
       allowfullscreen
       allow="autoplay; fullscreen"
     ></iframe>
@@ -61,13 +73,11 @@
       // Inject automatic hooks into Unity WebGL
       const unityFrame = document.getElementById("unityFrame");
       unityFrame.onload = () => {
-        // Inject JS inside iframe to catch Unity SendMessage calls automatically
         const script = `
           const unityGame = window;
           const originalSendMessage = unityGame.SendMessage;
           unityGame.SendMessage = function(obj, method, value) {
             originalSendMessage(obj, method, value);
-            // Convert known methods to GamePix events
             if(method.toLowerCase().includes("score")) {
               window.parent.postMessage({type:'scoreUpdate', value:parseInt(value)}, '*');
             }
