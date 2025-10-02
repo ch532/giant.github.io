@@ -405,25 +405,6 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-  // Example: send a test ad event
-  function sendAdEvent() {
-    axios.post('http://localhost:3000/send-ad-event', {
-      eventType: 'ad_show'
-    })
-    .then(response => {
-      console.log('Server response:', response.data);
-      alert('Server response: ' + JSON.stringify(response.data));
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-
-  // Trigger test on page load or via button
-  sendAdEvent();
-</script>
 	
 	<script>
   // Detect Telegram WebView (optional)
