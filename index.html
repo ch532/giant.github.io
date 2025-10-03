@@ -405,6 +405,14 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
+	<script>
+async function fetchUnityData() {
+  const res = await fetch("https://jump-okoye-chibuike-s-projects.vercel.app/");
+  const data = await res.json();
+  console.log("Unity Ads Data:", data);
+}
+fetchUnityData();
+</script>
 	
 	<script>
   // Detect Telegram WebView (optional)
