@@ -178,6 +178,14 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 This page can be zoomed for better readability!
 </div>
 
+        <script>
+async function fetchUnityData() {
+  const res = await fetch("https://jump-okoye-chibuike-s-projects.vercel.app/");
+  const data = await res.json();
+  console.log("Unity Ads Data:", data);
+}
+fetchUnityData();
+</script>
       
       <!-- Banner Ad -->
       <script type="text/javascript">
