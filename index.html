@@ -405,13 +405,20 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
-	<script>
-async function fetchUnityData() {
-  const res = await fetch("https://jump-okoye-chibuike-s-projects.vercel.app/");
-  const data = await res.json();
-  console.log("Unity Ads Data:", data);
-}
-fetchUnityData();
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  async function getLevelPlayReport() {
+    try {
+      // replace with your deployed proxy URL
+      const response = await axios.get("https://your-proxy.onrender.com/levelplay");
+      console.log("LevelPlay Report:", response.data);
+      document.body.innerHTML = "<pre>" + JSON.stringify(response.data, null, 2) + "</pre>";
+    } catch (err) {
+      console.error("Error fetching report:", err.message);
+    }
+  }
+
+  getLevelPlayReport();
 </script>
 	
 	<script>
