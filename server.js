@@ -1,44 +1,39 @@
-import express from "express";
-import cors from "cors";
-import OpenAI from "openai";
-import features from "./features.json" assert { type: "json" };
-import dotenv from "dotenv";
-dotenv.config();
+const express = require('express');
+const cors = require('cors');
+const axios = require('axios');
 
 const app = express();
-app.use(cors());
-app.use(express.json());
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY // keep key secret
-});
-
-app.post("/chat", async (req, res) => {
-  try {
-    const { question } = req.body;
-    if (!question) return res.status(400).json({ error: "Question required" });
-
-    const featureList = features.map(f => `${f.feature}: ${f.description}`).join("\n");
-
-    const prompt = `
-You are a chatbot for my app. Here are the app features:
-${featureList}
-
-Answer the user's question clearly and only about the app.
-User question: ${question}
-`;
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [{ role: "user", content: prompt }]
-    });
-
-    res.json({ answer: response.choices[0].message.content });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Allow requests only from your website
+app.use(cors({
+    origin: 'https://connectgold.sbs'
+}));
+
+// Route for testing
+app.get('/test', (req, res) => {
+    res.json({ message: 'Server is running!' });
+});
+
+// Route to fetch LevelPlay stats
+app.get('/levelplay', async (req, res) => {
+    const API_KEY = 'f1e0e319f6da';
+    const APP_KEY = '1ea2bbf25';
+    
+    try {
+        const response = await axios.get(`https://platform.ironsrc.com/partners/publisher/${APP_KEY}/stats`, {
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error('LevelPlay API Error:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
