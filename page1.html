@@ -329,49 +329,52 @@ fetchUnityData();
 
 <script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="68d9f1f5b89f784514a22f91" async></script>
 
-	
-  <!-- Unity WebGL Game Embed -->
-  <div id="unityContainer">
-    <iframe 
-      src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub" 
-      width="100%" 
-      height="100%" 
-      allowfullscreen 
-      allow="autoplay; fullscreen">
-    </iframe>
-  </div>
-
-  <!-- Div for Applixir SDK to inject ads -->
-  <div id="some-id"></div>
-
-  <!-- Button to trigger Applixir player -->
-  <button id="start">Start Ads</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Applixir Game Integration</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 20px; /* space for other content */
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+    #game-container {
+      width: 480px; /* smaller width */
+      height: 300px; /* smaller height */
+      background-color: #111;
+      margin: 0 auto 20px auto; /* center and add margin below */
+      border: 2px solid #000;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Game container -->
+  <div id="game-container"></div>
 
   <!-- Applixir SDK -->
   <script type="text/javascript" src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
-
   <script type="text/javascript">
-    // Configure Applixir SDK
     const options = {
-      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c", // Your API key
-      injectionElementId: "some-id", // Where the ad player will be injected
+      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c",
+      injectionElementId: "game-container",
       adStatusCallbackFn: (status) => {
-        console.log("Ad status:", status.type);
-        if (status.type === "complete") {
-          console.log("Ad completed. Reward the player!");
-        }
+        console.log("Ad status:", status);
       },
       adErrorCallbackFn: (error) => {
         console.error("Ad error:", error.getError().data);
       }
     };
 
-    // Start Applixir player on button click
-    document.getElementById("start").addEventListener("click", () => {
+    window.addEventListener('load', () => {
       initializeAndOpenPlayer(options);
     });
+ 
   </script>
-
 </body>
 </html>
 	  
