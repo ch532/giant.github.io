@@ -329,79 +329,7 @@ fetchUnityData();
 
 <script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="68d9f1f5b89f784514a22f91" async></script>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unity Game + Applixir Ads</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-    #game-container {
-      margin: 20px auto;
-      width: 800px;
-      max-width: 100%;
-    }
-    iframe {
-      width: 100%;
-      height: 500px; /* not full screen */
-      border: none;
-      border-radius: 8px;
-    }
-    #playAd {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #playAd:hover {
-      background: #0056b3;
-    }
-  </style>
-</head>
-<body>
 
-  <h2>Play My Unity Game</h2>
-
-  <!-- Ad trigger button -->
-  <button id="playAd">🎥 Watch Ad & Play</button>
-
-  <!-- Unity game iframe -->
-  <div id="game-container">
-    <iframe src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub"
-            allowfullscreen>
-    </iframe>
-  </div>
-
-  <!-- Applixir SDK -->
-  <script type="text/javascript" src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
-  <script type="text/javascript">
-    const options = {
-      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c", // Your key
-      injectionElementId: "game-container",
-      adStatusCallbackFn: (status) => {
-        console.log("Ad status:", status);
-      },
-      adErrorCallbackFn: (error) => {
-        console.log("Error:", error.getError().data);
-      },
-    };
-
-    document.getElementById("playAd").addEventListener("click", () => {
-      initializeAndOpenPlayer(options);
-    });
-  </script>
-
-</body>
-</html>
 	  
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
