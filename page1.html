@@ -333,48 +333,55 @@ fetchUnityData();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Applixir Game Integration</title>
+  <title>Unity Play Game with Applixir</title>
   <style>
-    body, html {
+    body {
       margin: 0;
-      padding: 20px; /* space for other content */
-      background-color: #f0f0f0;
       font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f0f0f0;
     }
+
+    h1 {
+      margin-top: 20px;
+      text-align: center;
+    }
+
     #game-container {
-      width: 480px; /* smaller width */
-      height: 300px; /* smaller height */
-      background-color: #111;
-      margin: 0 auto 20px auto; /* center and add margin below */
-      border: 2px solid #000;
+      width: 640px;   /* Adjust the size as needed */
+      height: 360px;
+      margin: 20px 0;
+      background-color: #000;
       border-radius: 8px;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
-  
+  <h1>Play My Game</h1>
+
   <!-- Game container -->
   <div id="game-container"></div>
 
   <!-- Applixir SDK -->
-  <script type="text/javascript" src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
-  <script type="text/javascript">
+  <script src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
+  <script>
     const options = {
-      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c",
+      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c", // Your Applixir API key
       injectionElementId: "game-container",
-      adStatusCallbackFn: (status) => {
-        console.log("Ad status:", status);
-      },
-      adErrorCallbackFn: (error) => {
-        console.error("Ad error:", error.getError().data);
-      }
+      adStatusCallbackFn: (status) => console.log("Ad status:", status),
+      adErrorCallbackFn: (error) => console.error("Ad error:", error.getError().data)
     };
 
+    // Initialize the player
     window.addEventListener('load', () => {
       initializeAndOpenPlayer(options);
     });
- 
   </script>
+
+  <p>Other content can go below the game.</p>
 </body>
 </html>
 	  
