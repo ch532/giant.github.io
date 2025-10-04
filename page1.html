@@ -263,7 +263,89 @@ fetchUnityData();
             <a target="_blank" style="display:inline-block;font-size: 13px;color: #263238;padding: 4px 10px;background: #F8F8F9;text-decoration: none; border-radius: 0 0 4px 4px;" id="frame-link" href="https://aads.com/campaigns/new/?source_id=2409584&source_type=ad_unit&partner=2409584">Advertise here</a>
           </div>
         </div>
-    
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prohub - Unity WebGL Game</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      flex-direction: column;
+    }
+    #unityContainer {
+      width: 960px;
+      height: 600px;
+      max-width: 100%;
+      max-height: 80%;
+      background-color: #000;
+    }
+    #some-id {
+      display: none; /* Applixir will inject ads here */
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Unity WebGL Game Embed -->
+  <div id="unityContainer">
+    <iframe 
+      src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub" 
+      width="100%" 
+      height="100%" 
+      allowfullscreen 
+      allow="autoplay; fullscreen">
+    </iframe>
+  </div>
+
+  <!-- Div for Applixir SDK to inject ads -->
+  <div id="some-id"></div>
+
+  <!-- Button to trigger Applixir player -->
+  <button id="start">Start Ads</button>
+
+  <!-- Applixir SDK -->
+  <script type="text/javascript" src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
+
+  <script type="text/javascript">
+    // Configure Applixir SDK
+    const options = {
+      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c", // Your API key
+      injectionElementId: "some-id", // Where the ad player will be injected
+      adStatusCallbackFn: (status) => {
+        console.log("Ad status:", status.type);
+        if (status.type === "complete") {
+          console.log("Ad completed. Reward the player!");
+        }
+      },
+      adErrorCallbackFn: (error) => {
+        console.error("Ad error:", error.getError().data);
+      }
+    };
+
+    // Start Applixir player on button click
+    document.getElementById("start").addEventListener("click", () => {
+      initializeAndOpenPlayer(options);
+    });
+  </script>
+
+</body>
+</html>
+	  
 <iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/penalty-kick-wiz/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
 
 <iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/stickman-warriors-1/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
