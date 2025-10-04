@@ -992,16 +992,7 @@ map.on('click', async function(e){
 </footer>
 	
   
-  <div id="footer-placeholder"></div>
-
-<script>
-  fetch('footer.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('footer-placeholder').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading footer:', error));
-</script>
+<iframe src="footer.html" style="border:none;width:100%;height:150px;"></iframe>
 
 	
 <script type="module">
