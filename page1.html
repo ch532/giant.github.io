@@ -300,7 +300,36 @@ fetchUnityData();
   </style>
 </head>
 <body>
+	  
+<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/penalty-kick-wiz/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
 
+<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/stickman-warriors-1/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
+
+<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/cerkio/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
+
+<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/gelatino/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe><iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/gelatino/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
+
+    <div id="games-container"></div>
+<script>
+  fetch("https://gamemonetize.com/feed.php?format=0&num=20&page=1")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('games-container');
+      data.forEach(game => {
+        const gameDiv = document.createElement('div');
+        gameDiv.innerHTML = `
+          <h3>${game.title}</h3>
+          <iframe src="${game.url}" width="300" height="400"></iframe>
+        `;
+        container.appendChild(gameDiv);
+      });
+    })
+    .catch(err => console.log("Failed to load games", err));
+</script>
+
+<script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="68d9f1f5b89f784514a22f91" async></script>
+
+	
   <!-- Unity WebGL Game Embed -->
   <div id="unityContainer">
     <iframe 
@@ -345,35 +374,6 @@ fetchUnityData();
 
 </body>
 </html>
-	  
-<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/penalty-kick-wiz/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
-
-<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/stickman-warriors-1/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
-
-<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/cerkio/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
-
-<iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/gelatino/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe><iframe style="height: 320px; width: 480px;" src="https://play.gamepix.com/gelatino/embed?sid=H5845" width="480" height="320" frameborder="0" scrolling="no"></iframe>
-
-    <div id="games-container"></div>
-<script>
-  fetch("https://gamemonetize.com/feed.php?format=0&num=20&page=1")
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('games-container');
-      data.forEach(game => {
-        const gameDiv = document.createElement('div');
-        gameDiv.innerHTML = `
-          <h3>${game.title}</h3>
-          <iframe src="${game.url}" width="300" height="400"></iframe>
-        `;
-        container.appendChild(gameDiv);
-      });
-    })
-    .catch(err => console.log("Failed to load games", err));
-</script>
-
-<script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="68d9f1f5b89f784514a22f91" async></script>
-
 	  
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
