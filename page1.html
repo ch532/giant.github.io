@@ -333,55 +333,73 @@ fetchUnityData();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Unity Play Game with Applixir</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unity Game + Applixir Ads</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
-
-    h1 {
-      margin-top: 20px;
       text-align: center;
+      margin: 0;
+      padding: 20px;
     }
-
     #game-container {
-      width: 640px;   /* Adjust the size as needed */
-      height: 360px;
-      margin: 20px 0;
-      background-color: #000;
+      margin: 20px auto;
+      width: 800px;
+      max-width: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 500px; /* not full screen */
+      border: none;
       border-radius: 8px;
-      overflow: hidden;
+    }
+    #playAd {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #playAd:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
-  <h1>Play My Game</h1>
 
-  <!-- Game container -->
-  <div id="game-container"></div>
+  <h2>Play My Unity Game</h2>
+
+  <!-- Ad trigger button -->
+  <button id="playAd">🎥 Watch Ad & Play</button>
+
+  <!-- Unity game iframe -->
+  <div id="game-container">
+    <iframe src="https://play.unity.com/en/games/488f8111-944f-426a-bc3a-36dddc1e717b/prohub"
+            allowfullscreen>
+    </iframe>
+  </div>
 
   <!-- Applixir SDK -->
-  <script src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
-  <script>
+  <script type="text/javascript" src="https://cdn.applixir.com/applixir.app.v6.0.1.js"></script>
+  <script type="text/javascript">
     const options = {
-      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c", // Your Applixir API key
+      apiKey: "8988d721-fe7c-43ac-9ad6-68040b24023c", // Your key
       injectionElementId: "game-container",
-      adStatusCallbackFn: (status) => console.log("Ad status:", status),
-      adErrorCallbackFn: (error) => console.error("Ad error:", error.getError().data)
+      adStatusCallbackFn: (status) => {
+        console.log("Ad status:", status);
+      },
+      adErrorCallbackFn: (error) => {
+        console.log("Error:", error.getError().data);
+      },
     };
 
-    // Initialize the player
-    window.addEventListener('load', () => {
+    document.getElementById("playAd").addEventListener("click", () => {
       initializeAndOpenPlayer(options);
     });
   </script>
 
-  <p>Other content can go below the game.</p>
 </body>
 </html>
 	  
