@@ -1,8 +1,0 @@
-repositories {
-    flatDir {
-        dirs '.'  // This means the root folder
-    }
-}
-dependencies {
-    implementation(name: 'tapjoyconnectlibrary', ext: 'aar')
-}
