@@ -741,117 +741,49 @@ setInterval(loadBloggerPosts, 300000);
 </div>	
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Interactive Map with Street View</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-mapillary/dist/leaflet-mapillary.css"/>
-<style>
-  #map { width: 100%; height: 600px; margin: 20px 0; border: 2px solid #ccc; border-radius: 8px; }
-  #info { font-family: sans-serif; margin: 10px 0; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huawei Map - World View</title>
+    <!-- Huawei Map JS API with your key -->
+    <script src="https://mapapi.cloud.huawei.com/maps/js?key=B613A98FDA150D2E0A9A3AFD3981FA60E8D2A8BBEBC12F75C3E80E6E5673D82A"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-<h1>Interactive Map with Routing and Street View</h1>
-<p>Search, select origin/destination, see distance/time, and street-level imagery.</p>
+    <div id="map"></div>
 
-<div id="info">Origin: None | Destination: None | Distance: N/A | Time: N/A</div>
-<div id="map"></div>
+    <script>
+        function initMap() {
+            var map = new HMap.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 1
+            });
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-<script src="https://unpkg.com/leaflet-mapillary/dist/leaflet-mapillary.min.js"></script>
+            var marker = new HMap.Marker({ lat: 0, lng: 0 });
+            map.addObject(marker);
 
-<script>
-// Map setup
-const map = L.map('map', { center:[0,0], zoom:2 });
+            map.addControl(new HMap.ZoomControl());
+            map.addControl(new HMap.MapTypeControl());
+        }
 
-// Base layers
-const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'&copy; OpenStreetMap contributors' }).addTo(map);
-const satellite = L.tileLayer('https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=c7mcIDrue1F8v9qGtlXH', { attribution:'&copy; MapTiler &copy; OpenStreetMap contributors' });
-L.control.layers({ "Street": street, "Satellite": satellite }).addTo(map);
-
-// Search box
-L.Control.geocoder({ defaultMarkGeocode: false })
-  .on('markgeocode', function(e) {
-    map.setView(e.geocode.center, 12);
-    L.marker(e.geocode.center).addTo(map).bindPopup(e.geocode.name).openPopup();
-  }).addTo(map);
-
-// Pin your location
-const myLat = 8.9951, myLng = 7.6122;
-L.marker([myLat,myLng]).addTo(map).bindPopup("Near Beulah International School, Kurudu").openPopup();
-
-// Routing setup
-let origin=null, destination=null, routeLayer=null;
-const info = document.getElementById('info');
-const orsKey = '5b3ce3597851110001cf6248967cba1f92a648bbb09541a2e4ba7ff2';
-
-// Mapillary integration
-const mlyToken = 'MLY|24671506535785368|bbe0af716d1a2fe323f34b8e893e310a';
-const mly = new Mapillary.Viewer(
-  'mapillary',
-  mlyToken,
-  null,
-  { component: { cover: false } }
-);
-
-// Add Mapillary container
-const mapillaryContainer = document.createElement('div');
-mapillaryContainer.id = 'mapillary';
-mapillaryContainer.style.cssText = 'width:100%; height:400px; margin-top:10px; border:2px solid #ccc; border-radius:8px;';
-document.body.appendChild(mapillaryContainer);
-
-// Click to select origin/destination and show route
-map.on('click', async function(e){
-  if(!origin){
-    origin = e.latlng;
-    L.marker(origin).addTo(map).bindPopup("Origin").openPopup();
-    info.textContent = `Origin: ${origin.lat.toFixed(5)}, ${origin.lng.toFixed(5)} | Destination: None | Distance: N/A | Time: N/A`;
-  } else if(!destination){
-    destination = e.latlng;
-    L.marker(destination).addTo(map).bindPopup("Destination").openPopup();
-    
-    // Fetch route from OpenRouteService
-    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${orsKey}&start=${origin.lng},${origin.lat}&end=${destination.lng},${destination.lat}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const coords = data.features[0].geometry.coordinates.map(c => [c[1], c[0]]);
-    const distance = (data.features[0].properties.summary.distance/1000).toFixed(2);
-    const duration = (data.features[0].properties.summary.duration/60).toFixed(1);
-
-    // Remove old route
-    if(routeLayer) map.removeLayer(routeLayer);
-
-    // Draw route
-    routeLayer = L.polyline(coords, {color:'blue', weight:4, opacity:0.7}).addTo(map);
-    map.fitBounds(routeLayer.getBounds());
-    
-    info.textContent = `Origin: ${origin.lat.toFixed(5)}, ${origin.lng.toFixed(5)} | Destination: ${destination.lat.toFixed(5)}, ${destination.lng.toFixed(5)} | Distance: ${distance} km | Time: ${duration} min`;
-
-    // Show Mapillary street view at destination if available
-    const mlyUrl = `https://a.mapillary.com/v3/images?client_id=${mlyToken}&closeto=${destination.lng},${destination.lat}&limit=1`;
-    const mlyRes = await fetch(mlyUrl);
-    const mlyData = await mlyRes.json();
-    if(mlyData.features && mlyData.features.length > 0){
-      const imageKey = mlyData.features[0].properties.key;
-      mly.moveTo(imageKey).catch(()=>console.log("No street image available here."));
-    }
-  } else {
-    // Reset for new route
-    origin = e.latlng; destination = null;
-    if(routeLayer) map.removeLayer(routeLayer);
-    map.eachLayer(layer => { if(layer instanceof L.Marker && layer.getLatLng().lat !== myLat) map.removeLayer(layer); });
-    L.marker(origin).addTo(map).bindPopup("Origin").openPopup();
-    info.textContent = `Origin: ${origin.lat.toFixed(5)}, ${origin.lng.toFixed(5)} | Destination: None | Distance: N/A | Time: N/A`;
-  }
-});
-</script>
+        window.onload = initMap;
+    </script>
 </body>
 </html>
+
 
 <div style="
     background: #f9f9f9; 
