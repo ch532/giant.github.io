@@ -660,105 +660,13 @@ setInterval(loadBloggerPosts, 300000);
   <h1>Latest Google News</h1>
   <div id="news-feed"></div>
 
-  <script>
-    // ✅ Multiple Google News RSS feeds
-    const feedUrls = [
-      "https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNRFZqWjNZU0JXVnVMVWRDS0FBUAE?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx6TVdZU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNREpxYW5RU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en",
-      "https://news.google.com/rss/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRFp1ZEdvU0JXVnVMVWRDR2dKT1J5Z0FQAQ?hl=en-NG&gl=NG&ceid=NG:en"
-    ];
-
-    const maxItems = 15;
-
-    // Fetch one RSS feed
-    async function fetchFeed(rssUrl) {
-      const response = await fetch(
-        "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(rssUrl)
-      );
-      const json = await response.json();
-      return json.items || [];
-    }
-
-    // Load + render
-    async function loadCombinedNews() {
-      let allItems = [];
-      for (const url of feedUrls) {
-        try {
-          const items = await fetchFeed(url);
-          allItems = allItems.concat(items);
-        } catch (e) {
-          console.warn("Feed failed:", url, e);
-        }
-      }
-
-      // Sort by date (newest first)
-      allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-      // Keep top 15
-      allItems = allItems.slice(0, maxItems);
-
-      const feedContainer = document.getElementById("news-feed");
-
-      allItems.forEach((item) => {
-        const newsDiv = document.createElement("div");
-        newsDiv.className = "news-item";
-        newsDiv.innerHTML = `
-          <a href="${item.link}" target="_blank">${item.title}</a>
-          <small>${new Date(item.pubDate).toLocaleDateString()} — ${item.author || "Google News"}</small>
-        `;
-        feedContainer.appendChild(newsDiv);
-      });
-    }
-
-    window.addEventListener("DOMContentLoaded", loadCombinedNews);
-  </script>
-</body>
-</html>
-    
   
+    
+  <rssapp-wall id="kWhcjPC46POsoAdz"></rssapp-wall><script src="https://widget.rss.app/v1/wall.js" type="text/javascript" async></script>
 
 	
-<!-- RSS Feed (Latest News, Entertainment, Music) -->
-<div id="rss-feed">
-  <script type="text/javascript">
-    rssfeed_url = [
-      "https://www.lindaikejisblog.com/rss.xml",  // General Nigerian entertainment
-      "https://www.pulse.ng/news/rss",            // Naija news
-      "https://www.pulse.ng/entertainment/rss",   // Entertainment
-      "https://thenet.ng/feed",                   // Music & culture
-    ];
-    rssfeed_frame_width = "100%";
-    rssfeed_frame_height = "400";
-    rssfeed_scroll = "on";
-    rssfeed_scroll_step = "6";
-    rssfeed_scroll_bar = "off";
-    rssfeed_target = "_blank";
-    rssfeed_font_size = "14";
-    rssfeed_font_face = "";
-    rssfeed_border = "on";
-    rssfeed_css_url = "";
-    rssfeed_title = "on";
-    rssfeed_title_name = "🔥 Latest News, Entertainment, Sports & Music";
-    rssfeed_title_bgcolor = "#3366ff";
-    rssfeed_title_color = "#ffffff";
-    rssfeed_item_title_length = "60";
-    rssfeed_item_title_color = "#000000";
-    rssfeed_item_bgcolor = "#ffffff";
-    rssfeed_item_border_bottom = "on";
-    rssfeed_item_source_icon = "on";
-    rssfeed_item_date = "on";
-    rssfeed_item_description = "on";
-    rssfeed_item_description_length = "120";
-    rssfeed_item_description_color = "#333333";
-    rssfeed_item_description_link_color = "#0066cc";
-    rssfeed_item_description_tag = "off";
-    rssfeed_no_items = "0";
-    rssfeed_cache = "46390f905ca932d52bd761e9c7aeb251";
-  </script>
-  <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
-</div>	
+
+
 
 <!DOCTYPE html>
 <html>
