@@ -740,49 +740,126 @@ setInterval(loadBloggerPosts, 300000);
   <script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
 </div>	
 
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huawei Map - World View</title>
-    <!-- Huawei Map JS API with your key -->
-    <script src="https://mapapi.cloud.huawei.com/maps/js?key=B613A98FDA150D2E0A9A3AFD3981FA60E8D2A8BBEBC12F75C3E80E6E5673D82A&signature=fsdfyA5TA8OUeZYdrvW-ryhlvBu0Mz8vpnKcwARgxxk="></script>
-	<style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        #map {
-            width: 100%;
-            height: 100%;
-        }
+    <meta charset="utf-8">
+    <title>Petal Maps Advanced</title>
+    <script src="https://mapapi.cloud.huawei.com/map/js?key=B613A98FDA150D2E0A9A3AFD3981FA60E8D2A8BBEBC12F75C3E80E6E5673D82A&signature=fsdfyA5TA8OUeZYdrvW-ryhlvBu0Mz8vpnKcwARgxxk="></script>
+    <style>
+        /* Reset margin and padding for full-width layout */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Map container */
+#map {
+    width: 100%;      /* full width of container */
+    height: 400px;    /* adjust height to fit your page layout */
+}
+
+/* Control panel over the map */
+#control-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+#control-panel button {
+    display: block;
+    margin: 5px 0;
+    width: 120px;
+}
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <div id="control-panel">
+        <button onclick="setMapType('normal')">Normal</button>
+        <button onclick="setMapType('satellite')">Satellite</button>
+        <button onclick="setMapType('terrain')">Terrain</button>
+        <button onclick="setMapType('hybrid')">Hybrid</button>
+        <button onclick="toggleTraffic()">Toggle Traffic</button>
+        <button onclick="zoomIn()">Zoom In</button>
+        <button onclick="zoomOut()">Zoom Out</button>
+    </div>
 
     <script>
-        function initMap() {
-            var map = new HMap.Map(document.getElementById('map'), {
-                center: { lat: 0, lng: 0 },
-                zoom: 1
-            });
+        // Initialize map
+        var map = new H.map.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 5,
+            mapTypeId: 'normal'
+        });
 
-            var marker = new HMap.Marker({ lat: 0, lng: 0 });
-            map.addObject(marker);
+        var trafficLayer = null;
 
-            map.addControl(new HMap.ZoomControl());
-            map.addControl(new HMap.MapTypeControl());
+        // Map type switch function
+        function setMapType(type) {
+            map.setMapTypeId(type);
         }
 
-        window.onload = initMap;
+        // Traffic toggle
+        function toggleTraffic() {
+            if (!trafficLayer) {
+                trafficLayer = new H.map.layer.Traffic();
+                map.addLayer(trafficLayer);
+            } else {
+                map.removeLayer(trafficLayer);
+                trafficLayer = null;
+            }
+        }
+
+        // Zoom functions
+        function zoomIn() {
+            map.setZoom(map.getZoom() + 1);
+        }
+        function zoomOut() {
+            map.setZoom(map.getZoom() - 1);
+        }
+
+        // User location
+        var userMarker = null;
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(function(position){
+                var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+                if (!userMarker) {
+                    userMarker = new H.map.Marker(pos);
+                    map.addObject(userMarker);
+                } else {
+                    userMarker.setGeometry(pos);
+                }
+                map.setCenter(pos);
+            }, function(error){
+                console.log("Geolocation error:", error);
+            }, {enableHighAccuracy: true, maximumAge: 0});
+        }
+
+        // Example POI marker
+        var poi = new H.map.Marker({lat: 1.3521, lng: 103.8198}); // Singapore as example
+        map.addObject(poi);
+
+        // Example static route (Polyline)
+        var routeCoordinates = [
+            {lat: 0, lng: 0},
+            {lat: 1, lng: 1},
+            {lat: 2, lng: 0.5}
+        ];
+        var routeLine = new H.map.Polyline(routeCoordinates, {
+            style: {strokeColor: 'blue', lineWidth: 4}
+        });
+        map.addObject(routeLine);
     </script>
 </body>
 </html>
+
 
 
 <div style="
