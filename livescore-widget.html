@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Connect Gold — Live Football Center (Pro)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070707; --card:#0f0f0f; --accent:#ffd54a; --muted:#cfcfcf; --green:#00ff6a;
+  }
+  body{margin:0;font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--bg);color:#fff}
+  .wrapper{max-width:1100px;margin:18px auto;padding:12px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px}
+  header h1{margin:0;color:var(--accent);font-size:20px}
+  .top-controls{display:flex;gap:8px;align-items:center}
+  .select, .btn, .toggle{background:var(--card);border:1px solid rgba(255,255,255,0.04);color:#fff;padding:8px 10px;border-radius:8px}
+  .btn{cursor:pointer;font-weight:700}
+  nav{display:flex;gap:8px;padding:10px 12px}
+  .tab{padding:8px 14px;border-radius:8px;background:transparent;border:1px solid transparent;color:#fff;cursor:pointer}
+  .tab.active{background:linear-gradient(90deg,#ffd54a22,#ffd54a11);color:var(--accent);border-color:rgba(255,213,74,0.12)}
+  #ads-top,#ads-bottom{text-align:center;margin:12px 0}
+  main{background:linear-gradient(180deg,#0c0c0c,#0b0b0b);border-radius:12px;padding:12px;border:1px solid rgba(255,215,74,0.04)}
+  #list{display:grid;gap:12px}
+  @media(min-width:720px){#list{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1024px){#list{grid-template-columns:repeat(3,1fr)}}
+  .match{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  .teams{display:flex;justify-content:space-between;align-items:center;font-weight:700}
+  .score{font-size:18px;color:var(--green);text-align:center;margin-top:6px;font-weight:800}
+  .meta{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+  .empty{padding:30px;text-align:center;color:var(--muted)}
+  .controls-row{display:flex;gap:8px;align-items:center;margin-left:8px}
+  .small{font-size:13px;padding:6px 8px}
+  .voice-panel{display:flex;gap:8px;align-items:center}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <h1>⚽ Connect Gold — Live Football (Pro)</h1>
+    <div class="top-controls">
+      <div style="font-size:13px;color:var(--muted)">Updated: <span id="updated">—</span></div>
+
+      <div class="controls-row" style="margin-left:12px">
+        <label for="leagueSelect" style="font-size:13px;color:var(--muted);margin-right:6px">League:</label>
+        <select id="leagueSelect" class="select small">
+          <option value="__all__">All leagues</option>
+        </select>
+      </div>
+
+      <div class="voice-panel" style="margin-left:12px">
+        <label style="font-size:13px;color:var(--muted);margin-right:6px">Voice:</label>
+        <button id="voiceToggle" class="btn small">Enable</button>
+        <label style="font-size:13px;color:var(--muted);margin-left:6px">Rate</label>
+        <input id="voiceRate" type="range" min="0.6" max="1.6" step="0.1" value="1" style="width:90px" />
+      </div>
+    </div>
+  </header>
+
+  <div id="ads-top">
+    <!-- Adsterra 300x250 -->
+    <script type="text/javascript">
+      atOptions = { 'key' : '3a61eeaaf59e665f414dccca2067e354', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/3a61eeaaf59e665f414dccca2067e354/invoke.js"></script>
+  </div>
+
+  <nav>
+    <button class="tab active" data-tab="live">Live</button>
+    <button class="tab" data-tab="fixtures">Fixtures</button>
+    <button class="tab" data-tab="standings">Standings</button>
+  </nav>
+
+  <main>
+    <div id="list" aria-live="polite">
+      <div class="empty">Loading matches…</div>
+    </div>
+  </main>
+
+  <div id="ads-bottom" style="margin-top:12px">
+    <div data-mndbanid="adf90fb2-a4a6-40b0-879d-da1644cd26a5"></div>
+    <script src="https://cdn.mondiad.net/js/ad.js"></script>
+  </div>
+
+</div>
+
+<script>
+/* ================= CONFIG ================== */
+const LIVE_KEY = "Je5qRMFd2YvzktsR";
+const LIVE_SECRET = "drYxGBGhikZMokW8z1yqNeDQd8pyCSpQ";
+const LIVE_REFRESH = 30000; // 30s
+const listEl = document.getElementById('list');
+const updatedEl = document.getElementById('updated');
+const leagueSelect = document.getElementById('leagueSelect');
+const tabs = document.querySelectorAll('.tab');
+let activeTab = 'live';
+
+/* ================ VOICE ==================== */
+let voiceEnabled = false;
+const voiceToggle = document.getElementById('voiceToggle');
+const voiceRateEl = document.getElementById('voiceRate');
+voiceToggle.addEventListener('click', ()=> {
+  voiceEnabled = !voiceEnabled;
+  voiceToggle.textContent = voiceEnabled ? 'Disable' : 'Enable';
+});
+
+/* ============== MATCH TRACKING ============= */
+// track previous scores to detect goals
+const prevScores = new Map(); // key: match_id (or concatenation), value: {home: n, away: n}
+
+// helper
+function nowStr(){ const d=new Date(); return d.toLocaleTimeString(); }
+function safeText(s){ return s ? String(s) : ''; }
+
+/* ============== TAB HANDLING =============== */
+tabs.forEach(t=>t.addEventListener('click', ()=>{
+  tabs.forEach(x=>x.classList.toggle('active', x===t));
+  activeTab = t.dataset.tab;
+  loadCurrentTab();
+}));
+
+leagueSelect.addEventListener('change', ()=> loadCurrentTab());
+
+/* ============== FETCH HELPERS ============== */
+async function fetchJson(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error('Network error');
+  return r.json();
+}
+
+function liveUrl(){ return `https://livescore-api.com/api-client/scores/live.json?key=${LIVE_KEY}&secret=${LIVE_SECRET}`; }
+function fixturesUrl(){ return `https://livescore-api.com/api-client/fixtures/matches.json?key=${LIVE_KEY}&secret=${LIVE_SECRET}&date=today`; }
+function standingsUrl(compId=2){ return `https://livescore-api.com/api-client/leagues/table.json?key=${LIVE_KEY}&secret=${LIVE_SECRET}&competition_id=${compId}`; }
+
+/* ============== RENDER HELPERS ============== */
+function renderMatches(matches){
+  // filter by league selection
+  const league = leagueSelect.value;
+  const filtered = (league === '__all__') ? matches : matches.filter(m => getCompetitionId(m) == league);
+  if(!filtered || filtered.length===0){
+    listEl.innerHTML = `<div class="empty">No matches found.</div>`;
+    return;
+  }
+  // build HTML
+  listEl.innerHTML = filtered.map(m => matchHtml(m)).join('');
+}
+
+function matchHtml(m){
+  const home = safeText(m.home_name || m.home);
+  const away = safeText(m.away_name || m.away);
+  const comp = (m.competition && (m.competition.name || m.competition)) || m.competition_name || '';
+  // attempt to get scores from various fields
+  let homeScore = "", awayScore = "";
+  if(m.scores){
+    homeScore = m.scores.ft_home ?? m.scores.home ?? "";
+    awayScore = m.scores.ft_away ?? m.scores.away ?? "";
+  } else if(m.score){
+    const parts = String(m.score).split('-'); homeScore = parts[0]??""; awayScore = parts[1]??"";
+  }
+  // time / status
+  const status = safeText(m.status || m.time || '');
+  // match unique id
+  const id = getMatchId(m);
+  // update prevScores if not present
+  if(!prevScores.has(id)) prevScores.set(id, {home: parseIntOrZero(homeScore), away: parseIntOrZero(awayScore)});
+  return `
+    <article class="match" data-id="${id}">
+      <div class="teams">
+        <div class="team">${escapeHtml(home)}</div>
+        <div class="team">${escapeHtml(away)}</div>
+      </div>
+      <div class="score">${(homeScore!==""?homeScore:"-")} — ${(awayScore!==""?awayScore:"-")}</div>
+      <div class="meta">${escapeHtml(status)} ${comp ? ' | ' + escapeHtml(comp) : ''}</div>
+    </article>
+  `;
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+function parseIntOrZero(v){ const n = parseInt(v); return isNaN(n)?0:n; }
+
+function getMatchId(m){
+  // prefer an id field, otherwise compose from teams+time
+  return m.id ?? m.match_id ?? `${m.home_name||m.home}-${m.away_name||m.away}-${m.time||''}`;
+}
+function getCompetitionId(m){
+  // competition may be object or id field
+  if(m.competition && (m.competition.id || m.competition.name)) return m.competition.id ?? m.competition.name;
+  if(m.competition_id) return m.competition_id;
+  if(m.competition_name) return m.competition_name;
+  return 'unknown';
+}
+
+/* ============== GOAL DETECTION & VOICE ============== */
+function checkForGoals(matches){
+  // iterate matches and compare prevScores map
+  matches.forEach(m=>{
+    const id = getMatchId(m);
+    let prev = prevScores.get(id) || {home:0,away:0};
+    let homeNow = 0, awayNow = 0;
+    if(m.scores){
+      homeNow = parseIntOrZero(m.scores.ft_home ?? m.scores.home);
+      awayNow = parseIntOrZero(m.scores.ft_away ?? m.scores.away);
+    } else if(m.score){
+      const p = String(m.score).split('-'); homeNow = parseIntOrZero(p[0]); awayNow = parseIntOrZero(p[1]);
+    }
+    // goal detection
+    if(homeNow > prev.home || awayNow > prev.away){
+      // announce what changed
+      const homeTeam = safeText(m.home_name || m.home);
+      const awayTeam = safeText(m.away_name || m.away);
+      const scorer = (homeNow > prev.home) ? homeTeam : awayTeam;
+      const message = `Goal! ${scorer} ${homeNow} to ${awayNow}.`;
+      if(voiceEnabled && 'speechSynthesis' in window){
+        speak(message);
+      }
+      // update prev
+      prevScores.set(id, {home:homeNow, away:awayNow});
+      // update the UI score cell for that match
+      const el = document.querySelector(`.match[data-id="${cssEscape(id)}"] .score`);
+      if(el) el.textContent = `${homeNow} — ${awayNow}`;
+    }
+  });
+}
+
+// simple speak wrapper
+function speak(text){
+  try{
+    const utter = new SpeechSynthesisUtterance(text);
+    const rate = parseFloat(voiceRateEl.value) || 1.0;
+    utter.rate = rate;
+    // pick a voice if available (prefer English)
+    const voices = speechSynthesis.getVoices ? speechSynthesis.getVoices() : [];
+    if(voices.length){
+      const v = voices.find(x=>/en|English/i.test(x.lang)) || voices[0];
+      if(v) utter.voice = v;
+    }
+    speechSynthesis.speak(utter);
+  }catch(e){
+    console.warn('TTS error', e);
+  }
+}
+
+// helper to escape match id for querySelector (CSS)
+function cssEscape(s){ return CSS && CSS.escape ? CSS.escape(s) : s.replace(/([#;,.?+*~\':"!^$[\]()=>|\/@])/g,'\\$1'); }
+
+/* ============== LEAGUE POPULATION ============== */
+function populateLeagueSelectFromMatches(matches){
+  // build map of compId->name
+  const map = new Map();
+  matches.forEach(m=>{
+    const comp = (m.competition && (m.competition.id || m.competition.name)) || m.competition_id || m.competition_name;
+    const compName = (m.competition && (m.competition.name || m.competition)) || m.competition_name || 'Unknown';
+    if(comp) map.set(String(comp), compName);
+  });
+  // clear preserve All option
+  const current = leagueSelect.value || '__all__';
+  leagueSelect.innerHTML = '<option value="__all__">All leagues</option>';
+  map.forEach((name,id)=>{
+    const opt = document.createElement('option');
+    opt.value = id; opt.textContent = name;
+    leagueSelect.appendChild(opt);
+  });
+  leagueSelect.value = current;
+}
+
+/* ============== LOADERS FOR TABS ============== */
+let liveInterval = null;
+
+async function loadLive(){
+  try{
+    updatedEl.textContent = 'Loading...';
+    const json = await fetchJson(liveUrl());
+    const matches = json?.data?.match || [];
+    if(matches.length === 0){
+      listEl.innerHTML = '<div class="empty">No live matches now.</div>';
+    } else {
+      // populate leagues
+      populateLeagueSelectFromMatches(matches);
+      renderMatchesAndDetect(matches);
+    }
+    updatedEl.textContent = nowStr();
+  }catch(err){
+    console.error('Live load error', err);
+    listEl.innerHTML = '<div class="empty">Unable to load live matches.</div>';
+    updatedEl.textContent = nowStr();
+  }
+}
+
+async function loadFixtures(){
+  try{
+    updatedEl.textContent = 'Loading...';
+    const json = await fetchJson(fixturesUrl());
+    const matches = json?.data?.fixtures || json?.data?.match || [];
+    if(matches.length === 0) listEl.innerHTML = '<div class="empty">No fixtures found for today.</div>';
+    else{
+      populateLeagueSelectFromMatches(matches);
+      renderMatches(matches);
+    }
+    updatedEl.textContent = nowStr();
+  }catch(err){
+    console.error('Fixtures load error', err);
+    listEl.innerHTML = '<div class="empty">Unable to load fixtures.</div>';
+    updatedEl.textContent = nowStr();
+  }
+}
+
+async function loadStandings(){
+  try{
+    updatedEl.textContent = 'Loading...';
+    // default competition id: try to use selected league if available
+    let compId = leagueSelect.value && leagueSelect.value !== '__all__' ? leagueSelect.value : 2;
+    const json = await fetchJson(standingsUrl(compId));
+    const rows = json?.data?.table || [];
+    if(!rows.length) listEl.innerHTML = '<div class="empty">No standings available.</div>';
+    else{
+      // render table
+      const table = document.createElement('table');
+      table.style.width='100%'; table.style.borderCollapse='collapse';
+      let header = `<tr style="background:${'var(--accent)'};color:#000"><th>Pos</th><th>Team</th><th>Pts</th><th>W</th><th>D</th><th>L</th></tr>`;
+      table.innerHTML = header;
+      rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.rank}</td><td>${escapeHtml(r.name)}</td><td>${r.points}</td><td>${r.won||r.w}</td><td>${r.drawn||r.d}</td><td>${r.lost||r.l}</td>`;
+        table.appendChild(tr);
+      });
+      listEl.innerHTML = '';
+      listEl.appendChild(table);
+    }
+    updatedEl.textContent = nowStr();
+  }catch(err){
+    console.error('Standings load error', err);
+    listEl.innerHTML = '<div class="empty">Unable to load standings.</div>';
+    updatedEl.textContent = nowStr();
+  }
+}
+
+function renderMatchesAndDetect(matches){
+  // render then detect goals
+  renderMatches(matches);
+  // detect goals with the (filtered list)
+  const league = leagueSelect.value;
+  const filtered = (league === '__all__') ? matches : matches.filter(m => String(getCompetitionId(m)) == String(league));
+  checkForGoals(filtered);
+}
+
+/* ============== PERIODIC REFRESH ============== */
+function loadCurrentTab(){
+  if(liveInterval){ clearInterval(liveInterval); liveInterval=null; }
+  if(activeTab === 'live'){
+    loadLive();
+    liveInterval = setInterval(loadLive, LIVE_REFRESH);
+  } else if(activeTab === 'fixtures'){
+    loadFixtures();
+  } else {
+    loadStandings();
+  }
+}
+loadCurrentTab();
+
+/* ============== INITIAL VOICE VOICES (warm up) ============== */
+if('speechSynthesis' in window){
+  // warm voice list (some browsers load voices asynchronously)
+  speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = ()=> speechSynthesis.getVoices();
+}
+
+/* ============== USAGE NOTE ============== */
+console.info('Connect Gold LiveScore Pro widget loaded. For production hide API secret: use server-side proxy.');
+
+/* ============== END ============== */
+</script>
+</body>
+</html>
