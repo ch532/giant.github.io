@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Football Scores | Connect Gold</title>
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    margin: 0;
+    padding: 10px;
+  }
+  h2 {
+    text-align: center;
+    color: #ffd700;
+  }
+  .match {
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+  .teams {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .score {
+    text-align: center;
+    font-size: 18px;
+    color: #00ff6a;
+    margin-top: 5px;
+  }
+  iframe, .ad-banner {
+    display: block;
+    margin: 15px auto;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h2>⚽ Live Football Scores</h2>
+
+<!-- Adsterra Banner -->
+<div class="ad-banner">
+<script type="text/javascript">
+  atOptions = {
+    'key' : '3a61eeaaf59e665f414dccca2067e354',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/3a61eeaaf59e665f414dccca2067e354/invoke.js"></script>
+</div>
+
+<div id="scores"></div>
+
+<!-- Mondiad Ad -->
+<div class="ad-banner">
+  <div data-mndbanid="adf90fb2-a4a6-40b0-879d-da1644cd26a5"></div>
+  <script src="https://cdn.mondiad.net/js/ad.js"></script>
+</div>
+
+<script>
+const apiKey = "Je5qRMFd2YvzktsR";
+const apiSecret = "drYxGBGhikZMokW8z1yqNeDQd8pyCSpQ";
+
+async function loadScores() {
+  const url = "https://livescore-api.com/api-client/scores/live.json?key=" + apiKey + "&secret=" + apiSecret;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const matches = data?.data?.match || [];
+    const container = document.getElementById("scores");
+    container.innerHTML = "";
+
+    if (matches.length === 0) {
+      container.innerHTML = "<p>No live matches at the moment.</p>";
+      return;
+    }
+
+    matches.forEach(match => {
+      const div = document.createElement("div");
+      div.className = "match";
+      div.innerHTML = `
+        <div class="teams">
+          <span>${match.home_name}</span>
+          <span>${match.away_name}</span>
+        </div>
+        <div class="score">${match.scores?.ft_home || 0} - ${match.scores?.ft_away || 0}</div>
+        <div style="text-align:center; font-size:13px; color:#ccc;">${match.time}′ | ${match.competition?.name || "Match"}</div>
+      `;
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error("Error loading scores:", err);
+  }
+}
+
+loadScores();
+setInterval(loadScores, 60000); // refresh every 1 minute
+</script>
+</body>
+</html>
