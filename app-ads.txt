@@ -1,6 +1,13 @@
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 
+vungle.com, 688792805f7b35e31f065b22, DIRECT
+
+pangle.com, 8720535, DIRECT
+
+# Meta Audience Network
+facebook.com, 3684282048369714, DIRECT
+
 unity.com, 8084244, DIRECT, 96cabb5fbdde37a7
 
 richaudience.com, q3KyMB36ue, RESELLER
