@@ -1,6 +1,11 @@
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 
+video.unrulymedia.com, 657436911, RESELLER
+indexexchange.com, 214183, RESELLER, 50b1c356f2c5c8fc
+outbrain.com, 0073fa86cff719c752763d2c3ee52c8f00, RESELLER
+themediagrid.com, NC7LXT, RESELLER, 35d5010d7789b49d
+
 vungle.com, 688792805f7b35e31f065b22, DIRECT
 
 pangle.com, 8720535, DIRECT
