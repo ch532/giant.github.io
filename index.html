@@ -440,6 +440,66 @@ p {
 
   getLevelPlayReport();
 </script>
+
+<!-- InMobi SDK Script -->
+<script src="https://scripts.inmobi.com/sdk/mediation/web/1.0/inmobi.js"></script>
+
+<script>
+  // Initialize InMobi with your website key
+  InMobi.init({
+    accountId: '10000074211'
+  });
+
+  // BANNER AD
+  InMobi.createAd({
+    placementId: '10000417605', // Banner Placement ID
+    containerId: 'inmobi-banner',
+    adSize: '320x50', // Adjust size as needed
+    onAdLoad: function() {
+      console.log('Banner ad loaded');
+    },
+    onAdClick: function() {
+      console.log('Banner ad clicked');
+    }
+  });
+
+  // VIDEO (VAST) AD
+  InMobi.createAd({
+    placementId: '10000417606', // Video Placement ID
+    containerId: 'inmobi-video',
+    adType: 'video',
+    onAdLoad: function() {
+      console.log('Video ad loaded');
+    },
+    onAdComplete: function() {
+      console.log('Video ad completed');
+    }
+  });
+
+  // NATIVE AD
+  InMobi.createAd({
+    placementId: '10000417607', // Native Placement ID
+    containerId: 'inmobi-native',
+    adType: 'native',
+    onAdLoad: function(adData) {
+      console.log('Native ad loaded', adData);
+      // Example: inject native ad into container
+      const container = document.getElementById('inmobi-native');
+      container.innerHTML = `
+        <div style="border:1px solid #ccc;padding:10px;">
+          <h4>${adData.title}</h4>
+          <p>${adData.description}</p>
+          <img src="${adData.iconUrl}" alt="Ad Icon" style="width:50px;height:50px;">
+        </div>
+      `;
+    }
+  });
+</script>
+
+<!-- Ad containers -->
+<div id="inmobi-banner"></div>
+<div id="inmobi-video"></div>
+<div id="inmobi-native"></div>
 	
 	<script>
   // Detect Telegram WebView (optional)
