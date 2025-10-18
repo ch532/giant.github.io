@@ -11,33 +11,34 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="styles.css" />
 <!-- InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.2) -->
-<script type="text/javascript" async=true>
+<script type="text/javascript" async>
 (function() {
     var host = window.location.hostname;
     var element = document.createElement('script');
     var firstScript = document.getElementsByTagName('script')[0];
-    var url = 'https://cmp.inmobi.com'
-        .concat('/choice/', 'tVZtC4A8fAP1L', '/', host, '/choice.js?tag_version=V3');
-    var uspTries = 0;
-    var uspTriesLimit = 3;
+    var url = 'https://cmp.inmobi.com/choice/tVZtC4A8fAP1L/' + host + '/choice.js?tag_version=V3';
+
     element.async = true;
     element.type = 'text/javascript';
     element.src = url;
-
     firstScript.parentNode.insertBefore(element, firstScript);
 
-    function makeStub() {
-        var TCF_LOCATOR_NAME = '__tcfapiLocator';
-        var queue = [];
-        var win = window;
-        var cmpFrame;
+    // TCF 2.2 Stub for scripts that query consent before CMP loads
+    var TCF_LOCATOR_NAME = '__tcfapiLocator';
+    if (!window.__tcfapi) {
+        var __tcfapiQueue = [];
+        window.__tcfapi = function() {
+            var args = arguments;
+            if (args.length === 0) return;
+            __tcfapiQueue.push(args);
+        };
+        window.__tcfapiQueue = __tcfapiQueue;
 
-        function addFrame() {
-            var doc = win.document;
-            var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
-            // Additional CMP logic can be here
-        }
-        // Additional stub functions can be added here if needed
+        // Create a hidden iframe for CMP locator
+        var cmpFrame = document.createElement('iframe');
+        cmpFrame.style.display = 'none';
+        cmpFrame.name = TCF_LOCATOR_NAME;
+        document.body.appendChild(cmpFrame);
     }
 })();
 </script>
