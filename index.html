@@ -703,64 +703,6 @@ function googleTranslateElementInit() {
 }
 </style>
   
-
-<div id="mtn-top-banner">
-    <img src="mtn.jpeg" alt="MTN Logo" style="height: 30px;"> 📱 <strong>MTN Nigeria Special:</strong> Download the official MTN App
-    <a href="https://www.gravelroat.info/click?offer_id=33442&pub_id=272732&pub_click_id=MTN_app&site=connectgold.sbs" target="_blank">Get Started</a>
-  </div>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Google News Feed</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:20px; }
-    h1 { text-align:center; margin-bottom:30px; }
-    #news-feed { max-width:800px; margin:0 auto; }
-    .news-item { background:#fff; padding:12px; margin-bottom:10px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
-    .news-item a { text-decoration:none; color:#1a0dab; font-weight:600; }
-    .news-item small { display:block; margin-top:6px; font-size:0.8rem; color:#555; }
-  </style>
-</head>
-<body>
-
-<div id="blog-posts"></div>
-
-<script>
-const feedUrl = 'https://skyl.name.ng/feeds/posts/default?alt=json-in-script';
-const container = document.getElementById('blog-posts');
-
-// Function to fetch and display posts
-function loadBloggerPosts() {
-  fetch(feedUrl)
-    .then(response => response.text())
-    .then(data => {
-      // JSONP cleanup
-      const jsonData = JSON.parse(data.replace(/.*?\((.*)\);?$/, '$1'));
-      const entries = jsonData.feed.entry || [];
-      let html = '';
-      entries.forEach(entry => {
-        const title = entry.title.$t;
-        const link = entry.link.find(l => l.rel === 'alternate').href;
-        html += `<p><a href="${link}" target="_blank">${title}</a></p>`;
-      });
-      container.innerHTML = html;
-    })
-    .catch(err => console.error('Error loading posts:', err));
-}
-
-// Initial load
-loadBloggerPosts();
-
-// Auto-refresh every 5 minutes (300000 ms)
-setInterval(loadBloggerPosts, 300000);
-</script>
-	
-  <h1>Latest Google News</h1>
-  <div id="news-feed"></div>
-
   
     
   <!DOCTYPE html>
