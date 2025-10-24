@@ -779,48 +779,6 @@ html, body {
 
         // Zoom functions
         function zoomIn() {
-            map.setZoom(map.getZoom() + 1);
-        }
-        function zoomOut() {
-            map.setZoom(map.getZoom() - 1);
-        }
-
-        // User location
-        var userMarker = null;
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(function(position){
-                var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
-                if (!userMarker) {
-                    userMarker = new H.map.Marker(pos);
-                    map.addObject(userMarker);
-                } else {
-                    userMarker.setGeometry(pos);
-                }
-                map.setCenter(pos);
-            }, function(error){
-                console.log("Geolocation error:", error);
-            }, {enableHighAccuracy: true, maximumAge: 0});
-        }
-
-        // Example POI marker
-        var poi = new H.map.Marker({lat: 1.3521, lng: 103.8198}); // Singapore as example
-        map.addObject(poi);
-
-        // Example static route (Polyline)
-        var routeCoordinates = [
-            {lat: 0, lng: 0},
-            {lat: 1, lng: 1},
-            {lat: 2, lng: 0.5}
-        ];
-        var routeLine = new H.map.Polyline(routeCoordinates, {
-            style: {strokeColor: 'blue', lineWidth: 4}
-        });
-        map.addObject(routeLine);
-    </script>
-</body>
-</html>
-
-<div id="map"></div>
 
 <div style="
     background: #f9f9f9; 
