@@ -1,57 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Phaser RPG Starter</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; margin: 0 auto; }
+    </style>
 </head>
 <body>
 
-    <script>
-    class Example extends Phaser.Scene
-    {
-        preload ()
-        {
-            this.load.setBaseURL('https://labs.phaser.io');
-
-            this.load.image('sky', 'assets/skies/space3.png');
-            this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-            this.load.image('red', 'assets/particles/red.png');
-        }
-
-        create ()
-        {
-            this.add.image(400, 300, 'sky');
-
-            const particles = this.add.particles(0, 0, 'red', {
-                speed: 100,
-                scale: { start: 1, end: 0 },
-                blendMode: 'ADD'
-            });
-
-            const logo = this.physics.add.image(400, 100, 'logo');
-
-            logo.setVelocity(100, 200);
-            logo.setBounce(1, 1);
-            logo.setCollideWorldBounds(true);
-
-            particles.startFollow(logo);
-        }
+<script>
+class RPGScene extends Phaser.Scene {
+    constructor() {
+        super('RPGScene');
     }
 
-    const config = {
-        type: Phaser.AUTO,
-        width: 800,
-        height: 600,
-        scene: Example,
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 200 }
-            }
-        }
-    };
+    preload() {
+        // Load assets
+        this.load.image('tiles', 'assets/tiles/tiles.png');  // Tileset
+        this.load.tilemapTiledJSON('map', 'assets/tiles/map.json'); // Tiled map JSON
+        this.load.spritesheet('player', 'assets/sprites/player.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('npc', 'assets/sprites/npc.png', { frameWidth: 32, frameHeight: 48 });
+    }
 
-    const game = new Phaser.Game(config);
-    </script>
+    create() {
+        // Create map
+        const map = this.make.tilemap({ key: 'map' });
+        const tileset = map.addTilesetImage('tilesetNameInTiled', 'tiles');
+        this.groundLayer = map.createLayer('Ground', tileset, 0, 0);
+        this.objectLayer = map.createLayer('Objects', tileset, 0, 0);
+        this.objectLayer.setCollisionByProperty({ collides: true });
+
+        // Create player
+        this.player = this.physics.add.sprite(100, 100, 'player', 0);
+        this.player.setCollideWorldBounds(true);
+        this.physics.add.collider(this.player, this.objectLayer);
+
+        // Player animations
+        this.anims.create({
+            key: 'walk-down',
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'walk-left',
+            frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'walk-right',
+            frames: this.anims.generateFrameNumbers('player', { start: 8, end: 11 }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'walk-up',
+            frames: this.anims.generateFrameNumbers('player', { start: 12, end: 15 }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        // NPC example
+        this.npc = this.physics.add.sprite(200, 150, 'npc', 0);
+        this.physics.add.collider(this.npc, this.objectLayer);
+        this.physics.add.overlap(this.player, this.npc, () => {
+            console.log("Talk to NPC: Hello!");
+        }, null, this);
+
+        // Input
+        this.cursors = this.input.keyboard.createCursorKeys();
+    }
+
+    update() {
+        const speed = 150;
+        const prevVelocity = this.player.body.velocity.clone();
+
+        // Stop previous movement
+        this.player.body.setVelocity(0);
+
+        // Horizontal movement
+        if (this.cursors.left.isDown) {
+            this.player.body.setVelocityX(-speed);
+        } else if (this.cursors.right.isDown) {
+            this.player.body.setVelocityX(speed);
+        }
+
+        // Vertical movement
+        if (this.cursors.up.isDown) {
+            this.player.body.setVelocityY(-speed);
+        } else if (this.cursors.down.isDown) {
+            this.player.body.setVelocityY(speed);
+        }
+
+        // Normalize and scale velocity so diagonal movement isn't faster
+        this.player.body.velocity.normalize().scale(speed);
+
+        // Update animation
+        if (this.cursors.left.isDown) {
+            this.player.anims.play('walk-left', true);
+        } else if (this.cursors.right.isDown) {
+            this.player.anims.play('walk-right', true);
+        } else if (this.cursors.up.isDown) {
+            this.player.anims.play('walk-up', true);
+        } else if (this.cursors.down.isDown) {
+            this.player.anims.play('walk-down', true);
+        } else {
+            this.player.anims.stop();
+        }
+    }
+}
+
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: { gravity: { y: 0 }, debug: false }
+    },
+    scene: RPGScene
+};
+
+const game = new Phaser.Game(config);
+</script>
 
 </body>
 </html>
