@@ -1,94 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>RPG Game</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+    <title>RPG Game with World Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
+<div id="phaser-game"></div>
+
 <script>
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    parent: 'phaser-game',
+    scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: window.innerWidth,
+        height: window.innerHeight
+    },
     physics: {
         default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            debug: false
-        }
+        arcade: { gravity: { y: 0 }, debug: false }
     },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
+    scene: { preload: preload, create: create, update: update }
 };
 
 var game = new Phaser.Game(config);
-var player, cursors, npcs, enemies, items;
+
+var player, cursors, dialogueText, inventoryText, hpBar, xpBar, levelText;
+var playerStats = { hp: 100, maxHp: 100, attack: 15, xp: 0, level: 1, gold: 0, magic: 50, maxMagic: 50, equipment: { weapon:null, armor:null } };
+var enemies = [], npcs = [], itemsGroup;
+var quests = [], inventory = [];
+var spells = [ {name:"Fireball", damage:25, cost:10}, {name:"Ice Blast", damage:20, cost:8} ];
+var shopItems = [
+    {name:"Sword +10", type:"weapon", bonus:10, price:50},
+    {name:"Armor +20", type:"armor", bonus:20, price:75},
+    {name:"Health Potion", type:"potion", heal:50, price:25},
+    {name:"Magic Potion", type:"potion", restore:30, price:20}
+];
+
+var worldMap = [
+    {name:"Town", x:400, y:300, type:"safe"},
+    {name:"Forest", x:800, y:300, type:"wild"},
+    {name:"Dungeon", x:1200, y:300, type:"dungeon"},
+    {name:"Castle", x:1600, y:300, type:"boss"}
+];
+
+var currentLocation = 0;
 
 function preload() {
-    this.load.image('player', 'assets/player.png');
-    this.load.image('npc', 'assets/npc.png');
-    this.load.image('enemy', 'assets/enemy.png');
-    this.load.image('item', 'assets/items.png');
-    this.load.image('tiles', 'assets/tiles.png');
-    this.load.tilemapTiledJSON('map', 'assets/map.json'); // exported from Tiled
+    this.load.image('tiles','assets/tiles.png');
+    this.load.spritesheet('player','assets/player.png',{frameWidth:32, frameHeight:48});
+    this.load.image('npc','assets/npc.png');
+    this.load.image('enemy','assets/enemy.png');
+    this.load.image('items','assets/items.png');
+    this.load.image('background','assets/background.png');
+    this.load.image('worldmap','assets/worldmap.png');
 }
 
 function create() {
-    // Load tilemap
-    var map = this.make.tilemap({ key: 'map' });
-    var tileset = map.addTilesetImage('tileset_name_in_json', 'tiles');
-
-    // Layers
-    var groundLayer = map.createLayer('Ground', tileset, 0, 0);
-    var wallsLayer = map.createLayer('Walls', tileset, 0, 0);
-    wallsLayer.setCollisionByProperty({ collides: true });
+    this.add.image(400,300,'background');
 
     // Player
-    player = this.physics.add.sprite(100, 100, 'player');
-    this.physics.add.collider(player, wallsLayer);
+    player = this.physics.add.sprite(400,500,'player');
+    player.setCollideWorldBounds(true);
 
-    // Camera follows player
-    this.cameras.main.startFollow(player);
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    // Animations
+    this.anims.create({key:'left', frames:this.anims.generateFrameNumbers('player',{start:0,end:3}), frameRate:10, repeat:-1});
+    this.anims.create({key:'right', frames:this.anims.generateFrameNumbers('player',{start:4,end:7}), frameRate:10, repeat:-1});
+    this.anims.create({key:'up', frames:this.anims.generateFrameNumbers('player',{start:8,end:11}), frameRate:10, repeat:-1});
+    this.anims.create({key:'down', frames:this.anims.generateFrameNumbers('player',{start:12,end:15}), frameRate:10, repeat:-1});
 
-    // NPCs
-    npcs = this.physics.add.group();
-    npcs.create(200, 200, 'npc');
-    npcs.create(400, 400, 'npc');
-    this.physics.add.collider(npcs, wallsLayer);
+    // UI
+    dialogueText = this.add.text(10,10,'',{font:'16px Arial', fill:'#ffffff'});
+    inventoryText = this.add.text(10,window.innerHeight-20,'Inventory: ',{font:'16px Arial', fill:'#ffff00'});
+    hpBar = this.add.rectangle(100,window.innerHeight-40,200,20,0xff0000).setOrigin(0,0);
+    xpBar = this.add.rectangle(100,window.innerHeight-60,0,10,0x00ff00).setOrigin(0,0);
+    levelText = this.add.text(10,window.innerHeight-80,'Level: 1',{font:'16px Arial', fill:'#00ffff'});
 
-    // Enemies
-    enemies = this.physics.add.group();
-    enemies.create(300, 300, 'enemy');
-    enemies.create(500, 500, 'enemy');
-    this.physics.add.collider(enemies, wallsLayer);
-
-    // Items
-    items = this.physics.add.group();
-    items.create(150, 150, 'item');
-    this.physics.add.overlap(player, items, collectItem, null, this);
-
-    // Controls
     cursors = this.input.keyboard.createCursorKeys();
+
+    // NPCs, enemies, items
+    createNPCs(this);
+    createEnemies(this);
+    createItems(this);
+
+    // Quests
+    quests.push({id:1, description:"Talk to the Wise NPC", completed:false, reward:10});
+    quests.push({id:2, description:"Collect 1 item", completed:false, reward:20});
+    quests.push({id:3, description:"Defeat enemy", completed:false, reward:30});
+
+    // World map
+    drawWorldMap(this);
 }
 
 function update() {
     player.setVelocity(0);
+    if(cursors.left.isDown){player.setVelocityX(-200); player.anims.play('left',true);}
+    else if(cursors.right.isDown){player.setVelocityX(200); player.anims.play('right',true);}
+    else if(cursors.up.isDown){player.setVelocityY(-200); player.anims.play('up',true);}
+    else if(cursors.down.isDown){player.setVelocityY(200); player.anims.play('down',true);}
+    else{player.anims.stop();}
 
-    if (cursors.left.isDown) player.setVelocityX(-200);
-    if (cursors.right.isDown) player.setVelocityX(200);
-    if (cursors.up.isDown) player.setVelocityY(-200);
-    if (cursors.down.isDown) player.setVelocityY(200);
+    // NPC interaction
+    npcs.forEach(npc=>{
+        if(Phaser.Math.Distance.Between(player.x,player.y,npc.x,npc.y)<50){
+            dialogueText.setText("Press SPACE to talk / B to open shop.");
+            if(cursors.space.isDown){
+                dialogueText.setText("NPC: Hello adventurer! Quest updated.");
+                completeQuest(1);
+            }
+            if(cursors.b.isDown){ openShop(); }
+        }
+    });
+
+    // Items
+    this.physics.overlap(player, itemsGroup, (player,item)=>{
+        dialogueText.setText("You picked up an item!");
+        inventory.push("Item");
+        playerStats.gold+=5;
+        updateInventory();
+        item.destroy();
+        completeQuest(2);
+    });
+
+    // Enemy battle
+    enemies.forEach(enemy=>{
+        var dir = Phaser.Math.Between(0,3);
+        switch(dir){
+            case 0: enemy.setVelocityX(50); break;
+            case 1: enemy.setVelocityX(-50); break;
+            case 2: enemy.setVelocityY(50); break;
+            case 3: enemy.setVelocityY(-50); break;
+        }
+        if(Phaser.Math.Distance.Between(player.x,player.y,enemy.x,enemy.y)<50){ battle(enemy); }
+    });
+
+    // Location triggers
+    worldMap.forEach((loc,index)=>{
+        if(Phaser.Math.Distance.Between(player.x,player.y,loc.x,loc.y)<50){
+            dialogueText.setText("You are at "+loc.name+" ("+loc.type+")");
+            if(cursors.space.isDown){ currentLocation = index; }
+        }
+    });
 }
 
-function collectItem(player, item) {
-    item.destroy();
-    console.log("Item collected!");
-}
+// Add the rest of your existing functions here (createNPCs, createEnemies, createItems, battle, completeQuest, gainXP, openShop, buyItem, updateInventory, updateHP, updateXP, drawWorldMap)...
+
+// --- FULLSCREEN RESIZE HANDLER ---
+window.addEventListener('resize', () => {
+    game.scale.resize(window.innerWidth, window.innerHeight);
+    inventoryText.setY(window.innerHeight-20);
+    hpBar.setY(window.innerHeight-40);
+    xpBar.setY(window.innerHeight-60);
+    levelText.setY(window.innerHeight-80);
+});
 </script>
 </body>
 </html>
