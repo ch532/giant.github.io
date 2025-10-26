@@ -265,6 +265,27 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 This page can be zoomed for better readability!
 </div>
 
+<!-- Overlay container (hidden by default) -->
+<div id="interstitialAd" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000a; z-index:9999; justify-content:center; align-items:center;">
+  <iframe src="https://app.playablemaker.com/share/68fe22e1820181d8fb107505" 
+          style="width:90%; height:80%; border:none;">
+  </iframe>
+  <button onclick="closeAd()" style="position:absolute; top:10px; right:10px; padding:10px 15px; font-size:16px;">X</button>
+</div>
+
+<script>
+function showAd() {
+  document.getElementById('interstitialAd').style.display = 'flex';
+}
+
+// Automatically show ad after 3 seconds (you can change the trigger)
+setTimeout(showAd, 3000);
+
+function closeAd() {
+  document.getElementById('interstitialAd').style.display = 'none';
+}
+</script>
+		
 <!-- InMobi SDK Script -->
 <script src="https://scripts.inmobi.com/sdk/mediation/web/1.0/inmobi.js"></script>
 
