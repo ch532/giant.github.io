@@ -1,8 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RPG Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+</head>
+<body>
 <script>
 var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
     scene: {
         preload: preload,
         create: create,
@@ -11,16 +26,69 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var player, cursors, npcs, enemies, items;
 
-function preload ()
-{
+function preload() {
+    this.load.image('player', 'assets/player.png');
+    this.load.image('npc', 'assets/npc.png');
+    this.load.image('enemy', 'assets/enemy.png');
+    this.load.image('item', 'assets/items.png');
+    this.load.image('tiles', 'assets/tiles.png');
+    this.load.tilemapTiledJSON('map', 'assets/map.json'); // exported from Tiled
 }
 
-function create ()
-{
+function create() {
+    // Load tilemap
+    var map = this.make.tilemap({ key: 'map' });
+    var tileset = map.addTilesetImage('tileset_name_in_json', 'tiles');
+
+    // Layers
+    var groundLayer = map.createLayer('Ground', tileset, 0, 0);
+    var wallsLayer = map.createLayer('Walls', tileset, 0, 0);
+    wallsLayer.setCollisionByProperty({ collides: true });
+
+    // Player
+    player = this.physics.add.sprite(100, 100, 'player');
+    this.physics.add.collider(player, wallsLayer);
+
+    // Camera follows player
+    this.cameras.main.startFollow(player);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    // NPCs
+    npcs = this.physics.add.group();
+    npcs.create(200, 200, 'npc');
+    npcs.create(400, 400, 'npc');
+    this.physics.add.collider(npcs, wallsLayer);
+
+    // Enemies
+    enemies = this.physics.add.group();
+    enemies.create(300, 300, 'enemy');
+    enemies.create(500, 500, 'enemy');
+    this.physics.add.collider(enemies, wallsLayer);
+
+    // Items
+    items = this.physics.add.group();
+    items.create(150, 150, 'item');
+    this.physics.add.overlap(player, items, collectItem, null, this);
+
+    // Controls
+    cursors = this.input.keyboard.createCursorKeys();
 }
 
-function update ()
-{
+function update() {
+    player.setVelocity(0);
+
+    if (cursors.left.isDown) player.setVelocityX(-200);
+    if (cursors.right.isDown) player.setVelocityX(200);
+    if (cursors.up.isDown) player.setVelocityY(-200);
+    if (cursors.down.isDown) player.setVelocityY(200);
+}
+
+function collectItem(player, item) {
+    item.destroy();
+    console.log("Item collected!");
 }
 </script>
+</body>
+</html>
