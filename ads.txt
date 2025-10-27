@@ -1,5 +1,10 @@
 smartyads.com, 20457, DIRECT, fd2bde0ff2e62c5d
 
+google.com, pub-4529402052683454, RESELLER, f08c47fec0942fa0
+google.com, pub-5908399841745966, DIRECT, f08c47fec0942fa0
+wgplayer.com, WGA5032218891, DIRECT
+wgplayer.com, WGP5265933821, DIRECT
+
 adtonos.com, PUB2669313295, DIRECT
 tritondigital.com, 38083, RESELLER, 19b4454d0b87b58b
 adform.com, 2423, RESELLER, 9f5210a2f0999e32
