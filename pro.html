@@ -9,13 +9,13 @@
 </head>
 <body>
 <script>
-    // Make sure PlayGama is ready before using it
-bridge.init().then(() => {
-    console.log('PlayGama SDK initialized successfully!');
-    startGame(); // your function to load questions, ads, etc.
-}).catch(error => {
-    console.error('Failed to initialize PlayGama SDK:', error);
-});
+    bridge.initialize()
+    .then(() => {
+        // initialization was successful, SDK can be used
+    })
+    .catch(error => {
+        // error, something went wrong
+    })
 </script>
     
     <div id="game-container">
