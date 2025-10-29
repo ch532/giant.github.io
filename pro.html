@@ -1,45 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IQ pro</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQ Pro</title>
+<script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
+<style>
+    body { font-family: Arial, sans-serif; background: #222; color: #fff; text-align: center; }
+    #game-container { max-width: 500px; margin: auto; padding: 20px; background: #333; border-radius: 10px; }
+    .answer-btn { padding: 10px 20px; margin: 5px; font-size: 16px; cursor: pointer; }
+    #message { min-height: 24px; color: yellow; margin-top: 10px; }
+    #timer { font-size: 18px; margin: 10px 0; }
+    #iap-buttons button { margin: 5px; }
+</style>
 </head>
 <body>
-<script>
-    bridge.initialize()
-    .then(() => {
-        // initialization was successful, SDK can be used
-    })
-    .catch(error => {
-        // error, something went wrong
-    })
-</script>
-    
-    <div id="game-container">
-        <h1>Quiz Adventure</h1>
-        <div id="level">Level: 1</div>
-        <div id="coins">Coins: 0</div>
-        <div id="question">Loading question...</div>
-        <div id="answers">
-            <button class="answer-btn" id="a">A</button>
-            <button class="answer-btn" id="b">B</button>
-            <button class="answer-btn" id="c">C</button>
-            <button class="answer-btn" id="d">D</button>
-        </div>
-        <div id="ad-container"></div>
-        <button id="watch-rewarded">Watch Ad for Coins</button>
-        <button id="daily-bonus">Claim Daily Bonus</button>
-    </div>
 
-    <script>
-window.addEventListener('load', async () => {
+<div id="game-container">
+    <h1>Quiz Adventure</h1>
+    <div id="level">Level: 1</div>
+    <div id="coins">Coins: 0</div>
+    <div id="timer">⏳ Time Left: 15s</div>
+    <div id="question">Loading question...</div>
+    <div id="answers">
+        <button class="answer-btn" id="a">A</button>
+        <button class="answer-btn" id="b">B</button>
+        <button class="answer-btn" id="c">C</button>
+        <button class="answer-btn" id="d">D</button>
+    </div>
+    <div id="message"></div>
+    <div id="ad-container"></div>
+    <button id="watch-rewarded">Watch Ad for Coins</button>
+    <button id="daily-bonus">Claim Daily Bonus</button>
+    <div id="iap-buttons">
+        <button id="buy-50">Buy 50 Coins</button>
+        <button id="buy-100">Buy 100 Coins</button>
+        <button id="buy-200">Buy 200 Coins</button>
+    </div>
+</div>
+
+<script>
+bridge.initialize().then(async () => {
+
     const TOTAL_LEVELS = 200;
     let level = 1;
     let coins = 0;
     let lastDailyBonus = null;
+    let currentQuestionIndex = 0;
+    let timer;
+    let timeLeft = 15;
+
+    const levelDiv = document.getElementById('level');
+    const coinsDiv = document.getElementById('coins');
+    const questionDiv = document.getElementById('question');
+    const answerButtons = document.querySelectorAll('.answer-btn');
+    const messageDiv = document.getElementById('message');
+    const timerDisplay = document.getElementById('timer');
+
+    function showMessage(text, duration=1500){
+        messageDiv.textContent = text;
+        setTimeout(()=> messageDiv.textContent='', duration);
+    }
+
+    function updateUI(){
+        levelDiv.textContent = `Level: ${level}`;
+        coinsDiv.textContent = `Coins: ${coins}`;
+    }
 
     // Load saved progress
     try {
@@ -49,20 +75,7 @@ window.addEventListener('load', async () => {
         lastDailyBonus = saved.lastDailyBonus || null;
     } catch(err){console.log(err);}
 
-    // DOM elements
-    const levelDiv = document.getElementById('level');
-    const coinsDiv = document.getElementById('coins');
-    const questionDiv = document.getElementById('question');
-    const answerButtons = document.querySelectorAll('.answer-btn');
-
-    function updateUI(){
-        levelDiv.textContent = `Level: ${level}`;
-        coinsDiv.textContent = `Coins: ${coins}`;
-    }
-
-    updateUI();
-
-    // Example questions
+    // Generate questions
     const questions = [];
     for(let i=1;i<=TOTAL_LEVELS;i++){
         questions.push({
@@ -72,7 +85,23 @@ window.addEventListener('load', async () => {
         });
     }
 
-    let currentQuestionIndex = level - 1;
+    currentQuestionIndex = level - 1;
+
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = 15;
+        timerDisplay.textContent = `⏳ Time Left: ${timeLeft}s`;
+        timer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.textContent = `⏳ Time Left: ${timeLeft}s`;
+            if(timeLeft <= 0){
+                clearInterval(timer);
+                handleWrongAnswer(true);
+            }
+        }, 1000);
+    }
+
+    function stopTimer(){ clearInterval(timer); }
 
     function loadQuestion(){
         const q = questions[currentQuestionIndex];
@@ -80,90 +109,117 @@ window.addEventListener('load', async () => {
         ['a','b','c','d'].forEach((id,i)=>{
             document.getElementById(id).textContent = q.options[i];
         });
+        startTimer();
     }
 
+    function handleWrongAnswer(isTimeout=false){
+        stopTimer();
+        if(level>1) level--;
+        currentQuestionIndex = level-1;
+        showMessage(isTimeout ? "⏰ Time's up! You go back one level." : "❌ Wrong! You go back one level.");
+        loadQuestion();
+        updateUI();
+        bridge.storage.set({level, coins, lastDailyBonus}).catch(err=>console.log(err));
+    }
+
+    function maybeShowInterstitial(){
+        if(level % 5 === 0 && bridge.advertisement.isInterstitialSupported){
+            bridge.advertisement.showInterstitial('interstitial_placement');
+        }
+    }
+
+    updateUI();
     loadQuestion();
 
-    // Answer click logic
-    answerButtons.forEach(btn => {
-        btn.addEventListener('click', async () => {
+    // Answer buttons
+    answerButtons.forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+            if(coins < 5){
+                showMessage("💰 Need at least 5 coins to answer!");
+                return;
+            }
+            coins -= 5;
+            stopTimer();
             const selected = btn.textContent;
             const correct = questions[currentQuestionIndex].a;
 
             if(selected === correct){
                 coins += 10;
                 if(level < TOTAL_LEVELS) level++;
-                alert('Correct! +10 coins');
+                showMessage("✅ Correct! +10 coins");
             } else {
-                if(level > 1) level--; // go back by 1 level
-                alert('Wrong! You go back one level.');
+                handleWrongAnswer();
+                return;
             }
 
-            currentQuestionIndex = level - 1;
+            currentQuestionIndex = level-1;
             loadQuestion();
             updateUI();
+            maybeShowInterstitial();
 
-            // Save progress
-            try{
-                await bridge.storage.set({level, coins, lastDailyBonus});
-            } catch(err){console.log(err);}
+            try{ await bridge.storage.set({level, coins, lastDailyBonus}); } catch(err){console.log(err);}
         });
     });
 
-    // Rewarded ad button
-    const rewardedBtn = document.getElementById('watch-rewarded');
-    rewardedBtn.addEventListener('click', () => {
+    // Rewarded ad
+    document.getElementById('watch-rewarded').addEventListener('click', ()=>{
         if(bridge.advertisement.isRewardedSupported){
             bridge.advertisement.showRewarded('rewarded_placement');
         }
     });
 
-    bridge.advertisement.on(bridge.EVENT_NAME.REWARDED_STATE_CHANGED, state => {
-        if(state === 'rewarded'){
+    bridge.advertisement.on(bridge.EVENT_NAME.REWARDED_STATE_CHANGED,state=>{
+        if(state==='rewarded'){
             coins += 20;
-            alert('You earned +20 coins from the ad!');
+            showMessage("🎁 +20 coins from ad!");
             updateUI();
             bridge.storage.set({level, coins, lastDailyBonus}).catch(err=>console.log(err));
         }
     });
 
     // Daily bonus
-    const dailyBtn = document.getElementById('daily-bonus');
-    dailyBtn.addEventListener('click', async () => {
+    document.getElementById('daily-bonus').addEventListener('click', async ()=>{
         const today = new Date().toDateString();
         if(lastDailyBonus !== today){
             coins += 50;
             lastDailyBonus = today;
-            alert('Daily bonus claimed! +50 coins');
+            showMessage("🎉 Daily bonus claimed! +50 coins");
             updateUI();
             try{ await bridge.storage.set({level, coins, lastDailyBonus}); } catch(err){console.log(err);}
-        } else {
-            alert('You already claimed today\'s bonus.');
-        }
+        } else showMessage("🛑 Already claimed today");
     });
 
-    // Banner ads
+    // Banner
     if(bridge.advertisement.isBannerSupported){
         bridge.advertisement.showBanner('bottom','test_banner');
         bridge.advertisement.on(bridge.EVENT_NAME.BANNER_STATE_CHANGED,state=>console.log('Banner state:', state));
     }
 
-    // Player authorization
-    if(bridge.player.isAuthorizationSupported){
-        bridge.player.authorize({}).then(()=>console.log('Player authorized')).catch(err=>console.log(err));
+    // IAP buttons
+    async function buyCoins(productId){
+        if(bridge.iap.isSupported){
+            try { await bridge.iap.purchase(productId); } 
+            catch(err){ showMessage('Purchase failed'); }
+        } else showMessage('IAP not supported');
     }
 
-    // Achievements
-    if(bridge.achievements.isSupported){
-        bridge.achievements.getList({}).then(list=>console.log('Achievements:',list)).catch(err=>console.log(err));
-    }
+    bridge.iap.on(bridge.EVENT_NAME.PURCHASE_SUCCESS, async purchase=>{
+        switch(purchase.productId){
+            case 'coins_50': coins += 50; break;
+            case 'coins_100': coins += 100; break;
+            case 'coins_200': coins += 200; break;
+        }
+        updateUI();
+        await bridge.storage.set({level, coins, lastDailyBonus});
+        showMessage(`💰 Purchase successful! Coins: ${coins}`);
+    });
 
-    // Social share
-    if(bridge.social.isShareSupported){
-        bridge.social.share({text:'I am playing 200-Level Quiz Adventure!'})
-        .then(()=>console.log('Shared successfully')).catch(err=>console.log('Share error',err));
-    }
+    document.getElementById('buy-50').addEventListener('click', ()=>buyCoins('coins_50'));
+    document.getElementById('buy-100').addEventListener('click', ()=>buyCoins('coins_100'));
+    document.getElementById('buy-200').addEventListener('click', ()=>buyCoins('coins_200'));
 
-    updateUI();
-});
+}).catch(err=>console.log('SDK init error', err));
 </script>
+
+</body>
+</html>
