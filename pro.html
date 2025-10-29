@@ -8,6 +8,16 @@
     <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
 </head>
 <body>
+<script>
+    // Make sure PlayGama is ready before using it
+bridge.init().then(() => {
+    console.log('PlayGama SDK initialized successfully!');
+    startGame(); // your function to load questions, ads, etc.
+}).catch(error => {
+    console.error('Failed to initialize PlayGama SDK:', error);
+});
+</script>
+    
     <div id="game-container">
         <h1>Quiz Adventure</h1>
         <div id="level">Level: 1</div>
