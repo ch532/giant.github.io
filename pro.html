@@ -61,6 +61,34 @@ bridge.initialize()
     })
 </script>
 
+<script[
+let playerId;
+
+bridge.initialize()
+    .then(() => {
+        // Initialization successful, now get identity
+        return bridge.identity.get();
+    })
+    .then(player => {
+        playerId = player.id;  // Unique player ID
+        logConsole('Player ID: ' + playerId);
+
+        // Load player-specific state first
+        return loadState();
+    })
+    .then(() => {
+        // Now start the game after identity and state are ready
+        startGame();
+    })
+    .catch(error => {
+        console.error('Initialization / Identity error:', error);
+        logConsole('Error: ' + error);
+
+        // Start game anyway as fallback
+        startGame();
+    });
+</script>
+
 <!-- Main game wrapper -->
 <div class="wrap" id="gameWrap" style="display:none">
   <div class="card" id="ui-card">
@@ -169,22 +197,24 @@ const gameOverEl = document.getElementById('game-over');
 
 // --- Playgama Storage ---
 async function saveState() {
-  await bridge.storage.set('coins', coins);
-  await bridge.storage.set('level', level);
-  await bridge.storage.set('lives', lives);
-  logConsole('State saved');
+  await bridge.storage.set('coins', coins, { identity: playerId });
+  await bridge.storage.set('level', level, { identity: playerId });
+  await bridge.storage.set('lives', lives, { identity: playerId });
+  logConsole('State saved for ' + playerId);
 }
+
 async function loadState() {
-  const savedCoins = await bridge.storage.get('coins');
-  const savedLevel = await bridge.storage.get('level');
-  const savedLives = await bridge.storage.get('lives');
+  const savedCoins = await bridge.storage.get('coins', { identity: playerId });
+  const savedLevel = await bridge.storage.get('level', { identity: playerId });
+  const savedLives = await bridge.storage.get('lives', { identity: playerId });
+
   coins = savedCoins ?? 0;
   level = savedLevel ?? 1;
   lives = savedLives ?? 3;
   updateUI();
-  logConsole('State loaded');
+  logConsole('State loaded for ' + playerId);
 }
-
+    
 // --- UI Update ---
 function updateUI(){
   coinsEl.textContent = `Coins: ${coins}`;
