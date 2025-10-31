@@ -71,8 +71,6 @@ footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
 bridge.initialize()
   .then(() => {
     console.log('Playgama initialized');
-    bridge.identity.login().then(user=>console.log('Identity:', user));
-  })
   .catch(err=>console.warn('Playgama init error', err));
 </script>
 
