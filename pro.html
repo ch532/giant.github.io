@@ -50,7 +50,15 @@
 </style>
 </head>
 <body>
-
+<script>
+bridge.initialize()
+    .then(() => {
+        // initialization was successful, SDK can be used
+    })
+    .catch(error => {
+        // error, something went wrong
+    })
+  </script>
 <!-- Playgama initialization kept exactly where you put it -->
 <script>
 bridge.initialize()
