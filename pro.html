@@ -6,24 +6,123 @@
 <title>Tetris Pro</title>
 <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
 <style>
-:root{--bg:#000;--card:#1e1e1e;--accent:#0ea5a4;--muted:#999;}
-html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:#fff;}
-.wrap{max-width:640px;margin:20px auto;padding:16px;}
-.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.6);}
-h1{margin:6px 0 12px;font-size:22px;}
-.row{display:flex;gap:8px;align-items:center;}
-.spacer{flex:1;}
-#level,#coins{font-weight:600;}
-#message{min-height:24px;color:#ffd54d;margin-top:10px;}
-.small{font-size:13px;color:var(--muted);}
-#controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
-#game-over{display:none;text-align:center;padding:12px;}
-footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px;}
-#iap-buttons{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
-#console{position:fixed;bottom:0;left:0;width:100%;max-height:150px;overflow-y:auto;background:rgba(0,0,0,0.8);color:#0f0;font-family:monospace;font-size:12px;padding:6px;z-index:9999;}
-canvas{background:#111;display:block;margin:12px auto;border:2px solid var(--accent);}
+:root {
+  --bg:#000;
+  --card:#1e1e1e;
+  --accent:#0ea5a4;
+  --muted:#999;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+  background: var(--bg);
+  color: #fff;
+  overflow: hidden; /* prevents scrolling */
+}
+
+.wrap {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.6);
+}
+
+h1 {
+  margin: 6px 0 12px;
+  font-size: 22px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.spacer { flex: 1; }
+
+#level, #coins { font-weight: 600; }
+
+#message {
+  min-height: 24px;
+  color: #ffd54d;
+  margin-top: 10px;
+}
+
+.small { font-size: 13px; color: var(--muted); }
+
+#controls {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#game-over {
+  display: none;
+  text-align: center;
+  padding: 12px;
+}
+
+footer {
+  margin-top: 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+#iap-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+#console {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.8);
+  color: #0f0;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 6px;
+  z-index: 9999;
+}
+
+canvas {
+  background: #111;
+  display: block;
+  margin: 12px auto;
+  border: 2px solid var(--accent);
+  width: 100%; /* default size */
+  height: auto;
+}
+
 :fullscreen canvas,
 :-webkit-full-screen canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+:fullscreen .wrap,
+:-webkit-full-screen .wrap {
   width: 100vw !important;
   height: 100vh !important;
 }
