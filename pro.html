@@ -3,54 +3,30 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>IQ Pro</title>
+<title>Tetris Pro</title>
 <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
 <style>
 :root{--bg:#000;--card:#1e1e1e;--accent:#0ea5a4;--muted:#999;}
-html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:#fff}
-.wrap{max-width:640px;margin:20px auto;padding:16px}
-.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.6)}
-h1{margin:6px 0 12px;font-size:22px}
-.row{display:flex;gap:8px;align-items:center}
-.spacer{flex:1}
-#level,#coins{font-weight:600}
-#question{margin:14px 0;font-size:18px;min-height:48px;color:#fff}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{background:#2a2a2a;border:0;padding:10px;border-radius:8px;color:#fff;font-size:15px;cursor:pointer}
-.btn:active{transform:translateY(1px)}
-.btn.primary{background:var(--accent)}
-#message{min-height:24px;color:#ffd54d;margin-top:10px}
-#timer{font-weight:600;margin:8px 0}
-.small{font-size:13px;color:var(--muted)}
-#controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-#game-over{display:none;text-align:center;padding:12px}
-#hint{font-size:13px;color:#cfcfcf;margin-top:8px}
-.meter{height:8px;background:#2a2a2a;border-radius:8px;overflow:hidden}
-.meter > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#5eead4);width:0%}
-#lives{margin-top:8px}
-footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
-#iap-buttons{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
-
-/* Console */
-#console {
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  max-height:150px;
-  overflow-y:auto;
-  background:rgba(0,0,0,0.8);
-  color:#0f0;
-  font-family:monospace;
-  font-size:12px;
-  padding:6px;
-  z-index:9999;
-}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:#fff;}
+.wrap{max-width:640px;margin:20px auto;padding:16px;}
+.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.6);}
+h1{margin:6px 0 12px;font-size:22px;}
+.row{display:flex;gap:8px;align-items:center;}
+.spacer{flex:1;}
+#level,#coins{font-weight:600;}
+#message{min-height:24px;color:#ffd54d;margin-top:10px;}
+.small{font-size:13px;color:var(--muted);}
+#controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+#game-over{display:none;text-align:center;padding:12px;}
+footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px;}
+#iap-buttons{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+#console{position:fixed;bottom:0;left:0;width:100%;max-height:150px;overflow-y:auto;background:rgba(0,0,0,0.8);color:#0f0;font-family:monospace;font-size:12px;padding:6px;z-index:9999;}
+canvas{background:#111;display:block;margin:12px auto;border:2px solid var(--accent);}
 </style>
 </head>
 <body>
 
-<!-- Playgama SDK initialization -->
+<!-- Playgama SDK initialization (do not modify) -->
 <script>
 bridge.initialize()
     .then(() => {
@@ -61,294 +37,254 @@ bridge.initialize()
     })
 </script>
 
-<script[
-let playerId;
-
-bridge.initialize()
-    .then(() => {
-        // Initialization successful, now get identity
-        return bridge.identity.get();
-    })
-    .then(player => {
-        playerId = player.id;  // Unique player ID
-        logConsole('Player ID: ' + playerId);
-
-        // Load player-specific state first
-        return loadState();
-    })
-    .then(() => {
-        // Now start the game after identity and state are ready
-        startGame();
-    })
-    .catch(error => {
-        console.error('Initialization / Identity error:', error);
-        logConsole('Error: ' + error);
-
-        // Start game anyway as fallback
-        startGame();
-    });
-</script>
-
-<!-- Main game wrapper -->
-<div class="wrap" id="gameWrap" style="display:none">
-  <div class="card" id="ui-card">
+<div class="wrap" id="gameWrap">
+  <div class="card">
     <div class="row">
-      <h1>IQ Pro</h1>
+      <h1>Tetris Pro</h1>
       <div class="spacer"></div>
       <div id="level" class="small">Level: 1</div>
-      <div style="width:12px"></div>
       <div id="coins" class="small">Coins: 0</div>
+      <div id="lives" class="small">Lives: <span id="livesCount">5</span></div>
     </div>
 
-    <div class="meter"><i id="meterFill"></i></div>
-    <div id="timer" class="small">⏳ Time Left: 15s</div>
-    <div id="question" aria-live="polite">Loading question...</div>
-
-    <div class="answers" id="answers">
-      <button class="btn" id="a">A</button>
-      <button class="btn" id="b">B</button>
-      <button class="btn" id="c">C</button>
-      <button class="btn" id="d">D</button>
-    </div>
-
-    <div id="hint" class="small"></div>
+    <canvas id="tetris" width="300" height="600"></canvas>
     <div id="message"></div>
 
     <div id="controls">
       <button class="btn" id="pauseBtn">Pause</button>
       <button class="btn" id="playBtn">Play</button>
       <button class="btn" id="restartBtn">Restart</button>
-      <button class="btn" id="skipBtn">Skip (10 coins)</button>
-      <button class="btn" id="hintBtn">Reveal Hint (8 coins)</button>
+      <button class="btn" id="useCoinBtn">Use 5 Coins → Slow Block</button>
       <button class="btn" id="watch-rewarded">Watch Ad → +20 coins</button>
       <button class="btn" id="daily-bonus">Daily +50</button>
     </div>
 
-    <div id="lives" class="small">Lives: <span id="livesCount">3</span></div>
-
-    <div id="game-over" class="card">
-      <h2 id="go-title">Game Over</h2>
-      <div id="go-info" class="small">You ran out of lives.</div>
-      <div style="margin-top:12px">
-        <button class="btn primary" id="restartOverBtn">Restart</button>
-        <button class="btn" id="continueWithAd">Watch Ad to Continue (+1 life)</button>
-      </div>
-    </div>
-
     <div id="ad-container" style="margin-top:12px"></div>
 
-    <div id="iap-buttons" style="margin-top:6px">
+    <div id="iap-buttons">
       <button class="btn" id="buy-50">Buy 50</button>
       <button class="btn" id="buy-100">Buy 100</button>
       <button class="btn" id="buy-200">Buy 200</button>
     </div>
+
+    <div id="game-over" class="card">
+      <h2>Game Over</h2>
+      <div class="small" id="go-info">You ran out of lives.</div>
+      <button class="btn primary" id="continueWithAd">Watch Ad to Continue (+1 life)</button>
+    </div>
   </div>
 
   <footer>
-    <div class="small">Built with Playgama</div>
+    <div class="small">Built with Playgama Bridge SDK • Test build</div>
   </footer>
 </div>
 
-<!-- Console -->
 <div id="console"></div>
 
 <script>
-// Simple console wrapper
+// Console logger
 const c = document.getElementById('console');
 function logConsole(...args){ c.innerHTML += args.join(' ') + '<br>'; c.scrollTop = c.scrollHeight; }
-</script>
 
-  <script>
-  window.addEventListener('load', () => {
-  document.getElementById('gameWrap').style.display = 'block';
-  startGame();
-  showQuestion(); // <-- add this line to immediately show the first question
-});
-</script>
+// --- Identity & Storage ---
+let playerId;
+bridge.identity.get()
+  .then(id => { playerId = id; logConsole('Player ID:', playerId); })
+  .catch(err=>logConsole('Identity error',err));
 
-  <script>
-// --- Game Variables ---
-let questions = [];
-for(let i=1;i<=200;i++){
-  questions.push({ q: `Question ${i}?`, options:["A","B","C","D"], answer:"A" });
+async function saveState(){
+  await bridge.storage.set('coins', coins);
+  await bridge.storage.set('level', level);
+  await bridge.storage.set('lives', lives);
+  logConsole('State saved');
+}
+async function loadState(){
+  const savedCoins = await bridge.storage.get('coins');
+  const savedLevel = await bridge.storage.get('level');
+  const savedLives = await bridge.storage.get('lives');
+  coins = savedCoins ?? 0;
+  level = savedLevel ?? 1;
+  lives = savedLives ?? 5;
+  updateUI();
+  logConsole('State loaded');
 }
 
-let current = 0;
+// --- Game Variables ---
+const canvas = document.getElementById('tetris');
+const ctx = canvas.getContext('2d');
+const ROWS=20, COLS=10, BLOCK=30;
+let field = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+let currentBlock = null;
+let blockPos = {x:3, y:0};
+let dropInterval = 1000;
+let dropTimer;
 let coins = 0;
 let level = 1;
-let lives = 3;
-let timer = 15;
-let timerInterval;
+let lives = 5;
 let isPaused = false;
 
-// Elements
-const questionEl = document.getElementById('question');
-const aBtn = document.getElementById('a');
-const bBtn = document.getElementById('b');
-const cBtn = document.getElementById('c');
-const dBtn = document.getElementById('d');
-const timerEl = document.getElementById('timer');
+// --- UI ---
 const levelEl = document.getElementById('level');
 const coinsEl = document.getElementById('coins');
 const livesEl = document.getElementById('livesCount');
 const messageEl = document.getElementById('message');
-const meterFill = document.getElementById('meterFill');
 const gameOverEl = document.getElementById('game-over');
 
-// --- Playgama Storage ---
-async function saveState() {
-  await bridge.storage.set('coins', coins, { identity: playerId });
-  await bridge.storage.set('level', level, { identity: playerId });
-  await bridge.storage.set('lives', lives, { identity: playerId });
-  logConsole('State saved for ' + playerId);
-}
+// --- Blocks ---
+const BLOCKS = [
+  [[1,1],[1,1]], // O
+  [[0,1,0],[1,1,1]], // T
+  [[1,1,0],[0,1,1]], // S
+  [[0,1,1],[1,1,0]], // Z
+  [[1,0,0],[1,1,1]], // J
+  [[0,0,1],[1,1,1]], // L
+  [[1,1,1,1]] // I
+];
 
-async function loadState() {
-  const savedCoins = await bridge.storage.get('coins', { identity: playerId });
-  const savedLevel = await bridge.storage.get('level', { identity: playerId });
-  const savedLives = await bridge.storage.get('lives', { identity: playerId });
+function randomBlock(){ return BLOCKS[Math.floor(Math.random()*BLOCKS.length)]; }
 
-  coins = savedCoins ?? 0;
-  level = savedLevel ?? 1;
-  lives = savedLives ?? 3;
-  updateUI();
-  logConsole('State loaded for ' + playerId);
-}
-    
-// --- UI Update ---
-function updateUI(){
-  coinsEl.textContent = `Coins: ${coins}`;
-  levelEl.textContent = `Level: ${level}`;
-  livesEl.textContent = lives;
-}
-
-// --- Show Question ---
-function showQuestion(){
-  if(current>=questions.length) current=0;
-  const q = questions[current];
-  questionEl.textContent = q.q;
-  [aBtn,bBtn,cBtn,dBtn].forEach((btn,i)=>{
-    btn.textContent = q.options[i];
-    btn.onclick = ()=>{
-      if(btn.textContent === q.answer){
-        messageEl.textContent = "✅ Correct!";
-        coins+=5;
-        nextQuestion();
-      }else{
-        messageEl.textContent = "❌ Wrong!";
-        lives--;
-        if(lives<=0){ gameOver(); return; }
-        nextQuestion();
+// --- Draw ---
+function draw(){
+  ctx.fillStyle="#111"; ctx.fillRect(0,0,COLS*BLOCK,ROWS*BLOCK);
+  for(let y=0;y<ROWS;y++){
+    for(let x=0;x<COLS;x++){
+      if(field[y][x]){
+        ctx.fillStyle=field[y][x]; ctx.fillRect(x*BLOCK,y*BLOCK,BLOCK,BLOCK);
       }
-      updateUI();
-      saveState();
-    };
-  });
-  startTimer();
-  updateMeter();
-}
-
-// --- Timer ---
-function startTimer(){
-  clearInterval(timerInterval);
-  timer=15;
-  timerEl.textContent = `⏳ Time Left: ${timer}s`;
-  timerInterval = setInterval(()=>{
-    if(isPaused) return;
-    timer--;
-    timerEl.textContent = `⏳ Time Left: ${timer}s`;
-    updateMeter();
-    if(timer<=0){
-      clearInterval(timerInterval);
-      lives--;
-      if(lives<=0){ gameOver(); return; }
-      messageEl.textContent = "⏳ Time out!";
-      updateUI();
-      saveState();
-      setTimeout(nextQuestion,1000);
     }
-  },1000);
-}
-
-// --- Progress Meter ---
-function updateMeter(){
-  const pct = (timer/15)*100;
-  meterFill.style.width = `${pct}%`;
-}
-
-// --- Next Question ---
-function nextQuestion(){
-  current++;
-  if(current%3===0){
-    showInterstitialAd();
   }
-  showQuestion();
+  if(currentBlock){
+    ctx.fillStyle="#0ea5a4";
+    for(let y=0;y<currentBlock.length;y++){
+      for(let x=0;x<currentBlock[y].length;x++){
+        if(currentBlock[y][x]){
+          ctx.fillRect((blockPos.x+x)*BLOCK,(blockPos.y+y)*BLOCK,BLOCK,BLOCK);
+        }
+      }
+    }
+  }
 }
 
-// --- Game Over ---
-function gameOver(){
-  clearInterval(timerInterval);
-  gameOverEl.style.display='block';
+// --- Collision ---
+function collides(offsetX=0, offsetY=0){
+  for(let y=0;y<currentBlock.length;y++){
+    for(let x=0;x<currentBlock[y].length;x++){
+      if(currentBlock[y][x]){
+        let nx = blockPos.x+x+offsetX;
+        let ny = blockPos.y+y+offsetY;
+        if(nx<0 || nx>=COLS || ny>=ROWS || (ny>=0 && field[ny][nx])) return true;
+      }
+    }
+  }
+  return false;
 }
 
-// --- Restart ---
-document.getElementById('restartBtn').onclick = ()=>{
-  current=0; coins=0; lives=3; level=1;
-  gameOverEl.style.display='none';
-  updateUI();
-  showQuestion();
-};
+// --- Merge ---
+function merge(){
+  for(let y=0;y<currentBlock.length;y++){
+    for(let x=0;x<currentBlock[y].length;x++){
+      if(currentBlock[y][x] && blockPos.y+y>=0) field[blockPos.y+y][blockPos.x+x]="#0ea5a4";
+    }
+  }
+}
 
-// --- Continue with Ad ---
-document.getElementById('continueWithAd').onclick = ()=>{
-  showRewardedAd(()=>{
-    lives++;
-    gameOverEl.style.display='none';
-    updateUI();
-    showQuestion();
-  });
-};
+// --- Clear lines ---
+function clearLines(){
+  let lines=0;
+  outer: for(let y=ROWS-1;y>=0;y--){
+    if(field[y].every(c=>c)){
+      field.splice(y,1); field.unshift(Array(COLS).fill(0));
+      lines++; y++;
+    }
+  }
+  if(lines>0){
+    coins += lines*2; // reward coins for clearing lines
+    messageEl.textContent=`Lines cleared: ${lines} → +${lines*2} coins`;
+    updateUI(); saveState();
+  }
+}
 
-// --- Pause & Play ---
+// --- Next Block ---
+function nextBlock(){
+  currentBlock=randomBlock();
+  blockPos={x:3,y:0};
+  if(collides()) gameOver();
+}
+
+// --- Drop ---
+function drop(){
+  if(isPaused) return;
+  if(!collides(0,1)) blockPos.y++;
+  else { merge(); clearLines(); nextBlock(); }
+  draw();
+}
+
+// --- Game Loop ---
+function startGame(){
+  loadState();
+  nextBlock();
+  draw();
+  dropTimer = setInterval(drop, dropInterval);
+}
+
+// --- Controls ---
+document.addEventListener('keydown',(e)=>{
+  if(isPaused) return;
+  if(e.key==='ArrowLeft' && !collides(-1,0)) blockPos.x--;
+  if(e.key==='ArrowRight' && !collides(1,0)) blockPos.x++;
+  if(e.key==='ArrowDown') drop();
+  if(e.key===' ') { // rotate
+    const n = currentBlock.length; const temp = Array.from({length:n},()=>Array(n).fill(0));
+    for(let y=0;y<n;y++) for(let x=0;x<n;x++) temp[x][n-1-y]=currentBlock[y][x];
+    const old=currentBlock; currentBlock=temp;
+    if(collides()) currentBlock=old;
+  }
+  draw();
+});
+
+// --- UI Buttons ---
 document.getElementById('pauseBtn').onclick = ()=>{ isPaused=true; messageEl.textContent='⏸ Paused'; };
 document.getElementById('playBtn').onclick = ()=>{ isPaused=false; messageEl.textContent='▶ Playing'; };
-
-// --- Skips & Hints ---
-document.getElementById('skipBtn').onclick = ()=>{
-  if(coins>=10){ coins-=10; nextQuestion(); updateUI(); saveState(); }
-  else{ messageEl.textContent='Not enough coins!'; }
+document.getElementById('restartBtn').onclick = ()=>{
+  field=Array.from({length:ROWS},()=>Array(COLS).fill(0)); coins=0; level=1; lives=5;
+  gameOverEl.style.display='none'; updateUI(); startGame();
 };
-document.getElementById('hintBtn').onclick = ()=>{
-  if(coins>=8){ coins-=8; messageEl.textContent='Hint: ' + questions[current].answer; updateUI(); saveState(); }
-  else{ messageEl.textContent='Not enough coins!'; }
+document.getElementById('useCoinBtn').onclick = ()=>{
+  if(coins>=5){ coins-=5; dropInterval+=300; messageEl.textContent='Block slowed!'; updateUI(); saveState(); }
+  else messageEl.textContent='Not enough coins!';
 };
-
-// --- Daily Bonus ---
-document.getElementById('daily-bonus').onclick = ()=>{
-  coins+=50; messageEl.textContent='Daily bonus added!'; updateUI(); saveState();
-};
-
-// --- IAP Buttons ---
+document.getElementById('daily-bonus').onclick = ()=>{ coins+=50; messageEl.textContent='Daily bonus added!'; updateUI(); saveState(); };
 document.getElementById('buy-50').onclick = ()=>{ coins+=50; updateUI(); saveState(); };
 document.getElementById('buy-100').onclick = ()=>{ coins+=100; updateUI(); saveState(); };
 document.getElementById('buy-200').onclick = ()=>{ coins+=200; updateUI(); saveState(); };
+document.getElementById('continueWithAd').onclick = ()=>{ showRewardedAd(()=>{ lives++; gameOverEl.style.display='none'; updateUI(); }); };
+
+// --- UI Update ---
+function updateUI(){ coinsEl.textContent=`Coins: ${coins}`; levelEl.textContent=`Level: ${level}`; livesEl.textContent=lives; }
+
+// --- Game Over ---
+function gameOver(){
+  clearInterval(dropTimer); gameOverEl.style.display='block'; messageEl.textContent='Game Over!';
+}
 
 // --- Playgama Ads ---
 function showRewardedAd(callback){
-  bridge.ads.show('rewarded')
-    .then(()=>{ logConsole('Rewarded ad shown'); callback(); })
-    .catch(err=>logConsole('Rewarded ad error',err));
+  bridge.ads.show('rewarded').then(()=>{ logConsole('Rewarded ad shown'); callback(); })
+  .catch(err=>logConsole('Rewarded ad error',err));
 }
 function showInterstitialAd(){
-  bridge.ads.show('interstitial')
-    .then(()=>logConsole('Interstitial ad shown'))
-    .catch(err=>logConsole('Interstitial ad error',err));
+  bridge.ads.show('interstitial').then(()=>logConsole('Interstitial ad shown'))
+  .catch(err=>logConsole('Interstitial ad error',err));
 }
 function showBannerAd(){
-  bridge.ads.show('banner',{container:'#ad-container'})
-    .then(()=>logConsole('Banner ad shown'))
-    .catch(err=>logConsole('Banner ad error',err));
+  bridge.ads.show('banner',{container:'#ad-container'}).then(()=>logConsole('Banner ad shown'))
+  .catch(err=>logConsole('Banner ad error',err));
 }
+
+// --- Start ---
+startGame();
+showBannerAd();
+setInterval(showInterstitialAd, 120000); // every 2 mins
 </script>
 
 </body>
