@@ -50,6 +50,8 @@
 </style>
 </head>
 <body>
+
+<!-- Playgama initialization kept exactly where you put it -->
 <script>
 bridge.initialize()
     .then(() => {
@@ -59,20 +61,8 @@ bridge.initialize()
         // error, something went wrong
     })
   </script>
-<!-- Playgama initialization kept exactly where you put it -->
-<script>
-bridge.initialize()
-    .then(() => {
-        // Playgama initialized (kept here as requested)
-        // Show splash for 4 seconds then start game
-        showSplashThenStart();
-    })
-    .catch(error => {
-        // If initialization fails we'll still attempt to start the game
-        console.warn('Playgama init failed:', error);
-        showSplashThenStart();
-    });
 
+<script>
 /* Helper to show splash then call startGame */
 function showSplashThenStart(){
   // splash element exists in DOM (created below). Ensure visible then wait 4s.
