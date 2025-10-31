@@ -6,126 +6,24 @@
 <title>Tetris Pro</title>
 <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
 <style>
-:root {
-  --bg:#000;
-  --card:#1e1e1e;
-  --accent:#0ea5a4;
-  --muted:#999;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Inter, Segoe UI, Arial, sans-serif;
-  background: var(--bg);
-  color: #fff;
-  overflow: hidden; /* prevents scrolling */
-}
-
-.wrap {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.card {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.6);
-}
-
-h1 {
-  margin: 6px 0 12px;
-  font-size: 22px;
-}
-
-.row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.spacer { flex: 1; }
-
-#level, #coins { font-weight: 600; }
-
-#message {
-  min-height: 24px;
-  color: #ffd54d;
-  margin-top: 10px;
-}
-
-.small { font-size: 13px; color: var(--muted); }
-
-#controls {
-  margin-top: 12px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-#game-over {
-  display: none;
-  text-align: center;
-  padding: 12px;
-}
-
-footer {
-  margin-top: 16px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-#iap-buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-#console {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  max-height: 150px;
-  overflow-y: auto;
-  background: rgba(0,0,0,0.8);
-  color: #0f0;
-  font-family: monospace;
-  font-size: 12px;
-  padding: 6px;
-  z-index: 9999;
-}
-
-canvas {
-  background: #111;
-  display: block;
-  margin: 12px auto;
-  border: 2px solid var(--accent);
-  width: 100%; /* default size */
-  height: auto;
-}
-
-:fullscreen canvas,
-:-webkit-full-screen canvas {
-  width: 100vw !important;
-  height: 100vh !important;
-}
-
-:fullscreen .wrap,
-:-webkit-full-screen .wrap {
-  width: 100vw !important;
-  height: 100vh !important;
-}
+:root { --bg:#000;--card:#1e1e1e;--accent:#0ea5a4;--muted:#999; }
+html, body { height: 100%; margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:var(--bg); color:#fff; overflow:hidden; }
+.wrap { width:100vw; height:100vh; margin:0; padding:16px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.card { background:var(--card); border-radius:12px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.6); }
+h1 { margin:6px 0 12px; font-size:22px; }
+.row { display:flex; gap:8px; align-items:center; }
+.spacer { flex:1; }
+#level,#coins { font-weight:600; }
+#message { min-height:24px; color:#ffd54d; margin-top:10px; }
+.small { font-size:13px; color:var(--muted); }
+#controls { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+#game-over { display:none; text-align:center; padding:12px; }
+footer { margin-top:16px; text-align:center; color:var(--muted); font-size:13px; }
+#iap-buttons { display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
+#console { position:fixed; bottom:0; left:0; width:100%; max-height:150px; overflow-y:auto; background:rgba(0,0,0,0.8); color:#0f0; font-family:monospace; font-size:12px; padding:6px; z-index:9999; }
+canvas { background:#111; display:block; margin:12px auto; border:2px solid var(--accent); width:100%; height:auto; }
+:fullscreen canvas, :-webkit-full-screen canvas { width:100vw !important; height:100vh !important; }
+:fullscreen .wrap, :-webkit-full-screen .wrap { width:100vw !important; height:100vh !important; }
 </style>
 </head>
 <body>
@@ -164,20 +62,6 @@ bridge.initialize()
       <button class="btn" id="daily-bonus">Daily +50</button>
     </div>
 
-<script>
-// Fullscreen functionality
-document.getElementById('fullscreenBtn').onclick = () => {
-  const gameWrap = document.getElementById('gameWrap');
-  if (gameWrap.requestFullscreen) {
-    gameWrap.requestFullscreen();
-  } else if (gameWrap.webkitRequestFullscreen) { // Safari
-    gameWrap.webkitRequestFullscreen();
-  } else if (gameWrap.msRequestFullscreen) { // IE/Edge
-    gameWrap.msRequestFullscreen();
-  }
-};
-</script>
-      
     <div id="ad-container" style="margin-top:12px"></div>
 
     <div id="iap-buttons">
@@ -205,29 +89,6 @@ document.getElementById('fullscreenBtn').onclick = () => {
 const c = document.getElementById('console');
 function logConsole(...args){ c.innerHTML += args.join(' ') + '<br>'; c.scrollTop = c.scrollHeight; }
 
-// --- Identity & Storage ---
-let playerId;
-bridge.identity.get()
-  .then(id => { playerId = id; logConsole('Player ID:', playerId); })
-  .catch(err=>logConsole('Identity error',err));
-
-async function saveState(){
-  await bridge.storage.set('coins', coins);
-  await bridge.storage.set('level', level);
-  await bridge.storage.set('lives', lives);
-  logConsole('State saved');
-}
-async function loadState(){
-  const savedCoins = await bridge.storage.get('coins');
-  const savedLevel = await bridge.storage.get('level');
-  const savedLives = await bridge.storage.get('lives');
-  coins = savedCoins ?? 0;
-  level = savedLevel ?? 1;
-  lives = savedLives ?? 5;
-  updateUI();
-  logConsole('State loaded');
-}
-
 // --- Game Variables ---
 const canvas = document.getElementById('tetris');
 const ctx = canvas.getContext('2d');
@@ -251,15 +112,8 @@ const gameOverEl = document.getElementById('game-over');
 
 // --- Blocks ---
 const BLOCKS = [
-  [[1,1],[1,1]], // O
-  [[0,1,0],[1,1,1]], // T
-  [[1,1,0],[0,1,1]], // S
-  [[0,1,1],[1,1,0]], // Z
-  [[1,0,0],[1,1,1]], // J
-  [[0,0,1],[1,1,1]], // L
-  [[1,1,1,1]] // I
+  [[1,1],[1,1]], [[0,1,0],[1,1,1]], [[1,1,0],[0,1,1]], [[0,1,1],[1,1,0]], [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]], [[1,1,1,1]]
 ];
-
 function randomBlock(){ return BLOCKS[Math.floor(Math.random()*BLOCKS.length)]; }
 
 // --- Draw ---
@@ -317,7 +171,7 @@ function clearLines(){
     }
   }
   if(lines>0){
-    coins += lines*2; // reward coins for clearing lines
+    coins += lines*2;
     messageEl.textContent=`Lines cleared: ${lines} → +${lines*2} coins`;
     updateUI(); saveState();
   }
@@ -328,6 +182,7 @@ function nextBlock(){
   currentBlock=randomBlock();
   blockPos={x:3,y:0};
   if(collides()) gameOver();
+  draw();
 }
 
 // --- Drop ---
@@ -338,22 +193,63 @@ function drop(){
   draw();
 }
 
-// --- Game Loop ---
+// --- Identity & Storage ---
+let playerId;
+async function saveState(){
+  await bridge.storage.set('coins', coins);
+  await bridge.storage.set('level', level);
+  await bridge
+async function saveState(){
+  await bridge.storage.set('coins', coins);
+  await bridge.storage.set('level', level);
+  await bridge.storage.set('lives', lives);
+  logConsole('State saved');
+}
+
+async function loadState(){
+  const savedCoins = await bridge.storage.get('coins');
+  const savedLevel = await bridge.storage.get('level');
+  const savedLives = await bridge.storage.get('lives');
+  coins = savedCoins ?? 0;
+  level = savedLevel ?? 1;
+  lives = savedLives ?? 5;
+  updateUI();
+  logConsole('State loaded');
+}
+
+// --- UI Update ---
+function updateUI(){
+  coinsEl.textContent = `Coins: ${coins}`;
+  levelEl.textContent = `Level: ${level}`;
+  livesEl.textContent = lives;
+}
+
+// --- Game Over ---
+function gameOver(){
+  clearInterval(dropTimer);
+  gameOverEl.style.display = 'block';
+  messageEl.textContent = 'Game Over!';
+}
+
+// --- Start Game ---
 function startGame(){
-  loadState();
-  nextBlock();
-  draw();
-  dropTimer = setInterval(drop, dropInterval);
+  loadState().then(() => {
+    nextBlock();
+    draw();
+    clearInterval(dropTimer);
+    dropTimer = setInterval(drop, dropInterval);
+  });
 }
 
 // --- Controls ---
-document.addEventListener('keydown',(e)=>{
+document.addEventListener('keydown', (e) => {
   if(isPaused) return;
-  if(e.key==='ArrowLeft' && !collides(-1,0)) blockPos.x--;
-  if(e.key==='ArrowRight' && !collides(1,0)) blockPos.x++;
-  if(e.key==='ArrowDown') drop();
-  if(e.key===' ') { // rotate
-    const n = currentBlock.length; const temp = Array.from({length:n},()=>Array(n).fill(0));
+  if(e.key === 'ArrowLeft' && !collides(-1,0)) blockPos.x--;
+  if(e.key === 'ArrowRight' && !collides(1,0)) blockPos.x++;
+  if(e.key === 'ArrowDown') drop();
+  if(e.key === ' ') { // rotate
+    const n = currentBlock.length;
+    const temp = Array.from({length:n}, ()=>Array(n).fill(0));
     for(let y=0;y<n;y++) for(let x=0;x<n;x++) temp[x][n-1-y]=currentBlock[y][x];
     const old=currentBlock; currentBlock=temp;
     if(collides()) currentBlock=old;
@@ -361,32 +257,34 @@ document.addEventListener('keydown',(e)=>{
   draw();
 });
 
-// --- UI Buttons ---
-document.getElementById('pauseBtn').onclick = ()=>{ isPaused=true; messageEl.textContent='⏸ Paused'; };
-document.getElementById('playBtn').onclick = ()=>{ isPaused=false; messageEl.textContent='▶ Playing'; };
-document.getElementById('restartBtn').onclick = ()=>{
-  field=Array.from({length:ROWS},()=>Array(COLS).fill(0)); coins=0; level=1; lives=5;
-  gameOverEl.style.display='none'; updateUI(); startGame();
+// --- Button Actions ---
+document.getElementById('fullscreenBtn').onclick = () => {
+  const gameWrap = document.getElementById('gameWrap');
+  if (gameWrap.requestFullscreen) gameWrap.requestFullscreen();
+  else if (gameWrap.webkitRequestFullscreen) gameWrap.webkitRequestFullscreen();
+  else if (gameWrap.msRequestFullscreen) gameWrap.msRequestFullscreen();
 };
-document.getElementById('useCoinBtn').onclick = ()=>{
-  if(coins>=5){ coins-=5; dropInterval+=300; messageEl.textContent='Block slowed!'; updateUI(); saveState(); }
+
+document.getElementById('pauseBtn').onclick = () => { isPaused=true; messageEl.textContent='⏸ Paused'; };
+document.getElementById('playBtn').onclick = () => { isPaused=false; messageEl.textContent='▶ Playing'; };
+document.getElementById('restartBtn').onclick = () => {
+  field = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+  coins = 0; level = 1; lives = 5;
+  gameOverEl.style.display='none';
+  updateUI();
+  startGame();
+};
+document.getElementById('useCoinBtn').onclick = () => {
+  if(coins >= 5){ coins-=5; dropInterval+=300; messageEl.textContent='Block slowed!'; updateUI(); saveState(); }
   else messageEl.textContent='Not enough coins!';
 };
-document.getElementById('daily-bonus').onclick = ()=>{ coins+=50; messageEl.textContent='Daily bonus added!'; updateUI(); saveState(); };
-document.getElementById('buy-50').onclick = ()=>{ coins+=50; updateUI(); saveState(); };
-document.getElementById('buy-100').onclick = ()=>{ coins+=100; updateUI(); saveState(); };
-document.getElementById('buy-200').onclick = ()=>{ coins+=200; updateUI(); saveState(); };
-document.getElementById('continueWithAd').onclick = ()=>{ showRewardedAd(()=>{ lives++; gameOverEl.style.display='none'; updateUI(); }); };
+document.getElementById('daily-bonus').onclick = () => { coins+=50; messageEl.textContent='Daily bonus added!'; updateUI(); saveState(); };
+document.getElementById('buy-50').onclick = () => { coins+=50; updateUI(); saveState(); };
+document.getElementById('buy-100').onclick = () => { coins+=100; updateUI(); saveState(); };
+document.getElementById('buy-200').onclick = () => { coins+=200; updateUI(); saveState(); };
+document.getElementById('continueWithAd').onclick = () => { showRewardedAd(()=>{ lives++; gameOverEl.style.display='none'; updateUI(); }); };
 
-// --- UI Update ---
-function updateUI(){ coinsEl.textContent=`Coins: ${coins}`; levelEl.textContent=`Level: ${level}`; livesEl.textContent=lives; }
-
-// --- Game Over ---
-function gameOver(){
-  clearInterval(dropTimer); gameOverEl.style.display='block'; messageEl.textContent='Game Over!';
-}
-
-// --- Playgama Ads ---
+// --- Ads ---
 function showRewardedAd(callback){
   bridge.ads.show('rewarded').then(()=>{ logConsole('Rewarded ad shown'); callback(); })
   .catch(err=>logConsole('Rewarded ad error',err));
@@ -400,6 +298,11 @@ function showBannerAd(){
   .catch(err=>logConsole('Banner ad error',err));
 }
 
+// --- Identity ---
+bridge.identity.get()
+  .then(id => { playerId = id; logConsole('Player ID:', playerId); })
+  .catch(err => logConsole('Identity error', err));
+
 // --- Start ---
 startGame();
 showBannerAd();
@@ -408,3 +311,4 @@ setInterval(showInterstitialAd, 120000); // every 2 mins
 
 </body>
 </html>
+  
