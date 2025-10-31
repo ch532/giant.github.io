@@ -31,22 +31,6 @@ h1{margin:6px 0 12px;font-size:22px}
 footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
 #iap-buttons{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
 
-/* Splash overlay */
-#splash {
-  position:fixed;
-  inset:0;
-  background:#000;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  flex-direction:column;
-  gap:18px;
-}
-#splash img{ width:140px; height:auto; display:block; }
-#splash h2{ margin:0; font-size:26px; color:#fff; font-weight:700; letter-spacing:0.5px;}
-
 /* Console */
 #console {
   position:fixed;
@@ -76,12 +60,6 @@ bridge.initialize()
         // error, something went wrong
     })
 </script>
-
-<!-- Splash overlay -->
-<div id="splash">
-  <img src="https://connectgold.sbs/gold-2.png" alt="Connect Gold logo">
-  <h2>IQ Pro</h2>
-</div>
 
 <!-- Main game wrapper -->
 <div class="wrap" id="gameWrap" style="display:none">
@@ -152,17 +130,10 @@ const c = document.getElementById('console');
 function logConsole(...args){ c.innerHTML += args.join(' ') + '<br>'; c.scrollTop = c.scrollHeight; }
 </script>
 
-<!-- Splash then game start -->
-<script>
-window.addEventListener('load', ()=>{
-  const splash = document.getElementById('splash');
-  const gameWrap = document.getElementById('gameWrap');
-  splash.style.display='flex';
-  setTimeout(()=>{
-    splash.style.display='none';
-    gameWrap.style.display='block';
-    startGame();
-  },4000);
+  <script>
+window.addEventListener('load', () => {
+  document.getElementById('gameWrap').style.display = 'block';
+  startGame();
 });
 </script>
 
