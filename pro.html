@@ -22,6 +22,11 @@ footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px;}
 #iap-buttons{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
 #console{position:fixed;bottom:0;left:0;width:100%;max-height:150px;overflow-y:auto;background:rgba(0,0,0,0.8);color:#0f0;font-family:monospace;font-size:12px;padding:6px;z-index:9999;}
 canvas{background:#111;display:block;margin:12px auto;border:2px solid var(--accent);}
+:fullscreen canvas,
+:-webkit-full-screen canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+}
 </style>
 </head>
 <body>
@@ -51,6 +56,7 @@ bridge.initialize()
     <div id="message"></div>
 
     <div id="controls">
+      <button class="btn" id="fullscreenBtn">Fullscreen</button>
       <button class="btn" id="pauseBtn">Pause</button>
       <button class="btn" id="playBtn">Play</button>
       <button class="btn" id="restartBtn">Restart</button>
@@ -59,6 +65,20 @@ bridge.initialize()
       <button class="btn" id="daily-bonus">Daily +50</button>
     </div>
 
+<script>
+// Fullscreen functionality
+document.getElementById('fullscreenBtn').onclick = () => {
+  const gameWrap = document.getElementById('gameWrap');
+  if (gameWrap.requestFullscreen) {
+    gameWrap.requestFullscreen();
+  } else if (gameWrap.webkitRequestFullscreen) { // Safari
+    gameWrap.webkitRequestFullscreen();
+  } else if (gameWrap.msRequestFullscreen) { // IE/Edge
+    gameWrap.msRequestFullscreen();
+  }
+};
+</script>
+      
     <div id="ad-container" style="margin-top:12px"></div>
 
     <div id="iap-buttons">
