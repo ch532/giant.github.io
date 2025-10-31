@@ -346,11 +346,7 @@ function showBannerAd(){
     .then(()=>logConsole('Banner ad shown'))
     .catch(err=>logConsole('Banner ad error',err));
 }
-
-// --- Start Game ---
-async function startGame(){
-  await loadState();
-  showBannerAd();
-  showQuestion();
-}
 </script>
+
+</body>
+</html>
