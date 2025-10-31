@@ -195,24 +195,23 @@ function drop(){
 
 // --- Identity & Storage ---
 let playerId;
-async function saveState(){
-  await bridge.storage.set('coins', coins);
-  await bridge.storage.set('level', level);
-  await bridge
-async function saveState(){
+
+async function saveState() {
   await bridge.storage.set('coins', coins);
   await bridge.storage.set('level', level);
   await bridge.storage.set('lives', lives);
   logConsole('State saved');
 }
 
-async function loadState(){
+async function loadState() {
   const savedCoins = await bridge.storage.get('coins');
   const savedLevel = await bridge.storage.get('level');
   const savedLives = await bridge.storage.get('lives');
+  
   coins = savedCoins ?? 0;
   level = savedLevel ?? 1;
   lives = savedLives ?? 5;
+  
   updateUI();
   logConsole('State loaded');
 }
