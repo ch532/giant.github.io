@@ -69,9 +69,12 @@ footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
 <!-- Playgama SDK initialization -->
 <script>
 bridge.initialize()
-  .then(() => {
-    console.log('Playgama initialized');
-  .catch(err=>console.warn('Playgama init error', err));
+    .then(() => {
+        // initialization was successful, SDK can be used
+    })
+    .catch(error => {
+        // error, something went wrong
+    })
 </script>
 
 <!-- Splash overlay -->
