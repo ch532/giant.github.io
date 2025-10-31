@@ -131,9 +131,10 @@ function logConsole(...args){ c.innerHTML += args.join(' ') + '<br>'; c.scrollTo
 </script>
 
   <script>
-window.addEventListener('load', () => {
+  window.addEventListener('load', () => {
   document.getElementById('gameWrap').style.display = 'block';
   startGame();
+  showQuestion(); // <-- add this line to immediately show the first question
 });
 </script>
 
