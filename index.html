@@ -10,9 +10,11 @@
   <link rel="stylesheet" href="styles.css" />
 	<div style="height: 60px;"></div>  <header>
     <div class="logo"><img src="gold-2.png" alt="Connect Gold Logo" /></div>
-
 <link rel="icon" href="/gold-2.png" type="image/png">
 <link rel="shortcut icon" href="gold-2.png" type="image/png">
+
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js"></script>
 	
 		<script type="text/javascript"> adroll_adv_id = "NQDAK2GEJREVNA6WPKD47C"; adroll_pix_id = "HOPU476WXZHCDJZNFGAVJD"; adroll_version = "2.0";  (function(w, d, e, o, a) { w.__adroll_loaded = true; w.adroll = w.adroll || []; w.adroll.f = [ 'setProperties', 'identify', 'track', 'identify_email', 'get_cookie' ]; var roundtripUrl = "https://s.adroll.com/j/" + adroll_adv_id + "/roundtrip.js"; for (a = 0; a < w.adroll.f.length; a++) { w.adroll[w.adroll.f[a]] = w.adroll[w.adroll.f[a]] || (function(n) { return function() { w.adroll.push([ n, arguments ]) } })(w.adroll.f[a]) }  e = d.createElement('script'); o = d.getElementsByTagName('script')[0]; e.async = 1; e.src = roundtripUrl; o.parentNode.insertBefore(e, o); })(window, document); adroll.track("pageView"); </script> 
 	<meta name="coinzilla" content="f008e8fed121fa92f85d02d3e5d54112" />
@@ -466,7 +468,25 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
+<script>
+window.YaAuthSuggest.init(
+    {
+      client_id: "6e2ede43dce849cfa885c932303ce237",
+      response_type: "token",
+      redirect_uri: "https://connectgold.sbs/index.html"
+    },
+    "https://connectgold.sbs",
+    { view: "default" }
+  )
+  .then(({handler}) => handler())
+  .then(data => console.log('Сообщение с токеном', data))
+  .catch(error => console.log('Обработка ошибки', error))
+</script>
 
+<script>
+YaSendSuggestToken('https://connectgold.sbs/index.html')
+</script>
+	
 <!-- InMobi SDK Script -->
 <script src="https://scripts.inmobi.com/sdk/mediation/web/1.0/inmobi.js"></script>
 
