@@ -643,52 +643,6 @@ function googleTranslateElementInit() {
   50% { transform: translateY(-5px); }
 }
 </style>
-  
-  
-    
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>World Business Report Feed</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .rss-item { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-    .rss-item h3 { margin: 0 0 5px 0; }
-    .rss-item a { text-decoration: none; color: #0077cc; }
-    .rss-item a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-
-<h2>BBC World Business Report</h2>
-<div id="rss-feed"></div>
-
-<script>
-const rssUrl = encodeURIComponent('https://feeds.bbci.co.uk/news/business/rss.xml');
-const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
-
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('rss-feed');
-    data.items.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'rss-item';
-      div.innerHTML = `
-        <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-        <p>${item.pubDate}</p>
-        <p>${item.contentSnippet}</p>
-      `;
-      container.appendChild(div);
-    });
-  })
-  .catch(err => console.error('Error fetching RSS feed:', err));
-</script>
-
-</body>
-</html>
-	
 
     
 <div style="
