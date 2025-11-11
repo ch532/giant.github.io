@@ -469,12 +469,13 @@ p {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Huawei Test Ads in AppCreator</title>
+    <title>Huawei Test Ads Demo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            margin-bottom: 80px; /* space for banner */
         }
         #banner-container {
             position: fixed;
@@ -483,18 +484,12 @@ p {
             display: flex;
             justify-content: center;
         }
-        button {
-            margin-top: 50px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
     </style>
 </head>
 <body>
 
     <h1>Huawei Test Ads Demo</h1>
-
-    <button id="showInterstitial">Show Interstitial Ad</button>
+    <p>Banner at the bottom and interstitial will show automatically.</p>
 
     <div id="banner-container">
         <!-- Banner Ad -->
@@ -502,27 +497,24 @@ p {
     </div>
 
     <script>
-        // Check if PPSAds bridge is available
+        // Check if Huawei JS Bridge is available
         if (typeof ppsads !== "undefined") {
             console.log("PPSAds bridge is available");
 
             // Create interstitial ad
             const interstitialAd = ppsads.createInterstitialAd({ slotId: "testb4znbuh3n2" });
 
-            // Load the interstitial ad
+            // Load interstitial ad
             interstitialAd.load();
 
             interstitialAd.onLoad(() => {
-                console.log("Interstitial ad loaded");
+                console.log("Interstitial loaded, showing in 3 seconds...");
+                // Auto-show after 3 seconds
+                setTimeout(() => interstitialAd.show(), 3000);
             });
 
-            interstitialAd.onError((errorCode) => {
-                console.error("Interstitial failed to load:", errorCode);
-            });
-
-            // Show interstitial on button click
-            document.getElementById("showInterstitial").addEventListener("click", () => {
-                interstitialAd.show();
+            interstitialAd.onError((err) => {
+                console.error("Failed to load interstitial:", err);
             });
 
         } else {
