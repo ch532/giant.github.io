@@ -466,36 +466,74 @@ p {
   </header>  
 
 	<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Huawei Ads Kit Test</title>
-  <script src="https://ads-static.hispace.hicloud.com/hwads/jsapi/v1/hwads.js"></script>
+    <meta charset="UTF-8">
+    <title>Huawei Test Ads in AppCreator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #banner-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        button {
+            margin-top: 50px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-  <h2>Huawei Ads Kit Test Interstitial</h2>
-  <button id="showAd">Show Test Interstitial</button>
 
-  <script>
-    const adUnitId = "testb4znbuh3n2"; // Huawei official test interstitial ad ID
-    const ad = new hwads.InterstitialAd({ adUnitId });
+    <h1>Huawei Test Ads Demo</h1>
 
-    ad.on('loaded', () => {
-      console.log("Ad loaded successfully.");
-      ad.show();
-    });
+    <button id="showInterstitial">Show Interstitial Ad</button>
 
-    ad.on('failed', (err) => {
-      console.log("Ad failed to load:", err);
-    });
+    <div id="banner-container">
+        <!-- Banner Ad -->
+        <ads-banner id="banner-view" slot-id="testw6vs28auh3" width="360" height="57"></ads-banner>
+    </div>
 
-    document.getElementById("showAd").addEventListener("click", () => {
-      ad.load();
-    });
-  </script>
+    <script>
+        // Check if PPSAds bridge is available
+        if (typeof ppsads !== "undefined") {
+            console.log("PPSAds bridge is available");
+
+            // Create interstitial ad
+            const interstitialAd = ppsads.createInterstitialAd({ slotId: "testb4znbuh3n2" });
+
+            // Load the interstitial ad
+            interstitialAd.load();
+
+            interstitialAd.onLoad(() => {
+                console.log("Interstitial ad loaded");
+            });
+
+            interstitialAd.onError((errorCode) => {
+                console.error("Interstitial failed to load:", errorCode);
+            });
+
+            // Show interstitial on button click
+            document.getElementById("showInterstitial").addEventListener("click", () => {
+                interstitialAd.show();
+            });
+
+        } else {
+            console.warn("PPSAds bridge not available in this AppCreator build.");
+        }
+    </script>
+
 </body>
 </html>
 
+	
 <script>
   // Initialize InMobi with your website key
   InMobi.init({
