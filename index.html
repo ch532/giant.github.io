@@ -465,6 +465,36 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header>  
 
+	<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Huawei Ads Kit Test</title>
+  <script src="https://ads-static.hispace.hicloud.com/hwads/jsapi/v1/hwads.js"></script>
+</head>
+<body>
+  <h2>Huawei Ads Kit Test Interstitial</h2>
+  <button id="showAd">Show Test Interstitial</button>
+
+  <script>
+    const adUnitId = "testb4znbuh3n2"; // Huawei official test interstitial ad ID
+    const ad = new hwads.InterstitialAd({ adUnitId });
+
+    ad.on('loaded', () => {
+      console.log("Ad loaded successfully.");
+      ad.show();
+    });
+
+    ad.on('failed', (err) => {
+      console.log("Ad failed to load:", err);
+    });
+
+    document.getElementById("showAd").addEventListener("click", () => {
+      ad.load();
+    });
+  </script>
+</body>
+</html>
 
 <script>
   // Initialize InMobi with your website key
