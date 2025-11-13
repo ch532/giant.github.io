@@ -1,6 +1,8 @@
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 google.com, pub-1171216593802007, DIRECT, f08c47fec0942fa0
 
+google.com, pub-7728035806961877, DIRECT, f08c47fec0942fa0
+
 #Google# 18-06-2025
 
 google.com, pub-1912561085588771, DIRECT, f08c47fec0942fa0
