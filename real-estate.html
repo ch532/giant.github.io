@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Estate Listings</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+    .container { width: 90%; max-width: 1200px; margin: 20px auto; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .listing { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; gap: 15px; }
+    .listing img { width: 200px; height: 150px; object-fit: cover; border-radius: 5px; }
+    .listing-details { flex: 1; }
+    .listing-details h2 { margin: 0 0 10px 0; font-size: 1.2em; }
+    .listing-details p { margin: 5px 0; }
+    .price { color: green; font-weight: bold; }
+    .location { font-style: italic; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Real Estate Listings</h1>
+    <div id="listings"></div>
+  </div>
+
+<div id="listings"></div>
+
+<script>
+async function fetchRealEstate() {
+    const url = "https://api.apify.com/v2/acts/tri_angle~real-estate-aggregator/run-sync-get-dataset-items?token=apify_api_roHl9HWnMGeqfqivRh6IUbAm3p3t6a32Py4e";
+    
+    // Input for the actor
+    const input = {
+        location: "Abuja, ABJ",
+        offerTypes: ["sale","rent"],
+        units: "metric",
+        maxResultsPerProvider: 100,
+        deduplicateResults: false
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(input)
+        });
+        
+        const data = await response.json();
+
+        const container = document.getElementById("listings");
+        data.forEach(item => {
+            const card = document.createElement("div");
+            card.style.border = "1px solid #ccc";
+            card.style.margin = "10px";
+            card.style.padding = "10px";
+
+            card.innerHTML = `
+                <h3>${item.title || "No title"}</h3>
+                <p>Price: ${item.price || "N/A"}</p>
+                <p>Location: ${item.location || "N/A"}</p>
+                <a href="${item.url}" target="_blank">View Listing</a>
+            `;
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error("Error fetching real estate data:", err);
+    }
+}
+
+fetchRealEstate();
+</script>
+
+</body>
+</html>
