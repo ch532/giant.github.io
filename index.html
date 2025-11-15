@@ -2,7 +2,25 @@
 <head>    
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">
- <title>Connect Gold – Explore & Discover More</title
+ <title>Connect Gold – Explore & Discover More</title>
+<script type="module">
+   import { initializeApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+
+const app = initializeApp({
+  // Your firebase configuration object
+});
+
+// Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this
+// key is the counterpart to the secret key you set in the Firebase console.
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('abcdefghijklmnopqrstuvwxy-1234567890abcd'),
+
+  // Optional argument. If true, the SDK automatically refreshes App Check
+  // tokens as needed.
+  isTokenAutoRefreshEnabled: true
+});
+</script>
 <meta name="description" content="Connect Gold – Your all-in-one hub for affiliate deals, news, TV content, weather updates, and more. Explore and stay informed all in one place!">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12,6 +30,7 @@
     <div class="logo"><img src="gold-2.png" alt="Connect Gold Logo" /></div>
 <link rel="icon" href="/gold-2.png" type="image/png">
 <link rel="shortcut icon" href="gold-2.png" type="image/png">
+		
 
 		<script type="text/javascript"> adroll_adv_id = "NQDAK2GEJREVNA6WPKD47C"; adroll_pix_id = "HOPU476WXZHCDJZNFGAVJD"; adroll_version = "2.0";  (function(w, d, e, o, a) { w.__adroll_loaded = true; w.adroll = w.adroll || []; w.adroll.f = [ 'setProperties', 'identify', 'track', 'identify_email', 'get_cookie' ]; var roundtripUrl = "https://s.adroll.com/j/" + adroll_adv_id + "/roundtrip.js"; for (a = 0; a < w.adroll.f.length; a++) { w.adroll[w.adroll.f[a]] = w.adroll[w.adroll.f[a]] || (function(n) { return function() { w.adroll.push([ n, arguments ]) } })(w.adroll.f[a]) }  e = d.createElement('script'); o = d.getElementsByTagName('script')[0]; e.async = 1; e.src = roundtripUrl; o.parentNode.insertBefore(e, o); })(window, document); adroll.track("pageView"); </script> 
 	<meta name="coinzilla" content="f008e8fed121fa92f85d02d3e5d54112" />
