@@ -21,6 +21,58 @@ const appCheck = initializeAppCheck(app, {
   isTokenAutoRefreshEnabled: true
 });
 </script>
+
+<script type="module">
+	import { getAuth, RecaptchaVerifier } from "firebase/auth";
+
+const auth = getAuth();
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {});
+</script>
+
+<div id="recaptcha-container"></div>
+<input type="text" id="phone" placeholder="+2348012345678">
+<input type="text" id="code" placeholder="Enter SMS code">
+<button id="send-code">Send Code</button>
+<button id="verify-code">Verify Code</button>
+<p id="status"></p>
+
+<script type="module">
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+
+const auth = getAuth();
+
+// Initialize reCAPTCHA
+window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+
+let confirmationResult;
+
+// Send SMS code
+document.getElementById("send-code").addEventListener("click", () => {
+  const phoneNumber = document.getElementById("phone").value;
+  signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+    .then((result) => {
+      confirmationResult = result;
+      document.getElementById("status").innerText = "SMS sent. Enter code.";
+    })
+    .catch((error) => {
+      document.getElementById("status").innerText = "Error sending SMS: " + error.message;
+    });
+});
+
+// Verify code
+document.getElementById("verify-code").addEventListener("click", () => {
+  const code = document.getElementById("code").value;
+  confirmationResult.confirm(code)
+    .then((result) => {
+      const user = result.user;
+      document.getElementById("status").innerText = "Logged in as " + user.phoneNumber;
+    })
+    .catch((error) => {
+      document.getElementById("status").innerText = "Invalid code or error: " + error.message;
+    });
+});
+</script>
+	
 <meta name="description" content="Connect Gold – Your all-in-one hub for affiliate deals, news, TV content, weather updates, and more. Explore and stay informed all in one place!">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
