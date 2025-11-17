@@ -862,12 +862,95 @@ p {
 	
     <ins style="width: 0px;height:0px" data-width="0" data-height="0" class="h8e98f54e41" data-domain="//data527.click" data-affquery="/1c8c155842dd075ef2e2/8e98f54e41/?placementName=Bird"><script src="//data527.click/js/responsive.js" async></script></ins>
 	
-<script>
-if (window.location.hostname === "www.yourwebsite.com") {
-    document.write('<a href="https://ch532.itch.io/connect-gold-apk">Download Connect Gold app</a>');
-}
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shared Credentials Example</title>
+</head>
+<body>
+    <h1>Shared Credentials Demo</h1>
 
+    <script>
+        // Check if SharedCredentials API is supported
+        if (navigator.sharedCredentials) {
+            navigator.sharedCredentials.isSupported().then((supported) => {
+                console.info("SharedCredentials isSupported : " + supported);
+            }).catch((err) => {
+                console.error("SharedCredentials Error: ", err);
+            });
+        } else {
+            console.info("SharedCredentials is not supported on this browser");
+        }
+
+        // Define trusted apps
+        var android = new AndroidAppIdentity({
+            name: "Your Android App",
+            packageName: "com.example.androidapp",
+            certHash: "0E:01:BA:63….4F"
+        });
+
+        var quick = new QuickAppIdentity({
+            name: "Your Quick App",
+            packageName: "com.example.quickapp",
+            certHash: "E3:04:02:C3….1E"
+        });
+
+        var web = new WebAppIdentity({
+            name: "Your Web App",
+            domain: "example.com"
+        });
+
+        var trustedApps = [android, web, quick];
+
+        // Save credential
+        var cre = new SharedCredential({
+            username: 'John',
+            type: SharedCredential.PASSWORD,
+            content: (new TextEncoder()).encode("John's password").buffer,
+            userAuth: true,
+            displayName: "John's nickname",
+            avatarUrl: 'avatar.html',
+            tag: 'John password',
+            syncAble: false,
+            sharedWith: trustedApps
+        });
+
+        navigator.sharedCredentials.save(cre).then(() => {
+            console.info("SharedCredential saved successfully.");
+        }).catch((err) => {
+            console.error("Error while saving the SharedCredential: ", err);
+        });
+
+        // Find credentials
+        navigator.sharedCredentials.find(trustedApps).then((credentials) => {
+            credentials.forEach((credential) => {
+                console.info("username: " + credential.username);
+                console.info("type: " + credential.type);
+                console.info("displayName: " + credential.displayName);
+                credential.getContent().then((content) => {
+                    // Convert ArrayBuffer to string if needed
+                    var decoder = new TextDecoder();
+                    console.log("Content: ", decoder.decode(content));
+                });
+            });
+        });
+
+        // Delete credential
+        navigator.sharedCredentials.find(trustedApps).then((credentials) => {
+            credentials.forEach((credential) => {
+                if (credential.username === "John") {
+                    navigator.sharedCredentials.delete(credential).then(() => {
+                        console.info(credential.username + " deleted.");
+                    }).catch((err) => {
+                        console.error("Error while deleting the SharedCredential: ", err);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
 	
 <div id="google_translate_element"></div>
