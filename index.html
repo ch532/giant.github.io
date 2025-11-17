@@ -1012,19 +1012,28 @@ function googleTranslateElementInit() {
     <meta charset="UTF-8">
     <title>Connect Gold Petal Map</title>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-        }
+        /* Ensure html and body take full viewport height */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+}
 
-        #map {
-            height: 100%;
-            width: 100%;
-            margin: 0 auto;
-        }
+/* Map container takes part of the page, not full screen */
+#map {
+    height: 60%; /* Adjust this value as needed */
+    width: 100%;
+}
 
+/* Other page content below the map */
+.other-content {
+    height: 40%; /* Remaining space */
+    width: 100%;
+    overflow-y: auto; /* Scroll if content is taller than space */
+}
         strong {
             color: red;
         }
