@@ -224,6 +224,97 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 This page can be zoomed for better readability!
 </div>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gold Ads Demo</title>
+    <script src="https://h5hosting.dbankcdn.com/cch5/pps-jssdk/mobile/ppsads.js"></script>
+</head>
+<body>
+    <!-- Banner Ad -->
+    <ads-banner id="banner-view" slot-id="testw6vs28auh3" width="320" height="50"></ads-banner>
+
+    <!-- Container for Native Ads -->
+    <div id="content"></div>
+
+    <!-- Native Video Template -->
+    <template id="native-video-with-btn-template">
+        <ads-native class="native native-video-tmpl hidden">
+            <div>
+                <ads-native-video class="native__video-view"></ads-native-video>
+            </div>
+            <div class="native__footer">
+                <div>
+                    <div><span class="native__title"></span></div>
+                    <div>
+                        <span class="native__ad-source"></span>
+                        <span class="native__ad-flag"></span>
+                    </div>
+                </div>
+                <div>
+                    <ads-app-button class="native__app-btn"></ads-app-button>
+                </div>
+            </div>
+        </ads-native>
+    </template>
+
+    <script>
+        /********** Banner Ad **********/
+        const bannerView = document.getElementById("banner-view");
+        bannerView.load();
+        bannerView.onLoad((adlist) => console.log("Banner loaded", adlist));
+        bannerView.onError((errorCode) => console.error("Banner error", errorCode));
+
+        /********** Native Video Ad **********/
+        const nativeAd = ppsads.createNativeAd({ slotId: "testy63txaom86" });
+        nativeAd.load();
+        nativeAd.onLoad((adlist) => {
+            let content = document.getElementById("content");
+            let videoBtnTmpl = document.getElementById("native-video-with-btn-template");
+            let clone = document.importNode(videoBtnTmpl.content, true);
+            content.innerHTML = "";
+            content.appendChild(clone);
+
+            const nativeView = document.querySelector(".native");
+            const titleView = document.querySelector(".native__title");
+            const sourceView = document.querySelector(".native__ad-source");
+            const flagView = document.querySelector(".native__ad-flag");
+            const videoView = document.querySelector(".native__video-view");
+            const btnView = document.querySelector(".native__app-btn");
+
+            customElements.whenDefined("ads-native").then(() => {
+                nativeView.registerNativeAd(adlist[0], null, videoView);
+                nativeView.registerAppButton(btnView);
+            });
+
+            titleView.textContent = adlist[0].title;
+            sourceView.textContent = adlist[0].source;
+            flagView.textContent = "AD";
+        });
+        nativeAd.onError((errorCode) => console.error("Native ad error", errorCode));
+
+        /********** Rewarded Ad **********/
+        const rewardAd = ppsads.createRewardAd({ slotId: "testx9dtjw8hp" });
+        rewardAd.load();
+        rewardAd.onLoad(() => rewardAd.show());
+        rewardAd.onError((errorCode) => console.error("Rewarded ad error", errorCode));
+        rewardAd.onReward((rewardData) => console.log("User rewarded:", rewardData));
+        rewardAd.onClose(() => console.log("Rewarded ad closed"));
+        rewardAd.onShow(() => console.log("Rewarded ad shown"));
+        rewardAd.onComplete(() => console.log("Rewarded ad complete"));
+
+        /********** Interstitial Ad **********/
+        const interstitialAd = ppsads.createInterstitialAd({ slotId: "testb4znbuh3n2" });
+        interstitialAd.load();
+        interstitialAd.onLoad(() => interstitialAd.show());
+        interstitialAd.onError((errorCode) => console.error("Interstitial ad error", errorCode));
+        interstitialAd.onClose(() => console.log("Interstitial ad closed"));
+        interstitialAd.onShow(() => console.log("Interstitial ad shown"));
+    </script>
+</body>
+</html>
+		
 <!-- InMobi SDK Script -->
 <script src="https://scripts.inmobi.com/sdk/mediation/web/1.0/inmobi.js"></script>
 
