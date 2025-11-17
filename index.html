@@ -1006,6 +1006,209 @@ function googleTranslateElementInit() {
     </a>
 </div>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Gold Petal Map</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        strong {
+            color: red;
+        }
+
+        .container {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            z-index: 10;
+        }
+
+        #searchPosition {
+            width: 423px;
+            height: 45px;
+            box-sizing: border-box;
+            outline: none;
+            border: 0;
+            text-indent: 20px;
+            border-radius: 2px;
+            box-shadow: 0px -2px 5px rgb(219, 218, 218);
+        }
+
+        .iconfont_search {
+            background: url('./assets/sprite.png') no-repeat 0 -72px #ce1d2c;
+            background-size: cover;
+            width: 57px;
+            height: 45px;
+            border-radius: 2px;
+            cursor: pointer;
+            position: absolute;
+            right: -57px;
+            top: 0;
+        }
+    </style>
+
+    <script src="https://mapapi.cloud.huawei.com/mapjs/v1/api/js?callback=initMap&key=B613A98FDA150D2E0A9A3AFD3981FA60E8D2A8BBEBC12F75C3E80E6E5673D82A"></script>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="container">
+        <input type="text" placeholder="Anything you want!" id="searchPosition">
+        <div id="iconfont_search" class="iconfont_search"></div>
+    </div>
+
+    <script>
+        var map, trafficMap, infoWindow, directionsService, directionsRenderer;
+        var markerOrigin, markerDestination, siteService;
+
+        function initMap() {
+            // Map setup
+            var mapOptions = {
+                center: {lat: 48.856613, lng: 2.352222},
+                zoom: 10,
+                language: 'en',
+                sourceType: 'vector',
+                navigationControl: true,
+                locationControl: true,
+                rotateControl: true,
+                zoomControl: true,
+                zoomSlider: true,
+                scaleControl: true,
+                copyrightControl: true,
+                logoPosition: 'TOP_LEFT'
+            };
+
+            map = new HWMapJsSDK.HWMap(document.getElementById('map'), mapOptions);
+
+            // Traffic layer
+            trafficMap = new HWMapJsSDK.HWTrafficLayer(map, {interval: 40, autoRefresh: true});
+
+            // Info window
+            infoWindow = new HWMapJsSDK.HWInfoWindow({
+                map,
+                position: mapOptions.center,
+                content: 'Connect Gold Map Example',
+                offset: [0, -40]
+            });
+
+            // Directions
+            directionsService = new HWMapJsSDK.HWDirectionsService();
+            directionsRenderer = new HWMapJsSDK.HWDirectionsRenderer();
+            directionsRenderer.setMap(map);
+
+            var DirectionsRequest = {
+                origin: {lat: 48.86, lng: 2.36},
+                destination: {lat: 49.18, lng: 0.39}
+            };
+            markerOrigin = new HWMapJsSDK.HWMarker({position: DirectionsRequest.origin, label: 'Origin'});
+            markerDestination = new HWMapJsSDK.HWMarker({position: DirectionsRequest.destination, label: 'Destination'});
+            markerOrigin.setMap(map);
+            markerDestination.setMap(map);
+            directionsService.routeDriving(DirectionsRequest, function(result, status){
+                if(status === '0') directionsRenderer.setDirections(result);
+            });
+
+            // HWSiteService: Search by siteId
+            siteService = new HWMapJsSDK.HWSiteService();
+            var siteRequest = {siteId: "F45411D2CC51C59156364492A8D13622"};
+            siteService.searchById(siteRequest, function(result, status){
+                if(status === '0'){
+                    var marker = new HWMapJsSDK.HWMarker({
+                        map: map,
+                        position: {lat: result.site.location.lat, lng: result.site.location.lng},
+                        label: result.site.name
+                    });
+                    map.setCenter({lat: result.site.location.lat, lng: result.site.location.lng});
+                }
+            });
+
+            // Site suggestion (keyword search)
+            var suggestionRequest = {query: "coffee"};
+            siteService.querySuggestion(suggestionRequest, function(result, status){
+                if(status === '0'){
+                    for(var i=0;i<result.sites.length;i++){
+                        var marker = new HWMapJsSDK.HWMarker({
+                            map: map,
+                            position: {lat: result.sites[i].location.lat, lng: result.sites[i].location.lng},
+                            label: result.sites[i].name
+                        });
+                        if(i===0) map.setCenter({lat: result.sites[i].location.lat, lng: result.sites[i].location.lng});
+                    }
+                }
+            });
+
+            // Autocomplete
+            var searchBoxInput = document.getElementById('searchPosition');
+            var iconfont_search = document.getElementById('iconfont_search');
+            var acOptions = {location: mapOptions.center, radius: 10000, customHandler: callback};
+            var autocomplete = new HWMapJsSDK.HWAutocomplete(searchBoxInput, acOptions);
+            autocomplete.addListener('site_changed', printSites);
+
+            function callback(index, data, name){
+                var div = document.createElement('div');
+                div.innerHTML = name;
+                return div;
+            }
+
+            function printSites(){
+                var site = autocomplete.getSite();
+                console.log("Autocomplete Result:", site.name, site.siteId, site.location.lat, site.location.lng, site.formatAddress);
+            }
+
+            iconfont_search.onclick = function(){ 
+                var site = autocomplete.getSite();
+                if(site) map.setCenter({lat: site.location.lat, lng: site.location.lng});
+            };
+
+            // Distance calculation
+            var DistanceClass = new HWMapJsSDK.HWDistanceCalculator();
+            var fromPosition = {lng: 2.35, lat: 48.85};
+            var toPosition = {lng: 2.33, lat: 48.75};
+            var distance = DistanceClass.computeDistanceBetween(fromPosition, toPosition);
+            console.log("Distance (m):", distance);
+
+            // Polygon with area
+            var polygon = new HWMapJsSDK.HWPolygon({
+                map: map,
+                paths: [[
+                    {lat: 49, lng: 2},
+                    {lat: 48.5, lng: 2.5},
+                    {lat: 48, lng: 1.5}
+                ]],
+                fillColor: '#333',
+                strokeColor: '#488',
+                strokeWeight: 5,
+                strokeLineDash: [20, 10]
+            });
+            var polygonArea = HWMapJsSDK.HWGeometryUtil.getPolygonArea(polygon);
+            console.log("Polygon area (sq m):", polygonArea);
+
+            // Map events
+            map.on('click', function(){ map.zoomIn(); });
+            map.onCenterChanged(function(){ console.log("Center changed:", map.getCenter()); });
+            map.onHeadingChanged(function(){ console.log("Heading changed"); });
+            map.onZoomChanged(function(){ console.log("Zoom changed"); });
+        }
+
+        function openInfoWindowBtnClick(){ infoWindow.open(); }
+        function closeInfoWindowBtnClick(){ infoWindow.close(); }
+
+    </script>
+</body>
+</html>
+	
 <script src="https://cdn.tinysnippet.net/scripts/v2.0/manager.js"></script>
 <iframe
   width="100%" height="100" frameborder="0"
