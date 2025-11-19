@@ -485,6 +485,39 @@ console.error('onAdError: ' + msg);
 </script>
 <script type='text/javascript' src='http://webfile.adview.com/h5web/adviewJS.js'></script>
 
+<script type='text/javascript' src='http://webfile.adview.com/h5web/jquery-3.2.1.min.js'></script>
+<div id='adviewMainDiv'></div>
+<iframe id='adviewMainIframe' scrolling='no' frameBorder='0'></iframe>
+<script type='text/javascript'>
+this.AdviewAdTagConfig = {'appId': 'SDK20251119111143tze3d9iny3n6sed',
+'packageName': '',
+'placementType': 1,
+'width': 300,
+'height': 250,
+'os': 4,
+'uuid': '8F039F2CE6C3A993',
+'carrier': '',
+'network': '',
+'latitude': '',
+'longitude': '',
+'country': '',
+'osVer': '',
+'testMode': 0
+'async': false
+};
+this.AdTagEventListener = {
+onAdLoaded: function(msg) {
+/*This event will be called when an ad is loaded sucessfully. */
+console.log('onAdLoaded: ' + msg);
+},
+onAdError: function(msg) {
+/*This event will be called if requesting ad is timed out. */
+console.error('onAdError: ' + msg);
+}
+};
+</script>
+<script type='text/javascript' src='http://webfile.adview.com/h5web/adviewJS.js'></script>
+	
 <!-- InMobi SDK Script -->
 <script src="https://scripts.inmobi.com/sdk/mediation/web/1.0/inmobi.js"></script>
 
