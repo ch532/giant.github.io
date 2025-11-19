@@ -607,15 +607,36 @@ _as('create',{wi:6081});
 _as('create',{wi:6082});
 </script>
 
-	  
- <div data-key="UGC Reels Widget" class="ft" id="ftszyz1zkg">
- </div>
- <script src="https://wdg.fouita.com/widgets/0x35200e.js"></script>
+	  <!--Reference Universe Search Widget-->
+<!--Insert your proxy URL in the line starting with var url="-->
+<!--e.g. var url="http://exproxy.mycollege.edu:2048/login?url= -->
 
-	  
- <div data-key="PDF Reader" class="ft" id="ftanlepjyi">
- </div>
- <script src="https://wdg.fouita.com/widgets/0x352046.js"></script>
+<script type="text/javascript">
+function rusearch(){
+var url="[ my proxy URL ]https://reference.paratext.com/ru/ru.php?Stemming=1&authorized=1&record_key=180&initial=1&fields=all&field_name=Article%2FIndex+terms&query=";
+var searchInputEl = document.getElementById("ruSearchInput");
+document.location=url + encodeURIComponent(searchInputEl.value);
+}</script>
+<script type="text/javascript">
+function getKeyValue(e,form){
+var key=e.keyCode || e.which;
+if (key==13){
+rusearch();
+}
+}
+</script>
+
+<!--Insert the search box somewhere in your html. -->
+<!--Make any style changes you want, but don't change the ids or names-->
+
+<div>
+<div id="ruSearchBox" style="border: 1px solid #666666; background-color:#FFFFFF;margin: 0 1.00em 1.00em 0; padding: 1.00em 0.75em;">
+<div id="enterText" style="position: absolute; left: -1000em; width: 20em;">Enter your search terms:</div>
+<input type="text" id="ruSearchInput" size="30" onKeyPress="getKeyValue(event,this.form)" />
+<div style="display:inline"><input type="button" value="Search" onclick="rusearch()"/></div>
+</div>
+</div>
+<!--/Reference Universe Search Widget -->
  
   
 <!-- ApiTiny script -->
