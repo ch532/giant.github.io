@@ -653,7 +653,7 @@ _as('create',{wi:6082});
       async function findSynonyms(word) {
         if(!word || !word.trim()) return;
         const q = encodeURIComponent(word.trim());
-        // Datamuse: rel_syn = synonyms, max=20
+        // Datamuse: rel_syn = synonyms, max=4
         const url = `https://api.datamuse.com/words?rel_syn=${q}&max=20`;
         status.textContent = `Searching synonyms for "${word}"...`;
         results.innerHTML = '';
