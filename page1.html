@@ -714,6 +714,61 @@ _as('create',{wi:6082});
     })();
   </script>
 </section>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cloudinary Video Player</title>
+
+    <!-- Cloudinary Video Player CSS -->
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/cloudinary-video-player@1.9.9/dist/cld-video-player.min.css"
+    />
+
+    <!-- Cloudinary JS SDK -->
+    <script 
+        src="https://unpkg.com/cloudinary-core@2.13.0/cloudinary-core-shrinkwrap.min.js">
+    </script>
+
+    <!-- Cloudinary Video Player JS -->
+    <script 
+        src="https://unpkg.com/cloudinary-video-player@1.9.9/dist/cld-video-player.min.js">
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        #player {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Video container -->
+    <video id="player" controls></video>
+
+    <script>
+        const player = cloudinary.videoPlayer('player', {
+            cloud_name: 'dq2kcke91',
+            publicId: 'samples/cld-sample-video',
+            title: true,
+            showJumpControls: true,
+            logoImageUrl: 'https://connectgold.sbs-gold-2.png',
+            aiHighlightsGraph: true,
+            sourceTypes: ['hls']
+        });
+    </script>
+
+</body>
+</html>
 	  
 	  <iframe src="//player.radioforge.com/v2/shoutcast.html?radiolink=https%3A%2F%2Fstream.zeno.fm%2Fthbqnu2wvmzuv&radiotype=shoutcast2&bcolor=&image=https://connectgold.sbs/gold-2.png&facebook=&twitter=https://x.com/Chyke33?s=09&title=Naija hits fm&artist=Connect Gold " frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="max-width: 100%;" width="367" height="227"></iframe>
 
