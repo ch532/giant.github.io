@@ -609,6 +609,111 @@ _as('create',{wi:6082});
 </script>
 
 <img  src="http://serve.vdopia.com/adserver/tracker.php?m=ti;ci=3708;ai=11010;chid=193703;ou=rd;rand=[timestamp]" style="height:1px;width:1px;position:absolute;visibility:hidden;" /><script language='javascript' src='http://serve.vdopia.com/adserver/html5/inwapads?version=1.0&sleepAfter=0&adFormat=vdobanner&ak=X4xxtq&container=androidWeb&pageURL=[WEB_PAGE_URL]&siteName=[SITE_NAME]&appBundle=[BUNDLE_NAME/PACKAGE_NAME]&appName=[APP_NAME]&category=[CATEGORY]&refURL=[REFERER_URL]&di=[DEVICE_ID]&dif=[DEVICE_ID_FORMAT]&channelType=[app/site]&apiFramework=[apiFramework]&displayManager=[displayManager]&displayManagerVer=[displayManagerVer]&pos=[AD_POSITION]&target_params=latlong%3D%5BLATITUDE%2FLONGITUDE%5D'></script><noscript><img src="http://serve.vdopia.com/adserver/tracker.php?m=nji;ci=3708;ai=11011;chid=193703;ou=rd;rand=[timestamp]" style="height:1px;width:1px;position:absolute;visibility:hidden;" /></noscript>
+
+<!-- Thesaurus widget (Datamuse API) -->
+<!-- Save as thesaurus-widget.html or paste into your page -->
+<section id="thesaurus-widget" style="max-width:560px;margin:16px auto;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+  <style>
+    #thesaurus-widget .tw-card { border:1px solid #e6e6e6; border-radius:10px; padding:14px; box-shadow:0 6px 18px rgba(0,0,0,0.04); background:#fff; }
+    #thesaurus-widget .tw-row { display:flex; gap:8px; align-items:center; }
+    #thesaurus-widget input[type="search"]{ flex:1; padding:10px 12px; font-size:15px; border:1px solid #ddd; border-radius:8px; outline:none; }
+    #thesaurus-widget button{ padding:10px 12px; font-size:15px; border-radius:8px; border:0; background:#0b74de; color:#fff; cursor:pointer; }
+    #thesaurus-widget button:active{ transform:translateY(1px); }
+    #thesaurus-widget .meta { font-size:13px; color:#666; margin-top:8px; }
+    #thesaurus-widget .results { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    #thesaurus-widget .chip { padding:8px 10px; border-radius:999px; background:#f3f6fb; color:#0b74de; cursor:pointer; border:1px solid #e1eefb; font-size:14px; }
+    #thesaurus-widget .chip:hover{ background:#e9f2ff; }
+    #thesaurus-widget .empty{ color:#888; padding:12px 0; }
+    #thesaurus-widget .small { font-size:13px; color:#777; margin-top:6px; }
+  </style>
+
+  <div class="tw-card" role="region" aria-label="Thesaurus widget">
+    <div class="tw-row">
+      <input id="tw-query" type="search" placeholder="Type a word (e.g. improve) and press Enter" aria-label="Thesaurus search" />
+      <button id="tw-search" aria-label="Search synonyms">Find</button>
+    </div>
+
+    <div class="meta">
+      <span id="tw-status">Enter a word and press <strong>Enter</strong> or the <strong>Find</strong> button.</span>
+    </div>
+
+    <div id="tw-results" class="results" aria-live="polite"></div>
+    <div id="tw-empty" class="empty" hidden>No synonyms found.</div>
+    <div class="small">Results powered by <a href="https://www.datamuse.com/" target="_blank" rel="noopener noreferrer">Datamuse API</a>.</div>
+  </div>
+
+  <script>
+    (function(){
+      const input = document.getElementById('tw-query');
+      const btn = document.getElementById('tw-search');
+      const results = document.getElementById('tw-results');
+      const status = document.getElementById('tw-status');
+      const empty = document.getElementById('tw-empty');
+
+      async function findSynonyms(word) {
+        if(!word || !word.trim()) return;
+        const q = encodeURIComponent(word.trim());
+        // Datamuse: rel_syn = synonyms, max=20
+        const url = `https://api.datamuse.com/words?rel_syn=${q}&max=20`;
+        status.textContent = `Searching synonyms for "${word}"...`;
+        results.innerHTML = '';
+        empty.hidden = true;
+
+        try {
+          const res = await fetch(url, {cache: "no-cache"});
+          if(!res.ok) throw new Error('Network error');
+          const data = await res.json();
+          if(!Array.isArray(data) || data.length === 0) {
+            empty.hidden = false;
+            status.textContent = `No synonyms found for "${word}". Try a related word.`;
+            return;
+          }
+
+          // Render chips
+          data.forEach(item => {
+            const w = item.word;
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'chip';
+            chip.textContent = w;
+            chip.title = 'Click to copy';
+            chip.addEventListener('click', () => {
+              navigator.clipboard?.writeText(w).then(() => {
+                status.textContent = `"${w}" copied to clipboard.`;
+                setTimeout(()=>status.textContent = `Showing synonyms for "${word}".`, 2000);
+              }).catch(()=> {
+                status.textContent = `Press Ctrl/Cmd+C to copy "${w}".`;
+              });
+            });
+            results.appendChild(chip);
+          });
+
+          status.textContent = `Showing ${data.length} synonyms for "${word}". Click a word to copy it.`;
+        } catch (err) {
+          empty.hidden = true;
+          status.textContent = 'Unable to fetch synonyms. Check network or Datamuse status.';
+          console.error(err);
+        }
+      }
+
+      btn.addEventListener('click', ()=> findSynonyms(input.value));
+      input.addEventListener('keydown', (e)=> {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          findSynonyms(input.value);
+        }
+      });
+
+      // Optional: prefill with selected text on the page (nice UX)
+      document.addEventListener('selectionchange', ()=>{
+        // No auto change; this is just optional behavior you can enable if desired
+      });
+
+      // Friendly focus on load
+      input.addEventListener('focus', ()=> input.select());
+    })();
+  </script>
+</section>
 	  
 	  <iframe src="//player.radioforge.com/v2/shoutcast.html?radiolink=https%3A%2F%2Fstream.zeno.fm%2Fthbqnu2wvmzuv&radiotype=shoutcast2&bcolor=&image=https://connectgold.sbs/gold-2.png&facebook=&twitter=https://x.com/Chyke33?s=09&title=Naija hits fm&artist=Connect Gold " frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="max-width: 100%;" width="367" height="227"></iframe>
 
