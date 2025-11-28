@@ -3,7 +3,6 @@
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">
  <title>Connect Gold – Explore & Discover More</title>
-<script src="https://h5hosting.dbankcdn.com/cch5/pps-jssdk/mobile/ppsads.js"></script>
 	<script type="module">
    import { initializeApp } from "firebase/app";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
@@ -453,6 +452,163 @@ p {
     <p class="welcome-message">Connect Gold — the right place to be</p>
   </header> 
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Petal Ads Combined</title>
+
+    <!-- Petal Ads SDK -->
+    <script src="https://h5hosting.dbankcdn.com/cch5/pps-jssdk/mobile/ppsads.js"></script>
+
+    <style>
+        .hidden { display: none; }
+        .native { width: 100%; margin-top: 10px; border: 1px solid #ddd; padding: 10px; border-radius: 8px; }
+        .native__footer { display: flex; justify-content: space-between; margin-top: 10px; }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================
+        🔹 1. BANNER AD
+    ================================ -->
+    <ads-banner id="banner-view" slot-id="n2t3aym75t" width="320" height="50"></ads-banner>
+
+
+    <!-- ============================
+        🔹 2. NATIVE VIDEO AD TEMPLATE
+    ================================ -->
+    <div id="content"></div>
+
+    <template id="native-video-with-btn-template">
+        <ads-native class="native hidden">
+            <div>
+                <ads-native-video class="native__video-view"></ads-native-video>
+            </div>
+
+            <div class="native__footer">
+                <div>
+                    <div><span class="native__title"></span></div>
+                    <div>
+                        <span class="native__ad-source"></span>
+                        <span class="native__ad-flag">AD</span>
+                    </div>
+                </div>
+
+                <div>
+                    <ads-app-button class="native__app-btn"></ads-app-button>
+                </div>
+            </div>
+        </ads-native>
+    </template>
+
+
+    <script>
+        /*********************************************
+         * 1️⃣  BANNER AD
+        *********************************************/
+        const bannerView = document.getElementById("banner-view");
+
+        bannerView.load();
+
+        bannerView.onLoad((adlist) => {});
+        bannerView.onError((errorCode) => {});
+
+
+        /*********************************************
+         * 2️⃣  INTERSTITIAL AD
+        *********************************************/
+        const interstitialAd = ppsads.createInterstitialAd({
+            slotId: "b0w9hj27ys"
+        });
+
+        interstitialAd.load();
+
+        interstitialAd.onLoad(() => {});
+        interstitialAd.onError((errorCode) => {});
+
+        if (interstitialAd.isLoaded()) {}
+
+        interstitialAd.onShow(() => {});
+        interstitialAd.onClose(() => {});
+
+        // Call when you want to show it
+        // interstitialAd.show();
+
+
+        /*********************************************
+         * 3️⃣  REWARDED AD
+        *********************************************/
+        const rewardAd = ppsads.createRewardAd({
+            slotId: "u0osmyb2gh"
+        });
+
+        rewardAd.load();
+
+        rewardAd.onLoad(() => {});
+        rewardAd.onError((errorCode) => {});
+
+        if (rewardAd.isLoaded()) {}
+
+        rewardAd.onReward((rewardData) => {
+            // Reward logic here!
+        });
+
+        rewardAd.onShow(() => {});
+        rewardAd.onClose(() => {});
+        rewardAd.onComplete(() => {});
+
+        // To show:
+        // rewardAd.show();
+
+
+        /*********************************************
+         * 4️⃣  NATIVE VIDEO AD
+        *********************************************/
+        const nativeAd = ppsads.createNativeAd({
+            slotId: "l7039zwaf1"
+        });
+
+        nativeAd.load();
+
+        nativeAd.onLoad((adlist) => {
+            if (!adlist || adlist.length === 0) return;
+            createVideoWithAppDownloadBtnTemplate(adlist[0]);
+        });
+
+        nativeAd.onError((errorCode) => {});
+
+
+        function createVideoWithAppDownloadBtnTemplate(adData) {
+            let content = document.getElementById("content");
+            let tmpl = document.getElementById("native-video-with-btn-template");
+            let clone = document.importNode(tmpl.content, true);
+
+            content.innerHTML = "";
+            content.appendChild(clone);
+
+            const nativeView = document.querySelector(".native");
+            const title = document.querySelector(".native__title");
+            const source = document.querySelector(".native__ad-source");
+            const videoView = document.querySelector(".native__video-view");
+            const btn = document.querySelector(".native__app-btn");
+
+            customElements.whenDefined("ads-native").then(() => {
+                nativeView.registerNativeAd(adData, null, videoView);
+                nativeView.registerAppButton(btn);
+            });
+
+            title.textContent = adData.title;
+            source.textContent = adData.source;
+
+            nativeView.classList.remove("hidden");
+        }
+    </script>
+
+</body>
+</html>
+	
 <img id="rand_tar_id_1763993240" src="http://serve.vdopia.com/adserver/tracker.php?m=ti;ci=3708;ai=11010;chid=193703;ou=rd;rand=[timestamp]" style="height:1px;width:1px;position:absolute;visibility:hidden;" /><script language='javascript' src='http://serve.vdopia.com/adserver/html5/inwapads/?sleepAfter=0&responds_to_scroll=1&target_div_id=rand_tar_id_1763993240&inline=1&slide=0&loop=1&fullscreen=0&vdo=1&adFormat=preappvideo&ak=X4xxtq&version=1.0&showClose=1&pageURL=[WEB_PAGE_URL]&siteName=[SITE_NAME]&appBundle=[BUNDLE_NAME/PACKAGE_NAME]&appName=[APP_NAME]&category=[CATEGORY]&refURL=[REFERER_URL]&di=[DEVICE_ID]&dif=[DEVICE_ID_FORMAT]&channelType=[app/site]&apiFramework=[apiFramework]&displayManager=[displayManager]&displayManagerVer=[displayManagerVer]&pos=[AD_POSITION]&target_params=latlong%3D%5BLATITUDE%2FLONGITUDE%5D&cb=[timestamp]'></script><noscript><img src="http://serve.vdopia.com/adserver/tracker.php?m=nji;ci=3708;ai=11011;chid=193703;ou=rd;rand=[timestamp]" style="height:1px;width:1px;position:absolute;visibility:hidden;" /></noscript>
 	
 	<script type='text/javascript' src='http://webfile.adview.com/h5web/jquery-3.2.1.min.js'></script>
