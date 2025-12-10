@@ -620,6 +620,45 @@ This page can be zoomed for better readability!
 </body>
 </html>
 
+<script>  
+  const script4 = {     
+    div_id: "notification",     
+    theme_style: 4,     
+    position: 5, //number // default 1 // 1 = top center, 2 = top left, 3 top right, 4 bottom left, 5 bottom right, 6 bottom center     
+    text: "",     
+    link: "https://offers.cpx-research.com/index.php?app_id=30381&ext_user_id=anon_12345&username=Guest&email=", // replaced placeholders     
+    newtab: true 
+  };    
+
+  const config = {     
+    general_config: {         
+      app_id: 30381, //number         
+      ext_user_id: "anon_12345", // string         
+      email: "", // string         
+      username: "Guest", // string         
+      subid_1: "", // string         
+      subid_2: "", // string     
+    },     
+    style_config: {         
+      text_color: "#2b2b2b", // string // hex, rgba, colorcode         
+      survey_box: {             
+        topbar_background_color: "#45c4c6", // string // hex, rgba, colorcode             
+        box_background_color: "white", // string // hex, rgba, colorcode             
+        rounded_borders: false, // boolean true || false             
+        stars_filled: "#2b2b2b", // string // hex, rgba, colorcode         
+      },     
+    },     
+    script_config: [script4], // Object Array     
+    debug: true, // boolean                    
+  };  
+
+  window.config = config;   	     	        
+</script>                
+
+<div id="notification"></div>  
+
+<script type="text/javascript" src="https://cdn.cpx-research.com/assets/js/script_tag_v1.1.js"></script>
+	
 <div id="as6082" data-title="You Might Also Like"></div>
 <script type="text/javascript">
  !function(w,d,a){if(!w[a]){var s=d.createElement('script'),
