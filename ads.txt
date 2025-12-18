@@ -1,5 +1,10 @@
 google.com, pub-7728035806961877, DIRECT, f08c47fec0942fa0
 
+smartadserver.com, 4194-OB, RESELLER, 060d053dcf45cbf3
+smartadserver.com, 4194, RESELLER, 060d053dcf45cbf3
+sharethrough.com, 4194-OB, RESELLER, d53b998a7bd4ecd5
+
+
 adview.com,60242510,DIRECT,1b2cc038a11ea319
 aceex.io,1045,RESELLER
 acexchange.co.kr,1618149085,RESELLER
