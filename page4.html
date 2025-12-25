@@ -298,7 +298,24 @@ console.error('onAdError: ' + msg);
   Sponsored
 </div>
 
-        
+<form id='form' role='search'>
+<input type='search' id='query' name='q'
+placeholder='Search...'
+aria-label='Search through site content' required>
+<button>Search</button>
+</form>
+<script>
+const f = document.getElementById('form');
+const q = document.getElementById('query');
+function submitted(event) {
+event.preventDefault();
+const url = 'https://xml.qualiclicks.com/redirect?feed=850339&auth=PcHz&query=' + q.value + '&url=https://connectgold.sbs';
+const win = window.open(url, '_blank');
+win.focus();
+}
+f.addEventListener('submit', submitted);
+</script>
+    
 <div style="max-width: 500px; margin: auto; border: 1px solid #ccc; border-radius: 8px; padding: 20px; background: #f9f9f9; text-align: center;">
   <h3>Apply for Your Visa Easily</h3>
   <p>Fast, secure, and approved by governments worldwide.</p>
