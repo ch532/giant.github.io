@@ -322,7 +322,49 @@ const bannerView = document.getElementById("banner-view");
 <!-- AdsTargets - Ad Display Code -->
 <div id="adm-container-29582"></div><script data-cfasync="false" async type="text/javascript" src="//adstargets.com/myAdstargets/display/items.php?29582&22984&0&0&4&1&0"></script>
 <!-- AdsTargets - Ad Display Code -->
-		
+
+<!-- BEGIN EZMOB TAG -->
+<script type="text/javascript" src="https://ezmob-site.sfo3.digitaloceanspaces.com/prebid.js" async></script>
+    <script>
+	var pbjs = pbjs || {};
+	pbjs.que = pbjs.que || [];
+
+	pbjs.que.push(function() {
+        var adUnits = [
+		{
+            code: 'container1',
+			mediaTypes: {
+            banner: {
+                sizes: [300, 250]
+				}
+        },
+			bids: [{
+            bidder: 'adkernel',
+				params: {
+                zoneId: 314719,
+				  host: 'cpm.ezmob.com'
+				}
+			}]
+		}];
+		pbjs.addAdUnits(adUnits);
+		pbjs.requestBids({
+			bidsBackHandler: handleBids
+		});
+	});
+
+	function handleBids() {
+        var winners = pbjs.getHighestCpmBids();
+        for (winner of winners) {
+            var ifrmEl = document.createElement('iframe');
+            ifrmEl.scrolling = 'no'
+			document.getElementById(winner.adUnitCode).appendChild(ifrmEl);
+			pbjs.renderAd(ifrmEl.contentDocument || ifrmEl.contentWindow.document, winner.adId);
+		}
+    }
+    </script>
+    <div id="container1"></div>
+<!-- END TAG -->
+	
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -398,7 +440,47 @@ const bannerView = document.getElementById("banner-view");
   </div>
 </div>
 
+<!-- BEGIN EZMOB TAG -->
+<script type="text/javascript" src="https://ezmob-site.sfo3.digitaloceanspaces.com/prebid.js" async></script>
+    <script>
+	var pbjs = pbjs || {};
+	pbjs.que = pbjs.que || [];
 
+	pbjs.que.push(function() {
+        var adUnits = [
+		{
+            code: 'container1',
+			mediaTypes: {
+            banner: {
+                sizes: [300, 250]
+				}
+        },
+			bids: [{
+            bidder: 'adkernel',
+				params: {
+                zoneId: 314719,
+				  host: 'cpm.ezmob.com'
+				}
+			}]
+		}];
+		pbjs.addAdUnits(adUnits);
+		pbjs.requestBids({
+			bidsBackHandler: handleBids
+		});
+	});
+
+	function handleBids() {
+        var winners = pbjs.getHighestCpmBids();
+        for (winner of winners) {
+            var ifrmEl = document.createElement('iframe');
+            ifrmEl.scrolling = 'no'
+			document.getElementById(winner.adUnitCode).appendChild(ifrmEl);
+			pbjs.renderAd(ifrmEl.contentDocument || ifrmEl.contentWindow.document, winner.adId);
+		}
+    }
+    </script>
+    <div id="container1"></div>
+<!-- END TAG -->
       
 <a href="" rel="nofollow"><img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/png/300%20x%20250%20px.png" /></a>
 
