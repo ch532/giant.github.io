@@ -849,48 +849,7 @@ _as('create',{wi:6082});
 	  
 	  <iframe src="//player.radioforge.com/v2/shoutcast.html?radiolink=https%3A%2F%2Fstream.zeno.fm%2Fthbqnu2wvmzuv&radiotype=shoutcast2&bcolor=&image=https://connectgold.sbs/gold-2.png&facebook=&twitter=https://x.com/Chyke33?s=09&title=Naija hits fm&artist=Connect Gold " frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="max-width: 100%;" width="367" height="227"></iframe>
 
-<!-- BEGIN EZMOB TAG -->
-<script type="text/javascript" src="https://ezmob-site.sfo3.digitaloceanspaces.com/prebid.js" async></script>
-    <script>
-	var pbjs = pbjs || {};
-	pbjs.que = pbjs.que || [];
 
-	pbjs.que.push(function() {
-        var adUnits = [
-		{
-            code: 'container1',
-			mediaTypes: {
-            banner: {
-                sizes: [300, 250]
-				}
-        },
-			bids: [{
-            bidder: 'adkernel',
-				params: {
-                zoneId: 314719,
-				  host: 'cpm.ezmob.com'
-				}
-			}]
-		}];
-		pbjs.addAdUnits(adUnits);
-		pbjs.requestBids({
-			bidsBackHandler: handleBids
-		});
-	});
-
-	function handleBids() {
-        var winners = pbjs.getHighestCpmBids();
-        for (winner of winners) {
-            var ifrmEl = document.createElement('iframe');
-            ifrmEl.scrolling = 'no'
-			document.getElementById(winner.adUnitCode).appendChild(ifrmEl);
-			pbjs.renderAd(ifrmEl.contentDocument || ifrmEl.contentWindow.document, winner.adId);
-		}
-    }
-    </script>
-    <div id="container1"></div>
-<!-- END TAG -->
-	
 <img  src="http://serve.vdopia.com/adserver/tracker.php?m=ti;ci=3708;ai=11010;chid=193703;ou=rd;rand=[timestamp]" style="height:1px;width:1px;position:absolute;visibility:hidden;" /><script language='javascript' src='http://serve.vdopia.com/adserver/html5/inwapads/?sleepAfter=0&adFormat=inappvideo&attr=href&val=*&ak=X4xxtq&version=1.0&pageURL=[WEB_PAGE_URL]&siteName=[SITE_NAME]&appBundle=[BUNDLE_NAME/PACKAGE_NAME]&appName=[APP_NAME]&category=[CATEGORY]&refURL=[REFERER_URL]&di=[DEVICE_ID]&dif=[DEVICE_ID_FORMAT]&channelType=[app/site]&apiFramework=[apiFramework]&displayManager=[displayManager]&displayManagerVer=[displayManagerVer]&pos=[AD_POSITION]&target_params=latlong%3D%5BLATITUDE%2FLONGITUDE%5D&cb=[timestamp]'></script><noscript><img src="http://serve.vdopia.com/adserver/tracker.php?m=nji;ci=3708;ai=11011;chid=193703;ou=rd;rand=[timestamp]" style="height:1px;width:1px;position:absolute;visibility:hidden;" /></noscript>
 	  
 <!-- ApiTiny script -->
