@@ -8,17 +8,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <mleta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="styles.css" />
-<script>
-    window.onNativeLocation = function(lat, lon) {
-        console.log("Latitude:", lat);
-        console.log("Longitude:", lon);
-
-        // use it anywhere
-        // send to server
-        // show on map
-        // store in JS variable
-    };
-</script>
 	
 <meta name="google-site-verification" content="KuZzUkPurGXAGIGy8O5napcsH14luf4UE2tS1r1-KiM" />
 <meta name="google-adsense-account" content="ca-pub-7103045303312963">
@@ -1269,6 +1258,17 @@ var agConnectConfig =
   const analytics = getAnalytics(app);
 </script>
 
+	<script>
+    window.onNativeLocation = function(lat, lon) {
+        console.log("Latitude:", lat);
+        console.log("Longitude:", lon);
+
+        // use it anywhere
+        // send to server
+        // show on map
+        // store in JS variable
+    };
+</script>
 	
 </body>
 </html>
