@@ -196,22 +196,26 @@ fbq('trackCustom', 'adImpression',{ad: adName});
   <header>
     <nav class="main-nav">
       <ul>
-        <li></li><a href="/page1"
+        <li></li><a href="/index.html"
+   onclick="if(window.Android && Android.showAd){Android.showAd();}">
+   Home 
+</a>
+
+<li></li><a href="/page1.html"
    onclick="if(window.Android && Android.showAd){Android.showAd();}">
    Page 1
 </a>
 
-<li></li><a href="/page2"
+<li></li><a href="/page2.html"
    onclick="if(window.Android && Android.showAd){Android.showAd();}">
    Page 2
 </a>
 
-<li></li><a href="/page3"
+<li></li><a href="/page3.html"
    onclick="if(window.Android && Android.showAd){Android.showAd();}">
    Page 3
 </a>
-
-<li></li><a href="/page4"
+		  <li></li><a href="/page4.html"
    onclick="if(window.Android && Android.showAd){Android.showAd();}">
    Page 4
 </a>
