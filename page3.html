@@ -229,65 +229,44 @@ li a:active {
     <section class="center-container">
       <h1>Welcome to Page 3</h1>
 
+
+<a href="https://www.boomplay.com/share/playlist/30019697">🎵 Music</a>
+<a href="https://connectgold.sbs/videoplayback-1.mp4">🎬 Video</a>
+
+<!-- SCRIPT MUST BE HERE -->
 <script>
-    // Rewarded ad links (external websites)
-    const rewardedLinks = [
-        "https://www.boomplay.com/share/playlist/30019697",  // Music
-        "https://connectgold.sbs/videoplayback-1.mp4"       // Video
-    ];
+const rewardedLinks = [
+  "https://www.boomplay.com/share/playlist/30019697",
+  "https://connectgold.sbs/videoplayback-1.mp4"
+];
 
-    // Internal pages for interstitial ads
-    const interstitialLinks = [
-        "index.html","page1.html","page2.html","page3.html","page4.html",
-        "about.html","contact.html","privacy.html","terms.html","support.html"
-    ];
+const interstitialLinks = [
+  "index.html","page1.html","page2.html","page3.html","page4.html",
+  "about.html","contact.html","privacy.html","terms.html","support.html"
+];
 
-    // Show interstitial ad before navigating to internal page
-    function showInterstitialAndNavigate(url) {
-        if (window.WebAppBridge && typeof WebAppBridge.showInterstitial === "function") {
-            WebAppBridge.showInterstitial();
-        }
-        setTimeout(() => { window.location.href = url; }, 1000);
+document.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", function (e) {
+    const url = this.getAttribute("href");
+
+    if (rewardedLinks.includes(url)) {
+      e.preventDefault();
+      WebAppBridge?.showRewarded();
+      return;
     }
 
-    // Show rewarded ad before navigating to external site
-    function showRewardedAndNavigate(url) {
-        if (window.WebAppBridge && typeof WebAppBridge.showRewarded === "function") {
-            WebAppBridge.showRewarded();
-        } else {
-            window.location.href = url; // fallback for normal browser
-        }
+    if (interstitialLinks.includes(url)) {
+      e.preventDefault();
+      WebAppBridge?.showInterstitial();
+      setTimeout(() => location.href = url, 800);
     }
-
-    // Attach click events to all links
-    document.querySelectorAll("a").forEach(link => {
-        link.onclick = function(e) {
-            const url = this.href;
-
-            if (rewardedLinks.includes(url)) {
-                e.preventDefault();
-                showRewardedAndNavigate(url);
-            } else if (interstitialLinks.includes(url)) {
-                e.preventDefault();
-                showInterstitialAndNavigate(url);
-            }
-            // Other links will navigate normally
-        }
-    });
-
-    // Callback after rewarded ad completes
-    window.onRewardGranted = function() {
-        console.log("Reward granted! Unlock content if needed.");
-    };
+  });
+});
 </script>
+
+
       
-<!-- /23311640042/Dre -->
-<div id='div-gpt-ad-1767707898122-0'>
-  <script>
-    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1767707898122-0'); });
-  </script>
-</div>
-      
+
 <!DOCTYPE html>
 <html>
 <head>
