@@ -28,36 +28,70 @@
   <header>
     <nav class="main-nav">
       <ul>
-        <a href="app://interstitial?next=https://connectgold.sbs/index.html">Home</a>
-<a href="app://interstitial?next=https://connectgold.sbs/page1.html">Page 1</a>
-<a href="app://interstitial?next=https://connectgold.sbs/page2.html">Page 2</a>
-<a href="app://interstitial?next=https://connectgold.sbs/page3.html">Page 3</a>
-<a href="app://interstitial?next=https://connectgold.sbs/page4.html">Page 4</a>
-<a href="app://interstitial?next=https://connectgold.sbs/about.html">About Us</a>
-<a href="app://interstitial?next=https://connectgold.sbs/contact.html">Contact</a>
-<a href="app://interstitial?next=https://connectgold.sbs/privacy.html">Privacy Policy</a>
-<a href="app://interstitial?next=https://connectgold.sbs/terms.html">Terms & Use</a>
-      </ul>
+            <li><a href="page1.html">Page 1</a></li>
+            <li><a href="page2.html">Page 2</a></li>
+            <li><a href="page3.html">Page 3</a></li>
+            <li><a href="page4.html">Page 4</a></li>
+            <li><a
+<li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
     </nav>
   </header>
 
-  <!-- Zoom Notification -->
-<div id="zoom-notification" style="
-    position: relative; /* Can change to fixed/absolute if needed */
-    margin: 20px auto;
-    width: fit-content;
-    background: #f1c40f;
-    color: #000;
-    padding: 10px 15px;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    border-radius: 5px;
-    z-index: 1000;
-">
-This page can be zoomed for better readability!
-</div>
+<script>
+    // Rewarded ad links (external websites)
+    const rewardedLinks = [
+        "https://www.boomplay.com/share/playlist/30019697",  // Music
+        "https://connectgold.sbs/videoplayback-1.mp4"       // Video
+    ];
 
+    // Internal pages for interstitial ads
+    const interstitialLinks = [
+        "index.html","page1.html","page2.html","page3.html","page4.html",
+        "about.html","contact.html","privacy.html","terms.html","support.html"
+    ];
+
+    // Show interstitial ad before navigating to internal page
+    function showInterstitialAndNavigate(url) {
+        if (window.WebAppBridge && typeof WebAppBridge.showInterstitial === "function") {
+            WebAppBridge.showInterstitial();
+        }
+        setTimeout(() => { window.location.href = url; }, 1000);
+    }
+
+    // Show rewarded ad before navigating to external site
+    function showRewardedAndNavigate(url) {
+        if (window.WebAppBridge && typeof WebAppBridge.showRewarded === "function") {
+            WebAppBridge.showRewarded();
+        } else {
+            window.location.href = url; // fallback for normal browser
+        }
+    }
+
+    // Attach click events to all links
+    document.querySelectorAll("a").forEach(link => {
+        link.onclick = function(e) {
+            const url = this.href;
+
+            if (rewardedLinks.includes(url)) {
+                e.preventDefault();
+                showRewardedAndNavigate(url);
+            } else if (interstitialLinks.includes(url)) {
+                e.preventDefault();
+                showInterstitialAndNavigate(url);
+            }
+            // Other links will navigate normally
+        }
+    });
+
+    // Callback after rewarded ad completes
+    window.onRewardGranted = function() {
+        console.log("Reward granted! Unlock content if needed.");
+    };
+</script>
+  
 
   <main>
     <section>
