@@ -1,5 +1,35 @@
 google.com, pub-7728035806961877, DIRECT, f08c47fec0942fa0
 
+pubmatic.com, 163120, reseller, 5d62403b186f2ace
+apester.com, 91071, direct
+rubiconproject.com, 27784, reseller, 0bfd66d529a55807
+33across.com, 001pg00001aszl4iak, reseller, bbea06d9c4d2853c
+sonobi.com, 4d1a8bf76a, reseller, d1a215d9eb5aee9e
+admatic.de, ade-pub-1044423220, reseller
+pubmatic.com, 165708, reseller, 5d62403b186f2ace
+blueseasx.com, 7138118, reseller, 7998eac5087f6110
+adgrid.io, 30264, reseller
+pubmatic.com, 165750, reseller, 5d62403b186f2ace
+rubiconproject.com, 22544, reseller, 0bfd66d529a55807
+vidazoo.com, 67aa86ac8effa21af881368d, reseller, b6ada874b4d7d0b2
+undertone.com, 4261, reseller
+adyoulike.com, 721f20f70910d379981dc19ec5da709f, reseller
+bidmachine.io, 1447, reseller
+smilewanted.com, 5959, reseller
+smartadserver.com, 5044, reseller, 060d053dcf45cbf3
+toponad.com, 168240066616ab, reseller, 1d49fe424a1a456d
+rubiconproject.com, 28169, reseller, 0bfd66d529a55807
+twist.win, tw2400538, reseller
+media.net, 8cu65v935, reseller
+xandr.com, 11316, reseller
+themediagrid.com, sjyvmz, reseller, 35d5010d7789b49d
+triplelift.com, 9342, reseller, 6c33edb13117fd86
+netaddiction.it, 2037, reseller
+pinklion.io, 190976892, direct
+display.io, 224613, reseller
+bidease.com, bidease_seller_49, reseller
+sovrn.com, 400766, reseller, fafdf38b16bf6b2b
+
 smartadserver.com, 4194-OB, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 4194, RESELLER, 060d053dcf45cbf3
 sharethrough.com, 4194-OB, RESELLER, d53b998a7bd4ecd5
