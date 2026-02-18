@@ -111,119 +111,176 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 <noscript><div><img src="https://mc.yandex.ru/watch/103306766" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
   <style>
+    /* -------------------------
+       Reset & Base Styles
+    --------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      font-size: 18px;
+      font-family: Arial, sans-serif;
       line-height: 1.6;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
     }
 
-    .main-nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      background: #333;
-    }
-
-    .main-nav ul li a {
-      display: block;
-      padding: 15px 20px;
-      color: white;
+    a {
       text-decoration: none;
-    }
-
-    .main-nav ul li a:hover,
-    .main-nav ul li a.active {
-      background: #0077cc;
-    }
-    body {
-  padding-top: 52px; /* adjust to nav height */
-}
-
-    main section {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      background: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    }
-
-    h1 {
-      font-size: 2.2em;
-      margin-bottom: 30px;
-    }
-
-    .center-container {
-      text-align: center;
-    }
-
-    .footer {
-      background: #222;
-      color: #eee;
-      padding: 30px 20px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .footer a {
-      color: #66c;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    .social-links {
-      margin-top: 10px;
+      color: inherit;
     }
 
     img {
       max-width: 100%;
       height: auto;
     }
-    body {
-    padding-bottom: 60px;
-}
 
-    li {
-  list-style: none;        /* remove bullets */
-}
+    /* -------------------------
+       Header & Navigation
+    --------------------------- */
+    header {
+      background-color: #1e1e1e;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
 
-li a {
-  display: block;
-  color: #ffffff;
-  padding: 10px 14px;
-  text-decoration: none;
-}
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-li a:hover,
-li a:active {
-  background: rgba(255,255,255,0.15);
-}
+    .main-nav ul li {
+      margin: 0 15px;
+    }
+
+    .main-nav ul li a {
+      color: #fff;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .main-nav ul li a:hover {
+      background-color: #ffcc00;
+      color: #000;
+    }
+
+    /* -------------------------
+       Page Title Section
+    --------------------------- */
+    .page-title {
+      background-color: #ffcc00;
+      color: #1e1e1e;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    /* -------------------------
+       Main Content
+    --------------------------- */
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 30px 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    main h2 {
+      margin-bottom: 15px;
+      color: #1e1e1e;
+    }
+
+    main p {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* -------------------------
+       Buttons
+    --------------------------- */
+    .btn {
+      display: inline-block;
+      background-color: #1e1e1e;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #ffcc00;
+      color: #000;
+    }
+
+    /* -------------------------
+       Footer
+    --------------------------- */
+    footer {
+      background-color: #1e1e1e;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #ffcc00;
+    }
+
+    /* -------------------------
+       Responsive Design
+    --------------------------- */
+    @media (max-width: 768px) {
+      .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-nav ul li {
+        margin: 10px 0;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+        padding: 30px 20px;
+      }
+
+      main {
+        margin: 20px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
- <header>
-  <nav class="main-nav">
-  <ul>
-    <li><a href="page1.html">Page 1</a></li>
-    <li><a href="page2.html">Page 2</a></li>
-    <li><a href="page3.html">Page 3</a></li>
-    <li><a href="page4.html">Page 4</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="privacy.html">Privacy Policy</a></li>
-    <li><a href="terms.html">Terms of Use</a></li>
-</ul>
-  </nav>
- </header>
+  <!-- Navigation -->
+  <header>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="page1.html">Page 1</a></li>
+        <li><a href="page2.html">Page 2</a></li>
+        <li><a href="page3.html">Page 3</a></li>
+        <li><a href="page4.html">Page 4</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+      </ul>
+    </nav>
+  <body>
+  </header>
     
   <main>
     <section class="center-container">
