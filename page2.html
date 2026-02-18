@@ -100,104 +100,175 @@ fbq('trackCustom', 'adImpression',{ad: adName});
 <noscript><div><img src="https://mc.yandex.ru/watch/103306766" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
   <style>
-    body {
+    /* -------------------------
+       Reset & Base Styles
+    --------------------------- */
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      font-size: 18px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
       line-height: 1.6;
-      background-color: #f9f9f9;
-    }
-    
-
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      background: #fff;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+      background-color: #f4f4f4;
+      color: #333;
     }
 
-    h1 {
-      font-size: 2.2em;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    iframe {
-      display: block;
-      margin: 30px auto;
-    }
-
-    footer {
-      background-color: #222;
-      color: #eee;
-      padding: 30px 20px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .footer-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .footer-nav a {
-      color: #ccc;
-      margin: 0 5px;
+    a {
       text-decoration: none;
+      color: inherit;
     }
 
-    .footer-nav a:hover {
-      text-decoration: underline;
+    img {
+      max-width: 100%;
+      height: auto;
     }
 
-    .social-links {
+    /* -------------------------
+       Header & Navigation
+    --------------------------- */
+    header {
+      background-color: #1e1e1e;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .main-nav ul li {
+      margin: 0 15px;
+    }
+
+    .main-nav ul li a {
+      color: #fff;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .main-nav ul li a:hover {
+      background-color: #ffcc00;
+      color: #000;
+    }
+
+    /* -------------------------
+       Page Title Section
+    --------------------------- */
+    .page-title {
+      background-color: #ffcc00;
+      color: #1e1e1e;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    /* -------------------------
+       Main Content
+    --------------------------- */
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 30px 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    main h2 {
+      margin-bottom: 15px;
+      color: #1e1e1e;
+    }
+
+    main p {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* -------------------------
+       Buttons
+    --------------------------- */
+    .btn {
+      display: inline-block;
+      background-color: #1e1e1e;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
       margin-top: 10px;
     }
 
-    .social-links a {
-      color: #ccc;
-      margin: 0 8px;
-      text-decoration: none;
+    .btn:hover {
+      background-color: #ffcc00;
+      color: #000;
     }
-    body {
-    padding-bottom:30px;
-}
 
-    .main-nav {
-  display: flex;
-  flex-wrap: wrap;        /* 🔥 THIS is the key */
-  justify-content: center;
-  gap: 10px;
-  padding: 2px;
-  background: #1c1c2b;
-}
+    /* -------------------------
+       Footer
+    --------------------------- */
+    footer {
+      background-color: #1e1e1e;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
 
-.main-nav a {
-  display: inline-block; /* ensures visibility */
-  padding: 1px 3px;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.12);
-  white-space: nowrap;   /* prevents text breaking */
-}
+    footer a {
+      color: #ffcc00;
+    }
+
+    /* -------------------------
+       Responsive Design
+    --------------------------- */
+    @media (max-width: 768px) {
+      .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-nav ul li {
+        margin: 10px 0;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+        padding: 30px 20px;
+      }
+
+      main {
+        margin: 20px;
+      }
+    }
   </style>
 </head>
+
 <body>
+
+  <!-- Navigation -->
   <header>
     <nav class="main-nav">
-  <ul>
-    <li><a href="page1.html">Page 1</a></li>
-    <li><a href="page2.html">Page 2</a></li>
-    <li><a href="page3.html">Page 3</a></li>
-    <li><a href="page4.html">Page 4</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="privacy.html">Privacy Policy</a></li>
-    <li><a href="terms.html">Terms of Use</a></li>
-</ul>
-</nav>
+      <ul>
+        <li><a href="page1.html">Page 1</a></li>
+        <li><a href="page2.html">Page 2</a></li>
+        <li><a href="page3.html">Page 3</a></li>
+        <li><a href="page4.html">Page 4</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+      </ul>
+    </nav>
+  <body>
   </header>
 
   <main>
