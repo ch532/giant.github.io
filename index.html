@@ -27,7 +27,91 @@
 <script async src="https://cse.google.com/cse.js?cx=b7ccc7fa36703489c">
 </script>
 <div class="gcse-search"></div>
-    
+
+        <!-- Google Picker + OAuth -->
+<script>
+let tokenClient;
+let accessToken = null;
+let pickerInited = false;
+let gisInited = false;
+
+// Load the Picker API
+function onApiLoad() {
+    gapi.load('picker', onPickerApiLoad);
+}
+
+function onPickerApiLoad() {
+    pickerInited = true;
+}
+
+// Initialize Google Identity Services
+function gisLoaded() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: '183087024518-o5bna4318f5fm4hbonmmu43jgng8hb6r.apps.googleusercontent.com',
+        scope: 'https://www.googleapis.com/auth/drive https://mail.google.com/', // combined scopes
+        callback: '', // set later in createPicker
+    });
+    gisInited = true;
+}
+
+// Create and render Google Picker
+function createPicker() {
+    const showPicker = () => {
+        const picker = new google.picker.PickerBuilder()
+            .addView(google.picker.ViewId.DOCS)
+            .setOAuthToken(accessToken)
+            .setDeveloperKey('AIzaSyDhp_AdZ2qefjLeCRtKCKaVq_GzPl_dous')
+            .setCallback(pickerCallback)
+            .setAppId('183087024518')
+            .build();
+        picker.setVisible(true);
+    };
+
+    // Set callback for token client
+    tokenClient.callback = async (response) => {
+        if (response.error !== undefined) throw response;
+        accessToken = response.access_token;
+        showPicker();
+    };
+
+    if (accessToken === null) {
+        tokenClient.requestAccessToken({prompt: 'consent'});
+    } else {
+        tokenClient.requestAccessToken({prompt: ''});
+    }
+}
+
+// Picker callback
+function pickerCallback(data) {
+    let url = 'nothing';
+    if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+        const doc = data[google.picker.Response.DOCUMENTS][0];
+        url = doc[google.picker.Document.URL];
+    }
+    document.getElementById('result').textContent = `You picked: ${url}`;
+}
+
+// Optional: additional picker group example (can comment out if not used)
+const pickerExample = new google.picker.PickerBuilder()
+    .addViewGroup(
+        new google.picker.ViewGroup(google.picker.ViewId.DOCS)
+            .addView(google.picker.ViewId.DOCUMENTS)
+            .addView(google.picker.ViewId.PRESENTATIONS)
+    )
+    .setOAuthToken(accessToken)
+    .setDeveloperKey('AIzaSyDhp_AdZ2qefjLeCRtKCKaVq_GzPl_dous')
+    .setAppId('183087024518')
+    .setCallback(pickerCallback)
+    .build();
+</script>
+
+<!-- Load Google APIs -->
+<script async defer src="https://apis.google.com/js/api.js" onload="onApiLoad()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+
+<!-- Result display -->
+<div id="result"></div>
+         
 <footer>
     <p>Contact: +2347061740924</p>
     <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
