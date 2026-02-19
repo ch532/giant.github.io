@@ -1,70 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connect Gold Quiz</title>
-<link rel="stylesheet" href="style.css">
+    <title>ConnectGold - Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div id="app">
+<header>
+    <h1>ConnectGold</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="page1.html">Page 1</a>
+        <a href="page2.html">Page 2</a>
+        <a href="page3.html">Page 3</a>
+        <a href="page4.html">Page 4</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
 
-    <!-- START SCREEN -->
-    <div id="startScreen" class="screen active">
-        <h1>Connect Gold Quiz</h1>
-        <input type="text" id="playerName" placeholder="Enter your name">
-        <div class="buttons">
-            <button onclick="startGame()">Play</button>
-            <button onclick="showLeaderboard()">Leaderboard</button>
-        </div>
-        <button class="sound-toggle" onclick="toggleSound()">🔊 Sound</button>
-    </div>
+<section class="section">
+    <h2>Welcome to ConnectGold</h2>
+    <p>We build modern web applications and digital solutions.</p>
+</section>
 
-    <!-- CATEGORY SCREEN -->
-    <div id="categoryScreen" class="screen">
-        <h2>Select Category</h2>
-        <button onclick="selectCategory('mixed')">Mixed</button>
-        <button onclick="selectCategory('tech')">Tech</button>
-        <button onclick="selectCategory('science')">Science</button>
-        <button onclick="selectCategory('history')">History</button>
-    </div>
+<footer>
+    <p>Contact: +2347061740924</p>
+    <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
+    <p>Mail: trustconnect713@gmail.com</p>
+    <p>© 2026 ConnectGold</p>
+</footer>
 
-    <!-- GAME SCREEN -->
-    <div id="gameScreen" class="screen">
-        <div class="top-bar">
-            <span>Coins: <span id="coins">0</span></span>
-            <span>Time: <span id="timer">15</span>s</span>
-        </div>
+<a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">
+Chat on WhatsApp
+</a>
 
-        <div class="progress-bar">
-            <div id="progress"></div>
-        </div>
-
-        <h2 id="question"></h2>
-        <div id="options"></div>
-
-        <button onclick="nextQuestion()">Next</button>
-    </div>
-
-    <!-- RESULT SCREEN -->
-    <div id="resultScreen" class="screen">
-        <h2>Game Over</h2>
-        <p id="finalScore"></p>
-        <button onclick="restartGame()">Play Again</button>
-        <button onclick="showLeaderboard()">Leaderboard</button>
-    </div>
-
-    <!-- LEADERBOARD -->
-    <div id="leaderboardScreen" class="screen">
-        <h2>Leaderboard</h2>
-        <div id="leaderboardList"></div>
-        <button onclick="goHome()">Back</button>
-    </div>
-
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
