@@ -1,253 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Connect Gold</title>
-  <meta name="description" content=Reach out to Connect Gold. WhatsApp, email, or follow us on Instagram and Twitter. Abuja-based tech service.">
-  <style>
-    /* -------------------------
-       Reset & Base Styles
-    --------------------------- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* -------------------------
-       Header & Navigation
-    --------------------------- */
-    header {
-      background-color: #1e1e1e;
-      padding: 15px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .main-nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .main-nav ul li {
-      margin: 0 15px;
-    }
-
-    .main-nav ul li a {
-      color: #fff;
-      font-weight: bold;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
-
-    .main-nav ul li a:hover {
-      background-color: #ffcc00;
-      color: #000;
-    }
-
-    /* -------------------------
-       Page Title Section
-    --------------------------- */
-    .page-title {
-      background-color: #ffcc00;
-      color: #1e1e1e;
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    /* -------------------------
-       Main Content
-    --------------------------- */
-    main {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 30px 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    main h2 {
-      margin-bottom: 15px;
-      color: #1e1e1e;
-    }
-
-    main p {
-      margin-bottom: 15px;
-      font-size: 1rem;
-      line-height: 1.8;
-    }
-
-    /* -------------------------
-       Buttons
-    --------------------------- */
-    .btn {
-      display: inline-block;
-      background-color: #1e1e1e;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-      margin-top: 10px;
-    }
-
-    .btn:hover {
-      background-color: #ffcc00;
-      color: #000;
-    }
-
-    /* -------------------------
-       Footer
-    --------------------------- */
-    footer {
-      background-color: #1e1e1e;
-      color: #fff;
-      text-align: center;
-      padding: 20px 0;
-      margin-top: 40px;
-    }
-
-    footer a {
-      color: #ffcc00;
-    }
-
-    /* -------------------------
-       Responsive Design
-    --------------------------- */
-    @media (max-width: 768px) {
-      .main-nav ul {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .main-nav ul li {
-        margin: 10px 0;
-      }
-
-      .page-title {
-        font-size: 1.5rem;
-        padding: 30px 20px;
-      }
-
-      main {
-        margin: 20px;
-      }
-    }
-  </style>
+    <title>Contact Us - ConnectGold</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <!-- Navigation -->
-  <header>
-    <nav class="main-nav">
-      <ul>
+<header>
+    <h1>ConnectGold</h1>
+    <nav>
+        <a href="index.html">Home</a>
         <a href="page1.html">Page 1</a>
         <a href="page2.html">Page 2</a>
         <a href="page3.html">Page 3</a>
         <a href="page4.html">Page 4</a>
-        <a href="about.html">About Us</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Use</a>
-      </ul>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
     </nav>
-  </header>
+</header>
 
-<a href="https://www.boomplay.com/share/playlist/30019697">🎵 Music</a>
-<a href="https://connectgold.sbs/videoplayback-1.mp4">🎬 Video</a>
+<section class="section">
+    <h2>Contact Us</h2>
 
-<!-- SCRIPT MUST BE HERE -->
-<script>
-const rewardedLinks = [
-  "https://www.boomplay.com/share/playlist/30019697",
-  "https://connectgold.sbs/videoplayback-1.mp4"
-];
+    <form class="contact-form" action="mailto:trustconnect713@gmail.com" method="post" enctype="text/plain">
+        <input type="text" name="Name" placeholder="Your Name" required>
+        <input type="email" name="Email" placeholder="Your Email" required>
+        <textarea name="Message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
 
-const interstitialLinks = [
-  "index.html","page1.html","page2.html","page3.html","page4.html",
-  "about.html","contact.html","privacy.html","terms.html","support.html"
-];
+<footer>
+    <p>Contact: +2347061740924</p>
+    <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
+    <p>Mail: trustconnect713@gmail.com</p>
+</footer>
 
-document.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", function (e) {
-    const url = this.getAttribute("href");
-
-    if (rewardedLinks.includes(url)) {
-      e.preventDefault();
-      WebAppBridge?.showRewarded();
-      return;
-    }
-
-    if (interstitialLinks.includes(url)) {
-      e.preventDefault();
-      WebAppBridge?.showInterstitial();
-      setTimeout(() => location.href = url, 800);
-    }
-  });
-});
-</script>
-
-
-
-  <div class="container">
-    <div class="contact-section">
-      <h2>Our Contact Information</h2>
-      <p><strong>Address:</strong> Near Beulah International School, Kurudu, Abuja, Nigeria. Postcode: 900109</p>
-      <p><strong>Phone:</strong>+2347061740924</p>
-      <p><strong>Email:</strong> <a href="mailto:chykedegreat@gmail.com">connectgold.sbs@gmail.com</a></p>
-      <p><strong>Instagram:</strong> <a href="https://instagram.com/connectgold20" target="_blank">@connectgold20</a></p>
-      <p><strong>X (formerly Twitter):</strong> <a href="https://x.com/Connectgold20" target="_blank">@Connectgold20</a></p>
-    </div>
-
-    <div class="contact-section">
-      <h2>Support & Partnerships</h2>
-      <p>We welcome brand collaborations, sponsorships, and content partnerships. If you're interested in advertising or working with us, feel free to reach out!</p>
-      <p>Click below to chat directly on WhatsApp:</p>
-      <a class="whatsapp-button" href="https://wa.me/2347061740924" target="_blank">Chat with Support on WhatsApp</a>
-    </div>
-  </div>
-
-<!-- Paste this right before </body> -->
-<a href="https://wa.me/2347061740924" class="whatsapp-button" target="_blank" title="Chat on WhatsApp">
-  💬 Chat with us
+<a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">
+Chat on WhatsApp
 </a>
 
-<iframe src="footer.html" style="border:none;width:100%;height:150px;"></iframe>
-  
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-10906551758">
-</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-10906551758');
-</script>
-  
-  
 </body>
 </html>
