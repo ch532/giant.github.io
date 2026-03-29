@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.atzec.app",
+      "sha256_cert_fingerprints": [
+        "B1:9E:4F:68:23:BA:8D:EB:5B:8F:0C:A4:43:AF:BE:E7:27:1E:DF:42:86:5A:B9:02:75:2E:36:CA:1D:72:D2:9E"
+      ]
+    }
+  }
+]
