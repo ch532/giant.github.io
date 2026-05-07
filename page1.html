@@ -3,6 +3,30 @@
 <head>
     <title>ConnectGold - Page 1</title>
     <link rel="stylesheet" href="style.css">
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106174379', 'ym');
+
+    ym(106174379, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106174379" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+	
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3XR1R2P73Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3XR1R2P73Y');
+  </script>
+    
 </head>
 <body>
 
@@ -24,11 +48,106 @@
     <h2>Page 1</h2>
 </section>
 
+    <div class="main-container">
+  <h2>📝 Articles</h2>
+
+  <h3 class="section-title">Sports</h3>
+  <div id="sports" class="articles-container"></div>
+
+  <div id="7SAD15695F58DA25692" data-7pub="7SAD15695F58DA25692"></div>
+  <script src="https://code.adclickppc.com/7s-text-ad.js"></script>
+  <script>(function(){initTextAd(['7SAD15695F58DA25692','text'])}())</script>
+
+<div data-type="_mgwidget" data-widget-id="1933117"> 
+ </div> 
+ <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq"); 
+ </script>  
+
+<div id="awn-z10811734"></div>
+	
+  <h3 class="section-title">Health</h3>
+  <div id="health" class="articles-container"></div>
+
+        <h3 class="section-title">Business</h3>
+  <div id="business" class="articles-container"></div>
+
+<h3 class="section-title">Technology</h3>
+  <div id="tech" class="articles-container"></div>
+
+        <h3 class="section-title">Climate Change</h3>
+  <div id="climate" class="articles-container"></div>
+        
 <footer>
     <p>Contact: +2347061740924</p>
     <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
     <p>Mail: trustconnect713@gmail.com</p>
 </footer>
+
+        <script>
+const rssFeeds = {
+  sports: [
+    "https://www.espn.com/espn/rss/news",
+    "https://feeds.bbci.co.uk/sport/rss.xml",
+    "https://www.skysports.com/rss/12040",
+    "https://sports.yahoo.com/rss/",
+    "https://www.cbssports.com/rss/headlines/"
+  ],
+  health: [
+    "https://feeds.bbci.co.uk/news/health/rss.xml",
+    "https://www.medicalnewstoday.com/rss",
+    "https://www.health.com/feed",
+    "https://www.webmd.com/rss",
+    "https://www.who.int/rss-feeds/news-english.xml"
+  ],
+  business: [
+    "https://feeds.bbci.co.uk/news/business/rss.xml",
+    "https://www.forbes.com/business/feed/",
+    "https://www.cnbc.com/id/10001147/device/rss/rss.html",
+    "https://www.bloomberg.com/feed/podcast/etf-report.xml",
+    "https://www.ft.com/rss/home"
+  ],
+  tech: [
+    "https://feeds.bbci.co.uk/news/technology/rss.xml",
+    "https://techcrunch.com/feed/",
+    "https://www.theverge.com/rss/index.xml",
+    "https://www.wired.com/feed/rss",
+    "https://arstechnica.com/feed/"
+  ],
+  climate: [
+    "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+    "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+    "https://www.theguardian.com/environment/climate-change/rss",
+    "https://climate.nasa.gov/rss/news.xml",
+    "https://www.un.org/climatechange/rss.xml"
+  ]
+};
+
+async function loadRSS(category, containerId){
+  const container = document.getElementById(containerId);
+  for(const feed of rssFeeds[category]){
+    try{
+      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed)}`);
+      const data = await res.json();
+      data.items.slice(0,3).forEach(item=>{
+        container.insertAdjacentHTML("beforeend",`
+          <div class="article-card">
+            ${item.thumbnail ? `<img src="${item.thumbnail}">` : ""}
+            <h4>${item.title}</h4>
+            <p>${item.description.replace(/<[^>]*>?/gm,'').slice(0,120)}...</p>
+            <a href="${item.link}" target="_blank">Read more →</a>
+          </div>
+        `);
+      });
+    }catch(e){console.error(e);}
+  }
+}
+
+loadRSS("sports","sports");
+loadRSS("health","health");
+loadRSS("business","business");
+loadRSS("tech","tech");
+loadRSS("climate","climate");
+</script>
 
 <a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">
 Chat on WhatsApp
