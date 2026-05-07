@@ -3,6 +3,40 @@
 <head>
     <title>ConnectGold - Page 2</title>
     <link rel="stylesheet" href="style.css">
+
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
+<script>
+  window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/23311640042/Brightad', [300, 250], 'div-gpt-ad-1768279718186-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106174379', 'ym');
+
+    ym(106174379, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106174379" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3XR1R2P73Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3XR1R2P73Y');
+  </script>
+    
 </head>
 <body>
 
@@ -27,52 +61,59 @@
 <body>
   <div id="player"></div>
 
-  <script>
-    // Load YouTube IFrame API asynchronously
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  <div id="user-content">
+  <div class="main-container">
+    <h2>🌍 World News Hub</h2>
 
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: 'G43NInZfoPE', // Your live video ID
-        playerVars: {
-          'playsinline': 1
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
+      <h3 class="section-title">Google World News</h3>
+    <div id="google-news" class="articles-container">Loading...</div>
 
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
-
-    var done = false;
-    function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
-        done = true;
-      }
-    }
-
-    function stopVideo() {
-      player.stopVideo();
-    }
-  </script>
-</body>
+      <h3 class="section-title">Top Nigerian Media</h3>
+    <div id="nigeria-news" class="articles-container">Loading...</div>
+  </div>
+</div>
     
 <footer>
     <p>Contact: +2347061740924</p>
     <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
     <p>Mail: trustconnect713@gmail.com</p>
 </footer>
+
+    <script>
+  // --- RSS fetch ---
+  async function fetchRSS(url, containerId){
+    const container = document.getElementById(containerId);
+    container.innerHTML="Loading...";
+    try{
+      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
+      const data = await res.json();
+      container.innerHTML="";
+      if(!data.items || data.items.length===0){ container.innerHTML="<p>No news found.</p>"; return; }
+      data.items.forEach(item=>{
+        const cardHTML = `<div class="article-card">
+          ${item.thumbnail?`<img src="${item.thumbnail}" alt="${item.title}">`:""}
+          <h4>${item.title}</h4>
+          <p>${item.description?item.description.replace(/(<([^>]+)>)/gi,""):""}</p>
+          <a href="${item.link}" target="_blank">Read more →</a>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', cardHTML);
+      });
+    } catch(e){ console.error(e); container.innerHTML="<p>Failed to load news.</p>"; }
+  }
+
+  function loadNews(){
+    // Google News
+    fetchRSS("https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en", "google-news");
+
+    // Nigerian news
+    const nigeriaFeeds = [
+      "https://www.vanguardngr.com/feed/",
+      "https://punchng.com/feed/",
+      "https://guardian.ng/feed/",
+      "https://www.thisdaylive.com/feed/"
+    ];
+    nigeriaFeeds.forEach(url=>fetchRSS(url,"nigeria-news"));
+  }
 
 <a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">
 Chat on WhatsApp
