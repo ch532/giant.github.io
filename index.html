@@ -3,6 +3,78 @@
 <head>
     <title>ConnectGold - Home</title>
     <link rel="stylesheet" href="style.css">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7728035806961877"
+     crossorigin="anonymous"></script>
+
+	<meta name='admaven-placement' content=BqdYHqHwH>
+
+<meta name="7searchppc" content="c354272ecbedad3706ee65c2c1d58942"/>
+
+<meta name="clckd" content="c354272ecbedad3706ee65c2c1d58942" />
+
+	<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "ccfe118f-f2e6-4c21-815d-83ebdf7b46d0",
+    });
+  });
+</script>
+
+	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+	
+	<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106174379', 'ym');
+
+    ym(106174379, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/106174379" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+	
+  <!-- Default Consent Mode config -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'wait_for_update': 1500
+    });
+  </script>
+
+  <!-- Clickio Consent Main tag -->
+  <script async type="text/javascript" src="//clickiocmp.com/t/consent_246906.js"></script>
+
+  <!-- OneSignal Push Notifications -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({ appId: "ccfe118f-f2e6-4c21-815d-83ebdf7b46d0" });
+    });
+  </script>
+
+  <!-- SEO / Social -->
+  <meta name="description" content="SkylPWorld is your online knowledge hub! Explore world news, articles, dictionaries, encyclopaedia entries, and more. Learn and grow your knowledge daily.">
+  <meta property="og:title" content="SkylPWorld – Knowledge Hub">
+  <meta property="og:description" content="Explore news, articles, dictionaries, and encyclopaedia content at SkylPWorld. Stay informed and expand your knowledge.">
+  <meta property="og:image" content="Picture/skylpworld256x256.png">
+  <meta property="og:url" content="https://skyl.name.ng/">
+  <meta property="og:type" content="website">
+
 </head>
 <body>
 
@@ -28,67 +100,35 @@
 </script>
 <div class="gcse-search"></div>
 
-        <button onclick="createPicker()">Open Picker</button>
-<div id="result"></div>
-
-<script>
-let tokenClient;
-let accessToken = null;
-
-// Load Picker API
-function onApiLoad() {
-    gapi.load('picker', () => console.log('Picker API loaded'));
-}
-
-// Initialize Google Identity Services
-function gisLoaded() {
-    tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: '183087024518-o5bna4318f5fm4hbonmmu43jgng8hb6r.apps.googleusercontent.com', // your client ID
-        scope: 'https://www.googleapis.com/auth/drive https://mail.google.com/',
-        callback: '', // set in createPicker
-    });
-}
-
-// Create and show Picker
-function createPicker() {
-    const showPicker = () => {
-        const picker = new google.picker.PickerBuilder()
-            .addView(google.picker.ViewId.DOCS)
-            .setOAuthToken(accessToken)
-            .setDeveloperKey('AIzaSyDhp_AdZ2qefjLeCRtKCKaVq_GzPl_dous') // your API Key
-            .setAppId('183087024518') // your Project Number
-            .setCallback(pickerCallback)
-            .build();
-        picker.setVisible(true);
-    };
-
-    // Set token callback
-    tokenClient.callback = (resp) => {
-        if (resp.error) throw resp;
-        accessToken = resp.access_token;
-        showPicker();
-    };
-
-    if (!accessToken) {
-        tokenClient.requestAccessToken({prompt: 'consent'});
-    } else {
-        tokenClient.requestAccessToken({prompt: ''});
-    }
-}
-
-// Picker callback
-function pickerCallback(data) {
-    if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-        const doc = data[google.picker.Response.DOCUMENTS][0];
-        document.getElementById('result').textContent = `You picked: ${doc[google.picker.Document.URL]}`;
-    }
-}
+<!-- Google Translate -->
+<div id="google_translate_element" style="margin: 10px auto; text-align: center;"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+  }
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<!-- Load Google APIs -->
-<script async defer src="https://apis.google.com/js/api.js" onload="onApiLoad()"></script>
-<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
-         
+<!-- Main Logo & Header -->
+<div class="main-container">
+  <img src="Picture/skylpworld256x256.png" alt="Logo" style="width:80px; border-radius:12px;">
+  <h5>Your knowledge hub online</h5>
+</div>
+
+<!-- User Content Section -->
+<div id="user-content">
+
+  <!-- Dictionary/Thesaurus Section -->
+  <div id="dictionary-section" style="margin-top:40px;">
+    <h2>📖 Dictionary / Thesaurus</h2>
+    <input type="text" id="wordInput" placeholder="Type a word">
+    <button onclick="lookupWord()">Search</button>
+    <div id="wordResult" style="margin-top:20px;"></div>
+  </div>
+
+    <iframe width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/31464"></iframe>
+
+    
 <footer>
     <p>Contact: +2347061740924</p>
     <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
@@ -96,9 +136,49 @@ function pickerCallback(data) {
     <p>© 2026 ConnectGold</p>
 </footer>
 
+    	
+<!-- Dictionary Lookup -->
+<script>
+  const DICT_API_KEY = "b603a6c7-2d98-4162-befb-33458a20aff5";
+  async function lookupWord() {
+    const word = document.getElementById('wordInput').value.trim();
+    const resultDiv = document.getElementById('wordResult');
+    if (!word) { resultDiv.innerHTML = "<p>Please enter a word.</p>"; return; }
+    resultDiv.innerHTML = "Loading...";
+    try {
+      const res = await fetch(`https://www.dictionaryapi.com/api/v3/references/ithesaurus/json/${word}?key=${DICT_API_KEY}`);
+      const data = await res.json();
+      if (!data || data.length === 0) { resultDiv.innerHTML = "<p>No entries found.</p>"; return; }
+      if (typeof data[0] === 'string') { 
+        resultDiv.innerHTML = "<p>Word not found. Did you mean: " + data.slice(0,5).join(', ') + "?</p>"; 
+        return; 
+      }
+      const entry = data[0];
+      const definition = entry.shortdef ? entry.shortdef.join('; ') : "No definition found.";
+      const synonyms = entry.meta.syns ? entry.meta.syns.flat().join(', ') : "No synonyms found.";
+      resultDiv.innerHTML = `
+        <div class="content-card">
+          <h4>${entry.hwi.hw} (${entry.fl})</h4>
+          <p><strong>Definition:</strong> ${definition}</p>
+          <p><strong>Synonyms:</strong> ${synonyms}</p>
+        </div>
+      `;
+    } catch(err) {
+      console.error(err);
+      resultDiv.innerHTML = "<p>Error fetching data. Try again later.</p>";
+    }
+  }
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+	
+
 <a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">
 Chat on WhatsApp
 </a>
 
+<!-- start webpushr code --> <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));webpushr('setup',{'key':'BN53vijsuCyrRxGtXVXlfwJ5U7902GXorALon53KKjYTJwklS9R_T4ZjC_P6vWoIfv1PRW9jrDJG9yAxysvBzhA' });</script><!-- end webpushr code -->
+    
 </body>
 </html>
