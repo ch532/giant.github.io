@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World News Hub | Connectgold</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://connectgold.sbs/gold-2.png">
 
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
@@ -55,11 +56,8 @@
         <h2>🌍 World News Hub</h2>
     </section>
 
-    <h3 class="section-title">Google News (Nigeria & World)</h3>
-    <div id="google-news" class="articles-container">Loading news feeds...</div>
-
-    <h3 class="section-title">Top Nigerian Media</h3>
-    <div id="nigeria-news" class="articles-container">Loading local news...</div>
+    <h3 class="section-title">Latest Headlines</h3>
+    <div id="news-api-container" class="articles-container">Loading latest news stories...</div>
 </main>
 
 <footer style="background-color: #1e1e1e; color: #fff; padding: 20px; text-align: center;">
@@ -69,83 +67,59 @@
     <p>© 2026 ConnectGold</p>
 </footer>
 
-
 <script>
-  // Proxy to bypass CORS restrictions
+  // Replace YOUR_API_KEY with your actual key from NewsAPI.org
+  const apiKey = '38c80c8927e247a7878a2b3c28c0de00'; 
+  const newsApiUrl = `https://newsapi.org/v2/top-headlines?country=ng&apiKey=${apiKey}`;
   const PROXY_URL = "https://api.allorigins.win/get?url=";
 
-  async function fetchRSS(rssUrl, containerId) {
-    const container = document.getElementById(containerId);
+  async function fetchNews() {
+    const container = document.getElementById('news-api-container');
     
     try {
-      const response = await fetch(PROXY_URL + encodeURIComponent(rssUrl));
-      if (!response.ok) throw new Error("Network response was not ok");
+      // Fetch via Proxy to avoid CORS blocks
+      const response = await fetch(PROXY_URL + encodeURIComponent(newsApiUrl));
+      if (!response.ok) throw new Error("Network error");
       
       const data = await response.json();
-      const xmlText = data.contents;
-      
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-      
-      // Check for parsing errors
-      if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-        throw new Error("XML Parsing Error");
+      // AllOrigins returns stringified JSON in 'contents'
+      const newsData = JSON.parse(data.contents);
+
+      if (newsData.status !== "ok") {
+        throw new Error(newsData.message || "Failed to load news");
       }
 
-      const items = xmlDoc.querySelectorAll("item");
+      container.innerHTML = "";
 
-      if (container.innerHTML.includes("Loading")) {
-        container.innerHTML = "";
-      }
-
-      if (!items || items.length === 0) {
+      if (newsData.articles.length === 0) {
         container.innerHTML = "<p>No recent news found at the moment.</p>";
         return;
       }
 
-      // Display up to 6 news items
-      Array.from(items).slice(0, 6).forEach(item => {
-        const title = item.querySelector("title")?.textContent || "Breaking News";
-        const link = item.querySelector("link")?.textContent || "#";
-        const rawDate = item.querySelector("pubDate")?.textContent || "";
-        const pubDate = rawDate.split(' ').slice(0, 4).join(' ');
-        
-        let description = item.querySelector("description")?.textContent || "";
-        // Remove HTML tags and shorten description
-        description = description.replace(/<[^>]*>/g, '').substring(0, 150) + "...";
+      // Process and display JSON data
+      newsData.articles.slice(0, 12).forEach(article => {
+        // Skip articles with no content or removed tags
+        if (!article.title || article.title.includes("[Removed]")) return;
 
         const cardHTML = `
           <div class="article-card" style="border: 1px solid #eee; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #fff;">
-            <small style="color: #7f8c8d; display: block; margin-bottom: 5px;">${pubDate}</small>
-            <h4 style="color: #2c3e50; margin-bottom: 10px; font-size: 1.1em; line-height: 1.4;">${title}</h4>
-            <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">${description}</p>
-            <a href="${link}" target="_blank" style="font-weight: bold; color: #2980b9; text-decoration: none;">Read full story →</a>
+            ${article.urlToImage ? `<img src="${article.urlToImage}" style="width:100%; height:180px; object-fit:cover; border-radius:5px; margin-bottom:10px;" alt="news image">` : ''}
+            <small style="color: #7f8c8d; display: block; margin-bottom: 5px;">${new Date(article.publishedAt).toDateString()}</small>
+            <h4 style="color: #2c3e50; margin-bottom: 10px; font-size: 1.1em; line-height: 1.4;">${article.title}</h4>
+            <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">${article.description || 'No description available for this story.'}</p>
+            <a href="${article.url}" target="_blank" style="font-weight: bold; color: #2980b9; text-decoration: none;">Read full story →</a>
           </div>`;
           
         container.insertAdjacentHTML('beforeend', cardHTML);
       });
 
     } catch (e) {
-      console.error("RSS Fetch Error:", e);
-      if (container.innerHTML.includes("Loading")) {
-        container.innerHTML = "<p style='color:#7f8c8d;'>Unable to sync news. Please check your connection or refresh.</p>";
-      }
+      console.error('News Fetch Error:', e);
+      container.innerHTML = "<p style='color:#7f8c8d;'>Unable to sync news. Please check your API key or connection.</p>";
     }
   }
 
-  function initNews() {
-    // Nigerian focused Google News
-    fetchRSS("https://news.google.com/rss?hl=en-NG&gl=NG&ceid=NG:en", "google-news");
-
-    // Local Nigerian Media Feeds
-    const nigeriaFeeds = [
-      "https://www.vanguardngr.com/feed/",
-      "https://punchng.com/feed/"
-    ];
-    nigeriaFeeds.forEach(url => fetchRSS(url, "nigeria-news"));
-  }
-
-  window.addEventListener('load', initNews);
+  window.addEventListener('load', fetchNews);
 </script>
 
 <a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
