@@ -6,16 +6,6 @@
     <title>World News Hub | Connectgold</title>
     <link rel="stylesheet" href="style.css">
 
-    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
-    <script>
-      window.googletag = window.googletag || {cmd: []};
-      googletag.cmd.push(function() {
-        googletag.defineSlot('/23311640042/Brightad', [300, 250], 'div-gpt-ad-1768279718186-0').addService(googletag.pubads());
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-      });
-    </script>
-
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -49,10 +39,11 @@
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
                 
-                <div class="privacy-nav">
+                <div class="privacy-nav" style="display: inline-block; margin-left: 15px; border-left: 1px solid #ccc; padding-left: 15px;">
                     <a href="privacy.html">Web Policy</a>
-                    <a href="privacy3.html">Appgallery Policy</a>
-                    <a href="privacy4.html">Playstore Policy</a>
+                    <a href="privacy3.html">AppGallery Policy</a>
+                    <a href="privacy4.html">PlayStore Policy</a>
+                    <a href="terms.html">Terms</a>
                 </div>
             </div>
         </div>
@@ -64,13 +55,7 @@
         <h2>🌍 World News Hub</h2>
     </section>
 
-    <div id="div-gpt-ad-1768279718186-0" style="min-width: 300px; min-height: 250px; text-align: center; margin: 10px 0;">
-      <script>
-        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1768279718186-0'); });
-      </script>
-    </div>
-
-    <h3 class="section-title">Google World News</h3>
+    <h3 class="section-title">Google News (Nigeria & World)</h3>
     <div id="google-news" class="articles-container">Loading news feeds...</div>
 
     <h3 class="section-title">Top Nigerian Media</h3>
@@ -81,50 +66,72 @@
     <div class="footer-details">
         <p><strong>Contact:</strong> +234 706 174 0924</p>
         <p><strong>Address:</strong> Near Beulah International School, Kurudu, Abuja, Nigeria</p>
-        <p><strong>Email:</strong> <a href="mailto:trustconnect713@gmail.com">trustconnect713@gmail.com</a></p>
+        <p><strong>Email:</strong> <a href="mailto:chyke33@skyl.name.ng">chyke33@skyl.name.ng</a></p>
     </div>
 </footer>
 
 <script>
-  async function fetchRSS(url, containerId){
+  // Public CORS Proxy for direct RSS XML parsing
+  const PROXY_URL = "https://corsproxy.io/?";
+
+  async function fetchRSS(rssUrl, containerId) {
     const container = document.getElementById(containerId);
-    try{
-      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
-      const data = await res.json();
-      if(container.innerHTML === "Loading news feeds..." || container.innerHTML === "Loading local news...") {
-          container.innerHTML = "";
-      }
-      if(!data.items || data.items.length === 0) return;
+    
+    try {
+      const response = await fetch(PROXY_URL + encodeURIComponent(rssUrl));
+      const xmlText = await response.text();
       
-      data.items.slice(0, 5).forEach(item=>{
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+      const items = xmlDoc.querySelectorAll("item");
+
+      if (container.innerHTML.includes("Loading")) {
+        container.innerHTML = "";
+      }
+
+      if (items.length === 0) {
+        container.innerHTML = "<p>No recent news found at the moment.</p>";
+        return;
+      }
+
+      Array.from(items).slice(0, 6).forEach(item => {
+        const title = item.querySelector("title")?.textContent || "Breaking News";
+        const link = item.querySelector("link")?.textContent || "#";
+        const pubDate = item.querySelector("pubDate")?.textContent.split(' ').slice(0, 4).join(' ') || "";
+        
+        let description = item.querySelector("description")?.textContent || "";
+        description = description.replace(/<[^>]*>/g, '').slice(0, 150) + "...";
+
         const cardHTML = `
           <div class="article-card">
-            ${item.thumbnail ? `<img src="${item.thumbnail}" alt="${item.title}">` : ""}
-            <h4>${item.title}</h4>
-            <p>${item.description ? item.description.replace(/(<([^>]+)>)/gi,"").slice(0, 150) + '...' : ""}</p>
-            <a href="${item.link}" target="_blank">Read more →</a>
+            <small style="color: #7f8c8d; display: block; margin-bottom: 5px;">${pubDate}</small>
+            <h4 style="color: #2c3e50; margin-bottom: 10px;">${title}</h4>
+            <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">${description}</p>
+            <a href="${link}" target="_blank" style="font-weight: bold; color: #2980b9; text-decoration: none;">Read full story →</a>
           </div>`;
+          
         container.insertAdjacentHTML('beforeend', cardHTML);
       });
-    } catch(e){ 
-      console.error(e); 
-      container.innerHTML="<p>Failed to sync feeds. Check connection.</p>"; 
+
+    } catch (e) {
+      console.error("RSS Error:", e);
+      container.innerHTML = "<p>Unable to sync news. Check your connection.</p>";
     }
   }
 
-  // Initialize News Aggregation
-  function initNews(){
-    fetchRSS("https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en", "google-news");
+  function initNews() {
+    // Nigerian focused Google News RSS
+    fetchRSS("https://news.google.com/rss?hl=en-NG&gl=NG&ceid=NG:en", "google-news");
 
+    // Local Nigerian Media RSS
     const nigeriaFeeds = [
       "https://www.vanguardngr.com/feed/",
-      "https://punchng.com/feed/",
-      "https://guardian.ng/feed/"
+      "https://punchng.com/feed/"
     ];
     nigeriaFeeds.forEach(url => fetchRSS(url, "nigeria-news"));
   }
 
-  window.onload = initNews;
+  window.addEventListener('load', initNews);
 </script>
 
 <a href="https://wa.me/2347061740924" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
