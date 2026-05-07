@@ -13,6 +13,41 @@
             color: #333;
             background-color: #f9f9f9;
         }
+        /* Complete Navigation Styling */
+        .main-nav {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .main-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .main-nav li {
+            margin: 5px 15px;
+        }
+        .main-nav a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: color 0.3s;
+        }
+        .main-nav a:hover {
+            color: #2c3e50;
+        }
+        .active-link {
+            color: #2c3e50 !important;
+            border-bottom: 2px solid #2980b9;
+        }
+
         .container {
             max-width: 850px;
             margin: auto;
@@ -25,22 +60,23 @@
         h2 { color: #2980b9; margin-top: 25px; }
         ul { margin-bottom: 20px; }
         li { margin-bottom: 8px; }
-        .footer { margin-top: 40px; font-size: 0.9em; color: #7f8c8d; }
+        .footer { margin-top: 40px; font-size: 0.9em; color: #7f8c8d; text-align: center; }
     </style>
 </head>
 <body>
 
     <nav class="main-nav">
       <ul>
-        <a href="page1.html">Page 1</a>
-        <a href="page2.html">Page 2</a>
-        <a href="page3.html">Page 3</a>
-        <a href="about.html">About Us</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="privacy3.html">Privacy Policy3</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="privacy4.html">Privacy Policy4</a>
-        <a href="terms.html">Terms of Use</a>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="page1.html">Articles</a></li>
+        <li><a href="page2.html">News</a></li>
+        <li><a href="page3.html">Knowledge</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Web Privacy</a></li>
+        <li><a href="privacy3.html" class="active-link">App Privacy</a></li>
+        <li><a href="privacy4.html">SDK Privacy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
       </ul>
     </nav>
     
@@ -95,7 +131,7 @@
         <p><strong>Email:</strong> <a href="mailto:chyke33@skyl.name.ng">chyke33@skyl.name.ng</a></p>
 
         <div class="footer">
-            <p>&copy; ©2026 Protomax. All rights reserved.</p>
+            <p>&copy; 2026 Protomax. All rights reserved.</p>
         </div>
     </div>
 </body>
