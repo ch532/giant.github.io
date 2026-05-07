@@ -71,41 +71,53 @@
 </footer>
 
 <script>
-  // Public CORS Proxy for direct RSS XML parsing
-  const PROXY_URL = "https://corsproxy.io/?";
+  // Proxy to bypass CORS restrictions
+  const PROXY_URL = "https://api.allorigins.win/get?url=";
 
   async function fetchRSS(rssUrl, containerId) {
     const container = document.getElementById(containerId);
     
     try {
       const response = await fetch(PROXY_URL + encodeURIComponent(rssUrl));
-      const xmlText = await response.text();
+      if (!response.ok) throw new Error("Network response was not ok");
+      
+      const data = await response.json();
+      const xmlText = data.contents;
       
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+      
+      // Check for parsing errors
+      if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+        throw new Error("XML Parsing Error");
+      }
+
       const items = xmlDoc.querySelectorAll("item");
 
       if (container.innerHTML.includes("Loading")) {
         container.innerHTML = "";
       }
 
-      if (items.length === 0) {
+      if (!items || items.length === 0) {
         container.innerHTML = "<p>No recent news found at the moment.</p>";
         return;
       }
 
+      // Display up to 6 news items
       Array.from(items).slice(0, 6).forEach(item => {
         const title = item.querySelector("title")?.textContent || "Breaking News";
         const link = item.querySelector("link")?.textContent || "#";
-        const pubDate = item.querySelector("pubDate")?.textContent.split(' ').slice(0, 4).join(' ') || "";
+        const rawDate = item.querySelector("pubDate")?.textContent || "";
+        const pubDate = rawDate.split(' ').slice(0, 4).join(' ');
         
         let description = item.querySelector("description")?.textContent || "";
-        description = description.replace(/<[^>]*>/g, '').slice(0, 150) + "...";
+        // Remove HTML tags and shorten description
+        description = description.replace(/<[^>]*>/g, '').substring(0, 150) + "...";
 
         const cardHTML = `
-          <div class="article-card">
+          <div class="article-card" style="border: 1px solid #eee; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #fff;">
             <small style="color: #7f8c8d; display: block; margin-bottom: 5px;">${pubDate}</small>
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">${title}</h4>
+            <h4 style="color: #2c3e50; margin-bottom: 10px; font-size: 1.1em; line-height: 1.4;">${title}</h4>
             <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">${description}</p>
             <a href="${link}" target="_blank" style="font-weight: bold; color: #2980b9; text-decoration: none;">Read full story →</a>
           </div>`;
@@ -114,16 +126,18 @@
       });
 
     } catch (e) {
-      console.error("RSS Error:", e);
-      container.innerHTML = "<p>Unable to sync news. Check your connection.</p>";
+      console.error("RSS Fetch Error:", e);
+      if (container.innerHTML.includes("Loading")) {
+        container.innerHTML = "<p style='color:#7f8c8d;'>Unable to sync news. Please check your connection or refresh.</p>";
+      }
     }
   }
 
   function initNews() {
-    // Nigerian focused Google News RSS
+    // Nigerian focused Google News
     fetchRSS("https://news.google.com/rss?hl=en-NG&gl=NG&ceid=NG:en", "google-news");
 
-    // Local Nigerian Media RSS
+    // Local Nigerian Media Feeds
     const nigeriaFeeds = [
       "https://www.vanguardngr.com/feed/",
       "https://punchng.com/feed/"
