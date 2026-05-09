@@ -5,22 +5,45 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        #user-content, header, footer, .main-container, .whatsapp-btn { display: none; }
-        #login-overlay {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #f5f5f5;
+        /* Mobile Layout Fixes */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin:0; 
+            background:#f5f5f5; 
+            color:#000; 
+            text-align:center; 
+            padding-top: 70px; /* Prevents header overlap */
         }
+
+        /* Nav is now always visible for SEO */
+        header {
+            background:#1f1f2e;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        nav a { color:#fff; text-decoration:none; margin:0 10px; font-weight:600; font-size: 14px; }
+
+        /* Lock the sensitive tools only */
+        #user-content, #google-search-locked { display: none; }
+
+        /* Small login area for the locked section */
+        #login-section {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .main-container { max-width:900px; margin:20px auto; padding:20px; }
     </style>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-	<img
-  src="https://connectgold.sbs/gold-2.png"
-  alt="Logo" style="height: 40px;">
 
 	<link rel="icon" type="image/png" href="https://connectgold.sbs/gold-2.png">
 
@@ -30,75 +53,45 @@ webpushr('setup',{'key':'BN53vijsuCyrRxGtXVXlfwJ5U7902GXorALon53KKjYTJwklS9R_T4Z
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7728035806961877"
      crossorigin="anonymous"></script>
 
-	<meta name='admaven-placement' content=BqdYHqHwH>
-
-<meta name="7searchppc" content="c354272ecbedad3706ee65c2c1d58942"/>
-
 <meta name="clckd" content="c354272ecbedad3706ee65c2c1d58942" />
 
 	<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "ccfe118f-f2e6-4c21-815d-83ebdf7b46d0",
-    });
+    await OneSignal.init({ appId: "ccfe118f-f2e6-4c21-815d-83ebdf7b46d0" });
   });
 </script>
 
 	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
-	
 
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
-
-    ym(103306766, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/103306766" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-        'ad_storage': 'granted',
-        'analytics_storage': 'granted',
-        'functionality_storage': 'granted',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted',
-        'ad_user_data': 'granted',
-        'ad_personalization': 'granted',
-        'wait_for_update': 1500
-    });
-  </script>
-
-  <script async type="text/javascript" src="//clickiocmp.com/t/consent_246906.js"></script>
-
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      await OneSignal.init({ appId: "ccfe118f-f2e6-4c21-815d-83ebdf7b46d0" });
-    });
-  </script>
-
-  <meta name="description" content="SkylPWorld is your online knowledge hub! Explore world news, articles, dictionaries, encyclopaedia entries, and more. Learn and grow your knowledge daily.">
-  <meta property="og:title" content="SkylPWorld – Knowledge Hub">
-  <meta property="og:description" content="Explore news, articles, dictionaries, and encyclopaedia content at SkylPWorld. Stay informed and expand your knowledge.">
-  <meta property="og:image" content="Picture/skylpworld256x256.png">
-  <meta property="og:url" content="https://skyl.name.ng/">
-  <meta property="og:type" content="website">
-
+  <meta name="description" content="ConnectGold is your online knowledge hub! Explore world news, articles, dictionaries, and more.">
 </head>
 <body>
 
-<div id="login-overlay">
-    <img src="https://connectgold.sbs/gold-2.png" alt="Logo" style="width:100px; margin-bottom:20px;">
-    <h2>Welcome to ConnectGold</h2>
-    <p>Please sign in to continue</p>
+<header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" style="color: gold; text-decoration: none;"><strong>Connectgold</strong></a>
+            <div class="nav-links" style="margin-top: 5px;">
+                <a href="index.html">Home</a>
+                <a href="page1.html">Articles</a>
+                <a href="about.html">About</a>
+                <a href="privacy.html">Policy</a>
+            </div>
+        </div>
+    </nav>	
+</header>
+
+<div class="main-container">
+  <img src="https://connectgold.sbs/gold-2.png" alt="Logo" style="width:60px; border-radius:12px;">
+  <h2>Welcome to ConnectGold</h2>
+  <p>Your knowledge hub online</p>
+</div>
+
+<div id="login-section">
+    <h4>Members Only Area</h4>
+    <p>Sign in to use the Dictionary and Search Tools</p>
     <div id="g_id_onload"
          data-client_id="46181700573-l6vs77u2th2vta35j9ic1shoaln7c1ta.apps.googleusercontent.com"
          data-callback="handleCredentialResponse"
@@ -107,139 +100,60 @@ webpushr('setup',{'key':'BN53vijsuCyrRxGtXVXlfwJ5U7902GXorALon53KKjYTJwklS9R_T4Z
     <div class="g_id_signin" data-type="standard"></div>
 </div>
 
-<header id="protected-header">
-    
-<nav>
-        <div class="nav-container">
-            <a href="index.html" class="logo"><strong>Connectgold</strong></a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="page1.html" class="active">Articles</a>
-                <a href="page2.html">Knowledge</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                
-                <div class="privacy-nav">
-                    <a href="privacy.html">Web Policy</a>
-                    <a href="privacy3.html">Appgallery Policy</a>
-                    <a href="privacy4.html">Playstore Policy</a>
-                </div>
-            </div>
-        </div>
-    </nav>	
-</header>
-
-<section class="section" id="protected-section" style="display:none;">
-    <h2>Welcome to ConnectGold</h2>
-</section>
-
-<div id="webpushr-subscription-button"></div>
-	
-<script async src="https://cse.google.com/cse.js?cx=b7ccc7fa36703489c">
-</script>
-<div class="gcse-search"></div>
-
-<div id="google_translate_element" style="margin: 10px auto; text-align: center;"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-	<script defer>
-document.body.appendChild(document.createElement('div')).setAttribute('id','chatBubbleRoot');
-window.agx = '69fe9f1e7d0b1b38f1d66efejDKpRGt7UXmGjidM9jl8bA==|7z0o8v+Ysg8XPKOjb9JlzMPdkgMZnVixLyA9w18C9tI=';
-</script>
-<script defer src="https://storage.googleapis.com/agentx-cdn-01/agentx-chat.js"></script>
-
-<div class="main-container">
-  <img src="https://connectgold.sbs/gold-2.png" alt="Logo" style="width:80px; border-radius:12px;">
-  <h5>Your knowledge hub online</h5>
-</div>
-
 <div id="user-content">
+  <div id="google-search-locked" style="display:block;">
+    <script async src="https://cse.google.com/cse.js?cx=b7ccc7fa36703489c"></script>
+    <div class="gcse-search"></div>
+  </div>
 
   <div id="dictionary-section" style="margin-top:40px;">
     <h2>📖 Dictionary / Thesaurus</h2>
-    <input type="text" id="wordInput" placeholder="Type a word">
-    <button onclick="lookupWord()">Search</button>
+    <input type="text" id="wordInput" placeholder="Type a word" style="padding: 10px; width: 60%;">
+    <button onclick="lookupWord()" style="padding: 10px;">Search</button>
     <div id="wordResult" style="margin-top:20px;"></div>
   </div>
+</div>
 
-    <iframe width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/31464"></iframe>
+<footer style="background-color: #1e1e1e; color: #fff; padding: 20px; text-align: center; margin-top: 50px;">
+    <p>© 2026 ConnectGold</p>
+    <p>Mail: <a href="mailto:chyke33@skyl.name.ng" style="color: white;">chyke33@skyl.name.ng</a></p>
+</footer>
 
-	<a href="https://wa.me/2347061740924" 
-   target="_blank" 
-   class="whatsapp-btn"
-   style="position: fixed; bottom: 100px; right: 20px; background-color: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; box-shadow: 0px 4px 12px rgba(0,0,0,0.2); z-index: 9999; display: flex; align-items: center;">
+<a href="https://wa.me/2347061740924" target="_blank" 
+   style="position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 9999; box-shadow: 0px 4px 12px rgba(0,0,0,0.2);">
    Chat on WhatsApp
 </a>
-
-<footer style="background-color: #1e1e1e; color: #fff; padding: 20px; text-align: center;">
-    <p>Contact: +2347061740924</p>
-    <p>Address: Near Beulah International School, Kurudu, Abuja, FCT, Nigeria</p>
-    <p>Mail: <a href="mailto:chyke33@skyl.name.ng" style="color: white; text-decoration: underline;">chyke33@skyl.name.ng</a></p>
-    <p>© 2026 ConnectGold</p>
-</footer>
 
 <script>
   function decodeJWT(token) {
     let base64Url = token.split(".")[1];
     let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    let jsonPayload = decodeURIComponent(
-      atob(base64).split("").map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join("")
-    );
+    let jsonPayload = decodeURIComponent(atob(base64).split("").map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join(""));
     return JSON.parse(jsonPayload);
   }
 
   function handleCredentialResponse(response) {
     const responsePayload = decodeJWT(response.credential);
-    console.log("Full Name: " + responsePayload.name);
-    
-    // Unlock the website
-    document.getElementById("login-overlay").style.display = "none";
+    // Hide login box, show dictionary and search
+    document.getElementById("login-section").style.display = "none";
     document.getElementById("user-content").style.display = "block";
-    document.getElementById("protected-header").style.display = "block";
-    document.getElementById("protected-section").style.display = "block";
-    
-    // Show hidden containers
-    const hiddenContainers = document.querySelectorAll('.main-container, footer, .whatsapp-btn');
-    hiddenContainers.forEach(el => el.style.display = 'block');
+    alert("Access Granted! Welcome " + responsePayload.given_name);
   }
-</script>
-    	
-<script>
+
   const DICT_API_KEY = "b603a6c7-2d98-4162-befb-33458a20aff5";
   async function lookupWord() {
     const word = document.getElementById('wordInput').value.trim();
     const resultDiv = document.getElementById('wordResult');
-    if (!word) { resultDiv.innerHTML = "<p>Please enter a word.</p>"; return; }
-    resultDiv.innerHTML = "Loading...";
+    if (!word) return;
     try {
       const res = await fetch(`https://www.dictionaryapi.com/api/v3/references/ithesaurus/json/${word}?key=${DICT_API_KEY}`);
       const data = await res.json();
-      if (!data || data.length === 0) { resultDiv.innerHTML = "<p>No entries found.</p>"; return; }
-      if (typeof data[0] === 'string') { 
-        resultDiv.innerHTML = "<p>Word not found. Did you mean: " + data.slice(0,5).join(', ') + "?</p>"; 
-        return; 
-      }
       const entry = data[0];
-      const definition = entry.shortdef ? entry.shortdef.join('; ') : "No definition found.";
-      const synonyms = entry.meta.syns ? entry.meta.syns.flat().join(', ') : "No synonyms found.";
-      resultDiv.innerHTML = `
-        <div class="content-card">
-          <h4>${entry.hwi.hw} (${entry.fl})</h4>
-          <p><strong>Definition:</strong> ${definition}</p>
-          <p><strong>Synonyms:</strong> ${synonyms}</p>
-        </div>
-      `;
-    } catch(err) {
-      console.error(err);
-      resultDiv.innerHTML = "<p>Error fetching data. Try again later.</p>";
-    }
+      resultDiv.innerHTML = `<div style="background:#fff; padding:15px; border-radius:10px; border:1px solid #ddd; text-align:left; max-width:500px; margin:auto;">
+        <h4>${entry.hwi.hw}</h4>
+        <p><strong>Definition:</strong> ${entry.shortdef[0]}</p>
+      </div>`;
+    } catch(err) { resultDiv.innerHTML = "Error fetching data."; }
   }
 </script>
 	
