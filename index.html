@@ -4,6 +4,18 @@
     <title>ConnectGold - Home</title>
     <link rel="stylesheet" href="style.css">
 
+    <style>
+        #user-content, header, footer, .main-container, .whatsapp-btn { display: none; }
+        #login-overlay {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #f5f5f5;
+        }
+    </style>
+
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 	<img
@@ -83,7 +95,19 @@ webpushr('setup',{'key':'BN53vijsuCyrRxGtXVXlfwJ5U7902GXorALon53KKjYTJwklS9R_T4Z
 </head>
 <body>
 
-<header>
+<div id="login-overlay">
+    <img src="https://connectgold.sbs/gold-2.png" alt="Logo" style="width:100px; margin-bottom:20px;">
+    <h2>Welcome to ConnectGold</h2>
+    <p>Please sign in to continue</p>
+    <div id="g_id_onload"
+         data-client_id="46181700573-l6vs77u2th2vta35j9ic1shoaln7c1ta.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+</div>
+
+<header id="protected-header">
     
 <nav>
         <div class="nav-container">
@@ -105,16 +129,8 @@ webpushr('setup',{'key':'BN53vijsuCyrRxGtXVXlfwJ5U7902GXorALon53KKjYTJwklS9R_T4Z
     </nav>	
 </header>
 
-<section class="section">
+<section class="section" id="protected-section" style="display:none;">
     <h2>Welcome to ConnectGold</h2>
-
-    <div id="g_id_onload"
-         data-client_id="46181700573-l6vs77u2th2vta35j9ic1shoaln7c1ta.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin" data-type="standard"></div>
-
 </section>
 
 <div id="webpushr-subscription-button"></div>
@@ -155,6 +171,7 @@ window.agx = '69fe9f1e7d0b1b38f1d66efejDKpRGt7UXmGjidM9jl8bA==|7z0o8v+Ysg8XPKOjb
 
 	<a href="https://wa.me/2347061740924" 
    target="_blank" 
+   class="whatsapp-btn"
    style="position: fixed; bottom: 100px; right: 20px; background-color: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; box-shadow: 0px 4px 12px rgba(0,0,0,0.2); z-index: 9999; display: flex; align-items: center;">
    Chat on WhatsApp
 </a>
@@ -181,8 +198,16 @@ window.agx = '69fe9f1e7d0b1b38f1d66efejDKpRGt7UXmGjidM9jl8bA==|7z0o8v+Ysg8XPKOjb
   function handleCredentialResponse(response) {
     const responsePayload = decodeJWT(response.credential);
     console.log("Full Name: " + responsePayload.name);
-    console.log("Email: " + responsePayload.email);
-    // Add your login logic here
+    
+    // Unlock the website
+    document.getElementById("login-overlay").style.display = "none";
+    document.getElementById("user-content").style.display = "block";
+    document.getElementById("protected-header").style.display = "block";
+    document.getElementById("protected-section").style.display = "block";
+    
+    // Show hidden containers
+    const hiddenContainers = document.querySelectorAll('.main-container, footer, .whatsapp-btn');
+    hiddenContainers.forEach(el => el.style.display = 'block');
   }
 </script>
     	
