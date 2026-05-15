@@ -29,21 +29,21 @@
             image-rendering: pixelated; /* Keeps the game looking sharp */
         }
     </style>
-    <script async src="https://widgets.playgama.com/index.js"></script>
+    <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script>
 </head>
 <body>
+
     <script>
-        // 2. Initialize the SDK
-        window.addEventListener('load', () => {
-            bridge.initialize()
-                .then(() => {
-                    console.log('Playgama SDK initialized!');
-                    // Now you can use the SDK
-                })
-                .catch(error => {
-                    console.error('Initialization failed', error);
-                });
-        });
+        // Stable SDK initialization sequence
+        bridge.initialize()
+            .then(() => {
+                console.log('Playgama SDK initialized!');
+                // initialization was successful, SDK can be used
+            })
+            .catch(error => {
+                console.error('Initialization failed', error);
+                // error, something went wrong
+            });
     </script>
     
     <canvas id="gameCanvas"></canvas>
