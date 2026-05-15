@@ -1,165 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ConnectGold - Home</title>
-    <link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldtech AI Network</title>
     <style>
-        /* SEO INDEXABLE: Header, Navigation, and Footer are visible by default */
-        #user-content, #protected-section { display: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
         
-        #login-overlay {
-            background: #1f1f2e; 
-            color: white; 
-            padding: 30px; 
-            margin: 20px auto; 
-            max-width: 400px; 
-            border-radius: 15px;
-            text-align: center;
+        body { 
+            background: #0a0a0a; 
+            color: #fff; 
+            height: 100vh; 
+            width: 100vw; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #020202 100%);
         }
 
-        header, footer { display: block !important; }
-        .main-container { display: block !important; margin: 20px auto; text-align: center; }
+        /* Top Brand Header Container */
+        .brand-header {
+            position: absolute; top: 40px; 
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.03); padding: 16px 36px; border-radius: 24px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+        
+        .brand-main {
+            display: flex; align-items: center; gap: 15px;
+        }
+        
+        .brand-logo { height: 45px; width: auto; object-fit: contain; }
+        .brand-name { font-size: 1.6rem; font-weight: 800; color: #FFD700; letter-spacing: 2px; text-transform: uppercase; }
+        
+        /* Creator Attribution Line */
+        .brand-credits {
+            font-size: 0.8rem;
+            color: #ffffff;
+            opacity: 0.8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+            border-top: 1px solid rgba(255, 215, 0, 0.15);
+            padding-top: 6px;
+            width: 100%;
+        }
+        .brand-credits span {
+            color: #FFD700;
+            font-weight: 700;
+        }
 
-        .whatsapp-btn { display: flex !important; }
+        /* Main Welcome Container */
+        .welcome-box {
+            text-align: center;
+            max-width: 500px;
+            padding: 20px;
+            z-index: 10;
+            margin-top: 80px;
+        }
+
+        .welcome-box h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .welcome-box p {
+            font-size: 1.1rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .ai-pulse {
+            width: 12px;
+            height: 12px;
+            background: #FFD700;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 12px #FFD700;
+            animation: pulse 2s infinite;
+        }
+
+        .status-tag {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(255, 215, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
     </style>
-
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <link rel="icon" type="image/png" href="https://connectgold.sbs/gold-2.png">
-
-    <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
-    fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
-    webpushr('setup',{'key':'BN53vijsuCyrRxGtXVXlfwJ5U7902GXorALon53KKjYTJwklS9R_T4ZjC_P6vWoIfv1PRW9jrDJG9yAxysvBzhA' });</script>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7728035806961877" crossorigin="anonymous"></script>
-
-    <meta name="description" content="ConnectGold is your online knowledge hub! Explore world news, articles, dictionaries, and more.">
 </head>
 <body>
 
-<header id="protected-header">
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="logo"><strong>Connectgold</strong></a>
-            
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="page1.html">Articles</a>
-                <a href="page2.html">Knowledge</a>
-                <a href="about.html" class="active">About</a>
-                <a href="contact.html">Contact</a> <div class="privacy-nav">
-                    <a href="privacy.html">Web Policy</a>
-                    <a href="privacy3.html">Appgallery Policy</a>
-                    <a href="privacy4.html">Playstore Policy</a>
-                </div>
-            </div>
+    <div class="brand-header">
+        <div class="brand-main">
+            <img class="brand-logo" src="https://connectgold.sbs/gold-2.png" alt="Goldtech Logo">
+            <span class="brand-name">Goldtech AI</span>
         </div>
-    </nav>
-</header>
-
-<div id="google_translate_element" style="margin: 10px auto; text-align: center;"></div>
-
-<div class="main-container">
-  <img src="https://connectgold.sbs/gold-2.png" alt="Logo" style="width:80px; border-radius:12px;">
-  <h5>Your knowledge hub online</h5>
-</div>
-
-<div id="login-overlay">
-    <img src="https://connectgold.sbs/gold-2.png" alt="Logo" style="width:100px; margin-bottom:20px;">
-    <h2>Welcome to ConnectGold</h2>
-    <p>Please sign in to access the Dictionary and Search Tools</p>
-    <div id="g_id_onload"
-         data-client_id="46181700573-l6vs77u2th2vta35j9ic1shoaln7c1ta.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
+        <div class="brand-credits">Created by <span>Okoye Chibuike</span></div>
     </div>
-    <div class="g_id_signin" data-type="standard" style="display: flex; justify-content: center;"></div>
-</div>
 
-<section class="section" id="protected-section">
-    <div class="main-container">
-        <h2>Exclusive Content Unlocked</h2>
-        <p>Welcome back to the ConnectGold member area.</p>
+    <div class="welcome-box">
+        <h1>Welcome to Goldtech</h1>
+        <p>Our intelligent agent environment is ready to assist you. Click the chat icon in the bottom right corner to begin the conversation.</p>
+        <div class="status-tag">
+            <span class="ai-pulse"></span> Agentic System Online
+        </div>
     </div>
-</section>
 
-<div id="user-content">
-  <div class="main-container">
-    <h2>🔍 Search the Web</h2>
-    <script async src="https://cse.google.com/cse.js?cx=b7ccc7fa36703489c"></script>
-    <div class="gcse-search"></div>
-  </div>
-
-  <div id="dictionary-section" style="margin-top:40px; text-align: center;">
-    <h2>📖 Dictionary / Thesaurus</h2>
-    <input type="text" id="wordInput" placeholder="Type a word" style="padding: 10px; width: 50%;">
-    <button onclick="lookupWord()" style="padding: 10px 20px; background: gold; border: none; cursor: pointer;">Search</button>
-    <div id="wordResult" style="margin-top:20px; max-width: 600px; margin-left: auto; margin-right: auto;"></div>
-  </div>
-
-  <div style="text-align: center; margin-top: 20px;">
-    <iframe width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/31464"></iframe>
-  </div>
-</div>
-
-<footer style="background-color: #1e1e1e; color: #fff; padding: 20px; text-align: center; margin-top: 50px;">
-    <p>Contact: +2347061740924</p>
-    <p>© 2026 ConnectGold</p>
-</footer>
-
-<a href="https://wa.me/2347061740924" 
-   target="_blank" 
-   class="whatsapp-btn"
-   style="position: fixed; bottom: 100px; right: 20px; background-color: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; box-shadow: 0px 4px 12px rgba(0,0,0,0.2); z-index: 9999; display: flex; align-items: center;">
-   Chat on WhatsApp
-</a>
-
-    <script defer>
-document.body.appendChild(document.createElement('div')).setAttribute('id','chatBubbleRoot');
-window.agx = '69fe9f1e7d0b1b38f1d66efejDKpRGt7UXmGjidM9jl8bA==|7z0o8v+Ysg8XPKOjb9JlzMPdkgMZnVixLyA9w18C9tI=';
-</script>
-<script defer src="https://storage.googleapis.com/agentx-cdn-01/agentx-chat.js"></script>
-
-<script>
-  function decodeJWT(token) {
-    let base64Url = token.split(".")[1];
-    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    return JSON.parse(atob(base64));
-  }
-
-  function handleCredentialResponse(response) {
-    const responsePayload = decodeJWT(response.credential);
-    // Switch Visibility
-    document.getElementById("login-overlay").style.display = "none";
-    document.getElementById("user-content").style.display = "block";
-    document.getElementById("protected-section").style.display = "block";
-  }
-
-  async function lookupWord() {
-    const word = document.getElementById('wordInput').value.trim();
-    const resultDiv = document.getElementById('wordResult');
-    if (!word) return;
-    resultDiv.innerHTML = "Searching...";
-    try {
-      const res = await fetch(`https://www.dictionaryapi.com/api/v3/references/ithesaurus/json/${word}?key=b603a6c7-2d98-4162-befb-33458a20aff5`);
-      const data = await res.json();
-      if (data[0] && data[0].shortdef) {
-        resultDiv.innerHTML = `<div style="background: white; padding: 20px; border-radius: 10px; border: 1px solid #ddd;">
-            <strong>${word}:</strong> ${data[0].shortdef[0]}
-        </div>`;
-      } else {
-        resultDiv.innerHTML = "Word not found.";
-      }
-    } catch(err) { resultDiv.innerHTML = "Error loading data."; }
-  }
-
-  // Google Translate Initialization
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+    <script type="text/javascript">
+      (function(d, t) {
+          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+          v.onload = function() {
+            window.voiceflow.chat.load({
+              verify: { projectID: '6a06c7384f0fb080e1eae32e' },
+              url: 'https://general-runtime.voiceflow.com',
+              voice: {
+                url: "https://runtime-api.voiceflow.com"
+              }
+            });
+          }
+          v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+      })(document, 'script');
+    </script>
 </body>
 </html>
+
