@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold TV - Live Player</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #121212;
+            color: white;
+        }
+        #sidebar {
+            width: 320px;
+            background-color: #1f1f1f;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #333;
+        }
+        .sidebar-header {
+            padding: 20px;
+            background-color: #252525;
+            border-bottom: 1px solid #333;
+            text-align: center;
+        }
+        .brand-logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        #category-select {
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+        }
+        #channel-list {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .channel-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #2a2a2a;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #bbb;
+        }
+        .channel-item:hover { background-color: #333; color: white; }
+        .channel-item.active { background-color: #d4af37; color: black; font-weight: bold; }
+        
+        #main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(circle, #222 0%, #121212 100%);
+        }
+        video {
+            width: 100%;
+            max-width: 1000px;
+            aspect-ratio: 16 / 9;
+            background-color: black;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        #status-display {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .error { color: #ff4d4d; }
+        .loading { color: #ffd700; }
+        .playing { color: #00ff88; }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <div class="sidebar-header">
+        <img src="https://connectgold.sbs/gold-2.png" alt="Gold TV Logo" class="brand-logo">
+        <select id="category-select" onchange="renderChannels()">
+            <option value="All">All Categories</option>
+            <option value="News">News</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Sports">Sports</option>
+        </select>
+    </div>
+    <div id="channel-list"></div>
+</div>
+
+<div id="main-content">
+    <h2 id="channel-title">Select a Channel</h2>
+    <video id="video" controls autoplay muted></video>
+    <div id="status-display">Waiting for selection...</div>
+</div>
+
+<script>
+    const video = document.getElementById('video');
+    const title = document.getElementById('channel-title');
+    const status = document.getElementById('status-display');
+    const channelListContainer = document.getElementById('channel-list');
+    const categorySelect = document.getElementById('category-select');
+    let hls = null;
+
+    const channels = [
+        { name: 'BBC World News', cat: 'News', url: 'https://vs-hls-push-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_world_news/pc_hd_v2.m3u8' },
+        { name: 'Sky News', cat: 'News', url: 'https://skynews-lh.akamaihd.net/i/skynews_1@308519/master.m3u8' },
+        { name: 'France 24', cat: 'News', url: 'https://static.france24.com/live/F24_EN_LO_HLS/live_tv.m3u8' },
+        { name: 'Al Jazeera', cat: 'News', url: 'https://live-alsat.akamaized.net/aljazeera_en/index.m3u8' },
+        { name: 'DW News', cat: 'News', url: 'https://dwstream72-lh.akamaihd.net/i/dwstream72_live@123556/master.m3u8' },
+        { name: 'NASA TV', cat: 'Entertainment', url: 'https://ntvpublic-lh.akamaihd.net/i/NASA_NTV_1@391302/master.m3u8' },
+        { name: 'FilmRise Movies', cat: 'Entertainment', url: 'https://filmrise-filmrisemovies-1-us.us.amagi.tv/playlist.m3u8' },
+        { name: 'Maverick Movies', cat: 'Entertainment', url: 'https://maverick-maverickmovies-amagi.amagi.tv/playlist.m3u8' },
+        { name: 'Red Bull TV', cat: 'Sports', url: 'https://rbmn-live.akamaized.net/hls/live/590964/geoBlocked/master.m3u8' },
+        { name: 'Edge Sport', cat: 'Sports', url: 'https://edgesport-edge.amagi.tv/playlist.m3u8' },
+        { name: 'Bon Appétit', cat: 'Lifestyle', url: 'https://bonappetit-cne.amagi.tv/playlist.m3u8' },
+        { name: 'Wired', cat: 'Lifestyle', url: 'https://wired-cne.amagi.tv/playlist.m3u8' },
+        { name: 'Clubbing TV', cat: 'Entertainment', url: 'https://clubbingtv-clubbingtv-1-us.samsung.amagi.tv/playlist.m3u8' },
+        { name: 'Deluxe Lounge', cat: 'Lifestyle', url: 'https://deluxelounge-deluxelounge-1-de.samsung.amagi.tv/playlist.m3u8' }
+    ];
+
+    function renderChannels() {
+        const selectedCat = categorySelect.value;
+        channelListContainer.innerHTML = '';
+        const filtered = selectedCat === 'All' ? channels : channels.filter(c => c.cat === selectedCat);
+
+        filtered.forEach(ch => {
+            const div = document.createElement('div');
+            div.className = 'channel-item';
+            div.innerHTML = `<small style="display:block; color:#666">${ch.cat}</small>${ch.name}`;
+            div.onclick = () => playStream(ch.url, ch.name, div);
+            channelListContainer.appendChild(div);
+        });
+    }
+
+    function playStream(url, name, element) {
+        document.querySelectorAll('.channel-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        title.innerText = name;
+        status.innerText = "Loading...";
+        status.className = "loading";
+
+        if (hls) hls.destroy();
+
+        if (Hls.isSupported()) {
+            hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                video.play().then(() => {
+                    status.innerText = "Playing Live";
+                    status.className = "playing";
+                }).catch(() => { status.innerText = "Click Play to Start"; });
+            });
+            hls.on(Hls.Events.ERROR, (e, data) => {
+                if (data.fatal) {
+                    status.innerText = "Error: Stream Unavailable (CORS/Geo-block)";
+                    status.className = "error";
+                }
+            });
+        }
+    }
+
+    renderChannels();
+</script>
+</body>
+</html>
