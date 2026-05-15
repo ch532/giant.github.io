@@ -2,143 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goldtech AI Network</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>150 Level Adventure</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        
+        /* Basic styling to center the game and make it look professional */
         body { 
-            background: #0a0a0a; 
-            color: #fff; 
+            margin: 0; 
+            background: #000; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
             height: 100vh; 
-            width: 100vw; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, #020202 100%);
+            font-family: Arial, sans-serif;
         }
-
-        /* Top Brand Header Container */
-        .brand-header {
-            position: absolute; top: 40px; 
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-            background: rgba(255, 255, 255, 0.03); padding: 16px 36px; border-radius: 24px;
-            backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            text-align: center;
-        }
-        
-        .brand-main {
-            display: flex; align-items: center; gap: 15px;
-        }
-        
-        .brand-logo { height: 45px; width: auto; object-fit: contain; }
-        .brand-name { font-size: 1.6rem; font-weight: 800; color: #FFD700; letter-spacing: 2px; text-transform: uppercase; }
-        
-        /* Creator Attribution Line */
-        .brand-credits {
-            font-size: 0.8rem;
-            color: #ffffff;
-            opacity: 0.8;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 500;
-            border-top: 1px solid rgba(255, 215, 0, 0.15);
-            padding-top: 6px;
-            width: 100%;
-        }
-        .brand-credits span {
-            color: #FFD700;
-            font-weight: 700;
-        }
-
-        /* Main Welcome Container */
-        .welcome-box {
-            text-align: center;
-            max-width: 500px;
-            padding: 20px;
-            z-index: 10;
-            margin-top: 80px;
-        }
-
-        .welcome-box h1 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .welcome-box p {
-            font-size: 1.1rem;
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .ai-pulse {
-            width: 12px;
-            height: 12px;
-            background: #FFD700;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 12px #FFD700;
-            animation: pulse 2s infinite;
-        }
-
-        .status-tag {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #FFD700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(255, 215, 0, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        canvas { 
+            border: 2px solid #333; 
+            background-color: #111;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 100%; 
+            max-height: 100%; 
+            image-rendering: pixelated; /* Keeps the game looking sharp */
         }
     </style>
+    <!-- Playgama Bridge SDK - Required for Ads, Storage, and Payments -->
+    <script src="https://cdn.jsdelivr.net/npm/@playgama/bridge@latest/dist/browser.min.js"></script>
 </head>
 <body>
 
-    <div class="brand-header">
-        <div class="brand-main">
-            <img class="brand-logo" src="https://connectgold.sbs/gold-2.png" alt="Goldtech Logo">
-            <span class="brand-name">Goldtech AI</span>
-        </div>
-        <div class="brand-credits">Created by <span>Okoye Chibuike</span></div>
-    </div>
+    <canvas id="gameCanvas"></canvas>
 
-    <div class="welcome-box">
-        <h1>Welcome to Goldtech</h1>
-        <p>Our intelligent agent environment is ready to assist you. Click the chat icon in the bottom right corner to begin the conversation.</p>
-        <div class="status-tag">
-            <span class="ai-pulse"></span> Agentic System Online
-        </div>
-    </div>
+    <!-- Load your game logic -->
+    <script src="game.js"></script>
 
-    <script type="text/javascript">
-      (function(d, t) {
-          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-          v.onload = function() {
-            window.voiceflow.chat.load({
-              verify: { projectID: '6a06c7384f0fb080e1eae32e' },
-              url: 'https://general-runtime.voiceflow.com',
-              voice: {
-                url: "https://runtime-api.voiceflow.com"
-              }
-            });
-          }
-          v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-      })(document, 'script');
-    </script>
 </body>
 </html>
-
