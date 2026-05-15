@@ -30,6 +30,15 @@ const portal = {
     pulseDirection: 1
 };
 
+// Define explicit button objects with exact drawing and collision metrics
+const buttons = {
+    restart:    { x: 320, y: 15, w: 85, h: 35, label: "RESTART +🪙", color: "#e67e22" },
+    leader:     { x: 415, y: 15, w: 85, h: 35, label: "LEADER",     color: "#8e44ad" },
+    share:      { x: 510, y: 15, w: 85, h: 35, label: "SHARE 📢",   color: "#00a8ff" },
+    fullscreen: { x: 605, y: 15, w: 85, h: 35, label: "FULLSCREEN", color: "#2980b9" },
+    buySpeed:   { x: 700, y: 15, w: 85, h: 35, label: "BUY SPEED",  color: "#27ae60" }
+};
+
 function generateLevel(num) {
     const level = {
         color: `hsl(${(num * 40) % 360}, 30%, 20%)`,
@@ -38,7 +47,6 @@ function generateLevel(num) {
         enemies: []
     };
 
-    // Generate Walls
     const wallCount = 3 + Math.min(num, 7);
     for (let i = 0; i < wallCount; i++) {
         level.walls.push({ 
@@ -49,7 +57,6 @@ function generateLevel(num) {
         });
     }
 
-    // Generate Balanced Items
     const itemCount = 2; 
     for (let i = 0; i < itemCount; i++) {
         level.items.push({ 
@@ -60,7 +67,6 @@ function generateLevel(num) {
         });
     }
 
-    // Enemy counts scaling aggressively up to 12 maximum enemies
     const enemyCount = 3 + Math.min(Math.floor(num / 2), 9); 
     const baseEnemySpeed = 2.5 + Math.min(num * 0.2, 7.5); 
 
@@ -189,7 +195,6 @@ async function initGame() {
             return;
         } catch (e) { console.warn("SDK storage read setup exception caught:", e); }
     }
-    
     gameState.isInitialized = true;
     gameLoop();
 }
@@ -238,13 +243,11 @@ function update() {
     portal.pulse += 0.05 * portal.pulseDirection;
     if (portal.pulse > 1 || portal.pulse < 0) portal.pulseDirection *= -1;
 
-    // Key listeners (Desktop)
     if (keys['w'] || keys['arrowup']) nextY -= gameState.player.speed;
     if (keys['s'] || keys['arrowdown']) nextY += gameState.player.speed;
     if (keys['a'] || keys['arrowleft']) nextX -= gameState.player.speed;
     if (keys['d'] || keys['arrowright']) nextX += gameState.player.speed;
 
-    // Responsive Mobile Drag/Touch Controller
     if (isTouching) {
         const dx = touchX - (gameState.player.x + 10);
         const dy = touchY - (gameState.player.y + 10);
@@ -272,7 +275,6 @@ function update() {
         gameState.player.y = nextY;
     }
 
-    // Enemy Collisions
     currentLevelData.enemies.forEach(e => {
         e.x += e.vx;
         e.y += e.vy;
@@ -293,7 +295,6 @@ function update() {
         }
     });
 
-    // Gold Item Collisions
     currentLevelData.items.forEach(i => {
         if (!i.collected && gameState.player.x < i.x + i.size && gameState.player.x + 20 > i.x && 
             gameState.player.y < i.y + i.size && gameState.player.y + 20 > i.y) {
@@ -328,7 +329,6 @@ function draw() {
     ctx.fillStyle = "#ff4d4d";
     currentLevelData.enemies.forEach(e => ctx.fillRect(e.x, e.y, e.size, e.size));
     
-    // Portal Archway
     ctx.save();
     ctx.shadowBlur = 10 + (portal.pulse * 15);
     ctx.shadowColor = "#00ffaa";
@@ -345,7 +345,6 @@ function draw() {
     ctx.fillStyle = "cyan";
     ctx.fillRect(gameState.player.x, gameState.player.y, 20, 20);
     
-    // Dashboard Panel Text
     ctx.fillStyle = "white";
     ctx.font = "bold 16px Arial";
     ctx.fillText(`Level: ${gameState.currentLevel} / 150`, 20, 32);
@@ -353,83 +352,87 @@ function draw() {
     
     ctx.font = "bold 11px Arial";
     
-    // Green Button: BUY SPEED
-    ctx.fillStyle = "#27ae60";
-    ctx.fillRect(700, 15, 85, 35);
-    ctx.fillStyle = "white";
-    ctx.fillText("BUY SPEED", 714, 36);
-
-    // Dark Blue Button: FULLSCREEN
-    ctx.fillStyle = "#2980b9";
-    ctx.fillRect(605, 15, 85, 35);
-    ctx.fillStyle = "white";
-    ctx.fillText("FULLSCREEN", 615, 36);
-
-    // Light Blue/Cyan Button: SHARE Progress
-    ctx.fillStyle = "#00a8ff";
-    ctx.fillRect(510, 15, 85, 35);
-    ctx.fillStyle = "white";
-    ctx.fillText("SHARE 📢", 530, 36);
-
-    // Purple Button: SCORES
-    ctx.fillStyle = "#8e44ad";
-    ctx.fillRect(415, 15, 85, 35);
-    ctx.fillStyle = "white";
-    ctx.fillText("LEADER", 438, 36);
-
-    // Light Orange Button: RESTART (With Rewarded bonus)
-    ctx.fillStyle = "#e67e22";
-    ctx.fillRect(320, 15, 85, 35);
-    ctx.fillStyle = "white";
-    ctx.fillText("RESTART +🪙", 328, 36);
+    // Dynamically draw the buttons using the structured collection objects
+    Object.keys(buttons).forEach(key => {
+        const b = buttons[key];
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+        ctx.fillStyle = "white";
+        
+        // Custom text centering adjustments
+        let offset = 6;
+        if(key === 'restart') offset = 6;
+        if(key === 'leader') offset = 18;
+        if(key === 'share') offset = 16;
+        if(key === 'fullscreen') offset = 6;
+        if(key === 'buySpeed') offset = 11;
+        
+        ctx.fillText(b.label, b.x + offset, b.y + 21);
+    });
 }
 
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
+// FIXED: Flawless absolute scalar coordinate mapping function
 function getMappedCoordinates(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
+    
+    // Avoid dividing by zero if layout renders cleanly at 0 dimensions initially
+    const scaleX = rect.width > 0 ? canvas.width / rect.width : 1;
+    const scaleY = rect.height > 0 ? canvas.height / rect.height : 1;
+    
     return {
-        x: (clientX - rect.left) * (canvas.width / rect.width),
-        y: (clientY - rect.top) * (canvas.height / rect.height)
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
     };
 }
 
-// FIXED: Recalculated the target dimensions to match the visual rendering bounds completely
+// FIXED: Evaluates the crisp interaction boundary hits explicitly
 function handlePointerAction(clientX, clientY, isPressing) {
     const pos = getMappedCoordinates(clientX, clientY);
 
     if (isPressing) {
-        if (pos.y > 15 && pos.y < 50) {
-            // BUY SPEED hit boxes (700 to 785)
-            if (pos.x > 700 && pos.x < 785) { buySpeedBoost(); return; }
-            // FULLSCREEN hit boxes (605 to 690)
-            if (pos.x > 605 && pos.x < 690) { toggleFullscreen(); return; }
-            // SHARE hit boxes (510 to 595)
-            if (pos.x > 510 && pos.x < 595) { shareGameProgress(); return; }
-            // LEADERBOARD hit boxes (415 to 500)
-            if (pos.x > 415 && pos.x < 500) { showLeaderboardPopup(); return; }
-            // RESTART hit boxes (320 to 405)
-            if (pos.x > 320 && pos.x < 405) { handleRestartWithReward(); return; }
-        }
+        // Loop through explicit button bounding profiles
+        let buttonClicked = false;
         
-        // If no buttons were clicked, treat it as player movement
-        isTouching = true;
-        touchX = pos.x;
-        touchY = pos.y;
+        Object.keys(buttons).forEach(key => {
+            const b = buttons[key];
+            if (pos.x >= b.x && pos.x <= b.x + b.w && pos.y >= b.y && pos.y <= b.y + b.h) {
+                buttonClicked = true;
+                if (key === 'buySpeed') buySpeedBoost();
+                if (key === 'fullscreen') toggleFullscreen();
+                if (key === 'share') shareGameProgress();
+                if (key === 'leader') showLeaderboardPopup();
+                if (key === 'restart') handleRestartWithReward();
+            }
+        });
+
+        // CRITICAL FIX: Only activate player movement dragging if a header UI button wasn't clicked
+        if (!buttonClicked) {
+            isTouching = true;
+            touchX = pos.x;
+            touchY = pos.y;
+        }
     }
 }
 
+// Global Event Routing Hooks
 canvas.addEventListener('mousedown', e => handlePointerAction(e.clientX, e.clientY, true));
 canvas.addEventListener('mousemove', e => { if (isTouching) handlePointerAction(e.clientX, e.clientY, true); });
 window.addEventListener('mouseup', () => isTouching = false);
 
 canvas.addEventListener('touchstart', e => {
+    // Prevent default mobile scaling/scrolling actions
+    if(e.cancelable) e.preventDefault(); 
     handlePointerAction(e.touches[0].clientX, e.touches[0].clientY, true);
-});
+}, { passive: false });
+
 canvas.addEventListener('touchmove', e => {
+    if(e.cancelable) e.preventDefault();
     handlePointerAction(e.touches[0].clientX, e.touches[0].clientY, true);
-});
+}, { passive: false });
+
 window.addEventListener('touchend', () => isTouching = false);
 
 function gameLoop() {
