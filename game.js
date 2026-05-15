@@ -5,6 +5,9 @@ canvas.height = 600;
 
 const bridge = window.playgamaBridge;
 
+// 1. INPUT DEFINITION MUST BE AT THE TOP OR IT CRASHES
+let keys = {};
+
 let gameState = {
     player: { x: 50, y: 300, size: 20, speed: 5, gold: 0 },
     currentLevel: 1,
@@ -12,9 +15,6 @@ let gameState = {
     isPaused: false,
     hasSpeedBoost: false
 };
-
-// Track inputs safely
-let keys = {};
 
 function generateLevel(num) {
     const level = {
@@ -34,8 +34,7 @@ function generateLevel(num) {
 let currentLevelData = generateLevel(1);
 
 async function syncLeaderboard() {
-    // FIX: Executed as a function check
-    if (bridge.leaderboard.isSupported()) {
+    if (bridge && bridge.leaderboard && bridge.leaderboard.isSupported()) {
         try {
             await bridge.leaderboard.setScore({ 
                 leaderboardName: 'main_leaderboard', 
@@ -46,8 +45,7 @@ async function syncLeaderboard() {
 }
 
 async function buySpeedBoost() {
-    // FIX: Executed as a function check
-    if (bridge.payments.isSupported()) {
+    if (bridge && bridge.payments && bridge.payments.isSupported()) {
         try {
             const status = await bridge.payments.purchase({ id: 'speed_boost_id' });
             if (status === 'completed') {
@@ -60,18 +58,23 @@ async function buySpeedBoost() {
 }
 
 async function initGame() {
-    await bridge.initialize();
-    const saved = await bridge.storage.get('adv_data_final');
-    if (saved) {
-        gameState = { ...gameState, ...saved };
-        currentLevelData = generateLevel(gameState.currentLevel);
+    // Check if running inside Playgama framework environment
+    if (bridge) {
+        await bridge.initialize();
+        const saved = await bridge.storage.get('adv_data_final');
+        if (saved) {
+            gameState = { ...gameState, ...saved };
+            currentLevelData = generateLevel(gameState.currentLevel);
+        }
     }
     gameState.isInitialized = true;
     gameLoop();
 }
 
 async function saveGame() {
-    await bridge.storage.set('adv_data_final', gameState);
+    if (bridge && bridge.storage) {
+        await bridge.storage.set('adv_data_final', gameState);
+    }
     await syncLeaderboard();
 }
 
@@ -82,15 +85,13 @@ async function nextLevel() {
     currentLevelData = generateLevel(gameState.currentLevel);
     gameState.player.x = 30;
     
-    try {
-        await bridge.ads.showInterstitial();
-    } catch(err) {
-        console.warn("Ad display bypassed/failed:", err);
+    if (bridge && bridge.ads) {
+        try {
+            await bridge.ads.showInterstitial();
+        } catch(err) { console.warn(err); }
     }
     
-    // FIX: Flush user input arrays completely so player does not run away out of control when game resumes
     keys = {}; 
-    
     await saveGame();
     gameState.isPaused = false;
 }
