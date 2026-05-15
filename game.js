@@ -3,7 +3,10 @@ const ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 600;
 
-const bridge = window.playgamaBridge || null;
+// Correctly targeting the window.bridge namespace
+const bridge = window.bridge || null;
+const LEADERBOARD_ID = "main_leaderboard"; 
+const STORAGE_KEY = "adv_data_final"; 
 
 let keys = {};
 let isTouching = false;
@@ -35,7 +38,7 @@ function generateLevel(num) {
         enemies: []
     };
 
-    // 1. Generate Walls
+    // Generate Walls
     const wallCount = 3 + Math.min(num, 7);
     for (let i = 0; i < wallCount; i++) {
         level.walls.push({ 
@@ -46,7 +49,7 @@ function generateLevel(num) {
         });
     }
 
-    // 2. Generate Balanced Items (Scarce Coins)
+    // Generate Balanced Items
     const itemCount = 2; 
     for (let i = 0; i < itemCount; i++) {
         level.items.push({ 
@@ -57,7 +60,7 @@ function generateLevel(num) {
         });
     }
 
-    // 3. MUCH HIGHER Enemy counts scaling aggressively up to 12 maximum enemies
+    // Enemy counts scaling aggressively up to 12 maximum enemies
     const enemyCount = 3 + Math.min(Math.floor(num / 2), 9); 
     const baseEnemySpeed = 2.5 + Math.min(num * 0.2, 7.5); 
 
@@ -77,14 +80,31 @@ function generateLevel(num) {
 
 let currentLevelData = generateLevel(1);
 
-async function syncLeaderboard() {
-    if (bridge && bridge.leaderboard && typeof bridge.leaderboard.isSupported === 'function' && bridge.leaderboard.isSupported()) {
-        try {
-            await bridge.leaderboard.setScore({ 
-                leaderboardName: 'main_leaderboard', 
-                score: gameState.player.gold 
-            });
-        } catch (e) { console.error(e); }
+function syncLeaderboard() {
+    if (bridge && bridge.leaderboards && typeof bridge.leaderboards.setScore === 'function') {
+        bridge.leaderboards.setScore(LEADERBOARD_ID, gameState.player.gold)
+            .then(() => { console.log("Score submitted successfully"); })
+            .catch(error => { console.error("Error submitting score:", error); });
+    }
+}
+
+function showLeaderboardPopup() {
+    if (bridge && bridge.leaderboards && typeof bridge.leaderboards.showNativePopup === 'function') {
+        bridge.leaderboards.showNativePopup(LEADERBOARD_ID)
+            .then(() => console.log("Popup shown"))
+            .catch(error => console.error("Error showing popup:", error));
+    }
+}
+
+function shareGameProgress() {
+    if (bridge && bridge.social && typeof bridge.social.share === 'function') {
+        bridge.social.share({ 
+            message: `Can you beat my score? I am currently on Level ${gameState.currentLevel} with ${gameState.player.gold} Gold in Connect Gold! 🪙`, 
+            image: "https://connectgold.sbs/icon.jpg", 
+            link: window.location.href 
+        })
+        .then(() => console.log("Share dialogue window closed successfully"))
+        .catch(error => console.error("Social Share error interaction:", error));
     }
 }
 
@@ -105,10 +125,34 @@ async function buySpeedBoost() {
     }
 }
 
-function restartLevel() {
-    // Generate fresh coordinates, items, and reset positioning for the current level
-    currentLevelData = generateLevel(gameState.currentLevel);
-    resetPlayerPosition();
+function handleRestartWithReward() {
+    gameState.isPaused = true;
+
+    if (bridge && bridge.advertisement && typeof bridge.advertisement.showRewarded === 'function') {
+        bridge.advertisement.showRewarded('extra_gold')
+            .then((rewarded) => {
+                if (rewarded) {
+                    gameState.player.gold += 5;
+                    console.log("User earned reward: +5 Gold!");
+                } else {
+                    console.log("No reward: Ad skipped");
+                }
+                currentLevelData = generateLevel(gameState.currentLevel);
+                resetPlayerPosition();
+                saveGame();
+                gameState.isPaused = false;
+            })
+            .catch(err => {
+                console.error("Rewarded ad error:", err);
+                currentLevelData = generateLevel(gameState.currentLevel);
+                resetPlayerPosition();
+                gameState.isPaused = false;
+            });
+    } else {
+        currentLevelData = generateLevel(gameState.currentLevel);
+        resetPlayerPosition();
+        gameState.isPaused = false;
+    }
 }
 
 function toggleFullscreen() {
@@ -122,26 +166,41 @@ function toggleFullscreen() {
 }
 
 async function initGame() {
-    if (bridge && typeof bridge.initialize === 'function') {
+    if (bridge && bridge.storage && typeof bridge.storage.get === 'function') {
         try {
-            await bridge.initialize();
-            const saved = await bridge.storage.get('adv_data_final');
-            if (saved) {
-                gameState = { ...gameState, ...saved };
-                currentLevelData = generateLevel(gameState.currentLevel);
-                if (gameState.hasSpeedBoost) gameState.player.speed = 8;
-            }
-        } catch (e) { console.warn(e); }
+            if (bridge.platform) console.log("Connected to Platform Environment ID:", bridge.platform.id);
+            
+            bridge.storage.get(STORAGE_KEY, "platform_internal")
+                .then((data) => {
+                    if (data) {
+                        gameState = { ...gameState, ...data };
+                        currentLevelData = generateLevel(gameState.currentLevel);
+                        if (gameState.hasSpeedBoost) gameState.player.speed = 8;
+                        console.log("Cloud Save Data Loaded Successfully", data);
+                    }
+                    gameState.isInitialized = true;
+                    gameLoop();
+                })
+                .catch(error => {
+                    console.error("Error loading cloud data:", error);
+                    gameState.isInitialized = true;
+                    gameLoop(); 
+                });
+            return;
+        } catch (e) { console.warn("SDK storage read setup exception caught:", e); }
     }
+    
     gameState.isInitialized = true;
     gameLoop();
 }
 
-async function saveGame() {
-    if (bridge && bridge.storage) {
-        try { await bridge.storage.set('adv_data_final', gameState); } catch(e){}
+function saveGame() {
+    if (bridge && bridge.storage && typeof bridge.storage.set === 'function') {
+        bridge.storage.set(STORAGE_KEY, gameState, "platform_internal")
+            .then(() => { console.log("Data saved safely to Playgama Cloud infrastructure"); })
+            .catch(error => { console.error("Error pushing data to cloud storage:", error); });
     }
-    await syncLeaderboard();
+    syncLeaderboard();
 }
 
 function resetPlayerPosition() {
@@ -157,12 +216,16 @@ async function nextLevel() {
     currentLevelData = generateLevel(gameState.currentLevel);
     resetPlayerPosition();
     
-    if (bridge && bridge.ads) {
-        try { await bridge.ads.showInterstitial(); } catch(err) { console.warn(err); }
+    if (bridge && bridge.advertisement && typeof bridge.advertisement.showInterstitial === 'function') {
+        try { 
+            await bridge.advertisement.showInterstitial('next_level'); 
+        } catch(err) { 
+            console.warn("Interstitial display skipped/failed:", err); 
+        }
     }
     
     keys = {}; 
-    await saveGame();
+    saveGame(); 
     gameState.isPaused = false;
 }
 
@@ -175,19 +238,18 @@ function update() {
     portal.pulse += 0.05 * portal.pulseDirection;
     if (portal.pulse > 1 || portal.pulse < 0) portal.pulseDirection *= -1;
 
-    // 1. Keyboard Tracking Matrix
+    // Key listeners (Desktop)
     if (keys['w'] || keys['arrowup']) nextY -= gameState.player.speed;
     if (keys['s'] || keys['arrowdown']) nextY += gameState.player.speed;
     if (keys['a'] || keys['arrowleft']) nextX -= gameState.player.speed;
     if (keys['d'] || keys['arrowright']) nextX += gameState.player.speed;
 
-    // 2. High-Responsiveness Direct Touch Controller
+    // Responsive Mobile Drag/Touch Controller
     if (isTouching) {
         const dx = touchX - (gameState.player.x + 10);
         const dy = touchY - (gameState.player.y + 10);
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Instant response movement multiplier
         if (distance > 2) {
             const moveStep = Math.min(distance, gameState.player.speed);
             nextX += (dx / distance) * moveStep;
@@ -283,31 +345,43 @@ function draw() {
     ctx.fillStyle = "cyan";
     ctx.fillRect(gameState.player.x, gameState.player.y, 20, 20);
     
-    // Dashboard Layout Text Panel
+    // Dashboard Panel Text
     ctx.fillStyle = "white";
     ctx.font = "bold 16px Arial";
     ctx.fillText(`Level: ${gameState.currentLevel} / 150`, 20, 32);
     ctx.fillText(`Gold: ${gameState.player.gold}`, 160, 32);
     
-    ctx.font = "bold 12px Arial";
+    ctx.font = "bold 11px Arial";
     
     // Green Button: BUY SPEED
     ctx.fillStyle = "#27ae60";
-    ctx.fillRect(670, 15, 110, 35);
+    ctx.fillRect(700, 15, 85, 35);
     ctx.fillStyle = "white";
-    ctx.fillText("BUY SPEED", 693, 37);
+    ctx.fillText("BUY SPEED", 714, 36);
 
     // Dark Blue Button: FULLSCREEN
     ctx.fillStyle = "#2980b9";
-    ctx.fillRect(550, 15, 110, 35);
+    ctx.fillRect(605, 15, 85, 35);
     ctx.fillStyle = "white";
-    ctx.fillText("FULLSCREEN", 568, 37);
+    ctx.fillText("FULLSCREEN", 615, 36);
 
-    // Light Orange/Red Button: RESTART
-    ctx.fillStyle = "#e67e22";
-    ctx.fillRect(430, 15, 110, 35);
+    // Light Blue/Cyan Button: SHARE Progress
+    ctx.fillStyle = "#00a8ff";
+    ctx.fillRect(510, 15, 85, 35);
     ctx.fillStyle = "white";
-    ctx.fillText("RESTART", 460, 37);
+    ctx.fillText("SHARE 📢", 530, 36);
+
+    // Purple Button: SCORES
+    ctx.fillStyle = "#8e44ad";
+    ctx.fillRect(415, 15, 85, 35);
+    ctx.fillStyle = "white";
+    ctx.fillText("LEADER", 438, 36);
+
+    // Light Orange Button: RESTART (With Rewarded bonus)
+    ctx.fillStyle = "#e67e22";
+    ctx.fillRect(320, 15, 85, 35);
+    ctx.fillStyle = "white";
+    ctx.fillText("RESTART +🪙", 328, 36);
 }
 
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
@@ -321,16 +395,25 @@ function getMappedCoordinates(clientX, clientY) {
     };
 }
 
+// FIXED: Recalculated the target dimensions to match the visual rendering bounds completely
 function handlePointerAction(clientX, clientY, isPressing) {
     const pos = getMappedCoordinates(clientX, clientY);
 
     if (isPressing) {
-        // UI Dashboard Top Row Button Bounds Matrix Intersections
         if (pos.y > 15 && pos.y < 50) {
-            if (pos.x > 670 && pos.x < 780) { buySpeedBoost(); return; }
-            if (pos.x > 550 && pos.x < 660) { toggleFullscreen(); return; }
-            if (pos.x > 430 && pos.x < 540) { restartLevel(); return; }
+            // BUY SPEED hit boxes (700 to 785)
+            if (pos.x > 700 && pos.x < 785) { buySpeedBoost(); return; }
+            // FULLSCREEN hit boxes (605 to 690)
+            if (pos.x > 605 && pos.x < 690) { toggleFullscreen(); return; }
+            // SHARE hit boxes (510 to 595)
+            if (pos.x > 510 && pos.x < 595) { shareGameProgress(); return; }
+            // LEADERBOARD hit boxes (415 to 500)
+            if (pos.x > 415 && pos.x < 500) { showLeaderboardPopup(); return; }
+            // RESTART hit boxes (320 to 405)
+            if (pos.x > 320 && pos.x < 405) { handleRestartWithReward(); return; }
         }
+        
+        // If no buttons were clicked, treat it as player movement
         isTouching = true;
         touchX = pos.x;
         touchY = pos.y;
