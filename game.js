@@ -1,17 +1,31 @@
+```javascript
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 600;
 
-// Correctly targeting the window.bridge namespace
+// Target the official playgama bridge namespace
 const bridge = window.bridge || null;
 const LEADERBOARD_ID = "main_leaderboard"; 
 const STORAGE_KEY = "adv_data_final"; 
+const PURCHASE_PRODUCT_ID = "test_product"; 
 
 let keys = {};
 let isTouching = false;
 let touchX = 0;
 let touchY = 0;
+
+let isAudioMuted = false;
+let playerName = "Guest Player";
+let playerId = null;
+let isAdDisplaying = false;
+let rewardEarnedPending = false;
+let showInGameLeaderboard = false;
+let leaderboardEntries = [];
+let leaderboardLoadingState = "Idle";
+
+let paymentStatusMessage = "";
+let paymentMessageTimer = 0;
 
 let gameState = {
     player: { x: 50, y: 300, size: 20, speed: 5, gold: 0 },
@@ -30,14 +44,59 @@ const portal = {
     pulseDirection: 1
 };
 
-// Define explicit button objects with exact drawing and collision metrics
 const buttons = {
-    restart:    { x: 320, y: 15, w: 85, h: 35, label: "RESTART +🪙", color: "#e67e22" },
-    leader:     { x: 415, y: 15, w: 85, h: 35, label: "LEADER",     color: "#8e44ad" },
-    share:      { x: 510, y: 15, w: 85, h: 35, label: "SHARE 📢",   color: "#00a8ff" },
-    fullscreen: { x: 605, y: 15, w: 85, h: 35, label: "FULLSCREEN", color: "#2980b9" },
-    buySpeed:   { x: 700, y: 15, w: 85, h: 35, label: "BUY SPEED",  color: "#27ae60" }
+    restart:    { x: 260, y: 15, w: 80, h: 35, label: "RESTART 🪙", color: "#e67e22" },
+    leader:     { x: 350, y: 15, w: 80, h: 35, label: "RANKINGS",   color: "#8e44ad" },
+    share:      { x: 440, y: 15, w: 80, h: 35, label: "SHARE 📢",   color: "#00a8ff" },
+    rate:       { x: 530, y: 15, w: 80, h: 35, label: "RATE US ⭐", color: "#f1c40f" },
+    fullscreen: { x: 620, y: 15, w: 80, h: 35, label: "FULLSCREEN", color: "#2980b9" },
+    buySpeed:   { x: 710, y: 15, w: 80, h: 35, label: "BUY SPEED",  color: "#27ae60" }
 };
+
+function triggerStatusFeedback(msg) {
+    paymentStatusMessage = msg;
+    paymentMessageTimer = 180;
+    console.log(`[Store Billing Alert]: ${msg}`);
+}
+
+function sendPlatformMessage(eventName) {
+    if (bridge && bridge.platform && typeof bridge.platform.sendMessage === 'function') {
+        bridge.platform.sendMessage(eventName);
+        console.log(`[Playgama Event Tracked]: ${eventName}`);
+    }
+}
+
+async function handlePlayerAuthorization() {
+    if (!bridge || !bridge.player) return;
+    try {
+        if (typeof bridge.player.isAuthorizationSupported !== 'undefined' && bridge.player.isAuthorizationSupported) {
+            if (bridge.player.isAuthorized) {
+                playerName = bridge.player.name || "Authenticated Explorer";
+                playerId = bridge.player.id || null;
+            } else {
+                let options = {};
+                await bridge.player.authorize(options);
+                playerName = bridge.player.name || "Authenticated Explorer";
+                playerId = bridge.player.id || null;
+            }
+        }
+    } catch (error) {
+        console.error("Player authorization workflow encountered an error:", error);
+    }
+}
+
+function saveGame() {
+    if (!bridge || !bridge.storage) return;
+    const preferredStorage = bridge.storage.defaultType;
+    if (typeof bridge.storage.isAvailable === 'function' && bridge.storage.isAvailable(preferredStorage)) {
+        bridge.storage.set(STORAGE_KEY, gameState)
+            .then(() => { console.log(`Data saved successfully via [${preferredStorage}] pipeline.`); })
+            .catch(error => { console.error("Error pushing data to cloud storage:", error); });
+    } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+    }
+    syncLeaderboard();
+}
 
 function generateLevel(num) {
     const level = {
@@ -88,124 +147,260 @@ let currentLevelData = generateLevel(1);
 
 function syncLeaderboard() {
     if (bridge && bridge.leaderboards && typeof bridge.leaderboards.setScore === 'function') {
-        bridge.leaderboards.setScore(LEADERBOARD_ID, gameState.player.gold)
-            .then(() => { console.log("Score submitted successfully"); })
-            .catch(error => { console.error("Error submitting score:", error); });
+        bridge.leaderboards.setScore(LEADERBOARD_ID, gameState.player.gold).catch(e => console.error(e));
     }
 }
 
-function showLeaderboardPopup() {
-    if (bridge && bridge.leaderboards && typeof bridge.leaderboards.showNativePopup === 'function') {
-        bridge.leaderboards.showNativePopup(LEADERBOARD_ID)
-            .then(() => console.log("Popup shown"))
-            .catch(error => console.error("Error showing popup:", error));
+function handleLeaderboardClick() {
+    if (!bridge || !bridge.leaderboards) return;
+    const boardType = bridge.leaderboards.type; 
+    if (boardType === 'native') {
+        if (typeof bridge.leaderboards.showNativePopup === 'function') {
+            bridge.leaderboards.showNativePopup(LEADERBOARD_ID).catch(error => console.error(error));
+        }
+    } else {
+        toggleCustomInGameLeaderboard();
+    }
+}
+
+function toggleCustomInGameLeaderboard() {
+    showInGameLeaderboard = !showInGameLeaderboard;
+    if (showInGameLeaderboard) {
+        leaderboardLoadingState = "Loading";
+        leaderboardEntries = [];
+        if (typeof bridge.leaderboards.getEntries === 'function') {
+            bridge.leaderboards.getEntries(LEADERBOARD_ID)
+                .then(entries => {
+                    leaderboardEntries = entries || [];
+                    leaderboardLoadingState = "Success";
+                })
+                .catch(err => {
+                    console.error(err);
+                    leaderboardLoadingState = "Error";
+                });
+        } else {
+            leaderboardLoadingState = "Error";
+        }
     }
 }
 
 function shareGameProgress() {
-    if (bridge && bridge.social && typeof bridge.social.share === 'function') {
-        bridge.social.share({ 
-            message: `Can you beat my score? I am currently on Level ${gameState.currentLevel} with ${gameState.player.gold} Gold in Connect Gold! 🪙`, 
-            image: "https://connectgold.sbs/icon.jpg", 
-            link: window.location.href 
-        })
-        .then(() => console.log("Share dialogue window closed successfully"))
-        .catch(error => console.error("Social Share error interaction:", error));
+    if (!bridge || !bridge.social || typeof bridge.social.isShareSupported === 'undefined' || !bridge.social.isShareSupported) return;
+
+    let options = {};
+    const platformId = (bridge.platform && bridge.platform.id) ? bridge.platform.id : 'unknown';
+    const msgText = `Can you beat me? Level ${gameState.currentLevel} with ${gameState.player.gold} Gold in Connect Gold! 🪙`;
+    const appUrl = window.location.href;
+    const fallbackImage = "[https://connectgold.sbs/icon.jpg](https://connectgold.sbs/icon.jpg)";
+
+    switch (platformId) {
+        case 'vk': options = { link: appUrl }; break;
+        case 'facebook': options = { image: fallbackImage, text: msgText }; break;
+        case 'msn': options = { title: 'Play Connect Gold', image: fallbackImage, text: msgText }; break;
+        default: options = { message: msgText, image: fallbackImage, link: appUrl }; break;
+    }
+    bridge.social.share(options).catch(error => console.error(error));
+}
+
+function promptPlatformRate() {
+    if (bridge && bridge.social && typeof bridge.social.isRateSupported !== 'undefined' && bridge.social.isRateSupported) {
+        bridge.social.rate().catch(err => console.error(err));
+    }
+}
+
+function offerRetentionShortcuts() {
+    if (!bridge || !bridge.social) return;
+    if (typeof bridge.social.isAddToFavoritesSupported !== 'undefined' && bridge.social.isAddToFavoritesSupported) {
+        bridge.social.addToFavorites().catch(e => console.error(e));
+    }
+    if (typeof bridge.social.isAddToHomeScreenSupported !== 'undefined' && bridge.social.isAddToHomeScreenSupported) {
+        bridge.social.addToHomeScreen().catch(e => console.error(e));
     }
 }
 
 async function buySpeedBoost() {
-    if (bridge && bridge.payments && typeof bridge.payments.isSupported === 'function' && bridge.payments.isSupported()) {
+    if (gameState.hasSpeedBoost) {
+        triggerStatusFeedback("SPEED BOOST ALREADY ACTIVE FOR THIS LEVEL!");
+        return;
+    }
+
+    if (bridge && bridge.payments && typeof bridge.payments.isSupported !== 'undefined' && bridge.payments.isSupported()) {
         try {
-            const status = await bridge.payments.purchase({ id: 'speed_boost_id' });
-            if (status === 'completed') {
-                gameState.player.speed = 8;
-                gameState.hasSpeedBoost = true;
-                saveGame();
-            }
-        } catch (e) { console.error(e); }
+            triggerStatusFeedback("CONTACTING STORE INTEGRATION LAYER...");
+            const purchaseResult = await bridge.payments.purchase(PURCHASE_PRODUCT_ID);
+            console.log("Purchase window authorized signature:", purchaseResult);
+
+            triggerStatusFeedback("VERIFYING TRANSACTION AND CONSUMING INVENTORY...");
+            const consumeResult = await bridge.payments.consumePurchase(PURCHASE_PRODUCT_ID);
+            console.log("Inventory cleanly consumed reference data:", consumeResult);
+
+            applySpeedPerkState();
+            triggerStatusFeedback("PURCHASE SUCCESSFUL! SPEED ACTIVE! ⚡");
+
+        } catch (error) {
+            console.error("Billing pipeline caught execution error traceback:", error);
+            triggerStatusFeedback("TRANSACTION CANCELLED OR CONNECTION FAILURE.");
+        }
     } else {
-        gameState.player.speed = 8;
-        gameState.hasSpeedBoost = true;
-        console.log("Fallback: Speed Boost Activated");
+        applySpeedPerkState();
+        triggerStatusFeedback("SANDBOX SIMULATION: GRANTED SPEED BOOST!");
+    }
+}
+
+function applySpeedPerkState() {
+    gameState.player.speed = 8;
+    gameState.hasSpeedBoost = true;
+    sendPlatformMessage("player_got_achievement"); 
+    saveGame();
+}
+
+async function reconcileUnconsumedPurchases() {
+    if (!bridge || !bridge.payments || typeof bridge.payments.getPurchases !== 'function') return;
+    try {
+        const purchases = await bridge.payments.getPurchases();
+        if (purchases && purchases.length > 0) {
+            for (const item of purchases) {
+                if (item.id === PURCHASE_PRODUCT_ID) {
+                    await bridge.payments.consumePurchase(item.id);
+                    applySpeedPerkState();
+                    triggerStatusFeedback("RESTORED PENDING LEVEL SPEED PERK ACCRUAL!");
+                }
+            }
+        }
+    } catch (err) {
+        console.error(err);
     }
 }
 
 function handleRestartWithReward() {
-    gameState.isPaused = true;
+    if (bridge && bridge.advertisement && typeof bridge.advertisement.isRewardedSupported !== 'undefined' && bridge.advertisement.isRewardedSupported) {
+        gameState.isPaused = true;
+        sendPlatformMessage("level_paused");
+        rewardEarnedPending = false; 
 
-    if (bridge && bridge.advertisement && typeof bridge.advertisement.showRewarded === 'function') {
-        bridge.advertisement.showRewarded('extra_gold')
-            .then((rewarded) => {
-                if (rewarded) {
-                    gameState.player.gold += 5;
-                    console.log("User earned reward: +5 Gold!");
-                } else {
-                    console.log("No reward: Ad skipped");
-                }
-                currentLevelData = generateLevel(gameState.currentLevel);
-                resetPlayerPosition();
-                saveGame();
-                gameState.isPaused = false;
-            })
+        let placement = 'extra_gold_restart';
+        bridge.advertisement.showRewarded(placement)
             .catch(err => {
-                console.error("Rewarded ad error:", err);
-                currentLevelData = generateLevel(gameState.currentLevel);
-                resetPlayerPosition();
-                gameState.isPaused = false;
+                console.error(err);
+                executeLevelRestart(false);
             });
     } else {
-        currentLevelData = generateLevel(gameState.currentLevel);
-        resetPlayerPosition();
-        gameState.isPaused = false;
+        executeLevelRestart(false);
     }
+}
+
+function executeLevelRestart(applyBonus) {
+    if (applyBonus) gameState.player.gold += 5;
+    gameState.player.speed = 5;
+    gameState.hasSpeedBoost = false;
+
+    currentLevelData = generateLevel(gameState.currentLevel);
+    resetPlayerPosition();
+    saveGame();
+    
+    isAdDisplaying = false;
+    gameState.isPaused = false;
+    showInGameLeaderboard = false; 
+    sendPlatformMessage("level_resumed");
 }
 
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
-        canvas.requestFullscreen().catch(err => {
-            console.error(`Error enabling fullscreen: ${err.message}`);
-        });
+        canvas.requestFullscreen().catch(err => console.error(err));
     } else {
         document.exitFullscreen();
     }
 }
 
-async function initGame() {
-    if (bridge && bridge.storage && typeof bridge.storage.get === 'function') {
-        try {
-            if (bridge.platform) console.log("Connected to Platform Environment ID:", bridge.platform.id);
-            
-            bridge.storage.get(STORAGE_KEY, "platform_internal")
-                .then((data) => {
-                    if (data) {
-                        gameState = { ...gameState, ...data };
-                        currentLevelData = generateLevel(gameState.currentLevel);
-                        if (gameState.hasSpeedBoost) gameState.player.speed = 8;
-                        console.log("Cloud Save Data Loaded Successfully", data);
-                    }
-                    gameState.isInitialized = true;
-                    gameLoop();
-                })
-                .catch(error => {
-                    console.error("Error loading cloud data:", error);
-                    gameState.isInitialized = true;
-                    gameLoop(); 
-                });
-            return;
-        } catch (e) { console.warn("SDK storage read setup exception caught:", e); }
+function setupPlatformEventListeners() {
+    if (!bridge || !bridge.platform || !bridge.EVENT_NAME) return;
+
+    if (typeof bridge.platform.isAudioEnabled !== 'undefined') {
+        isAudioMuted = !bridge.platform.isAudioEnabled;
     }
-    gameState.isInitialized = true;
-    gameLoop();
+    bridge.platform.on(bridge.EVENT_NAME.AUDIO_STATE_CHANGED, isEnabled => {
+        isAudioMuted = !isEnabled;
+    });
+
+    bridge.platform.on(bridge.EVENT_NAME.PAUSE_STATE_CHANGED, isPaused => {
+        gameState.isPaused = isPaused;
+        if (isPaused) sendPlatformMessage("level_paused");
+        else sendPlatformMessage("level_resumed");
+    });
+
+    if (bridge.advertisement && bridge.EVENT_NAME.INTERSTITIAL_STATE_CHANGED) {
+        if (typeof bridge.advertisement.setMinimumDelayBetweenInterstitial === 'function') {
+            bridge.advertisement.setMinimumDelayBetweenInterstitial(30);
+        }
+        bridge.advertisement.on(bridge.EVENT_NAME.INTERSTITIAL_STATE_CHANGED, state => {
+            if (state === 'opened' || state === 'loading') {
+                isAdDisplaying = true;
+                gameState.isPaused = true;
+                sendPlatformMessage("level_paused");
+            } else if (state === 'closed' || state === 'failed') {
+                isAdDisplaying = false;
+                gameState.isPaused = false;
+                sendPlatformMessage("level_resumed");
+            }
+        });
+    }
+
+    if (bridge.advertisement && bridge.EVENT_NAME.REWARDED_STATE_CHANGED) {
+        bridge.advertisement.on(bridge.EVENT_NAME.REWARDED_STATE_CHANGED, state => {
+            if (state === 'opened' || state === 'loading') {
+                isAdDisplaying = true;
+                gameState.isPaused = true;
+                sendPlatformMessage("level_paused");
+            } else if (state === 'rewarded') {
+                rewardEarnedPending = true; 
+            } else if (state === 'closed' || state === 'failed') {
+                executeLevelRestart(rewardEarnedPending);
+                rewardEarnedPending = false; 
+            }
+        });
+    }
 }
 
-function saveGame() {
-    if (bridge && bridge.storage && typeof bridge.storage.set === 'function') {
-        bridge.storage.set(STORAGE_KEY, gameState, "platform_internal")
-            .then(() => { console.log("Data saved safely to Playgama Cloud infrastructure"); })
-            .catch(error => { console.error("Error pushing data to cloud storage:", error); });
+async function initGame() {
+    sendPlatformMessage("in_game_loading_started");
+    if (bridge) {
+        setupPlatformEventListeners();
+        await handlePlayerAuthorization();
+        await reconcileUnconsumedPurchases();
+
+        if (bridge.storage && typeof bridge.storage.get === 'function') {
+            try {
+                bridge.storage.get(STORAGE_KEY)
+                    .then((data) => {
+                        if (data) {
+                            gameState = { ...gameState, ...data };
+                            currentLevelData = generateLevel(gameState.currentLevel);
+                            if (gameState.hasSpeedBoost) gameState.player.speed = 8;
+                            else gameState.player.speed = 5;
+                        }
+                        sendPlatformMessage("in_game_loading_stopped");
+                        sendPlatformMessage("game_ready");
+                        sendPlatformMessage("level_started");
+                        gameState.isInitialized = true;
+                        gameLoop();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        sendPlatformMessage("in_game_loading_stopped");
+                        sendPlatformMessage("game_ready");
+                        sendPlatformMessage("level_started");
+                        gameState.isInitialized = true;
+                        gameLoop(); 
+                    });
+                return;
+            } catch (e) { console.warn(e); }
+        }
     }
-    syncLeaderboard();
+    sendPlatformMessage("in_game_loading_stopped");
+    sendPlatformMessage("game_ready");
+    sendPlatformMessage("level_started");
+    gameState.isInitialized = true;
+    gameLoop();
 }
 
 function resetPlayerPosition() {
@@ -215,28 +410,45 @@ function resetPlayerPosition() {
 }
 
 async function nextLevel() {
-    if (gameState.currentLevel >= 150) return alert("Congratulations! You Beat All 150 Levels!");
+    if (gameState.currentLevel >= 150) {
+        sendPlatformMessage("player_got_achievement");
+        return alert("Congratulations! You Beat All 150 Levels!");
+    }
+    
+    sendPlatformMessage("level_completed");
     gameState.isPaused = true;
     gameState.currentLevel++;
+    gameState.player.speed = 5;
+    gameState.hasSpeedBoost = false;
+
     currentLevelData = generateLevel(gameState.currentLevel);
     resetPlayerPosition();
     
-    if (bridge && bridge.advertisement && typeof bridge.advertisement.showInterstitial === 'function') {
+    if (gameState.currentLevel === 5 || gameState.currentLevel === 15) {
+        offerRetentionShortcuts();
+    }
+
+    if (bridge && bridge.advertisement && typeof bridge.advertisement.isInterstitialSupported !== 'undefined' && bridge.advertisement.isInterstitialSupported) {
         try { 
-            await bridge.advertisement.showInterstitial('next_level'); 
+            let placement = 'next_level_placement';
+            await bridge.advertisement.showInterstitial(placement); 
         } catch(err) { 
-            console.warn("Interstitial display skipped/failed:", err); 
+            console.warn(err); 
+            gameState.isPaused = false; 
         }
+    } else {
+        gameState.isPaused = false;
     }
     
     keys = {}; 
     saveGame(); 
-    gameState.isPaused = false;
+    sendPlatformMessage("level_started");
 }
 
 function update() {
-    if (gameState.isPaused || !gameState.isInitialized) return;
-    
+    if (gameState.isPaused || !gameState.isInitialized || isAdDisplaying || showInGameLeaderboard) return;
+    if (paymentMessageTimer > 0) paymentMessageTimer--;
+
     let nextX = gameState.player.x;
     let nextY = gameState.player.y;
 
@@ -252,7 +464,6 @@ function update() {
         const dx = touchX - (gameState.player.x + 10);
         const dy = touchY - (gameState.player.y + 10);
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
         if (distance > 2) {
             const moveStep = Math.min(distance, gameState.player.speed);
             nextX += (dx / distance) * moveStep;
@@ -276,16 +487,13 @@ function update() {
     }
 
     currentLevelData.enemies.forEach(e => {
-        e.x += e.vx;
-        e.y += e.vy;
-
+        e.x += e.vx; e.y += e.vy;
         if (e.x < 0 || e.x > canvas.width - e.size) e.vx *= -1;
         if (e.y < 0 || e.y > canvas.height - e.size) e.vy *= -1;
 
         currentLevelData.walls.forEach(w => {
             if (e.x < w.x + w.w && e.x + e.size > w.x && e.y < w.y + w.h && e.y + e.size > w.y) {
-                e.vx *= -1;
-                e.vy *= -1;
+                e.vx *= -1; e.vy *= -1;
             }
         });
 
@@ -300,6 +508,7 @@ function update() {
             gameState.player.y < i.y + i.size && gameState.player.y + 20 > i.y) {
             i.collected = true;
             gameState.player.gold += 1;
+            if (gameState.player.gold % 10 === 0) sendPlatformMessage("player_got_achievement");
             saveGame();
         }
     });
@@ -336,35 +545,114 @@ function draw() {
     ctx.beginPath();
     ctx.roundRect(portal.x, portal.y, portal.width, portal.height, [20, 20, 0, 0]);
     ctx.fill();
-    ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + (portal.pulse * 0.4)})`;
-    ctx.beginPath();
-    ctx.roundRect(portal.x + 5, portal.y + 5, portal.width - 10, portal.height - 5, [15, 15, 0, 0]);
-    ctx.fill();
     ctx.restore();
 
     ctx.fillStyle = "cyan";
     ctx.fillRect(gameState.player.x, gameState.player.y, 20, 20);
     
     ctx.fillStyle = "white";
-    ctx.font = "bold 16px Arial";
-    ctx.fillText(`Level: ${gameState.currentLevel} / 150`, 20, 32);
-    ctx.fillText(`Gold: ${gameState.player.gold}`, 160, 32);
+    ctx.font = "bold 13px Arial";
+    ctx.fillText(`User: ${playerName}`, 15, 30);
+    ctx.fillText(`Lvl: ${gameState.currentLevel}`, 135, 30);
+    ctx.fillText(`Gold: ${gameState.player.gold}`, 200, 30);
     
-    ctx.font = "bold 11px Arial";
-    
-    // Dynamically draw the buttons using the structured collection objects
+    if (gameState.hasSpeedBoost) {
+        ctx.fillStyle = "#27ae60";
+        ctx.font = "bold 11px Arial";
+        ctx.fillText("⚡ SPEED BOOST ACTIVE", 15, 50);
+    }
+
+    if (paymentMessageTimer > 0) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        ctx.fillRect(150, 520, 500, 35);
+        ctx.strokeStyle = "#27ae60";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(150, 520, 500, 35);
+        ctx.fillStyle = "#fff";
+        ctx.font = "12px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(paymentStatusMessage, 400, 542);
+        ctx.textAlign = "left"; 
+    }
+
+    if (isAdDisplaying) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ffaa";
+        ctx.font = "bold 24px Arial";
+        ctx.fillText("WAITING ON PLATFORM MEDIA FLOW...", 180, 300);
+        return;
+    }
+
+    if (showInGameLeaderboard) {
+        ctx.fillStyle = "rgba(10, 10, 15, 0.95)";
+        ctx.fillRect(50, 70, 700, 480);
+        ctx.strokeStyle = "#8e44ad";
+        ctx.lineWidth = 3;
+        ctx.strokeRect(50, 70, 700, 480);
+        ctx.fillStyle = "#8e44ad";
+        ctx.font = "bold 22px Arial";
+        ctx.fillText("🏆 GLOBAL RANKINGS (IN-GAME DISPLAY) 🏆", 175, 115);
+        ctx.fillStyle = "#7f8c8d";
+        ctx.font = "12px Arial";
+        ctx.fillText("Click 'RANKINGS' navigation button at top anytime to exit layout layer", 215, 140);
+
+        if (leaderboardLoadingState === "Loading") {
+            ctx.fillStyle = "#00a8ff";
+            ctx.font = "bold 16px Arial";
+            ctx.fillText("FETCHING SCORE SHEETS FROM PLATFORM...", 240, 290);
+        } else if (leaderboardLoadingState === "Error") {
+            ctx.fillStyle = "#ff4d4d";
+            ctx.font = "bold 16px Arial";
+            ctx.fillText("FAILED READING LEADERBOARDS FROM CONTAINER NODE.", 185, 290);
+        } else if (leaderboardLoadingState === "Success") {
+            ctx.fillStyle = "#27ae60";
+            ctx.font = "bold 14px Arial";
+            ctx.fillText("RANK", 100, 190);
+            ctx.fillText("PLAYER NAME", 240, 190);
+            ctx.fillText("GOLD COUNT SCORE", 540, 190);
+            ctx.strokeStyle = "rgba(255,255,255,0.15)";
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(90, 205); ctx.lineTo(710, 205); ctx.stroke();
+
+            if (leaderboardEntries.length === 0) {
+                ctx.fillStyle = "#aaa";
+                ctx.fillText("No player rows registered inside this scope index yet.", 230, 260);
+            } else {
+                const renderLimit = Math.min(leaderboardEntries.length, 7);
+                for (let i = 0; i < renderLimit; i++) {
+                    const entry = leaderboardEntries[i];
+                    const rowY = 240 + (i * 38);
+                    ctx.fillStyle = (entry.name === playerName) ? "cyan" : "white";
+                    ctx.font = "14px Arial";
+                    ctx.fillText(`#${entry.rank || (i + 1)}`, 110, rowY);
+                    ctx.fillText(`${entry.name || "Anonymous Explorer"}`, 240, rowY);
+                    ctx.fillText(`${entry.score} 🪙`, 560, rowY);
+                }
+            }
+        }
+        return; 
+    }
+
+    if (isAudioMuted) {
+        ctx.fillStyle = "#ff4d4d";
+        ctx.font = "bold 10px Arial";
+        ctx.fillText("🔇 MUTED", 745, 590);
+    }
+
+    ctx.font = "bold 10px Arial";
     Object.keys(buttons).forEach(key => {
         const b = buttons[key];
         ctx.fillStyle = b.color;
         ctx.fillRect(b.x, b.y, b.w, b.h);
         ctx.fillStyle = "white";
         
-        // Custom text centering adjustments
         let offset = 6;
-        if(key === 'restart') offset = 6;
-        if(key === 'leader') offset = 18;
+        if(key === 'restart') offset = 10;
+        if(key === 'leader') offset = 12;
         if(key === 'share') offset = 16;
-        if(key === 'fullscreen') offset = 6;
+        if(key === 'rate') offset = 16;
+        if(key === 'fullscreen') offset = 4;
         if(key === 'buySpeed') offset = 11;
         
         ctx.fillText(b.label, b.x + offset, b.y + 21);
@@ -374,42 +662,36 @@ function draw() {
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
-// FIXED: Flawless absolute scalar coordinate mapping function
 function getMappedCoordinates(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
-    
-    // Avoid dividing by zero if layout renders cleanly at 0 dimensions initially
     const scaleX = rect.width > 0 ? canvas.width / rect.width : 1;
     const scaleY = rect.height > 0 ? canvas.height / rect.height : 1;
-    
-    return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY
-    };
+    return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
 }
 
-// FIXED: Evaluates the crisp interaction boundary hits explicitly
 function handlePointerAction(clientX, clientY, isPressing) {
+    if (isAdDisplaying) return; 
     const pos = getMappedCoordinates(clientX, clientY);
 
     if (isPressing) {
-        // Loop through explicit button bounding profiles
         let buttonClicked = false;
         
         Object.keys(buttons).forEach(key => {
             const b = buttons[key];
             if (pos.x >= b.x && pos.x <= b.x + b.w && pos.y >= b.y && pos.y <= b.y + b.h) {
                 buttonClicked = true;
+                if (showInGameLeaderboard && key !== 'leader') return; 
+
                 if (key === 'buySpeed') buySpeedBoost();
                 if (key === 'fullscreen') toggleFullscreen();
                 if (key === 'share') shareGameProgress();
-                if (key === 'leader') showLeaderboardPopup();
+                if (key === 'rate') promptPlatformRate();
+                if (key === 'leader') handleLeaderboardClick(); 
                 if (key === 'restart') handleRestartWithReward();
             }
         });
 
-        // CRITICAL FIX: Only activate player movement dragging if a header UI button wasn't clicked
-        if (!buttonClicked) {
+        if (!buttonClicked && !showInGameLeaderboard) {
             isTouching = true;
             touchX = pos.x;
             touchY = pos.y;
@@ -417,13 +699,11 @@ function handlePointerAction(clientX, clientY, isPressing) {
     }
 }
 
-// Global Event Routing Hooks
 canvas.addEventListener('mousedown', e => handlePointerAction(e.clientX, e.clientY, true));
 canvas.addEventListener('mousemove', e => { if (isTouching) handlePointerAction(e.clientX, e.clientY, true); });
 window.addEventListener('mouseup', () => isTouching = false);
 
 canvas.addEventListener('touchstart', e => {
-    // Prevent default mobile scaling/scrolling actions
     if(e.cancelable) e.preventDefault(); 
     handlePointerAction(e.touches[0].clientX, e.touches[0].clientY, true);
 }, { passive: false });
