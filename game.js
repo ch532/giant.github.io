@@ -18,7 +18,6 @@ let gameState = {
     hasSpeedBoost: false
 };
 
-// Portal configurations and animation state
 const portal = {
     x: 730,
     y: 270,
@@ -36,11 +35,11 @@ function generateLevel(num) {
         enemies: []
     };
 
-    // 1. Generate Walls (leaving space for the portal on the right)
-    const wallCount = 3 + Math.min(num, 8);
+    // 1. Generate Walls
+    const wallCount = 3 + Math.min(num, 7);
     for (let i = 0; i < wallCount; i++) {
         level.walls.push({ 
-            x: 180 + (i * 55) + (Math.random() * 20), 
+            x: 180 + (i * 65) + (Math.random() * 15), 
             y: Math.random() * 350, 
             w: 25, 
             h: 180 
@@ -58,9 +57,9 @@ function generateLevel(num) {
         });
     }
 
-    // 3. Generate Tough Moving Enemies
-    const enemyCount = 2 + Math.min(Math.floor(num / 3), 10); 
-    const baseEnemySpeed = 2 + Math.min(num * 0.15, 7); 
+    // 3. MUCH HIGHER Enemy counts scaling aggressively up to 12 maximum enemies
+    const enemyCount = 3 + Math.min(Math.floor(num / 2), 9); 
+    const baseEnemySpeed = 2.5 + Math.min(num * 0.2, 7.5); 
 
     for (let i = 0; i < enemyCount; i++) {
         level.enemies.push({
@@ -72,9 +71,7 @@ function generateLevel(num) {
         });
     }
 
-    // Dynamically adjust portal Y coordinate position so it doesn't get blocked by a random wall
     portal.y = 100 + (Math.random() * 400);
-
     return level;
 }
 
@@ -106,6 +103,12 @@ async function buySpeedBoost() {
         gameState.hasSpeedBoost = true;
         console.log("Fallback: Speed Boost Activated");
     }
+}
+
+function restartLevel() {
+    // Generate fresh coordinates, items, and reset positioning for the current level
+    currentLevelData = generateLevel(gameState.currentLevel);
+    resetPlayerPosition();
 }
 
 function toggleFullscreen() {
@@ -169,33 +172,34 @@ function update() {
     let nextX = gameState.player.x;
     let nextY = gameState.player.y;
 
-    // Portal animation setup (glowing effect scaling loop)
     portal.pulse += 0.05 * portal.pulseDirection;
     if (portal.pulse > 1 || portal.pulse < 0) portal.pulseDirection *= -1;
 
-    // Movement Processing
+    // 1. Keyboard Tracking Matrix
     if (keys['w'] || keys['arrowup']) nextY -= gameState.player.speed;
     if (keys['s'] || keys['arrowdown']) nextY += gameState.player.speed;
     if (keys['a'] || keys['arrowleft']) nextX -= gameState.player.speed;
     if (keys['d'] || keys['arrowright']) nextX += gameState.player.speed;
 
+    // 2. High-Responsiveness Direct Touch Controller
     if (isTouching) {
         const dx = touchX - (gameState.player.x + 10);
         const dy = touchY - (gameState.player.y + 10);
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance > 5) {
-            nextX += (dx / distance) * gameState.player.speed;
-            nextY += (dy / distance) * gameState.player.speed;
+        
+        // Instant response movement multiplier
+        if (distance > 2) {
+            const moveStep = Math.min(distance, gameState.player.speed);
+            nextX += (dx / distance) * moveStep;
+            nextY += (dy / distance) * moveStep;
         }
     }
 
-    // Screen Bounds Constraints
     if (nextX < 0) nextX = 0;
     if (nextX > canvas.width - 20) nextX = canvas.width - 20;
     if (nextY < 0) nextY = 0;
     if (nextY > canvas.height - 20) nextY = canvas.height - 20;
 
-    // Static Wall Collision Logic
     let canMove = true;
     currentLevelData.walls.forEach(w => {
         if (nextX < w.x + w.w && nextX + 20 > w.x && nextY < w.y + w.h && nextY + 20 > w.y) canMove = false;
@@ -206,7 +210,7 @@ function update() {
         gameState.player.y = nextY;
     }
 
-    // Dynamic Enemy AI Loops & Collisions
+    // Enemy Collisions
     currentLevelData.enemies.forEach(e => {
         e.x += e.vx;
         e.y += e.vy;
@@ -237,7 +241,6 @@ function update() {
         }
     });
 
-    // NEW: Step inside the Next Level Portal Gate bounds to progress
     if (gameState.player.x < portal.x + portal.width && gameState.player.x + 20 > portal.x &&
         gameState.player.y < portal.y + portal.height && gameState.player.y + 20 > portal.y) {
         nextLevel();
@@ -248,11 +251,9 @@ function draw() {
     ctx.fillStyle = currentLevelData.color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Map Obstacles
     ctx.fillStyle = "#111";
     currentLevelData.walls.forEach(w => ctx.fillRect(w.x, w.y, w.w, w.h));
     
-    // Scarce Gold Coins
     ctx.fillStyle = "gold";
     currentLevelData.items.forEach(i => {
         if (!i.collected) {
@@ -262,51 +263,53 @@ function draw() {
         }
     });
     
-    // Danger Enemy Blocks
     ctx.fillStyle = "#ff4d4d";
     currentLevelData.enemies.forEach(e => ctx.fillRect(e.x, e.y, e.size, e.size));
     
-    // NEW: Glowing Next Level Portal Gate (Animated Archway)
+    // Portal Archway
     ctx.save();
     ctx.shadowBlur = 10 + (portal.pulse * 15);
     ctx.shadowColor = "#00ffaa";
     ctx.fillStyle = "rgba(0, 255, 170, 0.8)";
-    // Render rounded archway portal
     ctx.beginPath();
     ctx.roundRect(portal.x, portal.y, portal.width, portal.height, [20, 20, 0, 0]);
     ctx.fill();
-    // Inner swirl core effect
     ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + (portal.pulse * 0.4)})`;
     ctx.beginPath();
     ctx.roundRect(portal.x + 5, portal.y + 5, portal.width - 10, portal.height - 5, [15, 15, 0, 0]);
     ctx.fill();
     ctx.restore();
 
-    // Player Character Avatar
     ctx.fillStyle = "cyan";
     ctx.fillRect(gameState.player.x, gameState.player.y, 20, 20);
     
-    // Dashboard UI Panels
+    // Dashboard Layout Text Panel
     ctx.fillStyle = "white";
     ctx.font = "bold 16px Arial";
     ctx.fillText(`Level: ${gameState.currentLevel} / 150`, 20, 32);
     ctx.fillText(`Gold: ${gameState.player.gold}`, 160, 32);
     
-    // Shop Button
-    ctx.fillStyle = "#27ae60";
-    ctx.fillRect(660, 15, 120, 35);
-    ctx.fillStyle = "white";
     ctx.font = "bold 12px Arial";
-    ctx.fillText("BUY SPEED", 688, 37);
-
-    // Fullscreen View Mode Toggle Button
-    ctx.fillStyle = "#2980b9";
-    ctx.fillRect(530, 15, 120, 35);
+    
+    // Green Button: BUY SPEED
+    ctx.fillStyle = "#27ae60";
+    ctx.fillRect(670, 15, 110, 35);
     ctx.fillStyle = "white";
-    ctx.fillText("FULLSCREEN", 552, 37);
+    ctx.fillText("BUY SPEED", 693, 37);
+
+    // Dark Blue Button: FULLSCREEN
+    ctx.fillStyle = "#2980b9";
+    ctx.fillRect(550, 15, 110, 35);
+    ctx.fillStyle = "white";
+    ctx.fillText("FULLSCREEN", 568, 37);
+
+    // Light Orange/Red Button: RESTART
+    ctx.fillStyle = "#e67e22";
+    ctx.fillRect(430, 15, 110, 35);
+    ctx.fillStyle = "white";
+    ctx.fillText("RESTART", 460, 37);
 }
 
-// Event Listeners
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
@@ -322,9 +325,11 @@ function handlePointerAction(clientX, clientY, isPressing) {
     const pos = getMappedCoordinates(clientX, clientY);
 
     if (isPressing) {
+        // UI Dashboard Top Row Button Bounds Matrix Intersections
         if (pos.y > 15 && pos.y < 50) {
-            if (pos.x > 660 && pos.x < 780) { buySpeedBoost(); return; }
-            if (pos.x > 530 && pos.x < 650) { toggleFullscreen(); return; }
+            if (pos.x > 670 && pos.x < 780) { buySpeedBoost(); return; }
+            if (pos.x > 550 && pos.x < 660) { toggleFullscreen(); return; }
+            if (pos.x > 430 && pos.x < 540) { restartLevel(); return; }
         }
         isTouching = true;
         touchX = pos.x;
