@@ -15,6 +15,10 @@
             align-items: center; 
             height: 100vh; 
             font-family: Arial, sans-serif;
+            /* Prevent unwanted scrolling or selections on mobile device screens */
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
         }
         canvas { 
             border: 2px solid #333; 
@@ -25,27 +29,12 @@
             image-rendering: pixelated; /* Keeps the game looking sharp */
         }
     </style>
-    <!-- Playgama Bridge SDK - Required for Ads, Storage, and Payments -->
-<script async src="https://widgets.playgama.com/index.js"></script>
+    <script src="https://bridge.playgama.com/v1/stable/playgama-bridge.js"></script> 
 </head>
 <body>
-    <script>
-        // 2. Initialize the SDK
-        window.addEventListener('load', () => {
-            bridge.initialize()
-                .then(() => {
-                    console.log('Playgama SDK initialized!');
-                    // Now you can use the SDK
-                })
-                .catch(error => {
-                    console.error('Initialization failed', error);
-                });
-        });
-    </script>
     
     <canvas id="gameCanvas"></canvas>
 
-    <!-- Load your game logic -->
     <script src="game.js"></script>
 
 </body>
