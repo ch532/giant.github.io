@@ -13,6 +13,9 @@ let gameState = {
     hasSpeedBoost: false
 };
 
+// Track inputs safely
+let keys = {};
+
 function generateLevel(num) {
     const level = {
         color: `hsl(${(num * 40) % 360}, 30%, 20%)`,
@@ -31,7 +34,8 @@ function generateLevel(num) {
 let currentLevelData = generateLevel(1);
 
 async function syncLeaderboard() {
-    if (bridge.leaderboard.isSupported) {
+    // FIX: Executed as a function check
+    if (bridge.leaderboard.isSupported()) {
         try {
             await bridge.leaderboard.setScore({ 
                 leaderboardName: 'main_leaderboard', 
@@ -42,7 +46,8 @@ async function syncLeaderboard() {
 }
 
 async function buySpeedBoost() {
-    if (bridge.payments.isSupported) {
+    // FIX: Executed as a function check
+    if (bridge.payments.isSupported()) {
         try {
             const status = await bridge.payments.purchase({ id: 'speed_boost_id' });
             if (status === 'completed') {
@@ -76,7 +81,16 @@ async function nextLevel() {
     gameState.currentLevel++;
     currentLevelData = generateLevel(gameState.currentLevel);
     gameState.player.x = 30;
-    await bridge.ads.showInterstitial();
+    
+    try {
+        await bridge.ads.showInterstitial();
+    } catch(err) {
+        console.warn("Ad display bypassed/failed:", err);
+    }
+    
+    // FIX: Flush user input arrays completely so player does not run away out of control when game resumes
+    keys = {}; 
+    
     await saveGame();
     gameState.isPaused = false;
 }
@@ -120,7 +134,6 @@ function draw() {
     ctx.fillText("BUY SPEED", 675, 45);
 }
 
-const keys = {};
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
