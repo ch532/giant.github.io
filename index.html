@@ -26,10 +26,23 @@
         }
     </style>
     <!-- Playgama Bridge SDK - Required for Ads, Storage, and Payments -->
-    <script src="https://cdn.jsdelivr.net/npm/@playgama/bridge@latest/dist/browser.min.js"></script>
+<script async src="https://widgets.playgama.com/index.js"></script>
 </head>
 <body>
-
+    <script>
+        // 2. Initialize the SDK
+        window.addEventListener('load', () => {
+            bridge.initialize()
+                .then(() => {
+                    console.log('Playgama SDK initialized!');
+                    // Now you can use the SDK
+                })
+                .catch(error => {
+                    console.error('Initialization failed', error);
+                });
+        });
+    </script>
+    
     <canvas id="gameCanvas"></canvas>
 
     <!-- Load your game logic -->
