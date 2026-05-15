@@ -5,7 +5,6 @@ canvas.height = 600;
 
 const bridge = window.playgamaBridge;
 
-// 1. INPUT DEFINITION MUST BE AT THE TOP OR IT CRASHES
 let keys = {};
 
 let gameState = {
@@ -33,6 +32,11 @@ function generateLevel(num) {
 
 let currentLevelData = generateLevel(1);
 
+// Mobile Touch Control Variables
+let isTouching = false;
+let touchX = 0;
+let touchY = 0;
+
 async function syncLeaderboard() {
     if (bridge && bridge.leaderboard && bridge.leaderboard.isSupported()) {
         try {
@@ -58,7 +62,6 @@ async function buySpeedBoost() {
 }
 
 async function initGame() {
-    // Check if running inside Playgama framework environment
     if (bridge) {
         await bridge.initialize();
         const saved = await bridge.storage.get('adv_data_final');
@@ -92,6 +95,7 @@ async function nextLevel() {
     }
     
     keys = {}; 
+    isTouching = false;
     await saveGame();
     gameState.isPaused = false;
 }
@@ -100,10 +104,24 @@ function update() {
     if (gameState.isPaused || !gameState.isInitialized) return;
     let nextX = gameState.player.x;
     let nextY = gameState.player.y;
+
+    // Desktop Keyboard Movement logic
     if (keys['w']) nextY -= gameState.player.speed;
     if (keys['s']) nextY += gameState.player.speed;
     if (keys['a']) nextX -= gameState.player.speed;
     if (keys['d']) nextX += gameState.player.speed;
+
+    // Mobile Navigation Logic (Move towards touch point)
+    if (isTouching) {
+        const dx = touchX - (gameState.player.x + 10);
+        const dy = touchY - (gameState.player.y + 10);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > 5) { // Stop vibrating when close enough to pointer position
+            nextX += (dx / distance) * gameState.player.speed;
+            nextY += (dy / distance) * gameState.player.speed;
+        }
+    }
 
     let canMove = true;
     currentLevelData.walls.forEach(w => {
@@ -135,15 +153,49 @@ function draw() {
     ctx.fillText("BUY SPEED", 675, 45);
 }
 
+// Global Event Listeners
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
-canvas.addEventListener('mousedown', (e) => {
+// Unified Mouse & Touch Screen Handler Logic
+function handlePointerDown(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    if (mouseX > 650 && mouseX < 780 && mouseY > 20 && mouseY < 60) buySpeedBoost();
-});
+    const clickX = (clientX - rect.left) * (canvas.width / rect.width);
+    const clickY = (clientY - rect.top) * (canvas.height / rect.height);
+
+    if (clickX > 650 && clickX < 780 && clickY > 20 && clickY < 60) {
+        buySpeedBoost();
+    } else {
+        isTouching = true;
+        touchX = clickX;
+        touchY = clickY;
+    }
+}
+
+function handlePointerMove(clientX, clientY) {
+    if (!isTouching) return;
+    const rect = canvas.getBoundingClientRect();
+    touchX = (clientX - rect.left) * (canvas.width / rect.width);
+    touchY = (clientY - rect.top) * (canvas.height / rect.height);
+}
+
+// Mouse Listeners
+canvas.addEventListener('mousedown', e => handlePointerDown(e.clientX, e.clientY));
+window.addEventListener('mousemove', e => handlePointerMove(e.clientX, e.clientY));
+window.addEventListener('mouseup', () => isTouching = false);
+
+// Touch Interface Action Hook listeners
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    handlePointerDown(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: false });
+
+window.addEventListener('touchend', () => isTouching = false);
 
 function gameLoop() {
     update();
